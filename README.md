@@ -1,1 +1,1 @@
-# CDU_Modpack
+# npm install and npm run dev
