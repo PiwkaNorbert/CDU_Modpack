@@ -3,11 +3,14 @@ import { IModpack, data } from "../data";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import useModpackData from "../API/useModpackData";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { redirect } from "react-router-dom";
 
 const Homepage = () => {
-  // const { isLoading, isError } = useModpackData();
+  const { data, isLoading, isError } = useModpackData();
 
-  // if (isError) return <div>Error</div>;
+  if (isError) return <div>Error</div>;
   // set state for a button to scroll to the top of the page
   const [pageBottom, setPageBottom] = React.useState(false);
 
@@ -17,8 +20,19 @@ const Homepage = () => {
       : setPageBottom(false);
   });
 
+  const fetchLogin = async () => {
+    const res = await fetch(`${import.meta.env.URL}auth/discord`);
+    return console.log(res);
+
+    // if (status !== 200) throw new Error("No login data found");
+
+    // return data;
+  };
+
+  // const login = useQuery(["login"], fetchLogin, { keepPreviousData: true });
+
   return (
-    <main className=" grid items-center justify-center  bg-gray-300 font-Tilt text-bkg-100">
+    <>
       <Header />
       <div className="grid  justify-normal self-center md:justify-center  lg:justify-center">
         <div className="my-4  overflow-hidden bg-bkg-100  shadow-mainContainer   md:rounded-xl">
@@ -31,41 +45,39 @@ const Homepage = () => {
             </button>
           </div>
           <div className=" grid  grid-cols-2 gap-5 p-5 max-[400px]:grid-cols-1 sm:grid-cols-3  md:grid-cols-3  lg:max-w-4xl lg:grid-cols-4   ">
-            {
-              // isLoading ? (
-              //   <div className="text-bkg-0">Loading...</div>
-              // ) : (
+            {isLoading ? (
+              <div className="text-bkg-0">Loading...</div>
+            ) : (
               data.map(({ modpackId, name, imageUrl, color }: IModpack) => {
                 let borderColor = color ? `border-${color}-300` : "";
 
                 return (
                   <div
                     key={modpackId}
-                    className={`flex items-center justify-center rounded-md border-4 text-bkg-0 ${borderColor} `}
+                    className={`flex items-start  justify-center overflow-hidden rounded-md border-4 text-bkg-0 ${borderColor} `}
                   >
                     <a
-                      href={`/modpack?=${modpackId}`}
-                      className={`grid flex-1 justify-items-center gap-2 `}
+                      href={`/modpack/${modpackId}`}
+                      className={`grid h-full flex-1 justify-items-center `}
                     >
                       <img
                         src={`http://www.trainjumper.com:7270${imageUrl}`}
                         alt="random"
-                        className="h-20 w-20"
+                        className=" max-h-26 w-full  object-fill object-center"
                       />
-                      <p className="text-content text-center uppercase">
+                      <p className="text-content flex justify-center px-2 py-4 text-center uppercase">
                         {name}
                       </p>
                     </a>
                   </div>
                 );
               })
-              // )
-            }
+            )}
           </div>
         </div>
         <div
           className=" p-body-inner  m-4 mt-0 flex items-center justify-end md:mr-0 lg:mr-0
-        "
+          "
         >
           <div className="mr-4 w-fit rounded-lg bg-bkg-100 px-2 py-1 text-bkg-0 shadow-mainContainer ">
             <a href="/login/" className="text-sm" data-xf-click="overlay">
@@ -88,7 +100,7 @@ const Homepage = () => {
         </div>
       </div>
       <Footer />
-    </main>
+    </>
   );
 };
 

@@ -1,6 +1,11 @@
 import React, { useState } from "react";
+import { redirect } from "react-router-dom";
 
 export const Header = () => {
+  const url = import.meta.env.VITE_URL
+    ? import.meta.env.VITE_URL
+    : "http://www.trainjumper.com:7270/";
+
   const [scroll, setScroll] = useState(false);
 
   const changeColor = () => {
@@ -13,12 +18,12 @@ export const Header = () => {
       <header className="relative grid  w-full  items-center justify-center">
         <div className="relative h-[150px] ">
           <img
-            src="public/headerbg.png"
+            src="headerbg.png"
             alt="random"
             className="h-full w-screen  object-none object-center"
           />
           <img
-            src="public/logo.png"
+            src="logo.png"
             alt="random"
             className=" absolute  top-0 ml-96 h-[139px] w-[150px] "
           />
@@ -29,7 +34,10 @@ export const Header = () => {
           scroll === true ? "  bg-bkg-600  shadow-header " : ""
         }`}
       >
-        <button className=" text-content flex h-10 items-center gap-2 rounded-md px-3 py-1 hover:bg-hover-1 ">
+        <button
+          className=" text-content flex h-10 items-center gap-2 rounded-md px-3 py-1 hover:bg-hover-1 "
+          onClick={() => (window.location = `${url}auth/discord`)}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="w-6 text-[#7289DA]"

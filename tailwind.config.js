@@ -10,6 +10,10 @@ export default {
         header: "0 0 8px 3px rgba(0,0,0,0.3)",
         mainContainer: "rgba(149,157,165,0.2) 0px 8px 24px",
       },
+      spacing: {
+        26: "6.56rem",
+        "1em": ".5em",
+      },
       colors: {
         bkg: {
           0: "hsl(var(--clr-bkg-0) / <alpha-value>)",
