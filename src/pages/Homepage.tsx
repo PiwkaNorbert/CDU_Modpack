@@ -35,7 +35,9 @@ const Homepage = () => {
     <>
       <Header />
       <div className="grid  justify-normal self-center md:justify-center  lg:justify-center">
-        <div className="my-4  overflow-hidden bg-bkg-100  shadow-mainContainer   md:rounded-xl">
+        {/* set the width to ffit the content and assign them to sm md lg for the container  like lg:max-w-[1000px]
+        below and assthese same things to the nav width*/}
+        <div className="my-4  overflow-hidden bg-bkg-100  shadow-mainContainer   md:rounded-xl     lg:max-w-[1000px] ">
           {/* map the data variable in a grad 4x2  */}
           <div className="text-bgk-100 flex items-center justify-between border-b-4 border-bkg-200 bg-bkg-600 p-3 text-xl  ">
             <p>Modpacks</p>
@@ -65,7 +67,7 @@ const Homepage = () => {
                         alt="random"
                         className=" max-h-26 w-full  object-fill object-center"
                       />
-                      <p className="text-content flex justify-center px-2 py-4 text-center uppercase">
+                      <p className="text-content flex justify-center px-2 py-4 text-center    hyphens-auto  uppercase">
                         {name}
                       </p>
                     </a>
@@ -79,13 +81,7 @@ const Homepage = () => {
           className=" p-body-inner  m-4 mt-0 flex items-center justify-end md:mr-0 lg:mr-0
           "
         >
-          <div className="mr-4 w-fit rounded-lg bg-bkg-100 px-2 py-1 text-bkg-0 shadow-mainContainer ">
-            <a href="/login/" className="text-sm" data-xf-click="overlay">
-              <span className="button-text">
-                You must log in or register to vote.
-              </span>
-            </a>
-          </div>
+          
           {/* button to scroll to the top of the page */}
           {pageBottom ? (
             <button
