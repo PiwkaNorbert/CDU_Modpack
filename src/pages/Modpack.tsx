@@ -118,7 +118,7 @@ export default Modpack;
 
 //     const url = import.meta.env.VITE_URL
 //       ? import.meta.env.VITE_URL
-//       : "https://www.trainjumper.com/";
+//       : "https://www.trainjumper.com/api/";
 
 //     return useMutation({
 //       mutationFn: async () => {

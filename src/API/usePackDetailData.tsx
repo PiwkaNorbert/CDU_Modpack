@@ -4,7 +4,7 @@ import axios from "axios";
 const usePackDetailData = (modpackId: string | undefined) => {
   const url = import.meta.env.VITE_URL
     ? import.meta.env.VITE_URL
-    : "https://www.trainjumper.com/";
+    : "https://www.trainjumper.com/api/";
 
   const fetchPackDetail = async () => {
     const { data, status } = await axios.get(`${url}pack-details/${modpackId}`);

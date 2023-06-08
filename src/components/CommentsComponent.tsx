@@ -8,7 +8,7 @@ export function CommentsComponent({ index, borderColor, username, comment }) {
           {username}
         </p>
       </div>
-      <p className="text-content  p-[.5em] text-justify text-sm">{comment}</p>
+      <p className="text-content p-[.5em] text-justify text-sm">{comment}</p>
     </div>
   );
 }
