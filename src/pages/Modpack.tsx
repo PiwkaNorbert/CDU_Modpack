@@ -50,7 +50,7 @@ const Modpack = () => {
             <div className={`grid  items-center `}>
               <div className=" m-4 grid px-4 sm:grid-cols-2 ">
                 <img
-                  src={`http://www.trainjumper.com:7270${imageUrl}`}
+                  src={`https://www.trainjumper.com${imageUrl}`}
                   alt="random"
                   className="  w-1/2 place-self-center rounded-md object-scale-down object-center sm:max-h-52 sm:w-full  sm:object-fill  lg:max-h-60 "
                 />
@@ -118,7 +118,7 @@ export default Modpack;
 
 //     const url = import.meta.env.VITE_URL
 //       ? import.meta.env.VITE_URL
-//       : "http://www.trainjumper.com:7270/";
+//       : "https://www.trainjumper.com/";
 
 //     return useMutation({
 //       mutationFn: async () => {

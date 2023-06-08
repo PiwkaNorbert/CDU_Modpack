@@ -4,7 +4,7 @@ import { redirect } from "react-router-dom";
 export const Header = () => {
   const url = import.meta.env.VITE_URL
     ? import.meta.env.VITE_URL
-    : "http://www.trainjumper.com:7270/";
+    : "https://www.trainjumper.com/";
 
   const [scroll, setScroll] = useState(false);
 

@@ -61,7 +61,7 @@ const Homepage = () => {
                       className={`grid h-full flex-1 justify-items-center `}
                     >
                       <img
-                        src={`http://www.trainjumper.com:7270${imageUrl}`}
+                        src={`https://www.trainjumper.com${imageUrl}`}
                         alt="random"
                         className=" max-h-26 w-full  object-fill object-center"
                       />
