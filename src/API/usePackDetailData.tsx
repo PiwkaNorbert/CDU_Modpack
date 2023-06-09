@@ -6,7 +6,8 @@ const usePackDetailData = (modpackId: string) => {
 
   const fetchPackDetail = async () => {
     const { data, status } = await axios.get(`${url}pack-details/${modpackId}`);
-
+    console.log(data);
+    
     if (status !== 200) throw new Error("No data found");
 
     return data;

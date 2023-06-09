@@ -1,7 +1,7 @@
-export const Footer = () => {
+export const Footer = ({borderColor}:{borderColor: string}) => {
   return (
     <footer
-      className="text-bgk-100 border-t-4 border-bkg-200 bg-bkg-600 text-sm  "
+      className={`text-bgk-100  border-${!borderColor && "bkg-200 border-t-4"} bg-bkg-600 text-sm  `}
       id="footer"
     >
       <div className="p-footer-inner">
@@ -52,8 +52,6 @@ export const Footer = () => {
               <li>
                 <button
                   className="rounded-sm bg-white px-1 py-0.5 hover:bg-hover-2 "
-                  href="/forums/-/index.rss"
-                  target="_blank"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

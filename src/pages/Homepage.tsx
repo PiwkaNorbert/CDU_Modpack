@@ -1,11 +1,11 @@
 import React from "react";
-import { IModpack } from "../data";
+import { IModpack } from "../UTILS/Interfaces";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import useModpackData from "../API/useModpackData";
 
 const Homepage = () => {
-  const { data, isLoading, isError } = useModpackData();
+  const { data, isLoading, isError, error } = useModpackData();
 
   if (isError) return <div>Error</div>;
   // set state for a button to scroll to the top of the page
@@ -37,31 +37,34 @@ const Homepage = () => {
           <div className=" grid  grid-cols-2 gap-5 p-5 max-[400px]:grid-cols-1 sm:grid-cols-3  md:grid-cols-3  lg:max-w-4xl lg:grid-cols-4   ">
             {isLoading ? (
               <div className="text-bkg-0">Loading...</div>
-            ) : (
-              data.map(({ modpackId, name, imageUrl, color }: IModpack) => {
-                let borderColor = color ? `border-${color}-300` : "";
+            )  : isError ? <div>{error}</div> : (
+              data.map(({ modpackId, name, color, voteCount }: IModpack) => {
+                let borderColor = color ? color : "";
 
                 return (
                   <div
                     key={modpackId}
-                    className={`flex items-start  justify-center overflow-hidden rounded-md border-4 text-bkg-0 ${borderColor} `}
+                    className={`flex items-start relative justify-center overflow-hidden rounded-md border-4 text-bkg-0 border-${borderColor}-300 `}
                   >
                     <a
                       href={`/modpack/${modpackId}`}
-                      className={`grid h-full flex-1 justify-items-center `}
+                      className={`grid h-full flex-1  justify-items-center `}
                     >
-                      <img
+                      {/* toggle images in production */}
+                      {/* <img
                         src={`https://www.trainjumper.com${imageUrl}`}
                         alt="random"
                         className=" max-h-26 w-full  object-fill object-center"
-                      />
+                      /> */}
                       <p className="text-content flex justify-center px-2 py-4 text-center    hyphens-auto  uppercase">
                         {name}
                       </p>
+                      <p className={`absolute flex items-center bo justify-center top-0 overflow-hidden left-0 bg-bkg-100 px-2 py-1 rounded-br-md text-xs border-b-2 border-r-2 border-${borderColor}-300`}>{voteCount === 1 ?`${voteCount} Vote` : `${voteCount} Votes`}</p>
                     </a>
                   </div>
                 );
               })
+            
             )}
           </div>
         </div>
@@ -83,7 +86,7 @@ const Homepage = () => {
           )}
         </div>
       </div>
-      <Footer />
+      <Footer borderColor="red" />
     </>
   );
 };

@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-
+import { toast } from "react-toastify";
 const useDiscordProfileData = () => {
   const url =  "https://www.trainjumper.com/";
 
@@ -15,7 +15,10 @@ const useDiscordProfileData = () => {
     return data;
   };
 
-  return useQuery(["login"], fetchProfile);
+  return useQuery(["login"], fetchProfile, {
+    onError: (_err) =>  toast.error("Sorry, there was an error logging you in!"),
+    onSuccess: (_res) => toast.success("Welcome back! You are now logged in!")
+  });
 };
 
 export default useDiscordProfileData;

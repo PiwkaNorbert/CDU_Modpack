@@ -1,9 +1,7 @@
-const url = "https://www.trainjumper.com/";
-
 export const LoginButton = () => {
     return <button
         className=" text-content flex h-10 items-center gap-2 rounded-md px-3 py-1 hover:bg-hover-1 "
-        onClick={() => (window.location.href = `${url}auth/discord?returnUrl=${window.location.href}`)}>
+        onClick={() => (window.location.href = `/auth/discord?returnUrl=${window.location.pathname}`)}>
         <svg
             xmlns="http://www.w3.org/2000/svg"
             className="w-6 text-[#7289DA]"

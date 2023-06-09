@@ -6,6 +6,10 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      backgroundImage: {
+        'heart': "url('https://www.trainjumper.com/public/heart.svg')",
+        'heartBreak': "url('https://www.trainjumper.com/public/heartbreak.svg')",
+      },
       boxShadow: {
         header: "0 0 8px 3px rgba(0,0,0,0.3)",
         mainContainer: "rgba(149,157,165,0.2) 0px 8px 24px",

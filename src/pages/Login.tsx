@@ -12,22 +12,22 @@ export interface LoginProps {
 import useDiscordProfileData from "../API/useDiscordProfileData";
 import { useSearchParams, Navigate } from "react-router-dom";
 import { DiscordProfileData } from "../UTILS/Interfaces";
+import { ToastContainer } from 'react-toastify';
 
 const Login = () => {
 
     let [searchParams] = useSearchParams();
-
     const returnUrl = searchParams.get("returnUrl");
 
     const { data, isLoading, isError } = useDiscordProfileData();
     
     if (isLoading) {
-        return <div>Loading.</div>
+        return <div className="h-screen w-full">Loading.</div>
     }
     if (isError) {
-        return <div>error</div>
+        return <ToastContainer/>;
     }
-    
+
     const profileData: DiscordProfileData = {
         isLoggedIn: true,
         avatar: data?.avatar,
@@ -36,19 +36,13 @@ const Login = () => {
         username: data?.username,
     }
 
-    // little pp man XD
-    // set the user profile to localstorage
-    if (data != null && data != undefined) {
-        sessionStorage.setItem("user_profile", JSON.stringify(profileData));
-    }
-
-    if (returnUrl !== null) {
-        return <Navigate to={returnUrl} />
-        //return  (window.location.href = returnUrl);
-    } else {
-        return <Navigate to='/' />
-        //return (window.location.href = "/");
-    }
+    // Save the user profile in local storage
+    localStorage.setItem("user_profile", JSON.stringify(profileData));
+    // display a toast message to the user that they have logged in
+    
+    if(!returnUrl) return <Navigate to="/" />
+    
+    return <Navigate to={returnUrl} />
 
   }
   export default Login;
