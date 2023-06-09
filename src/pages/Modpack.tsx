@@ -1,14 +1,19 @@
-import React from "react";
-import { useParams, useNavigate, redirect } from "react-router-dom";
-import usePackDetailData, { IPackDetails } from "../API/usePackDetailData";
+import { useParams } from "react-router-dom";
+import usePackDetailData from "../API/usePackDetailData";
 import { Header } from "../components/Header";
 import { CommentsComponent } from "../components/CommentsComponent";
+import { IPackDetails } from "../UTILS/Interfaces";
 import { DiscordProfileData, IComments } from "../UTILS/Interfaces";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Modpack = () => {
-  const { modpackId } = useParams();
+  var { modpackId } = useParams();
+  if (modpackId == undefined) {
+    return <div>Loading</div>;
+  }
+
+  modpackId = modpackId as string;
 
   const { data, isError, isLoading } = usePackDetailData(modpackId);
   if (isLoading) return <div>Loading...</div>;
@@ -26,14 +31,6 @@ const Modpack = () => {
   //  map the data in a  modern way with tailwind
   const borderColor = color ? color : "";
 
-  /*<div className="mr-4 w-fit rounded-lg bg-bkg-100 px-2 py-1 text-bkg-0 shadow-mainContainer ">
-          <a href="/login/" className="text-sm" data-xf-click="overlay">
-            <span className="button-text">
-              You must log in to vote.
-            </span>
-          </a>
-        </div>*/
-
   return (
     <>
       <Header />
@@ -41,7 +38,7 @@ const Modpack = () => {
 
       <ToastContainer />
 
-      <div className="  bg-bkg-100 shadow-mainContainer md:rounded-xl  lg:max-w-4xl lg:justify-center lg:place-self-center">
+      <div className="  bg-bkg-100 shadow-mainContainer md:rounded-xl lg:max-w-4xl lg:justify-center lg:place-self-center">
         <div
           key={modpackId}
           className={` grid items-center overflow-hidden border-4 text-bkg-0 md:rounded-md border-${borderColor}-500`}
@@ -171,13 +168,23 @@ export default Modpack;
 //   );
 // }
 
-function VoteForPackButton({ modpackId, borderColor, hasVoted, userProfile }) {
+interface VoteForPackButtonProps {
+  modpackId: string;
+  borderColor: string;
+  hasVoted: boolean;
+  userProfile: DiscordProfileData; // Replace 'UserProfileType' with the actual type for the 'userProfile' prop
+}
+
+function VoteForPackButton({modpackId, borderColor, hasVoted, userProfile}: VoteForPackButtonProps) {
   return (
     <button
+      disabled={hasVoted}
       className={`text-content  h-10 rounded-md  bg-${borderColor}-500 px-3 py-1 text-sm`}
       onClick={() => {
         if (userProfile.isLoggedIn) {
+          console.log(`TODO: axios vote for ${modpackId} (remember to uuse withCredentials: true)`)
           toast("You have successfully voted for this server!");
+          // How to set hasVoted = true from here?
         } else {
           toast("You must be logged in to vote!");
         }}}

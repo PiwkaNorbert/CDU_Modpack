@@ -12,10 +12,6 @@ export const Header = () => {
     id: '', avatar: '', global_name: '', username: ''
   } : JSON.parse(_userProfile);
 
-  console.log(userProfile.isLoggedIn);
-  console.log(userProfile.avatar);
-  console.log(userProfile.id);
-
   const changeColor = () => {
     window.scrollY >= 150 ? setScroll(true) : setScroll(false);
   };
@@ -26,12 +22,12 @@ export const Header = () => {
       <header className="relative grid  w-full  items-center justify-center">
         <div className="relative h-[150px] ">
           <img
-            src="/public/headerBG.png"
+            src="/headerBG.png"
             alt="random"
             className="h-full w-screen  object-none object-center"
           />
           <img
-            src="/public/logo.png"
+            src="/logo.png"
             alt="random"
             className=" absolute  top-0 ml-96 h-[139px] w-[150px] "
           />

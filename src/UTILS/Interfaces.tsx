@@ -10,15 +10,16 @@ export interface IPackDetails {
   modpackId: string;
   comments: IComments[];
   votes: number;
+  hasVoted: boolean;
 }
 export interface IComments {
   username: string;
   comment: string;
 }
 export interface DiscordProfileData {
-  isLoggedIn: boolean | null,
-  avatar: string | null,
-  global_name: string | null,
-  id: string | null,
-  username: string | null,
+  isLoggedIn: boolean | null;
+  avatar: string | null;
+  global_name: string | null;
+  id: string | null;
+  username: string | null;
 } 
