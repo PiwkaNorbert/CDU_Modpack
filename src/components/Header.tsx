@@ -26,25 +26,25 @@ export const Header = () => {
       <header className="relative grid  w-full  items-center justify-center">
         <div className="relative h-[150px] ">
           <img
-            src="headerbg.png"
+            src="/public/headerBG.png"
             alt="random"
             className="h-full w-screen  object-none object-center"
           />
           <img
-            src="logo.png"
+            src="/public/logo.png"
             alt="random"
             className=" absolute  top-0 ml-96 h-[139px] w-[150px] "
           />
         </div>
       </header>
       <nav
-        className={` sticky top-0 z-20  flex w-full items-center  justify-end space-x-4 bg-bkg-600 px-7 py-4 ${
+        className={` sticky top-0 z-20  flex w-full items-center justify-center space-x-4 bg-bkg-600 px-7 py-4 ${
           scroll === true ? "  bg-bkg-600  shadow-header " : ""
         }`}
       >
         {
         userProfile.isLoggedIn
-          ? <div className="flex items-center  ">
+          ? <div className="flex items-center justify-end max-w-4xl w-full ">
             <p className="text-content flex justify-center text-center uppercase max-w-[180px] mr-5">Logged in as<br/>{userProfile.global_name}</p>
             <img className="rounded-full h-[70px]" src={`https://cdn.discordapp.com/avatars/${userProfile.id}/${userProfile.avatar}`}/>
             <LogoutButton/>
