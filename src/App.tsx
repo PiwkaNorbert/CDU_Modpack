@@ -1,12 +1,9 @@
 import "./index.css";
-import { useState, useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Homepage from "./pages/Homepage";
 import Modpack from "./pages/Modpack";
 import Login from "./pages/Login";
-import { ProfileContext } from "./UTILS/profileContext";
-import { DiscordProfileData } from "./UTILS/Interfaces";
 
 const router = createBrowserRouter([
   {

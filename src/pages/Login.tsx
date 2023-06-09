@@ -10,7 +10,7 @@ export interface LoginProps {
 
 }
 import useDiscordProfileData from "../API/useDiscordProfileData";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, Navigate } from "react-router-dom";
 import { DiscordProfileData } from "../UTILS/Interfaces";
 
 const Login = () => {
@@ -21,8 +21,12 @@ const Login = () => {
 
     const { data, isLoading, isError } = useDiscordProfileData();
     
-    if (isLoading) return <div>Loading.</div> 
-    if (isError) return <div>error</div> 
+    if (isLoading) {
+        return <div>Loading.</div>
+    }
+    if (isError) {
+        return <div>error</div>
+    }
     
     const profileData: DiscordProfileData = {
         isLoggedIn: true,
@@ -39,9 +43,11 @@ const Login = () => {
     }
 
     if (returnUrl !== null) {
-        return  (window.location.href = returnUrl);
+        return <Navigate to={returnUrl} />
+        //return  (window.location.href = returnUrl);
     } else {
-        return (window.location.href = "/");
+        return <Navigate to='/' />
+        //return (window.location.href = "/");
     }
 
   }

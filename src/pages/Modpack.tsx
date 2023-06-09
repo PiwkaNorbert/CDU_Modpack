@@ -47,17 +47,16 @@ const Modpack = () => {
           className={` grid items-center overflow-hidden border-4 text-bkg-0 md:rounded-md border-${borderColor}-500`}
         >
           {/* backarrow to the root page */}
-          <div className="flex  items-center justify-start px-4 pt-4">
+          <div onClick={() => (window.location.href = "/")} className="flex w-fit items-center justify-start px-4 pt-4 cursor-pointer">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className={`h-8 w-8 text-${borderColor}-500 cursor-pointer `}
+              className={`h-8 w-8 text-${borderColor}-500`}
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
             >
               <path
                 strokeLinecap="round"
-                onClick={() => (window.location.href = "/")}
                 strokeLinejoin="round"
                 strokeWidth={2}
                 d="M10 19l-7-7m0 0l7-7m-7 7h18"

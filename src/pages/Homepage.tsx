@@ -1,11 +1,8 @@
 import React from "react";
-import { IModpack, data } from "../data";
+import { IModpack } from "../data";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import useModpackData from "../API/useModpackData";
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { redirect } from "react-router-dom";
 
 const Homepage = () => {
   const { data, isLoading, isError } = useModpackData();
@@ -19,15 +16,6 @@ const Homepage = () => {
       ? setPageBottom(true)
       : setPageBottom(false);
   });
-
-  const fetchLogin = async () => {
-    const res = await fetch(`${import.meta.env.URL}auth/discord`);
-    return console.log(res);
-
-    // if (status !== 200) throw new Error("No login data found");
-
-    // return data;
-  };
 
   // const login = useQuery(["login"], fetchLogin, { keepPreviousData: true });
 
