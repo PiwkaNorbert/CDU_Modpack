@@ -1,9 +1,10 @@
 export interface IModpack {
-  modpackId: number;
+  modpackId: string;
   name: string;
   imageUrl: string;
   color: string;
   voteCount: number;
+  commentCount: number;
 }
 export interface IPackDetails {
   name: string;

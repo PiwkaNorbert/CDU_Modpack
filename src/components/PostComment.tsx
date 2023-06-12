@@ -58,7 +58,7 @@ const PostComment = ( {borderColor, modpackId  } : {borderColor:string , modpack
       <button type="submit" className={`text-content  h-10 rounded-md  bg-${borderColor}-500 px-3 pT-1 text-sm`}>
         Post
       </button>
-        </form>
+    </form>
   )
 }
 

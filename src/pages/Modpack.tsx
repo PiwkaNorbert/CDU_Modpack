@@ -31,7 +31,7 @@ const Modpack = () => {
     id: '', avatar: '', global_name: '', username: ''
   } : JSON.parse(_userProfile);
 
-  const { name, description, color, comments, votes, hasVoted }: IPackDetails =
+  const { name, description, color, imageUrl, comments, votes, hasVoted }: IPackDetails =
     data;
 
   //  map the data in a  modern way with tailwind
@@ -67,13 +67,13 @@ const Modpack = () => {
           </div>
           <div className={`grid  items-center `}>
             <div className=" m-4 grid px-4 sm:grid-cols-2 ">
-                      {/* toggle images in production */}
 
-              {/* <img
+              {/* toggle images in production */}
+              <img
                 src={`https://www.trainjumper.com${imageUrl}`}
                 alt="random"
                 className="  w-1/2 place-self-center rounded-md object-scale-down object-center sm:max-h-52 sm:w-full  sm:object-fill  lg:max-h-60 "
-              /> */}
+              />
               <div className="grid content-center items-center space-y-4">
                 <p className="text-content my-4 text-center text-4xl uppercase   hyphens-auto  md:my-0 ">
                   {name}

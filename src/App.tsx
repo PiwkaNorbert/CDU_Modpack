@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Homepage from "./pages/Homepage";
 import Modpack from "./pages/Modpack";
 import Login from "./pages/Login";
+import AddModpack from "./pages/AddModpack";
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,12 @@ const router = createBrowserRouter([
 
     // errorElement: <Errorpage />,
   },
+  {
+    path: "modpacks",
+    element: <AddModpack />,
+
+    // errorElement: <Errorpage />,
+  },
 ]);
 
 const queryClient = new QueryClient();
@@ -31,7 +38,7 @@ function App() {
 
     return (
       <QueryClientProvider client={queryClient}>
-        <main className=" grid items-center justify-center  bg-gray-300 font-Tilt text-bkg-100">
+        <main className="items-start justify-center h-screen  font-Tilt text-bkg-100">
             <RouterProvider router={router} />
         </main>
       </QueryClientProvider>

@@ -116,3 +116,25 @@
   width: 20px;
   height: 20px;
  }
+
+ select{
+  font-family: "Tilt Warp", "cursive";
+ }
+ option{
+  font-family: "Tilt Warp", "cursive";
+ }
+
+ input[type=file]::file-selector-button {
+ all: unset;
+ content:" Select a file...";
+ padding-right: 1rem;
+ color:  rgb(148 163 184);
+
+}
+
+
+
+input[type=file]::file-selector-button:hover {
+ color: rgb(100 116 139);
+
+}
