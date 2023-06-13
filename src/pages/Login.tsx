@@ -12,7 +12,6 @@ export interface LoginProps {
 import useDiscordProfileData from "../API/useDiscordProfileData";
 import { useSearchParams, Navigate } from "react-router-dom";
 import { DiscordProfileData } from "../UTILS/Interfaces";
-import { ToastContainer } from 'react-toastify';
 
 const Login = () => {
 
@@ -25,15 +24,18 @@ const Login = () => {
         return <div className="h-screen w-full">Loading.</div>
     }
     if (isError) {
-        return <ToastContainer/>;
+        return <div className="h-screen w-full">error</div>
     }
+console.log(data);
 
     const profileData: DiscordProfileData = {
         isLoggedIn: true,
         avatar: data?.avatar,
-        global_name: data?.global_name,
+        globalName: data?.global_name,
         id: data?.id,
         username: data?.username,
+        isAdmin: data?.is_admin,
+        // votesRemaining: data?.votes_remaining,
     }
 
     // Save the user profile in local storage

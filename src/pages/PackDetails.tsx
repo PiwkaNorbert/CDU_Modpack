@@ -10,13 +10,14 @@ import Loading  from "../components/Loading";
 import VoteForPackButton from "../components/VoteForPackButton";
 import PostComment from "../components/PostComment";
 
-const Modpack = () => {
+const PackDetails = () => {
   var { modpackId } = useParams();
   if (modpackId == undefined) {
     return <div>Loading</div>;
   }
 
   modpackId = modpackId as string;
+  console.log(modpackId); 
 
   const { data, isError, isLoading } = usePackDetailData(modpackId);
 
@@ -28,22 +29,23 @@ const Modpack = () => {
   const _userProfile = localStorage.getItem("user_profile");
   const userProfile: DiscordProfileData = _userProfile == null ? {
     isLoggedIn: false,
-    id: '', avatar: '', global_name: '', username: ''
+    id: '', avatar: '', globalName: '', username: '', isAdmin: false
   } : JSON.parse(_userProfile);
 
-  const { name, description, color, imageUrl, comments, votes, hasVoted }: IPackDetails =
+  const { name, description, color, imageUrl, comments, timesVoted, voteCount }: IPackDetails =
     data;
 
   //  map the data in a  modern way with tailwind
   const borderColor = color ? color : "";
+console.log(timesVoted);
 
   return (
     <>
       <Header />
-      <div className="grid justify-normal self-start md:justify-center ">
+      <div className="grid w-screen justify-normal self-start md:justify-center bg-bkg-100 ">
 
 
-      <div className="  bg-bkg-100 shadow-mainContainer lg:my-2 lg:rounded-xl lg:max-w-4xl lg:justify-center lg:place-self-center ">
+      <div className="  bg-bkg-100 shadow-2xl shadow-bkg-0/20 dark:shadow-none  lg:my-2 lg:rounded-xl lg:max-w-4xl lg:justify-center lg:place-self-center ">
         <div
           key={modpackId}
           className={` grid items-center overflow-hidden lg:border-4 text-bkg-0 lg:rounded-md border-${borderColor}-500 h-full `}
@@ -82,11 +84,11 @@ const Modpack = () => {
                   <p
                     className={`flex h-10 items-center rounded-md border px-3 py-1 border-${borderColor}-500`}
                   >
-                    {votes == 0 ? "No votes" : `${votes} ${votes == 1 ? "Vote" : "Votes"}`}
+                    {voteCount == 0 ? "No votes" : `${voteCount} ${voteCount === 1 ? "Vote" : "Votes"}`}
                   </p>
                   <VoteForPackButton
                     modpackId={modpackId}
-                    hasVoted={hasVoted}
+                    timesVoted={timesVoted}
                     borderColor={borderColor}
                     userProfile={userProfile}
                     isLoading={isLoading}
@@ -111,15 +113,15 @@ const Modpack = () => {
                 <PostComment modpackId={modpackId} borderColor={borderColor} />
                 {/* Map comments from api the the img, username, userId, and the comment from the user */}
                 {comments.map(
-                  (comment: IComment, index: number) => {
-                    return (
+                  (comment: IComment, index: number) => 
+          
                       <CommentsComponent
-                        index={index}
+                        key={index}
                         borderColor={borderColor}
                         comment={comment}
                       />
-                    );
-                  }
+                    
+                  
                 )}
               </div>
             </div>
@@ -131,5 +133,5 @@ const Modpack = () => {
   </>
   );
 };
-export default Modpack;
+export default PackDetails;
 

@@ -3,13 +3,12 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { VoteForPackButtonProps } from "../UTILS/Interfaces";
 import { toast } from "react-toastify";
 
-export default function VoteForPackButton({modpackId, borderColor, hasVoted, userProfile}: VoteForPackButtonProps) {
+export default function VoteForPackButton({modpackId, borderColor, timesVoted, userProfile}: VoteForPackButtonProps) {
 
-  const url = "https://www.trainjumper.com/api/";
   const queryClient =  useQueryClient();
 
   const addVote = useMutation(() => {
-    return axios.get(`${url}add-vote/${modpackId}`,
+    return axios.get(`/add-vote/${modpackId}`,
     {withCredentials: true})},
   {
     onSettled: () => queryClient.invalidateQueries(["details", modpackId]),
@@ -18,7 +17,7 @@ export default function VoteForPackButton({modpackId, borderColor, hasVoted, use
   });
 
   const removeVote = useMutation(() => {
-    return axios.get(`${url}remove-vote/${modpackId}`,
+    return axios.get(`/remove-vote/${modpackId}`,
     {withCredentials: true})},
   {
     onSettled: () => queryClient.invalidateQueries(["details", modpackId]),
@@ -34,17 +33,17 @@ export default function VoteForPackButton({modpackId, borderColor, hasVoted, use
       onClick={() => {
         if (userProfile.isLoggedIn === false) return toast.error("You must be logged in to vote!")
         if (addVote.isLoading || removeVote.isLoading) return;
-        if (!hasVoted) {
+        if (!timesVoted) {
           return addVote.mutate()
 
         } 
-        if (hasVoted) {
+        if (timesVoted) {
           return removeVote.mutate()
 
         }
       }}
     >
-      {hasVoted ? 
+      {timesVoted ? 
       <div className=" bg-heartBreak w-6 h-6 bg-center bg-contain bg-no-repeat group-hover:bg-heartBreak  delay-0 group-hover:animate-bounce duration-200"></div>
       :  
       <div className=" bg-heart w-6 h-6 bg-center bg-contain bg-no-repeat group-hover:bg-heart  delay-0 group-hover:animate-bounce duration-200"></div>

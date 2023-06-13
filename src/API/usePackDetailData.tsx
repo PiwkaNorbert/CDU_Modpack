@@ -2,12 +2,11 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
 const usePackDetailData = (modpackId: string) => {
-  const url = "https://www.trainjumper.com/api/";
+
 
   const fetchPackDetail = async () => {
-    const { data, status } = await axios.get(`${url}pack-details/${modpackId}`);
-    console.log(data);
-    
+    const { data, status } = await axios.get(`/api/pack-details/${modpackId}`);
+
     if (status !== 200) throw new Error("No data found");
 
     return data;

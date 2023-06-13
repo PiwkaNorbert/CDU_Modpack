@@ -1,23 +1,21 @@
 import React from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
-
+import axios from 'axios'
  
 const PostComment = ( {borderColor, modpackId  } : {borderColor:string , modpackId: string }) => {
   
   const [comment, setComment] = React.useState<string>('')
   const queryClient = useQueryClient()
 
-  const commentMutation = useMutation((comment: string) => fetch(`https://www.trainjumper.com/api/comment`,
+  const commentMutation = useMutation((comment: string) => axios.post(`/api/comment`, {comment, modpackId},
   {
-    method: 'POST',
+    withCredentials: true,
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({comment, modpackId}),
-    credentials: 'include',
   }
-  ).then(res => res.json()),
+  ),
   {  onSettled: () => {
     queryClient.invalidateQueries(["details", modpackId])
     setComment('')
@@ -40,22 +38,24 @@ const PostComment = ( {borderColor, modpackId  } : {borderColor:string , modpack
 })
 
   return (
-    <form  method="post" className='flex items-center justify-center gap-4  pt-[.5em] ' onSubmit={ async(e: React.FormEvent<HTMLFormElement>)=>
+    <form  method="post" className='flex  items-center justify-center gap-4  pt-[.5em] text-sm ' onSubmit={ async(e: React.FormEvent<HTMLFormElement>)=>
       {
           e.preventDefault()
+          // short circuit if the user is already posting a comment
           if(commentMutation.isLoading) return;
+
+          // if statement to check if the user has any more comments left to post on this modpack 
           commentMutation.mutate(comment)
-          // sent a post with axios with a body of the comment content and withCredentials to true and refresh the page to show the new comment IN REACT! 
       }} >
       <input
         type="text"
-        className={` h-10 rounded-md w-full  border border-${borderColor}-300 px-3 py-1 text-sm`}
+        className={` h-10 rounded-md w-full dark:text-bkg-100  border border-${borderColor}-300 px-3 py-1 `}
         placeholder="Add a comment..."
         onChange={(e) => setComment(e.target.value)}
         value={comment}
 
         />
-      <button type="submit" className={`text-content  h-10 rounded-md  bg-${borderColor}-500 px-3 pT-1 text-sm`}>
+      <button type="submit" className={`text-bkg-0  h-10 rounded-md  bg-${borderColor}-500   px-3 py-1 `}>
         Post
       </button>
     </form>

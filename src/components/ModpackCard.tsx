@@ -7,7 +7,7 @@ const ModpackCard = ({ modpackId, name, imageUrl, color, voteCount, commentCount
     className={`flex items-start  justify-center overflow-hidden  rounded-md border-[3.5px] text-bkg-0 border-${color}-300 `}
   >
     <a
-      href={`/modpack/${modpackId}`}
+      href={`/pack-details/${modpackId}`}
       className={`grid h-full flex-1  text-sm justify-items-center `}
     >
       {/* toggle images in production */}

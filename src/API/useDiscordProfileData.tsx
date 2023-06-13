@@ -1,18 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { toast } from "react-toastify";
+
 const useDiscordProfileData = () => {
-  const url =  "https://www.trainjumper.com/";
 
   const fetchProfile = async () => {
 
-    const { data, status } = await axios.get(`${url}profile`, {
+    const { data, status } = await axios.get(`/profile`, {
       withCredentials: true,
     });
-
     if (status !== 200) throw new Error("No login data found");
     
-    return data;
+    return data 
   };
 
   return useQuery(["login"], fetchProfile, {

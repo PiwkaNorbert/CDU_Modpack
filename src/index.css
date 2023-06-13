@@ -4,22 +4,30 @@
 
 @layer base {
   :root {
-    --clr-bkg-0: 100deg 4% 98%; /* #f3faf0 */
-    --clr-bkg-100: 0deg 0% 8%; /* #141414 */
-    --clr-bkg-200: 198deg 61% 63%; /* #3f83a1 */
+    --clr-bkg-0: 0deg 0% 8%; /* #141414 */
+    --clr-bkg-100: 100deg 4% 98%; /* #f3faf0 */
+    --clr-bkg-200: 202deg 63% 63%; /* #62afdb */
     --clr-bkg-300: 206deg 63% 56%; /* #35688f */
-    --clr-bkg-400: 205deg 70% 31%; /* #18384f */
-    --clr-bkg-500: 215deg 50% 23%; /* #1d2a3b */
+    --clr-bkg-400: 198deg 44% 44%; /* #3f83a1 */
+    --clr-bkg-500: 205deg 53% 20%; /* #18384f */
+    --clr-bkg-600: 215deg 50% 23%; /* #1d2a3b */
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --clr-bkg-100: 100deg 4% 98%; /* #f3faf0 */
-      --clr-bkg-0: 0deg 0% 8%; /* #141414 */
+      --clr-bkg-0: 100deg 4% 98%; /* #f3faf0 */
+      --clr-bkg-50: 232deg 30% 15%; /* #1a1d30 */
+      --clr-bkg-100: 230deg 30% 12%; /* #151827 */
       --clr-bkg-200: 202deg 63% 63%; /* #62afdb */
-      --clr-bkg-300: 206deg 63% 56%; /* #35688f */
-      --clr-bkg-400: 198deg 44% 44%; /* #3f83a1 */
-      --clr-bkg-500: 205deg 53% 20%; /* #18384f */
-      --clr-bkg-600: 215deg 50% 23%; /* #1d2a3b */
+      --clr-bkg-300: 198deg 61% 63%; /* #3f83a1 */
+      --clr-bkg-400: 264deg 100% 63%; /* #a262ff */
+      --clr-bkg-500: 205deg 70% 31%; /* #18384f */
+      --clr-bkg-600: 215deg 100% 6%; /* #000d1f */
+
+      --clr-border-0: 230deg 21% 23%; /* #2e3247 */
+      /* #b473ff */
+      /* #151827  #1a1d30*/
+      --clr: hsl(264, 100%, 63%);
+
     }
   }
 }
