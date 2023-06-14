@@ -37,7 +37,7 @@ const PackDetails = () => {
 
   //  map the data in a  modern way with tailwind
   const borderColor = color ? color : "";
-console.log(timesVoted);
+// console.log(timesVoted);
 
   return (
     <>
@@ -68,7 +68,7 @@ console.log(timesVoted);
             </svg>
           </div>
           <div className={`grid  items-center `}>
-            <div className=" m-4 grid px-4 sm:grid-cols-2 ">
+            <div className=" m-4 grid px-4 sm:grid-cols-2 space-x-4 ">
 
               {/* toggle images in production */}
               <img
@@ -76,8 +76,8 @@ console.log(timesVoted);
                 alt="random"
                 className="  w-1/2 place-self-center rounded-md object-scale-down object-center sm:max-h-52 sm:w-full  sm:object-fill  lg:max-h-60 "
               />
-              <div className="grid content-center items-center space-y-4">
-                <p className="text-content my-4 text-center text-4xl uppercase   hyphens-auto  md:my-0 ">
+              <div className="grid content-center w-full items-center md:space-y-4 md:mr-4">
+                <p className="text-content my-4 text-center text-4xl uppercase break-normal  md:my-0 ">
                   {name}
                 </p>
                 <div className="flex items-center justify-center gap-4">
@@ -98,14 +98,14 @@ console.log(timesVoted);
             </div>
             {/* style the descripion to scroll on overflow and a max height of 364px */}
             <div className="m-4 px-4  ">
-              <h3 className="text-2xl capitalize ">description</h3>
+              <h3 className="text-2xl xl:text-3xl capitalize ">description</h3>
               <div className=" max-h-64 overflow-y-auto p-4 shadow-inner  ">
                 <p className="text-content text-justify">{description}</p>
               </div>
             </div>
 
             <div className="m-4 p-4  ">
-              <h3 className="text-2xl capitalize ">
+              <h3 className="text-2xl xl:text-3xl capitalize ">
                 comments ({comments.length})
               </h3>
               {/* input for posting comments by current user */}

@@ -1,7 +1,7 @@
 export const Footer = ({borderColor}:{borderColor: string}) => {
   return (
     <footer
-      className={`text-bkg-100  dark:text-bkg-0   border-${!borderColor && "bkg-200 border-t-4"} bg-bkg-600 text-sm  `}
+      className={`text-bkg-100  dark:text-bkg-0   border-${!borderColor && "bkg-200 border-t-4"} bg-bkg-600 text-sm xl:text-base  `}
       id="footer"
     >
       <div className="p-footer-inner">

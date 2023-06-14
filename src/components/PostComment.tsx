@@ -38,7 +38,7 @@ const PostComment = ( {borderColor, modpackId  } : {borderColor:string , modpack
 })
 
   return (
-    <form  method="post" className='flex  items-center justify-center gap-4  pt-[.5em] text-sm ' onSubmit={ async(e: React.FormEvent<HTMLFormElement>)=>
+    <form  method="post" className='flex  items-center justify-center gap-4  pt-[.5em] text-sm xl:text-base ' onSubmit={ async(e: React.FormEvent<HTMLFormElement>)=>
       {
           e.preventDefault()
           // short circuit if the user is already posting a comment

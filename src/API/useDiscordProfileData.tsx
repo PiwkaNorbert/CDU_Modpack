@@ -10,12 +10,16 @@ const useDiscordProfileData = () => {
       withCredentials: true,
     });
     if (status !== 200) throw new Error("No login data found");
+    console.log(data);
     
     return data 
   };
 
   return useQuery(["login"], fetchProfile, {
-    onError: (_err) =>  toast.error("Sorry, there was an error logging you in!"),
+    onError: (_err) =>  {
+      console.error(_err);
+      toast.error("Sorry, there was an error logging you in!")
+    },
     onSuccess: (_res) => toast.success("Welcome back! You are now logged in!")
   });
 };

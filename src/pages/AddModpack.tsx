@@ -67,7 +67,7 @@ const AddModpack = () => {
   const borderColor = modpackColor || 'sky';
   
   const fileSelectedHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.files[0]);
+    console.log(e.target.files);
     if (e.target.files) {
       
       setModpackImage(e.target.files[0])
@@ -80,9 +80,9 @@ const AddModpack = () => {
         <Header />
         {/* Title of the form, centered */}
         <div className='flex items-center justify-center'>
-          <h1 className='text-2xl text-bkg-0 dark:text-bkg-0 m-3 mt-5'>Create a new CDU Modpack Listing!</h1>
+          <h1 className='text-2xl xl:text-3xl text-bkg-0 dark:text-bkg-0 m-3 mt-5'>Create a new CDU Modpack Listing!</h1>
         </div>
-        <form  method="post" className='grid items-center placeholder:text-slate-400 justify-center gap-4 text-bkg-0  pt-[.5em]  text-sm' onSubmit={ async(e: React.FormEvent<HTMLFormElement>)=>
+        <form  method="post" className='grid items-center placeholder:text-slate-400 justify-center gap-4 text-bkg-0  pt-[.5em]  text-sm xl:text-base' onSubmit={ async(e: React.FormEvent<HTMLFormElement>)=>
           {
               e.preventDefault()
              
@@ -129,14 +129,14 @@ const AddModpack = () => {
           <p className='-mb-2'>Modpack Image</p>
           <input required name='modpack__image--input' className={`rounded-md border-2 cursor-pointer  file:placeholder:text-slate-400  border-${borderColor}-500   w-full h-8  px-3 py-1 `} type="file"   onChange={fileSelectedHandler} />
             
-          <label for='modpack__image--input' className={`-mt-2 text-sm`}> (PNG or JPG MAX. 5MB, 640x480px) </label>
+          <label htmlFor='modpack__image--input' className={`-mt-2 text-sm xl:text-base`}> (PNG or JPG MAX. 5MB, 640x480px) </label>
           
           {/* Modpack suggestor field, single line. */}
           <input  className={`h-8 rounded-md border-2 dark:bg-bkg-50  border-${borderColor}-500 px-3 py-1 `} type="text" placeholder="Modpack Suggestor" value={modpackSuggestor} onChange={(e) => setModpackSuggestor(e.target.value)} />
 
           <br/>
           
-          <button className={`text-bkg-0 dark:text-bkg-100 h-16 rounded-md border-2 border-black bg-${borderColor}-500 px-3 py-1 text-sm`}>
+          <button className={`text-bkg-0 dark:text-bkg-100 h-16 rounded-md border-2 border-black bg-${borderColor}-500 px-3 py-1 text-sm xl:text-base`}>
           Add Modpack
           </button>
 

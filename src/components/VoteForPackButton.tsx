@@ -2,34 +2,55 @@ import axios from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { VoteForPackButtonProps } from "../UTILS/Interfaces";
 import { toast } from "react-toastify";
+import { useUser } from "../HELPER/UserContext"
 
 export default function VoteForPackButton({modpackId, borderColor, timesVoted, userProfile}: VoteForPackButtonProps) {
 
   const queryClient =  useQueryClient();
 
+  const { increaseRemainingVotes, decreaseRemainingVotes, setRemainingVotes } = useUser();
+
   const addVote = useMutation(() => {
-    return axios.get(`/add-vote/${modpackId}`,
+    return axios.get(`/api/add-vote/${modpackId}`,
     {withCredentials: true})},
   {
-    onSettled: () => queryClient.invalidateQueries(["details", modpackId]),
-    onError: () =>  toast.error("Sorry, there was an error voting for this modpack!"),
-    onSuccess: () => toast.success("You have voted for this modpack!")
+    onSettled: (response) => {
+      queryClient.invalidateQueries(["details", modpackId]);
+      console.log("Vote settled: ", response?.data);
+      if (response?.data.remainingVotes) {
+        setRemainingVotes(response?.data.remainingVotes);
+      }
+    },
+    onError: (err) =>  {
+      console.error(err);
+      toast.error("Sorry, there was an error voting for this modpack!")},
+    onSuccess: () => {
+      toast.success("You have voted for this modpack!")
+      decreaseRemainingVotes()
+    }
   });
 
   const removeVote = useMutation(() => {
-    return axios.get(`/remove-vote/${modpackId}`,
+    return axios.get(`/api/remove-vote/${modpackId}`,
     {withCredentials: true})},
   {
     onSettled: () => queryClient.invalidateQueries(["details", modpackId]),
     onError: () =>  toast.error("Sorry, there was an error removing your vote for this modpack!"),
-    onSuccess: () => toast.success("You have removed your vote.")
+    onSuccess: () => {
+
+      toast.success("You have removed your vote.")
+      increaseRemainingVotes()
+
+     // spread operator to spread the old data and to update the  votes remaining in the user profile data from local storage
+  }
   });
+  
 
   return (
 
     <button
       disabled={addVote.isLoading || removeVote.isLoading}
-      className={`text-content disabled:bg-black-300 h-10 rounded-md group  bg-${borderColor}-500 px-3 py-1 text-sm`}
+      className={`text-content disabled:bg-black-300 h-10 rounded-md group  bg-${borderColor}-500 px-3 py-1 text-sm xl:text-base`}
       onClick={() => {
         if (userProfile.isLoggedIn === false) return toast.error("You must be logged in to vote!")
         if (addVote.isLoading || removeVote.isLoading) return;

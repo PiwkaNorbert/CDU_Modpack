@@ -12,11 +12,13 @@ export interface LoginProps {
 import useDiscordProfileData from "../API/useDiscordProfileData";
 import { useSearchParams, Navigate } from "react-router-dom";
 import { DiscordProfileData } from "../UTILS/Interfaces";
+import { useUser } from "../HELPER/UserContext";
 
 const Login = () => {
 
     let [searchParams] = useSearchParams();
     const returnUrl = searchParams.get("returnUrl");
+    const { login } = useUser()
 
     const { data, isLoading, isError } = useDiscordProfileData();
     
@@ -35,11 +37,12 @@ console.log(data);
         id: data?.id,
         username: data?.username,
         isAdmin: data?.is_admin,
-        // votesRemaining: data?.votes_remaining,
+        votesRemaining: data?.votes_remaining,
+        tokenExpiry: data?.token_expiry,
     }
 
+    login(profileData)
     // Save the user profile in local storage
-    localStorage.setItem("user_profile", JSON.stringify(profileData));
     // display a toast message to the user that they have logged in
     
     if(!returnUrl) return <Navigate to="/" />

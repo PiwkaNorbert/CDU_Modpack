@@ -20,8 +20,8 @@ export interface IComment {
   username: string;
   comment: string;
   timestamp: number;
-  discordId: string;
-  image: string;
+  discord_id: string;
+  avatar_url: string;
 }
 export interface ICommentComponent {
   key: number;
@@ -29,14 +29,14 @@ export interface ICommentComponent {
   comment: IComment;
 }
 export interface DiscordProfileData {
-  isLoggedIn: boolean | null;
-  avatar: string | null;
-  globalName: string | null;
-  id: string | null;
-  username: string | null;
-  isAdmin: boolean | null;
-  votesRemaining: number | null;
-
+  isLoggedIn: boolean;
+  avatar: string;
+  globalName: string;
+  id: string;
+  username: string;
+  isAdmin: boolean;
+  votesRemaining: number;
+  tokenExpiry: number;
 } 
 export interface VoteForPackButtonProps {
   modpackId: string;

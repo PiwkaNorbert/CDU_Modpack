@@ -8,18 +8,17 @@ const ModpackCard = ({ modpackId, name, imageUrl, color, voteCount, commentCount
   >
     <a
       href={`/pack-details/${modpackId}`}
-      className={`grid h-full flex-1  text-sm justify-items-center `}
+      className={`grid h-full flex-1 relative  text-sm xl:text-base justify-items-center `}
     >
       {/* toggle images in production */}
-      <div className={` max-h-26 relative   w-full flex-1 text-${color}-300 text-sm`} >
-
         <img
           src={`https://www.trainjumper.com${imageUrl}`}
           alt="random"
           loading="lazy"
-          className=" h-26 w-full object-fill  object-center"
+          className="  aspect-auto  w-full overflow-hidden object-cover  object-center"
           />
-          <div className="absolute flex rounded-r-full overflow-hidden  -bottom-2 left-0 l">
+
+          <div className={`absolute flex rounded-r-full overflow-hidden  text-${color}-300 text-sm xl:text-base top-0 left-0 `}>
 
 
           <span className={`flex items-center    fill-blue-500 bg-current  justify-center bg-center bg-contain bg-no-repeat w-8 h-8 bg-heart`}>{voteCount}</span>
@@ -28,7 +27,6 @@ const ModpackCard = ({ modpackId, name, imageUrl, color, voteCount, commentCount
           </span>
           </div>
 
-      </div>
 
       <p className="text-content  flex justify-center px-2 py-4 text-center    hyphens-auto  uppercase">
         {name}

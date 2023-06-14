@@ -1,16 +1,11 @@
 import  { useState } from "react";
-import { DiscordProfileData } from "../UTILS/Interfaces";
 import { LoginButton } from "./LoginButton";
 import { LogoutButton } from "./LogoutButton";
-
+import { useUser } from "../HELPER/UserContext";
 export const Header = () => {
   const [scroll, setScroll] = useState(false);
 
-  const _userProfile = localStorage.getItem("user_profile");
-  const userProfile: DiscordProfileData = _userProfile == null ? {
-    isLoggedIn: false,
-    id: '', avatar: '', globalName: '', username: '', isAdmin: false
-  } : JSON.parse(_userProfile);
+  const {user: userProfile} = useUser();
 
   const changeColor = () => {
     window.scrollY >= 150 ? setScroll(true) : setScroll(false);
@@ -19,8 +14,8 @@ export const Header = () => {
 
   return (
     <>
-      <header className="relative grid w-full text-sm text-content items-center justify-center">
-        <div className="relative h-[150px] flex justify-center items-center  ">
+      <header className="relative grid w-full text-sm xl:text-base text-content items-center justify-center">
+        <div className="relative h-[150px] xl:h-[180px] flex justify-center items-center  ">
           <div
             className="h-full w-screen bg-gradient-to-tr from-bkg-400 to-bkg-200 " >
           </div>
@@ -28,7 +23,7 @@ export const Header = () => {
             alt="CDU logo"
             src="/logo.png"
             loading="lazy"
-            className=" absolute top-0  hover:animate-bounce-slow p-2 w-[150px] cursor-pointer"
+            className=" absolute top-0  hover:animate-bounce-slow p-2 w-[150px] xl:w-[180px]  cursor-pointer"
             onClick={() => (window.location.href = "/")}
           />
         </div>
@@ -43,23 +38,18 @@ export const Header = () => {
      
 
         {
-        userProfile.isLoggedIn
-          ? 
+        userProfile != null && userProfile.isLoggedIn ? 
           <>
-          {
-            userProfile.votesRemaining && (
-              <div className="flex items-center justify-end w-full ">
-                <p className="text-center uppercase max-w-[300px] mr-5">You have {userProfile.votesRemaining} votes remaining this month.</p>
-              </div>
-            )
-          }
+            <div className="flex items-center justify-end w-full ">
+              <p className="text-center uppercase max-w-[300px] mr-5">{`You have ${userProfile.votesRemaining} votes remaining this month.`}</p>
+            </div>
 
-          <div className="flex items-center justify-end max-w-4xl  w-full ">
-            <p className=" flex justify-center text-center uppercase max-w-[180px] mr-5">Logged in as<br/>{userProfile.globalName}</p>
-            <img className="rounded-full w-10 aspect-square " alt={userProfile.username ? `${userProfile.username}'s avatar`: 'avatar'} src={`https://cdn.discordapp.com/avatars/${userProfile.id}/${userProfile.avatar}`}/>
-            <LogoutButton/>
+            <div className="flex items-center justify-end max-w-4xl  w-full ">
+              <p className=" flex justify-center text-center uppercase max-w-[180px] mr-5">Logged in as<br/>{userProfile.globalName}</p>
+              <img className="rounded-full w-10 xl:w-14 aspect-square " alt={userProfile.username ? `${userProfile.username}'s avatar`: 'avatar'} src={`https://cdn.discordapp.com/avatars/${userProfile.id}/${userProfile.avatar}`}/>
+              <LogoutButton/>
 
-          </div>
+            </div>
           </>
           // Decide whether to display user's discord avatar (logged in) or "log in with discord" button (not logged in)
           : <LoginButton/>
