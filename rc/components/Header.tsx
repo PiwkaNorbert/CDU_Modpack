@@ -27,7 +27,7 @@ export const Header = () => {
           </div>
           <img
             alt="CDU logo"
-            src="public/logo.png"
+            src="/logo.png"
             loading="lazy"
             className=" absolute justify-self-center top-0 z-10  hover:animate-bounce-slow p-2 w-[150px] xl:w-[180px] cursor-pointer"
             onClick={() => (window.location.href = "/")}

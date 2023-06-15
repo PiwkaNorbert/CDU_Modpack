@@ -1,36 +1,23 @@
-import React from "react";
-import { IModpack, data } from "../data";
+import  {useState} from "react";
+import { IModpack } from "../data";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import useModpackData from "../API/useModpackData";
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { redirect } from "react-router-dom";
 
 const Homepage = () => {
   const { data, isLoading, isError } = useModpackData();
 
-  if (isError) return <div>Error</div>;
   // set state for a button to scroll to the top of the page
-  const [pageBottom, setPageBottom] = React.useState(false);
-
+  const [pageBottom, setPageBottom] = useState(false);
+  
   window.addEventListener("scroll", () => {
     window.innerHeight + window.scrollY >= document.body.offsetHeight
-      ? setPageBottom(true)
-      : setPageBottom(false);
+    ? setPageBottom(true)
+    : setPageBottom(false);
   });
-
-  const fetchLogin = async () => {
-    const res = await fetch(`${import.meta.env.URL}auth/discord`);
-    return console.log(res);
-
-    // if (status !== 200) throw new Error("No login data found");
-
-    // return data;
-  };
-
-  // const login = useQuery(["login"], fetchLogin, { keepPreviousData: true });
-
+  
+  if (isError) return <div>Error</div>;
+  
   return (
     <>
       <Header />
@@ -49,7 +36,7 @@ const Homepage = () => {
               <div className="text-bkg-0">Loading...</div>
             ) : (
               data.map(({ modpackId, name, imageUrl, color }: IModpack) => {
-                let borderColor = color ? `border-${color}-300` : "";
+                const borderColor = color ? `border-${color}-300` : "";
 
                 return (
                   <div
@@ -99,7 +86,7 @@ const Homepage = () => {
           )}
         </div>
       </div>
-      <Footer />
+      <Footer  borderColor=""  />
     </>
   );
 };

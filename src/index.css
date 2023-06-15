@@ -4,25 +4,76 @@
 
 @layer base {
   :root {
-    --clr-bkg-0: 100deg 4% 98%; /* #f3faf0 */
-    --clr-bkg-100: 0deg 0% 8%; /* #141414 */
-    --clr-bkg-200: 198deg 61% 63%; /* #3f83a1 */
-    --clr-bkg-300: 206deg 63% 56%; /* #35688f */
-    --clr-bkg-400: 205deg 70% 31%; /* #18384f */
-    --clr-bkg-500: 215deg 50% 23%; /* #1d2a3b */
+    --clr-text: 83deg 80% 2%; /* #060901 */
+    --clr-bg: 84deg 100% 99%; /* #fdfffa */
+    --clr-acc: 264deg 82% 38%; /* #5111b0 */
+    --clr-pri: 202deg 63% 62%; /* #62afdb */
+    --clr-sec: 229deg 22% 20%; /* #282c3e */
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --clr-bkg-0: 0deg 0% 8%; /* #141414 */
-      --clr-bkg-100: 100deg 4% 98%; /* #f3faf0 */
-      --clr-bkg-200: 202deg 63% 63%; /* #62afdb */
-      --clr-bkg-300: 206deg 63% 56%; /* #35688f */
-      --clr-bkg-400: 198deg 44% 44%; /* #3f83a1 */
-      --clr-bkg-500: 205deg 53% 20%; /* #18384f */
-      --clr-bkg-600: 215deg 50% 23%; /* #1d2a3b */
+      --clr-text: 330deg 20% 96%; /* ##f7f3f5 */
+      --clr-bg: 230deg 30% 12%; /* #151827 */
+      --clr-acc: 264deg 82% 38%; /* #5111b0 */
+      --clr-pri: 202deg 63% 62%; /* #62afdb */
+      --clr-sec: 229deg 22% 20%; /* #282c3e */
+   
+      --clr-border-0: 230deg 21% 23%; /* #2e3247 */
+      /* #b473ff */
+      /* #151827  #1a1d30*/
+      --clr: #8e42ff;
+
     }
   }
 }
 * {
   scrollbar-width: thin;
+  /* background-color: rgba(0, 255, 0, 0.1) */
+}
+
+
+
+
+ .btn__vote--heart{
+  background: url('/public/heart.svg');
+  width: 20px;
+  height: 20px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+ }
+ .btn__vote--heartbreak{
+  width: 20px;
+  height: 20px;
+  background-image: url('/public/heartbreak.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+ }
+
+ .heartFilled{
+  width: 20px;
+  height: 20px;
+ }
+
+ select{
+  font-family: "Tilt Warp", "cursive";
+ }
+ option{
+  font-family: "Tilt Warp", "cursive";
+ }
+
+ input[type=file]::file-selector-button {
+ all: unset;
+ content:" Select a file...";
+ padding-right: 1rem;
+ color:  rgb(148 163 184);
+
+}
+
+
+
+input[type=file]::file-selector-button:hover {
+ color: rgb(100 116 139);
+
 }

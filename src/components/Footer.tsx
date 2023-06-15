@@ -1,13 +1,13 @@
-export const Footer = () => {
+export const Footer = ({borderColor}:{borderColor: string}) => {
   return (
     <footer
-      className="text-bgk-100 border-t-4 border-bkg-200 bg-bkg-600 text-sm  "
+      className={`text-text border-${!borderColor && "acc border-t-4"} text-sm xl:text-base  `}
       id="footer"
     >
       <div className="p-footer-inner">
         <div className="p-footer-row">
           <div className="p-footer-row-opposite ">
-            <ul className="flex flex-wrap items-center justify-end gap-4 px-4  pb-3 pt-2 text-bkg-100">
+            <ul className="flex flex-wrap items-center justify-end gap-4 px-4  pb-3 pt-2">
               <li>
                 <a
                   className="rounded-sm px-1 py-0.5 hover:bg-hover-2"
@@ -51,10 +51,10 @@ export const Footer = () => {
               </li>
               <li>
                 <button
-                  className="rounded-sm bg-white px-1 py-0.5 hover:bg-hover-2 "
-                  href="/forums/-/index.rss"
-                  target="_blank"
+                  className="rounded-sm bg-white px-1 py-0.5 bg-transparent hover:bg-hover-2 "
+                  aria-label="RSS feed"
                 >
+
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 448 512"
