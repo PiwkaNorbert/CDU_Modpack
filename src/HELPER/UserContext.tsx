@@ -5,16 +5,16 @@ import {DiscordProfileData} from "../UTILS/Interfaces"
 
 const UserContext = createContext<{
   user: DiscordProfileData | null;
-  increaseRemainingVotes: () => void;
-  decreaseRemainingVotes: () => void;
+  // increaseRemainingVotes: () => void;
+  // decreaseRemainingVotes: () => void;
   setRemainingVotes: (n: number) => void;
   login: (user: DiscordProfileData) => void;
   logout: () => void;
 
 }>({
   user: null,
-  increaseRemainingVotes: () => {},
-  decreaseRemainingVotes: () => {},
+  // increaseRemainingVotes: () => {},
+  // decreaseRemainingVotes: () => {},
   setRemainingVotes: () => {},
   login: () => {} ,
   logout: () => {},
@@ -24,10 +24,10 @@ const UserContext = createContext<{
 // create a user provider that can be used in other components to get the user data from the context provider
 
 export const UserProvider: React.FC = ({ children }) => {
-  const [user, setUser] = useState<DiscordProfileData | null>(null);
-
+  const [user, setUser] = useState<DiscordProfileData>(null);
   useEffect(() => {
     const user_profile = localStorage.getItem("user_profile");
+    
     if (user_profile) {
       setUser(JSON.parse(user_profile));
     }
@@ -35,32 +35,41 @@ export const UserProvider: React.FC = ({ children }) => {
 
   // set the user in the local storage and make sure it is parsed to a json string
   const saveUserProfile = (user: DiscordProfileData) => {
+    console.log(user)
     localStorage.setItem("user_profile", JSON.stringify(user));
   };
-  const increaseRemainingVotes = () => {
-      setUser({
-        ...user,
-        votesRemaining: user.votesRemaining + 1,
-      });
-      saveUserProfile(user)
+  // const increaseRemainingVotes = () => {
+  //     setUser({
+  //       ...user,
+  //       votesRemaining: user.votesRemaining + 1,
+  //     });
+  //     saveUserProfile(user)
 
-  };
+  // };
 
-  const decreaseRemainingVotes = () => {
-      setUser({
-        ...user,
-        votesRemaining: user.votesRemaining - 1,
-      });
-      saveUserProfile(user)
-  };
+  // const decreaseRemainingVotes = () => {
+  //   if (user.votesRemaining <= 0) {
+  //     setUser({
+  //       ...user,
+  //       votesRemaining: user.votesRemaining - 1,
+  //     });
+  //     saveUserProfile(user)
+  //   }
+  //   return  setUser({
+  //     ...user,
+  //     votesRemaining: 0,
+  //   });
+  // };
 
   // method to set the value of remaining votes directly:
     const setRemainingVotes = (n: number) => {
+      
         setUser({
             ...user,
             votesRemaining: n,
         });
-        saveUserProfile(user);
+        
+        return saveUserProfile(user);
     };
 
   // remove the user from the local storage
@@ -84,8 +93,8 @@ export const UserProvider: React.FC = ({ children }) => {
     <UserContext.Provider
       value={{
         user,
-        increaseRemainingVotes,
-        decreaseRemainingVotes,
+        // increaseRemainingVotes,
+        // decreaseRemainingVotes,
         setRemainingVotes,
         login,
         logout,

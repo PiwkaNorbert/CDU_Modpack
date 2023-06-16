@@ -3,9 +3,16 @@
 const colors = require("tailwindcss/colors");
 
 export default {
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  content: ["./index.html", "./src/*/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      backgroundSize: {
+        'size-200': '200% 200%',
+      },
+      backgroundPosition: {
+        'pos-0': '0% 0%',
+        'pos-100': '100% 100%',
+      },
       animation: {
         'bounce-slow': 'bounce-slow 2s linear infinite',
         "pulse-slow": "pulse-slow 10s linear infinite",
@@ -39,16 +46,12 @@ export default {
         "1em": ".5em",
       },
       colors: {
-        bkg: {
-          0: "hsl(var(--clr-bkg-0) / <alpha-value>)",
-          50: "hsl(var(--clr-bkg-50) / <alpha-value>)",
-          100: "hsl(var(--clr-bkg-100) / <alpha-value>)",
-          200: "hsl(var(--clr-bkg-200) / <alpha-value>)",
-          300: "hsl(var(--clr-bkg-300) / <alpha-value>)",
-          400: "hsl(var(--clr-bkg-400) / <alpha-value>)",
-          500: "hsl(var(--clr-bkg-500) / <alpha-value>)",
-          600: "hsl(var(--clr-bkg-600) / <alpha-value>)",
-        },
+        bg:  "hsl(var(--clr-bg) / <alpha-value>)",
+        text:  "hsl(var(--clr-text) / <alpha-value>)",
+        acc:  "hsl(var(--clr-acc) / <alpha-value>)",
+        pri:  "hsl(var(--clr-pri) / <alpha-value>)",
+        sec:  "hsl(var(--clr-sec) / <alpha-value>)",
+
         borderColor:{
           0: "hsl(var(--clr-border-0) / <alpha-value>)",
         },

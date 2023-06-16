@@ -80,9 +80,9 @@ const AddModpack = () => {
         <Header />
         {/* Title of the form, centered */}
         <div className='flex items-center justify-center'>
-          <h1 className='text-2xl xl:text-3xl text-bkg-0 dark:text-bkg-0 m-3 mt-5'>Create a new CDU Modpack Listing!</h1>
+          <h1 className='text-2xl xl:text-3xl m-3 mt-5'>Create a new CDU Modpack Listing!</h1>
         </div>
-        <form  method="post" className='grid items-center placeholder:text-slate-400 justify-center gap-4 text-bkg-0  pt-[.5em]  text-sm xl:text-base' onSubmit={ async(e: React.FormEvent<HTMLFormElement>)=>
+        <form  method="post" className='grid items-center placeholder:text-slate-400 justify-center gap-4 dark:text-bg pt-[.5em]  text-sm xl:text-base' onSubmit={ async(e: React.FormEvent<HTMLFormElement>)=>
           {
               e.preventDefault()
              
@@ -92,12 +92,12 @@ const AddModpack = () => {
           }} >
           
           {/* Modpack name field, single line. */}
-          <input required className={` h-8 rounded-md border-2 dark:bg-bkg-50 border-${borderColor}-500 px-3 py-1`} type="text" placeholder="Modpack Name" value={modpackName} onChange={(e) => setModpackName(e.target.value)} />
+          <input required className={` h-8 rounded-md border-2  border-${borderColor}-500 px-3 py-1`} type="text" placeholder="Modpack Name" value={modpackName} onChange={(e) => setModpackName(e.target.value)} />
           
           {/* Modpack description field, multi line. */}
           {/* In order to make the modpack field multi line, we need to use a textarea instead of an input. */}
           <textarea
-            className={` min-h-[100px] rounded-md border-2 dark:bg-bkg-50  border-${borderColor}-500 px-3 py-1 w-96 out-of-range:border-red-500 `}
+            className={` min-h-[100px] rounded-md border-2   border-${borderColor}-500 px-3 py-1 w-96 out-of-range:border-red-500 `}
             placeholder="Modpack Description"
             value={modpackDescription}
 
@@ -112,12 +112,12 @@ const AddModpack = () => {
               }}
           />
           {/* Adds a character counter to the description field */}
-          <div className='flex items-center -mt-2 justify-center'>
+          <div className='flex items-center dark:text-text -mt-2 justify-center'>
             <p>{modpackDescription.length}/500</p>
           </div>
 
           {/*Color selection*/}
-          <select className={` h-8 rounded-md text-bkg-0 dark:text-bkg-100 border-2 border-${borderColor}-500 bg-${borderColor}-300 px-3 py-1 font-Tilt `} value={modpackColor} onChange={(e) => setModpackColor(e.target.value)}>
+          <select className={` h-8 rounded-md dark:text-bg  border-2 border-${borderColor}-500 bg-${borderColor}-300 px-3 py-1 font-Tilt `} value={modpackColor} onChange={(e) => setModpackColor(e.target.value)}>
             {colorOptions.map((colorOption,index) => (
               <option key={index} value={colorOption.value} className={`hover:bg-${colorOption?.value}-500`} >
                 {colorOption.label}
@@ -126,17 +126,17 @@ const AddModpack = () => {
           </select>
           
 
-          <p className='-mb-2'>Modpack Image</p>
-          <input required name='modpack__image--input' className={`rounded-md border-2 cursor-pointer  file:placeholder:text-slate-400  border-${borderColor}-500   w-full h-8  px-3 py-1 `} type="file"   onChange={fileSelectedHandler} />
+          <p className='-mb-2 dark:text-text'>Modpack Image</p>
+          <input required name='modpack__image--input' className={`rounded-md border-2 dark:text-text cursor-pointer file:placeholder:text-slate-400 border-${borderColor}-500 w-full h-8 px-3 py-1`} type="file" onChange={fileSelectedHandler} />
             
-          <label htmlFor='modpack__image--input' className={`-mt-2 text-sm xl:text-base`}> (PNG or JPG MAX. 5MB, 640x480px) </label>
+          <label htmlFor='modpack__image--input' className={`-mt-2 text-sm xl:text-base dark:text-text`}> (PNG or JPG MAX. 5MB, 640x480px) </label>
           
           {/* Modpack suggestor field, single line. */}
-          <input  className={`h-8 rounded-md border-2 dark:bg-bkg-50  border-${borderColor}-500 px-3 py-1 `} type="text" placeholder="Modpack Suggestor" value={modpackSuggestor} onChange={(e) => setModpackSuggestor(e.target.value)} />
+          <input  className={`h-8 rounded-md border-2   border-${borderColor}-500 px-3 py-1 `} type="text" placeholder="Modpack Suggestor" value={modpackSuggestor} onChange={(e) => setModpackSuggestor(e.target.value)} />
 
           <br/>
           
-          <button className={`text-bkg-0 dark:text-bkg-100 h-16 rounded-md border-2 border-black bg-${borderColor}-500 px-3 py-1 text-sm xl:text-base`}>
+          <button className={`dark:text-bg  h-16 rounded-md border-2 border-black bg-${borderColor}-500 px-3 py-1 text-sm xl:text-base`}>
           Add Modpack
           </button>
 

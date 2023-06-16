@@ -1,20 +1,25 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
+
+
+export const fetchPackDetail = async (modpackId) => {
+  const { data, status } = await axios.get(`/api/pack-details/${modpackId}`,
+ );
+
+  if (status !== 200) throw new Error("No data found");
+
+  return data;
+};
+
 const usePackDetailData = (modpackId: string) => {
 
 
-  const fetchPackDetail = async () => {
-    const { data, status } = await axios.get(`/api/pack-details/${modpackId}`);
 
-    if (status !== 200) throw new Error("No data found");
-
-    return data;
-  };
-
-  return useQuery(["details", modpackId], fetchPackDetail, {
+  return useQuery(["details", modpackId], ({signal})=>fetchPackDetail(modpackId), {
     enabled: modpackId.length > 0,
     keepPreviousData: true,
+    staleTime: 1000 * 60 * 2,
     refetchOnWindowFocus: false,
   });
 };

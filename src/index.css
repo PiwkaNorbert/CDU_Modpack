@@ -4,29 +4,24 @@
 
 @layer base {
   :root {
-    --clr-bkg-0: 0deg 0% 8%; /* #141414 */
-    --clr-bkg-100: 100deg 4% 98%; /* #f3faf0 */
-    --clr-bkg-200: 202deg 63% 63%; /* #62afdb */
-    --clr-bkg-300: 206deg 63% 56%; /* #35688f */
-    --clr-bkg-400: 198deg 44% 44%; /* #3f83a1 */
-    --clr-bkg-500: 205deg 53% 20%; /* #18384f */
-    --clr-bkg-600: 215deg 50% 23%; /* #1d2a3b */
+    --clr-text: 83deg 80% 2%; /* #060901 */
+    --clr-bg: 84deg 100% 99%; /* #fdfffa */
+    --clr-acc: 264deg 82% 38%; /* #5111b0 */
+    --clr-pri: 202deg 63% 62%; /* #62afdb */
+    --clr-sec: 229deg 22% 20%; /* #282c3e */
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --clr-bkg-0: 100deg 4% 98%; /* #f3faf0 */
-      --clr-bkg-50: 232deg 30% 15%; /* #1a1d30 */
-      --clr-bkg-100: 230deg 30% 12%; /* #151827 */
-      --clr-bkg-200: 202deg 63% 63%; /* #62afdb */
-      --clr-bkg-300: 198deg 61% 63%; /* #3f83a1 */
-      --clr-bkg-400: 264deg 100% 63%; /* #a262ff */
-      --clr-bkg-500: 205deg 70% 31%; /* #18384f */
-      --clr-bkg-600: 215deg 100% 6%; /* #000d1f */
-
+      --clr-text: 330deg 20% 96%; /* ##f7f3f5 */
+      --clr-bg: 230deg 30% 12%; /* #151827 */
+      --clr-acc: 264deg 82% 38%; /* #5111b0 */
+      --clr-pri: 202deg 63% 62%; /* #62afdb */
+      --clr-sec: 229deg 22% 20%; /* #282c3e */
+   
       --clr-border-0: 230deg 21% 23%; /* #2e3247 */
       /* #b473ff */
       /* #151827  #1a1d30*/
-      --clr: hsl(264, 100%, 63%);
+      --clr: #8e42ff;
 
     }
   }
@@ -37,87 +32,23 @@
 }
 
 
-/* LOADERS */
 
-/*!
- * Load Awesome v1.1.0 (http://github.danielcardoso.net/load-awesome/)
- * Copyright 2015 Daniel Cardoso <@DanielCardoso>
- * Licensed under MIT
- */
- .la-ball-clip-rotate,
- .la-ball-clip-rotate > div {
-   position: relative;
-   -webkit-box-sizing: border-box;
-   -moz-box-sizing: border-box;
-   box-sizing: border-box;
- }
- .la-ball-clip-rotate {
-   display: block;
-   font-size: 0;
-   color: #fff;
- }
- .la-ball-clip-rotate.la-dark {
-   color: #333;
- }
- .la-ball-clip-rotate > div {
-   display: inline-block;
-   float: none;
-   background-color: currentColor;
-   border: 0 solid currentColor;
- }
- .la-ball-clip-rotate {
-   width: 32px;
-   height: 32px;
- }
- .la-ball-clip-rotate > div {
-   width: 32px;
-   height: 32px;
-   background: transparent;
-   border-width: 2px;
-   border-bottom-color: transparent;
-   border-radius: 100%;
-   -webkit-animation: ball-clip-rotate 0.75s linear infinite;
-   -moz-animation: ball-clip-rotate 0.75s linear infinite;
-   -o-animation: ball-clip-rotate 0.75s linear infinite;
-   animation: ball-clip-rotate 0.75s linear infinite;
- }
- .la-ball-clip-rotate.la-sm {
-   width: 16px;
-   height: 16px;
- }
- .la-ball-clip-rotate.la-sm > div {
-   width: 16px;
-   height: 16px;
-   border-width: 1px;
- }
- .la-ball-clip-rotate.la-2x {
-   width: 64px;
-   height: 64px;
- }
- .la-ball-clip-rotate.la-2x > div {
-   width: 64px;
-   height: 64px;
-   border-width: 4px;
- }
- .la-ball-clip-rotate.la-3x {
-   width: 96px;
-   height: 96px;
- }
- .la-ball-clip-rotate.la-3x > div {
-   width: 96px;
-   height: 96px;
-   border-width: 6px;
- }
 
- .btn__vote--hearts{
+ .btn__vote--heart{
   background: url('/public/heart.svg');
   width: 20px;
   height: 20px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
  }
- .btn__vote--hearts:hover{
+ .btn__vote--heartbreak{
   width: 20px;
   height: 20px;
   background-image: url('/public/heartbreak.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
  }
 
  .heartFilled{

@@ -49,13 +49,13 @@ const PostComment = ( {borderColor, modpackId  } : {borderColor:string , modpack
       }} >
       <input
         type="text"
-        className={` h-10 rounded-md w-full dark:text-bkg-100  border border-${borderColor}-300 px-3 py-1 `}
+        className={` h-10 rounded-md w-full dark:text-bg  border border-${borderColor}-300 px-3 py-1 `}
         placeholder="Add a comment..."
         onChange={(e) => setComment(e.target.value)}
         value={comment}
 
         />
-      <button type="submit" className={`text-bkg-0  h-10 rounded-md  bg-${borderColor}-500   px-3 py-1 `}>
+      <button type="submit" className={`text-text  h-10 rounded-md  bg-${borderColor}-500   px-3 py-1 `}>
         Post
       </button>
     </form>

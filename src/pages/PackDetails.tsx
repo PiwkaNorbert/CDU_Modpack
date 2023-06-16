@@ -15,11 +15,10 @@ const PackDetails = () => {
   if (modpackId == undefined) {
     return <div>Loading</div>;
   }
+  const { data, isError, isLoading, fetchStatus } = usePackDetailData(modpackId);
 
   modpackId = modpackId as string;
-  console.log(modpackId); 
 
-  const { data, isError, isLoading } = usePackDetailData(modpackId);
 
 
   if (isLoading) return <Loading size="la-2x" fullScreen={true} other="" />;
@@ -42,13 +41,13 @@ const PackDetails = () => {
   return (
     <>
       <Header />
-      <div className="grid w-screen justify-normal self-start md:justify-center bg-bkg-100 ">
+      <div className="grid w-full justify-normal text-text self-start md:justify-center bg-bg ">
 
 
-      <div className="  bg-bkg-100 shadow-2xl shadow-bkg-0/20 dark:shadow-none  lg:my-2 lg:rounded-xl lg:max-w-4xl lg:justify-center lg:place-self-center ">
+      <div className="  bg-bg shadow-2xl shadow-bg/20 dark:shadow-none  lg:my-2 lg:rounded-xl lg:max-w-4xl lg:justify-center lg:place-self-center ">
         <div
           key={modpackId}
-          className={` grid items-center overflow-hidden lg:border-4 text-bkg-0 lg:rounded-md border-${borderColor}-500 h-full `}
+          className={` grid items-center overflow-hidden lg:border-4 lg:rounded-md border-${borderColor}-500 h-full `}
         >
           {/* backarrow to the root page */}
           <div onClick={() => (window.location.href = "/")} className="flex w-fit items-center justify-start px-4 pt-4 cursor-pointer">
@@ -67,14 +66,14 @@ const PackDetails = () => {
               />
             </svg>
           </div>
-          <div className={`grid  items-center `}>
-            <div className=" m-4 grid px-4 sm:grid-cols-2 space-x-4 ">
+          <div className={`grid md:mx-4 items-center `}>
+            <div className=" my-4 grid px-4 sm:grid-cols-2 md:space-x-4 ">
 
               {/* toggle images in production */}
               <img
                 src={`https://www.trainjumper.com${imageUrl}`}
                 alt="random"
-                className="  w-1/2 place-self-center rounded-md object-scale-down object-center sm:max-h-52 sm:w-full  sm:object-fill  lg:max-h-60 "
+                className="  lg:w-1/2 place-self-center rounded-md object-scale-down object-center sm:max-h-52 sm:w-full  sm:object-fill  lg:max-h-60 "
               />
               <div className="grid content-center w-full items-center md:space-y-4 md:mr-4">
                 <p className="text-content my-4 text-center text-4xl uppercase break-normal  md:my-0 ">
@@ -97,19 +96,19 @@ const PackDetails = () => {
               </div>
             </div>
             {/* style the descripion to scroll on overflow and a max height of 364px */}
-            <div className="m-4 px-4  ">
+            <div className="my-4 px-4  ">
               <h3 className="text-2xl xl:text-3xl capitalize ">description</h3>
               <div className=" max-h-64 overflow-y-auto p-4 shadow-inner  ">
                 <p className="text-content text-justify">{description}</p>
               </div>
             </div>
 
-            <div className="m-4 p-4  ">
-              <h3 className="text-2xl xl:text-3xl capitalize ">
-                comments ({comments.length})
+            <div className="my-4 p-4  ">
+              <h3 className="text-2xl xl:text-3xl capitalize flex gap-4 justify-start items-center ">
+                comments ({comments.length}) {fetchStatus=== "fetching" && <Loading size="la-sm" fullScreen={false} other="inline-block"/>}
               </h3>
               {/* input for posting comments by current user */}
-              <div className="   px-4 ">
+              <div className=" px-4 ">
                 <PostComment modpackId={modpackId} borderColor={borderColor} />
                 {/* Map comments from api the the img, username, userId, and the comment from the user */}
                 {comments.map(

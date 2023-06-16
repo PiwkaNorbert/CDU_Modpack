@@ -1,6 +1,6 @@
 import "./index.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Navigate, RouterProvider,  } from "react-router-dom";
 import PackListPage from "./pages/PackListPage";
 import PackDetails from "./pages/PackDetails";
 import Login from "./pages/Login";
@@ -8,6 +8,8 @@ import AddModpack from "./pages/AddModpack";
 import { ToastContainer } from "react-toastify";
 import { UserProvider } from "./HELPER/UserContext";
 import NotFoundPage from "./pages/NotFoundPage";
+import FetchingIndicator from "./components/FetchingIndicator";
+
 
 // here we specify the routes for our app
 const router = createBrowserRouter([
@@ -64,11 +66,12 @@ function App() {
 
     return (
       <QueryClientProvider client={queryClient}>
-        <main className="min-h-screen flex flex-col items-stretch font-Tilt text-bkg-100 bg-bkg-100 dark:bg-bkg-50 ">
+        <main className="min-h-screen flex flex-col font-Tilt text-text  dark:bg-bg ">
           <UserProvider>
             <RouterProvider router={router} />
             <ToastContainer  limit={3} />
           </UserProvider>
+          <FetchingIndicator />
 
         </main>
       </QueryClientProvider>
