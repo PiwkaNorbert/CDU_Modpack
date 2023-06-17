@@ -17,11 +17,12 @@ const PackDetails = () => {
   const { modpackId: id } = useParams();
   const modpackId = id as string;
   
-  const { data, isError, isLoading, fetchStatus } = usePackDetailData(modpackId);
+  const { data, isError, isLoading, fetchStatus, error } = usePackDetailData(modpackId);
   const {user} = useUser()
 
-  if (isLoading) return <Loading size="la-2x" fullScreen={true} other="" />;
-  if (isError) return <div>Error</div>;
+  const isDev = import.meta.env.VITE_NODE_ENV === "development";
+  const apiBase = isDev ? 'https://www.trainjumper.com' : '';
+  
 
   
   const { name, description, color, imageUrl, comments, timesVoted, voteCount }: IPackDetails =
@@ -40,12 +41,17 @@ return (
 
 
     <div className="  bg-bg shadow-2xl shadow-bg/20 dark:shadow-none  lg:my-2 lg:rounded-xl lg:max-w-4xl lg:justify-center lg:place-self-center ">
+      
+      {isLoading ? "Loading" : isError ? <p>{error?.message}</p> : (
+   
+
+
       <div
         key={modpackId}
         className={` grid items-center overflow-hidden lg:border-4 lg:rounded-md border-${borderColor}-500 h-full `}
       >
         {/* backarrow to the root page */}
-        <div  className="flex  justify-between   px-4 pt-4 ">
+        <div  className="flex max-[350px]:flex-col justify-between  gap-2 sm:gap-0  px-4 pt-4 ">
           <div className="flex items-center gap-2 text-text dark:hover:bg-hover-2 min-w-fit hover:bg-hover-1 hover:text-text px-3 py-1 cursor-pointer rounded-md"
           onClick={() => (window.location.href = "/")}
           >
@@ -66,11 +72,11 @@ return (
           </svg>
           <p className={` text-${borderColor}-500`}>Back</p>
               </div>
-              <div className="flex items-center gap-2 text-sm xl:text-base text-bg dark:text-text ">
+              <div className="flex  max-[350px]:flex-col gap-2 text-sm xl:text-base text-bg dark:text-text ">
 
 
           {/* edit modpack button only is userProfile is superUser */}
-          {user?.isAdmin && (
+          {!user?.isAdmin && (
 
             <>
               <button
@@ -86,7 +92,7 @@ return (
                 className={` border border-sec text-red-500 font-thin dark:hover:bg-hover-2 hover:bg-hover-1 t px-3 py-1 rounded-md`}
                 onClick={async () => {
                   try {
-                  const res = await axios.delete(`/api/delete-modpack/${modpackId}/`,
+                  const res = await axios.delete(`${apiBase}/api/delete-modpack/${modpackId}/`,
                     {
                       withCredentials: true,
                       headers: {
@@ -97,9 +103,10 @@ return (
 
                     toast.success("Modpack deleted")
                     
-                  } catch (error: unknown | Error) {
+                  } catch (error:  Error | unknown | string) {
                     console.error(error)
-                    toast.error("Something went wrong")
+                    toast.error("Couldn't delete Modpack")
+                    throw new Error(error as string)
                   }
 
                 }}
@@ -174,6 +181,7 @@ return (
           </div>
         </div>
       </div>
+      )}
     </div>
     <Footer borderColor={borderColor} />
   </div>
