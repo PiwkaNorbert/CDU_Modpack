@@ -25,7 +25,7 @@ export interface IComment {
   avatar_url: string | undefined;
 }
 export interface ICommentComponent {
-  key: number;
+  index: number;
   borderColor: string;
   comment: IComment  ;
 }

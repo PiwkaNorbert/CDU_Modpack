@@ -15,15 +15,15 @@ const ModpackCard = ({ modpackId, name, imageUrl, color, voteCount, commentCount
     >
       {/* toggle images in production */}
         <img
-          src={imageUrl}
-          alt="random"
+        src={`https://www.trainjumper.com${imageUrl}`}
+          alt={name? name + " Image" : "Pack Image"}
           loading="lazy"
           width="275"
           height="155"
           // onLoad={(e) => {
           //   e.currentTarget.classList.remove('blur-md')
           // }}
-          className="aspect-auto blur-md w-full overflow-hidden object-cover object-center"
+          className="aspect-auto text-right empty:mt-10 empty:px-4  w-full overflow-hidden object-cover object-center"
           />
 
           <div className={`absolute flex rounded-r-full overflow-hidden text-bg dark:text-text bg-${color}-300 text-sm xl:text-base top-0 left-0 `}>

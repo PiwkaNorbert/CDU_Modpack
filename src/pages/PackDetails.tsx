@@ -12,6 +12,7 @@ import PostComment from "../components/PostComment";
 import { useUser } from "../HELPER/UserContext";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { LoginButton } from "../components/LoginButton";
 
 const PackDetails = () => {
   const { modpackId: id } = useParams();
@@ -23,8 +24,9 @@ const PackDetails = () => {
   const isDev = import.meta.env.VITE_NODE_ENV === "development";
   const apiBase = isDev ? 'https://www.trainjumper.com' : '';
   
+  if(isLoading) return <Loading size='la-lx' fullScreen={true} other="" />
+  if(isError) return <p>{error?.message}</p>
 
-  
   const { name, description, color, imageUrl, comments, timesVoted, voteCount,suggestedBy }: IPackDetails =
   data;
   const commentCount = comments ? comments.length : Math.floor(Math.random() * 10)
@@ -42,7 +44,7 @@ return (
 
     <div className="  bg-bg shadow-2xl shadow-bg/20 dark:shadow-none  lg:my-2 lg:rounded-xl lg:max-w-4xl lg:justify-center lg:place-self-center ">
       
-      {isLoading ? "Loading" : isError ? <p>{error?.message}</p> : (
+
    
 
 
@@ -72,8 +74,8 @@ return (
           </svg>
           <p className={` text-${borderColor}-500`}>Back</p>
               </div>
-              <div className="flex  max-[350px]:flex-col gap-2 text-sm xl:text-base text-bg dark:text-text ">
 
+          <div className="flex  max-[350px]:flex-col max-[350px]:mt-5 gap-2 text-sm xl:text-base text-bg dark:text-text ">
 
           {/* edit modpack button only is userProfile is superUser */}
           {!user?.isAdmin && (
@@ -91,8 +93,13 @@ return (
               <button
                 className={` border border-sec text-red-500 font-thin dark:hover:bg-hover-2 hover:bg-hover-1 t px-3 py-1 rounded-md`}
                 onClick={async () => {
+
+                  if(prompt("Are you sure you want to delete this modpack?\nType 'yes' to confirm") !== "yes")  {
+                    return   toast.error("Modpack not deleted")
+                  }
+                  
                   try {
-                  const res = await axios.delete(`${apiBase}/api/delete-modpack/${modpackId}/`,
+                  const res = await axios.delete(`${apiBase}/api/delete-modpack/`,
                     {
                       withCredentials: true,
                       headers: {
@@ -105,7 +112,7 @@ return (
                     
                   } catch (error:  Error | unknown | string) {
                     console.error(error)
-                    toast.error("Couldn't delete Modpack")
+                    toast.error("Error: Couldn't delete Modpack")
                     throw new Error(error as string)
                   }
 
@@ -127,7 +134,7 @@ return (
 
             {/* toggle images in production */}
             <img
-              src={imageUrl}
+              src={`https://www.trainjumper.com${imageUrl}`}
               alt="random"
               className="  lg:w-3/4 place-self-center rounded-md object-scale-down object-center sm:max-h-52 sm:w-full  sm:object-fill  lg:max-h-60 "
             />
@@ -148,8 +155,10 @@ return (
                   isLoading={isLoading}
                 />
               </div>
-              <p className="text-content my-4 text-center text-4xl uppercase break-normal  md:my-0 ">
-                {suggestedBy}
+              <p className="text-content my-4 text-center text-xs uppercase break-normal  md:my-0 ">
+               Suggested By:<br /> <span className="text-text/50">
+                 {suggestedBy}
+                </span>
               </p>
             </div>
           </div>
@@ -167,7 +176,19 @@ return (
             </h3>
             {/* input for posting comments by current user */}
             <div className=" px-4 ">
-              <PostComment modpackId={modpackId} borderColor={borderColor} />
+              {
+                // if user is not logged in, show login button
+                !user ? (
+                  <div className="flex flex-col items-center justify-center gap-4">
+                    <p className="text-content text-center">
+                      Login to post a comment
+                    </p>
+                    <LoginButton  /> 
+                  </div>
+                ) : (
+                  <PostComment modpackId={modpackId} borderColor={borderColor} />
+                )
+              }
               {/* Map comments from api the the img, username, userId, and the comment from the user */}
               {comments.map(
                 (comment: IComment, index: number) => 
@@ -184,7 +205,7 @@ return (
           </div>
         </div>
       </div>
-      )}
+      
     </div>
     <Footer borderColor={borderColor} />
   </div>

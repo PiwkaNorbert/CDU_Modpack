@@ -22,7 +22,6 @@ const EditModpack = () => {
     const modpackId = id as string
     const { data: packDetails, isLoading } = usePackDetailData(modpackId)
     
-    isLoading && console.log("loading")
 
 
     const [modpackName, setModpackName] = React.useState<string>(packDetails?.name)
@@ -43,19 +42,16 @@ const EditModpack = () => {
         { value: 'violet', label: 'Violet' },
         { value: 'fuchsia', label: 'Fuchsia' },
         ]
-
+        const isDev = import.meta.env.VITE_NODE_ENV === "development";
+        const apiBase = isDev ? 'https://www.trainjumper.com' : '';
+      
 const queryClient = useQueryClient()
     const editModpackMutation = useMutation(({modpackName, modpackDescription,modpackImage,modpackColor,modpackSuggestor}: AddModpackProps) =>
-        axios.post(`/api/edit-modpack/${modpackId}`,{modpackName, modpackDescription,modpackImage,modpackColor,modpackSuggestor},
+        axios.post(`${apiBase}/api/edit-modpack/`,{modpackName, modpackDescription,modpackImage,modpackColor,modpackSuggestor},
         {headers: {'Content-Type': 'multipart/form-data'}}),
         {  onSettled: () => {
             queryClient.invalidateQueries(["details", modpackId])
-      
-            setModpackName('')
-            setModpackDescription('') 
-            setModpackImage(undefined) 
-            setModpackColor('')
-            setModpackSuggestor('')
+
         
           }, onSuccess: () => {
             toast.success('Modpack Added!')  
@@ -71,6 +67,7 @@ const queryClient = useQueryClient()
       setModpackImage(e.target.files[0])
     }
   } 
+  
 
     return (
       <>
@@ -115,6 +112,9 @@ const queryClient = useQueryClient()
 
           {/*Color selection*/}
           <select className={` h-8 rounded-md dark:text-bg  border-2 border-${packDetails?.color}-500 bg-${packDetails?.color}-300 px-3 py-1 font-Tilt `} value={modpackColor} onChange={(e) => setModpackColor(e.target.value)}>
+              <option disabled value={packDetails?.color} selected className='capitalized' >
+                {packDetails?.color}
+                </option>
             {colorOptions.map((colorOption,index) => (
               <option key={index} value={colorOption.value} className={`hover:bg-${colorOption?.value}-500`} >
                 {colorOption.label}

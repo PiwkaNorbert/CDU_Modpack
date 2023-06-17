@@ -27,7 +27,7 @@ const staticLabels =
 export const fetchPackDetail = async (modpackId:string) => {
   const isDev = import.meta.env.VITE_NODE_ENV === "development";
   const apiBase = isDev ? 'https://www.trainjumper.com' : '';
-  
+
   const { data, status } = await axios.get(`${apiBase}/api/pack-details/${modpackId}`,
  );
 
@@ -45,7 +45,7 @@ const usePackDetailData = (modpackId: string) => {
     keepPreviousData: true,
     staleTime: 1000 * 60 * 2,
     refetchOnWindowFocus: false,
-    initialData: staticLabels,
+    // initialData: staticLabels,
 
   });
 };

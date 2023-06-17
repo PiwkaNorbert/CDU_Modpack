@@ -105,7 +105,7 @@ const useModpackData = () => {
   return useQuery(["modpacks"], fetchModpacks, {
     staleTime: 1000 * 60 * 5, // 5 minutes
     keepPreviousData: true,
-    initialData: staticLabels,
+    // initialData: staticLabels,
 
     onError: (_err: Error) =>  {
       console.error(_err);

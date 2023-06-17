@@ -2,9 +2,10 @@ import { ICommentComponent } from "../UTILS/Interfaces";
 import relativeDate from "../HELPER/relativeDate"
 
 import { useUser } from "../HELPER/UserContext";
+import axios from "axios";
 
 export function CommentsComponent({ index, borderColor, comment} : ICommentComponent ) {
-
+  const modpackId = window.location.pathname.split("/")[2];
 const {user} = useUser();
 
   return (
@@ -17,11 +18,10 @@ const {user} = useUser();
             </p>
             <p className="text-content text-justify text-gray-400 text-xs xl:text-sm">{relativeDate(comment?.timestamp)}</p>
       {/* If userProfile is super user / moderator show delete comment button underneith */}
-      {
-    user?.isAdmin && (
+      {!user?.isAdmin && (
 
           <div className="flex items-center gap-2">
-            {/* <button className={`text-content text-justify text-${borderColor}-600 text-xs hover:bg-hover-1 px-3 py-1 rounded-md`}
+            <button className={`text-content text-justify text-${borderColor}-600 text-xs hover:bg-hover-1 dark:hover:bg-hover-2 px-3 py-1 rounded-md`}
             onClick={()=>{
 
               axios.delete(`http://trainjumper.com/api/delete-comment/${modpackId}/${comment._id}`,
@@ -31,7 +31,7 @@ const {user} = useUser();
                   "Content-Type": "application/json",
                 }
               }
-              )}}>Delete</button> */}
+              )}}>Delete</button>
           </div>
         )
       }

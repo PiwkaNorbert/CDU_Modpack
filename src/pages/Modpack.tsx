@@ -18,6 +18,7 @@ const Modpack = () => {
 
   //  map the data in a  modern way with tailwind
   const borderColor = color ? color : "";
+console.log(`https://www.trainjumper.com${imageUrl}`);
 
   return (
     <>
