@@ -25,7 +25,7 @@ const PackDetails = () => {
   
 
   
-  const { name, description, color, imageUrl, comments, timesVoted, voteCount }: IPackDetails =
+  const { name, description, color, imageUrl, comments, timesVoted, voteCount,suggestedBy }: IPackDetails =
   data;
   const commentCount = comments ? comments.length : Math.floor(Math.random() * 10)
 
@@ -81,7 +81,7 @@ return (
             <>
               <button
                 className={` bg-sec  dark:hover:bg-hover-2 hover:bg-hover-1 hover:text-text px-3 py-1 rounded-md`}
-                onClick={() => (window.location.href = `/edit/${modpackId}`)}
+                onClick={() => (window.location.href = `/edit-modpack/${modpackId}`)}
               > 
                 Edit Modpack
               </button>
@@ -148,6 +148,9 @@ return (
                   isLoading={isLoading}
                 />
               </div>
+              <p className="text-content my-4 text-center text-4xl uppercase break-normal  md:my-0 ">
+                {suggestedBy}
+              </p>
             </div>
           </div>
           {/* style the descripion to scroll on overflow and a max height of 364px */}

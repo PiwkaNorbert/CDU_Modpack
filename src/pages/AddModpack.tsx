@@ -32,6 +32,7 @@ const AddModpack = () => {
       { value: 'violet', label: 'Violet' },
       { value: 'fuchsia', label: 'Fuchsia' },
     ]
+    
 
     const queryClient = useQueryClient()
   
@@ -59,7 +60,7 @@ const AddModpack = () => {
     queryClient.setQueriesData(["modpacks"], (oldData: any ) => [...oldData, {modpackName, modpackDescription,modpackImage,modpackColor,modpackSuggestor}])
       toast.success('Modpack Added!')  
     }, onError: (error) => {
-      toast.error(`Couldn't post comment: ${error}`)
+      toast.error(`Couldn't add modpack: ${error}`)
     }
   
   })
@@ -67,11 +68,9 @@ const AddModpack = () => {
   const borderColor = modpackColor || 'sky';
   
   const fileSelectedHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.files);
     if (e.target.files) {
       
       setModpackImage(e.target.files[0])
-      console.log(modpackImage)
     }
   } 
   

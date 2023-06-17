@@ -15,6 +15,7 @@ export interface IPackDetails {
   name: string;
   timesVoted: number;
   voteCount: number;
+  suggestedBy: string;
 }
 export interface IComment {
   username: string | undefined ;
@@ -45,3 +46,6 @@ export interface VoteForPackButtonProps {
 
   // Replace 'UserProfileType' with the actual type for the 'userProfile' prop
 }
+
+
+
