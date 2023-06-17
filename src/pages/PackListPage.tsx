@@ -32,10 +32,12 @@ const PackListPage = () => {
           <div className="text-text  flex items-center   justify-between  p-5 text-xl xl:text-2xl space-x-4 md:space-x-none ">
             <p className="z-10">Modpacks</p>
             {/* Show this button if you're logged in and a staff member */}
-            <a href="/add-modpack" className="rounded-md z-10  text-bg dark:text-text px-3 py-1 text-sm xl:text-base 
-           transition-bg duration-500 bg-gradient-to-r to-pri from-acc bg-size-200 bg-pos-0 hover:bg-pos-100">
+            <button  className="rounded-md z-10 text-bg dark:text-text px-3 py-1 text-sm xl:text-base 
+              transition-bg duration-500 bg-gradient-to-r to-pri from-acc bg-size-200 bg-pos-0 hover:bg-pos-100"
+            onClick={() => (window.location.href = `/add-modpack`)}
+            >
              Add Modpack
-            </a>
+            </button>
           </div>
           <div className=" grid  grid-cols-2 gap-5 p-5 max-[400px]:grid-cols-1 sm:grid-cols-3  md:grid-cols-3   lg:grid-cols-4   ">
             {isLoading ? (

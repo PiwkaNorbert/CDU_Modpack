@@ -5,7 +5,7 @@ const staticLabels =
   {
     name: "Modpack",
     imageUrl: "https://unsplash.it/1000",
-    color: 'white',
+    color: 'grey',
     description: "This is a placeholder description",
     timesVoted: 0,
     voteCount: 0,

@@ -3,7 +3,7 @@ import usePackDetailData from "../API/usePackDetailData";
 import { Header } from "../components/Header";
 import { CommentsComponent } from "../components/CommentsComponent";
 import { IPackDetails } from "../UTILS/Interfaces";
-import { DiscordProfileData, IComment } from "../UTILS/Interfaces";
+import { IComment } from "../UTILS/Interfaces";
 import 'react-toastify/dist/ReactToastify.css';
 import { Footer } from "../components/Footer";
 import Loading  from "../components/Loading";
@@ -18,7 +18,7 @@ const PackDetails = () => {
   const modpackId = id as string;
   
   const { data, isError, isLoading, fetchStatus } = usePackDetailData(modpackId);
-  const user = useUser()
+  const {user} = useUser()
 
   if (isLoading) return <Loading size="la-2x" fullScreen={true} other="" />;
   if (isError) return <div>Error</div>;
@@ -31,7 +31,6 @@ const PackDetails = () => {
   //  map the data in a  modern way with tailwind
   const borderColor = color ? color : "";
 // console.log(timesVoted);
-console.log(data);
 
 
 return (
@@ -46,8 +45,10 @@ return (
         className={` grid items-center overflow-hidden lg:border-4 lg:rounded-md border-${borderColor}-500 h-full `}
       >
         {/* backarrow to the root page */}
-        <div onClick={() => (window.location.href = "/")} className="flex  justify-between   px-4 pt-4 cursor-pointer">
-          <div className="flex items-center gap-2 hover:bg-hover-2 px-3 py-1 rounded-md">
+        <div  className="flex  justify-between   px-4 pt-4 ">
+          <div className="flex items-center gap-2 text-text dark:hover:bg-hover-2 min-w-fit hover:bg-hover-1 hover:text-text px-3 py-1 cursor-pointer rounded-md"
+          onClick={() => (window.location.href = "/")}
+          >
 
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -63,50 +64,54 @@ return (
               d="M10 19l-7-7m0 0l7-7m-7 7h18"
               />
           </svg>
-          <p className={`text-content text-${borderColor}-500`}>Back</p>
+          <p className={` text-${borderColor}-500`}>Back</p>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 text-sm xl:text-base text-bg dark:text-text ">
 
 
           {/* edit modpack button only is userProfile is superUser */}
-          {/* {user?.isAdmin && ( */}
-            <button
-              className={`text-content text-${borderColor}-500 bg-acc ml-auto text-base hover:bg-hover-2 px-3 py-1 rounded-md`}
-              onClick={() => (window.location.href = `/edit/${modpackId}`)}
-            > 
-              Edit Modpack
-            </button>
-          {/* )} */}
+          {user?.isAdmin && (
+
+            <>
+              <button
+                className={` bg-sec  dark:hover:bg-hover-2 hover:bg-hover-1 hover:text-text px-3 py-1 rounded-md`}
+                onClick={() => (window.location.href = `/edit/${modpackId}`)}
+              > 
+                Edit Modpack
+              </button>
 
 
-          {/* delete modpack button only is userProfile is superUser */}
-          {/* {user?.isAdmin && ( */}
-            <button
-              className={`text-content text-${borderColor}-500 bg-acc ml-auto text-base hover:bg-hover-2 px-3 py-1 rounded-md`}
-              onClick={async () => {
-                try {
-                 const res = await axios.delete(`/api/delete-modpack/${modpackId}/`,
-                  {
-                    withCredentials: true,
-                    headers: {
-                      "Content-Type": "application/json",
-                    }
-                  })
-                  res.status !== 200 && console.error(res)
+            {/* delete modpack button only is userProfile is superUser */}
+              <button
+                className={` border border-sec text-red-500 font-thin dark:hover:bg-hover-2 hover:bg-hover-1 t px-3 py-1 rounded-md`}
+                onClick={async () => {
+                  try {
+                  const res = await axios.delete(`/api/delete-modpack/${modpackId}/`,
+                    {
+                      withCredentials: true,
+                      headers: {
+                        "Content-Type": "application/json",
+                      }
+                    })
+                    res.status !== 200 && console.error(res)
 
-                  toast.success("Modpack deleted")
-                  
-                } catch (error: unknown | Error) {
-                  console.error(error)
-                  toast.error("Something went wrong")
-                }
+                    toast.success("Modpack deleted")
+                    
+                  } catch (error: unknown | Error) {
+                    console.error(error)
+                    toast.error("Something went wrong")
+                  }
 
-              }}
-            >
-              
-              Delete Modpack
-            </button>
-          {/* )} */}
+                }}
+              >
+                
+                Delete Modpack
+              </button>
+            </>
+            )
+            }
+
+           
           </div>
 
         </div>
