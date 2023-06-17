@@ -8,7 +8,8 @@ import AddModpack from "./pages/AddModpack";
 import { ToastContainer } from "react-toastify";
 import NotFoundPage from "./pages/NotFoundPage";
 import FetchingIndicator from "./components/FetchingIndicator";
-
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import EditModpack from "./pages/EditModpack";
 
 // here we specify the routes for our app
 const router = createBrowserRouter([
@@ -30,6 +31,11 @@ const router = createBrowserRouter([
   {
     path: "add-modpack",
     element: <AddModpack />,
+    // errorElement: <Errorpage />,
+  },
+  {
+    path: "edit-modpack/:modpackId",
+    element: <EditModpack />,
     // errorElement: <Errorpage />,
   },
   {
@@ -58,8 +64,8 @@ function App() {
             <RouterProvider router={router} />
             <ToastContainer  limit={3} />
           <FetchingIndicator />
-
         </main>
+        <ReactQueryDevtools />
       </QueryClientProvider>
   )
 

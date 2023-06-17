@@ -89,10 +89,15 @@ const staticLabels = [
 ];
 
 const useModpackData = () => {
+  const isDev = import.meta.env.VITE_NODE_ENV === "development";
+  const apiBase = isDev ? 'https://www.trainjumper.com' : '';
+
   const fetchModpacks = async () => {
-    const { data, status } = await axios.get("/api/list-packs");
+    const { data, status } = await axios.get(`${apiBase}/api/list-packs`);
+
     if (status !== 200) throw new Error("No Modpacks found");
-  console.log(data);
+    
+      console.log(data);  
   
     return data;
   };

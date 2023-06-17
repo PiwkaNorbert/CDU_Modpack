@@ -25,7 +25,10 @@ const staticLabels =
 
 
 export const fetchPackDetail = async (modpackId:string) => {
-  const { data, status } = await axios.get(`/api/pack-details/${modpackId}`,
+  const isDev = import.meta.env.VITE_NODE_ENV === "development";
+  const apiBase = isDev ? 'https://www.trainjumper.com' : '';
+  
+  const { data, status } = await axios.get(`${apiBase}/api/pack-details/${modpackId}`,
  );
 
   if (status !== 200) throw new Error("No data found");
