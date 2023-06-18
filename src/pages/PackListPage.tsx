@@ -32,19 +32,12 @@ const PackListPage = () => {
           <div className="text-text  flex   justify-between   p-5 text-xl xl:text-2xl space-x-4 md:space-x-none ">
             <p className="z-10">Modpacks</p>
             {/* Show this button if you're logged in and a staff member */}
-<<<<<<< HEAD
             {user?.isAdmin && (
 
               <button  className="rounded-md h-10 z-10 text-bg dark:text-text px-3 py-1 text-sm xl:text-base 
               transition-bg duration-200 bg-gradient-to-r to-pri from-acc bg-size-200 bg-pos-0 hover:bg-pos-100"
               onClick={() => (window.location.href = `/add-modpack`)}
               >
-=======
-            <button  className="rounded-md h-10 z-10 text-bg dark:text-text px-3 py-1 text-sm xl:text-base 
-              transition-bg duration-200 bg-gradient-to-r to-pri from-acc bg-size-200 bg-pos-0 hover:bg-pos-100"
-            onClick={() => (window.location.href = `/add-modpack`)}
-            >
->>>>>>> e622e20625c751e9696a07c6ef087b029ed5f2a0
              Add Modpack
             </button>
               )}

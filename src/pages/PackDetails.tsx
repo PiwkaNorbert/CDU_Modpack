@@ -135,23 +135,13 @@ return (
           <div className=" my-4 grid px-4 sm:grid-cols-2  md:space-x-4 ">
 
             {/* toggle images in production */}
-<<<<<<< HEAD
-=======
-            <div className={` rounded-md ml-4 overflow-hidden border-2 border-${borderColor}-500 bg-${borderColor}-500 `}>
->>>>>>> e622e20625c751e9696a07c6ef087b029ed5f2a0
 
             <img
               src={`https://www.trainjumper.com${imageUrl}`}
               alt="random"
-<<<<<<< HEAD
               className={`"lg:w-full place-self-center rounded-md mx-4 overflow-hidden border-2 object-scale-down object-center sm:max-h-52 sm:w-full  sm:object-fill  lg:max-h-60
                border-${borderColor}-500 bg-${borderColor}-500`}
               />
-=======
-              className="   lg:w-full  place-self-center   object-scale-down object-center sm:max-h-52 sm:w-full  sm:object-fill  lg:max-h-60 "
-              />
-              </div>
->>>>>>> e622e20625c751e9696a07c6ef087b029ed5f2a0
             <div className="grid content-center w-full items-center md:space-y-4 md:mr-4">
               <p className="text-content my-4 text-center text-4xl uppercase break-normal  md:my-0 ">
                 {name}
@@ -181,11 +171,7 @@ return (
             </div>
           </div>
 
-<<<<<<< HEAD
           <div className="my-4 py-4 px-2 xs:p-4  ">
-=======
-          <div className="my-4 p-4  ">
->>>>>>> e622e20625c751e9696a07c6ef087b029ed5f2a0
             <h3 className="text-2xl xl:text-3xl capitalize  flex gap-4 justify-start items-center ">
               comments ({commentCount}) {fetchStatus=== "fetching" && <Loading size="la-sm" fullScreen={false} other="inline-block"/>}
             </h3>
