@@ -38,6 +38,7 @@ export const UserProvider: React.FC = ({ children }: { children?: React.ReactNod
   // set the user in the local storage and make sure it is parsed to a json string
   const saveUserProfile = (user: DiscordProfileData) => {
     localStorage.setItem("user_profile", JSON.stringify(user));
+    setUser(user);
   };
 
 

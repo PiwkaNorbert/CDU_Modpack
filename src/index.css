@@ -44,7 +44,7 @@
 
 
  .btn__vote--heart{
-  background: url('/public/heart.svg');
+  background: url('/heart.svg');
   width: 20px;
   height: 20px;
   background-size: contain;
@@ -54,11 +54,17 @@
  .btn__vote--heartbreak{
   width: 20px;
   height: 20px;
-  background-image: url('/public/heartbreak.svg');
+  background-image: url('/heartbreak.svg');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
  }
+ .btn__vote--heart:disabled, .btn__vote--heartbreak:disabled{
+    /* disabled button no animation */
+    animation: none;
+  pointer-events: none;
+  }
+
 
  .heartFilled{
   width: 20px;

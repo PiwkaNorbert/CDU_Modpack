@@ -2,13 +2,14 @@ import  { useState } from "react";
 import { LoginButton } from "./LoginButton";
 import { LogoutButton } from "./LogoutButton";
 import { useUser } from "../HELPER/UserContext"
+
+import React from "react";
+
 export const Header = () => {
   const [scroll, setScroll] = useState(false);
-  const [votesRemaining, setVotesRemaining] = useState();
 
   const {user: userProfile} = useUser();
 
-  setVotesRemaining(userProfile?.votesRemaining)
 
 
   const changeColor = () => {

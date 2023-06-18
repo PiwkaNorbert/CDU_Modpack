@@ -97,15 +97,19 @@ return (
                   if(prompt("Are you sure you want to delete this modpack?\nType 'yes' to confirm") !== "yes")  {
                     return   toast.error("Modpack not deleted")
                   }
-                  
+                    
                   try {
-                  const res = await axios.delete(`${apiBase}/api/delete-modpack/`,
+                  const res = await axios.delete(`${apiBase}/api/delete-modpack`,
                     {
                       withCredentials: true,
                       headers: {
                         "Content-Type": "application/json",
+                      },
+                      data: {
+                        modpackId
                       }
-                    })
+                    }
+                    )
                     res.status !== 200 && console.error(res)
 
                     toast.success("Modpack deleted")
@@ -130,29 +134,29 @@ return (
 
         </div>
         <div className={`grid md:mx-4 items-center `}>
-          <div className=" my-4 grid px-4 sm:grid-cols-2 md:space-x-4 ">
+          <div className=" my-4 grid px-4 sm:grid-cols-2  md:space-x-4 ">
 
             {/* toggle images in production */}
+            <div className={` rounded-md ml-4 overflow-hidden border-2 border-${borderColor}-500 bg-${borderColor}-500 `}>
+
             <img
               src={`https://www.trainjumper.com${imageUrl}`}
               alt="random"
-              className="  lg:w-3/4 place-self-center rounded-md object-scale-down object-center sm:max-h-52 sm:w-full  sm:object-fill  lg:max-h-60 "
-            />
+              className="   lg:w-full  place-self-center   object-scale-down object-center sm:max-h-52 sm:w-full  sm:object-fill  lg:max-h-60 "
+              />
+              </div>
             <div className="grid content-center w-full items-center md:space-y-4 md:mr-4">
               <p className="text-content my-4 text-center text-4xl uppercase break-normal  md:my-0 ">
                 {name}
               </p>
               <div className="flex items-center justify-center gap-4">
-                <p
-                  className={`flex h-10 items-center rounded-md border px-3 py-1 border-${borderColor}-500`}
-                >
-                  {voteCount == 0 ? "No votes" : `${voteCount} ${voteCount === 1 ? "Vote" : "Votes"}`}
-                </p>
+               
                 <VoteForPackButton
                   modpackId={modpackId}
                   timesVoted={timesVoted}
                   borderColor={borderColor}
                   isLoading={isLoading}
+                  voteCount={voteCount}
                 />
               </div>
               <p className="text-content my-4 text-center text-xs uppercase break-normal  md:my-0 ">
@@ -171,7 +175,7 @@ return (
           </div>
 
           <div className="my-4 p-4  ">
-            <h3 className="text-2xl xl:text-3xl capitalize flex gap-4 justify-start items-center ">
+            <h3 className="text-2xl xl:text-3xl capitalize  flex gap-4 justify-start items-center ">
               comments ({commentCount}) {fetchStatus=== "fetching" && <Loading size="la-sm" fullScreen={false} other="inline-block"/>}
             </h3>
             {/* input for posting comments by current user */}
@@ -186,7 +190,7 @@ return (
                     <LoginButton  /> 
                   </div>
                 ) : (
-                  <PostComment modpackId={modpackId} borderColor={borderColor} />
+                  <PostComment modpackId={modpackId} borderColor={borderColor}/>
                 )
               }
               {/* Map comments from api the the img, username, userId, and the comment from the user */}

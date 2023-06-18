@@ -3,13 +3,13 @@ import { LoginButton } from "./LoginButton";
 import { LogoutButton } from "./LogoutButton";
 import { useUser } from "../HELPER/UserContext";
 import { useEffect } from "react";
+
 export const Header = () => {
   const [scroll, setScroll] = useState(false);
 
   // set the state of voteRemaining to the value of the user's votesRemaining
 const {user: userProfile} = useUser();
 
-const [votesRemaining, setVotesRemaining] = useState(localStorage.getItem('user_profile') && JSON.parse(localStorage?.getItem('user_profile')).votesRemaining);
 
 // useEffect(() => {
 //   if (userProfile?.isLoggedIn) {
@@ -37,9 +37,9 @@ const [votesRemaining, setVotesRemaining] = useState(localStorage.getItem('user_
             className=" absolute inset-0 m-auto bg-gradient-to-tr from-acc to-pri dark:brightness-50 " >
           </div>
           <img
-            alt="CDU logo"
-            src="public/logo.png"
-            loading="lazy"
+            alt="CDU"
+            src="/logo.png"
+            //loading="lazy"
             className=" absolute justify-self-center top-0 z-10  hover:animate-bounce-slow p-2 w-[150px] xl:w-[180px] cursor-pointer"
             onClick={() => (window.location.href = "/")}
           />
@@ -58,7 +58,7 @@ const [votesRemaining, setVotesRemaining] = useState(localStorage.getItem('user_
         {/* Amount of user votes remaining */}
 
             <div className=" justify-self-start min-[900px]:justify-self-center  min-[900px]:absolute ">
-              <p className="text-center uppercase ">{`You have ${votesRemaining} votes remaining this month.`}</p>
+              <p className="text-center uppercase ">{`You have ${userProfile.votesRemaining} votes remaining this month.`}</p>
             </div>
 
             <div className="flex items-center justify-end   w-full ">

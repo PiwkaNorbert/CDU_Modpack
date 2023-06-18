@@ -2,11 +2,16 @@ import React from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
 import axios from 'axios'
- 
-const PostComment = ( {borderColor, modpackId  } : {borderColor:string , modpackId: string }) => {
+import { useUser } from "../HELPER/UserContext"
+
+const PostComment = ( {borderColor, modpackId  } : {borderColor:string , modpackId: string, }) => {
   
   const [comment, setComment] = React.useState<string>('')
+
+  const {user} = useUser();
   const queryClient = useQueryClient()
+
+
 
   const commentMutation = useMutation((comment: string) => axios.post(`/api/comment`, {comment, modpackId},
   {
@@ -22,7 +27,7 @@ const PostComment = ( {borderColor, modpackId  } : {borderColor:string , modpack
 
   }
   , onSuccess: () => {
-    queryClient.setQueriesData(["details", modpackId], (oldData: any) => {
+    queryClient.setQueriesData(["details", modpackId], (oldData: any) => {      
       return {
         ...oldData,
         comments: [...oldData.comments, {comment, username: 'You'}]
@@ -37,8 +42,9 @@ const PostComment = ( {borderColor, modpackId  } : {borderColor:string , modpack
 
 })
 
+
   return (
-    <form  method="post" className='flex  items-center justify-center gap-4  pt-[.5em] text-sm xl:text-base ' onSubmit={ async(e: React.FormEvent<HTMLFormElement>)=>
+    <form  method="post" className='flex  items-center justify-center gap-4  py-4 text-sm xl:text-base ' onSubmit={ async(e: React.FormEvent<HTMLFormElement>)=>
       {
           e.preventDefault()
           // short circuit if the user is already posting a comment
@@ -47,6 +53,13 @@ const PostComment = ( {borderColor, modpackId  } : {borderColor:string , modpack
           // if statement to check if the user has any more comments left to post on this modpack 
           commentMutation.mutate(comment)
       }} >
+        {/* user avatart */}
+        <img
+        src={`https://cdn.discordapp.com/avatars/${user?.id}/${user?.avatar}`}
+        alt="user avatar"
+        loading="lazy"
+        className="h-10 w-10 rounded-full"
+        />  
       <input
         type="text"
         className={` h-10 rounded-md w-full dark:text-bg  border border-${borderColor}-300 px-3 py-1 `}

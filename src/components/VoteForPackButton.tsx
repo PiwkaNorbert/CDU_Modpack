@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { useUser } from "../HELPER/UserContext"
 import { useIsFetching } from "@tanstack/react-query";
 
-export default function VoteForPackButton({modpackId, borderColor, timesVoted}: VoteForPackButtonProps) {
+export default function VoteForPackButton({modpackId, borderColor, timesVoted, voteCount }: VoteForPackButtonProps) {
 
   const queryClient =  useQueryClient();
   const isFetching = useIsFetching()
@@ -49,40 +49,56 @@ export default function VoteForPackButton({modpackId, borderColor, timesVoted}: 
 
   return (
     <>
+      
+  
+  {userProfile?.isLoggedIn &&
+      (
+        <button
+          disabled={(!(isFetching === 0)) || (timesVoted === 0)}
+          className={`text-content disabled:bg-slate-600 h-10 rounded-md group button__for-hearts   bg-${borderColor}-500 px-3 py-1 text-sm xl:text-base`}
+          onClick={() => {
+            if ( removeVote.isLoading ) return;
+            return removeVote.mutate()
+            }
+          }
+          onMouseOver={() => {
+            // if timeVoted is 0 then remove animate-bounce
+            if (timesVoted === 0) {
+              document.querySelector(".btn__vote--heartbreak")?.classList.remove("group-hover:animate-bounce")
+            }
+          }}
+        > 
+        {isFetching ? "...":
+          <div className=" btn__vote--heartbreak w-6 h-6 group-hover:animate-bounce "></div>
+        }
+        </button>)
+  }
+            <p className={`flex h-10 items-center rounded-md border px-3 py-1 border-${borderColor}-500`}>
+              {voteCount == 0 ? "No votes" : `${voteCount} ${voteCount === 1 ? "Vote" : "Votes"}`}
+            </p>
       {userProfile?.isLoggedIn &&
           (
             <button
-              disabled={isFetching === 0 ? false : true  ||  userProfile?.votesRemaining === 0}
-              className={`text-content disabled:bg-slate-600 h-10 rounded-md group  bg-${borderColor}-500 px-3 py-1 text-sm xl:text-base`}
+              disabled={(!(isFetching === 0)) || userProfile?.votesRemaining === 0}
+              className={`text-content disabled:bg-slate-600 h-10 rounded-md group button__for-hearts bg-${borderColor}-500 px-3 py-1 text-sm xl:text-base`}
               onClick={() => {
                 if (addVote.isLoading || userProfile?.votesRemaining === 0) return;
                 return addVote.mutate()
                 }
               }
+              onMouseOver={() => {
+                // if timeVoted is 0 then remove animate-bounce
+                if (userProfile?.votesRemaining === 0) {
+                  document.querySelector(".btn__vote--heart")?.classList.remove("group-hover:animate-bounce")
+                }
+              }}
             >
                    {isFetching ? "...":
-              <div className=" btn__vote--heart w-6 h-6 delay-0 group-hover:animate-bounce duration-200"></div>
+              <div className=" btn__vote--heart w-6 h-6 group-hover:animate-bounce"></div>
             }
             </button>
           )
       
-      }
-
-      {userProfile?.isLoggedIn &&
-          (
-            <button
-              disabled={isFetching === 0 ? false : true || timesVoted === 0}
-              className={`text-content disabled:bg-slate-600 h-10 rounded-md group  bg-${borderColor}-500 px-3 py-1 text-sm xl:text-base`}
-              onClick={() => {
-                if ( removeVote.isLoading ) return;
-                return removeVote.mutate()
-                }
-              }
-            > 
-            {isFetching ? "...":
-              <div className=" btn__vote--heartbreak w-6 h-6 delay-0 group-hover:animate-bounce duration-200"></div>
-            }
-            </button>)
       }
     </>
 

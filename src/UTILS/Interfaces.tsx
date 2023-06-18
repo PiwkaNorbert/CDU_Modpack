@@ -43,6 +43,7 @@ export interface VoteForPackButtonProps {
   modpackId: string;
   borderColor: string;
   timesVoted: number;
+  voteCount: number;
 
   // Replace 'UserProfileType' with the actual type for the 'userProfile' prop
 }

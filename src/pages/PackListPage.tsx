@@ -27,13 +27,13 @@ const PackListPage = () => {
       <div className="grid text-text w-full md:w-9/12  lg:max-w-3xl justify-normal self-center ">
         {/* set the width to ffit the content and assign them to sm md lg for the container  like lg:max-w-[1000px]
         below and assthese same things to the nav width*/}
-        <div className="md:my-4 border-t-2 md:border-none h-min relative overflow-hidden bg-bg md:shadow-xl dark:shadow-none  dark:border-none md:rounded-xl  ">
+        <div className="md:mb-4 border-t-2 md:border-none h-min relative overflow-hidden bg-bg md:shadow-xl dark:shadow-none  dark:border-none md:rounded-xl  ">
           {/* map the data variable in a grad 4x2  */}
-          <div className="text-text  flex items-center   justify-between  p-5 text-xl xl:text-2xl space-x-4 md:space-x-none ">
+          <div className="text-text  flex   justify-between   p-5 text-xl xl:text-2xl space-x-4 md:space-x-none ">
             <p className="z-10">Modpacks</p>
             {/* Show this button if you're logged in and a staff member */}
-            <button  className="rounded-md z-10 text-bg dark:text-text px-3 py-1 text-sm xl:text-base 
-              transition-bg duration-500 bg-gradient-to-r to-pri from-acc bg-size-200 bg-pos-0 hover:bg-pos-100"
+            <button  className="rounded-md h-10 z-10 text-bg dark:text-text px-3 py-1 text-sm xl:text-base 
+              transition-bg duration-200 bg-gradient-to-r to-pri from-acc bg-size-200 bg-pos-0 hover:bg-pos-100"
             onClick={() => (window.location.href = `/add-modpack`)}
             >
              Add Modpack
