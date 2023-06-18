@@ -10,7 +10,12 @@ import NotFoundPage from "./pages/NotFoundPage";
 import FetchingIndicator from "./components/FetchingIndicator";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"; // for dev only
 import EditModpack from "./pages/EditModpack";
+<<<<<<< HEAD
 import Header from "./components/Header";
+=======
+import { useUser,UserProvider } from "./HELPER/UserContext";
+
+>>>>>>> e622e20625c751e9696a07c6ef087b029ed5f2a0
 // here we specify the routes for our app
 import Footer from "./components/Footer";
 
@@ -21,8 +26,13 @@ function App() {
 
     return (
       <QueryClientProvider client={queryClient}>
+<<<<<<< HEAD
         <main className="flex min-h-screen flex-col text-text ">
           <Header />
+=======
+        <UserProvider>
+        <main className="min-h-screen flex flex-col font-Tilt text-text  dark:bg-bg ">
+>>>>>>> e622e20625c751e9696a07c6ef087b029ed5f2a0
           <BrowserRouter> 
             <Routes>
               <Route path="/"  element={<PackListPage />} />
@@ -41,7 +51,11 @@ function App() {
           <FetchingIndicator />
         <Footer  />
         </main>
+<<<<<<< HEAD
 
+=======
+        </UserProvider>
+>>>>>>> e622e20625c751e9696a07c6ef087b029ed5f2a0
         {/* <ReactQueryDevtools /> */}
       </QueryClientProvider>
   )

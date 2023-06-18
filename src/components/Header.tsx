@@ -2,14 +2,29 @@ import  { useState } from "react";
 import { LoginButton } from "./LoginButton";
 import { LogoutButton } from "./LogoutButton";
 import { useUser } from "../HELPER/UserContext";
+<<<<<<< HEAD
 
  const Header = () => {
+=======
+import { useEffect } from "react";
+
+export const Header = () => {
+>>>>>>> e622e20625c751e9696a07c6ef087b029ed5f2a0
   const [scroll, setScroll] = useState(false);
 
   // set the state of voteRemaining to the value of the user's votesRemaining
 const {user: userProfile} = useUser();
 
 
+<<<<<<< HEAD
+=======
+// useEffect(() => {
+//   if (userProfile?.isLoggedIn) {
+//     setVotesRemaining(userProfile.votesRemaining);
+//   }
+// }, [userProfile]);
+
+>>>>>>> e622e20625c751e9696a07c6ef087b029ed5f2a0
 
   const changeColor = () => {
     window.scrollY >= 150 && window.innerWidth < 1280||
@@ -102,6 +117,27 @@ const {user: userProfile} = useUser();
       
       }
         
+<<<<<<< HEAD
+=======
+        {userProfile?.isLoggedIn ? 
+          <>
+        {/* Amount of user votes remaining */}
+
+            <div className=" justify-self-start min-[900px]:justify-self-center  min-[900px]:absolute ">
+              <p className="text-center uppercase ">{`You have ${userProfile.votesRemaining} votes remaining this month.`}</p>
+            </div>
+
+            <div className="flex items-center justify-end   w-full ">
+              <p className=" flex justify-center text-center uppercase max-w-[180px] mr-5">Logged in as<br/>{userProfile.globalName}</p>
+              <img className="rounded-full w-10 xl:w-14 aspect-square " alt={userProfile.username ? `${userProfile.username}'s avatar`: 'avatar'} src={`https://cdn.discordapp.com/avatars/${userProfile.id}/${userProfile.avatar}`}/>
+              <LogoutButton/>
+
+            </div>
+          </>
+          // Decide whether to display user's discord avatar (logged in) or "log in with discord" button (not logged in)
+          : <LoginButton/>
+        }
+>>>>>>> e622e20625c751e9696a07c6ef087b029ed5f2a0
 
       </nav>
     </>
