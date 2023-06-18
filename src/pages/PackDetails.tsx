@@ -78,7 +78,7 @@ return (
           <div className="flex  max-[350px]:flex-col max-[350px]:mt-5 gap-2 text-sm xl:text-base text-bg dark:text-text ">
 
           {/* edit modpack button only is userProfile is superUser */}
-          {!user?.isAdmin && (
+          {user?.isLoggedIn && user?.isAdmin && (
 
             <>
               <button

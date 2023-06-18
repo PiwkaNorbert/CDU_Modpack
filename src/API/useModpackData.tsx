@@ -1,92 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-
 // srtucture the staticLabels to match the data from the api
 // url for 100x100 placeholder image 
 
-const staticLabels = [
-  {
-    modpackId: 'placeholder',
-    name: "Modpack",
-    imageUrl: "https://unsplash.it/1000",
-    color: 'white',
-    voteCount: 0,
-    commentCount: 0,
-  },
-  {
-    modpackId: 'placeholder',
-    name: "Modpack",
-    imageUrl: "https://unsplash.it/1000",
-    color: 'white',
-    voteCount: 0,
-    commentCount: 0,
-  },
-  {
-    modpackId: 'placeholder',
-    name: "Modpack",
-    imageUrl: "https://unsplash.it/1000",
-    color: 'white',
-    voteCount: 0,
-    commentCount: 0,
-  },
-  {
-    modpackId: 'placeholder',
-    name: "Modpack",
-    imageUrl: "https://unsplash.it/1000",
-    color: 'white',
-    voteCount: 0,
-    commentCount: 0,
-  },
-  {
-    modpackId: 'placeholder',
-    name: "Modpack",
-    imageUrl: "https://unsplash.it/1000",
-    color: 'white',
-    voteCount: 0,
-    commentCount: 0,
-  },
-  {
-    modpackId: 'placeholder',
-    name: "Modpack",
-    imageUrl: "https://unsplash.it/1000",
-    color: 'white',
-    voteCount: 0,
-    commentCount: 0,
-  },
-  {
-    modpackId: 'placeholder',
-    name: "Modpack",
-    imageUrl: "https://unsplash.it/1000",
-    color: 'white',
-    voteCount: 0,
-    commentCount: 0,
-  },
-  {
-    modpackId: 'placeholder',
-    name: "Modpack",
-    imageUrl: "https://unsplash.it/1000",
-    color: 'white',
-    voteCount: 0,
-    commentCount: 0,
-  },
-  {
-    modpackId: 'placeholder',
-    name: "Modpack",
-    imageUrl: "https://unsplash.it/1000",
-    color: 'white',
-    voteCount: 0,
-    commentCount: 0,
-  },
-  {
-    modpackId: 'placeholder',
-    name: "Modpack",
-    imageUrl: "https://unsplash.it/1000",
-    color: 'white',
-    voteCount: 0,
-    commentCount: 0,
-  }
-
-];
+import { staticLabels } from '../Constants'
 
 const useModpackData = () => {
   const isDev = import.meta.env.VITE_NODE_ENV === "development";

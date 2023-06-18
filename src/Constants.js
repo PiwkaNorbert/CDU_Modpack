@@ -10,3 +10,87 @@ export const colorOptions = [
     { value: 'violet', label: 'Violet' },
     { value: 'fuchsia', label: 'Fuchsia' },
   ]
+
+  export const staticLabels = [
+    {
+      modpackId: 'placeholder',
+      name: "Modpack",
+      imageUrl: "https://unsplash.it/1000",
+      color: 'white',
+      voteCount: 0,
+      commentCount: 0,
+    },
+    {
+      modpackId: 'placeholder',
+      name: "Modpack",
+      imageUrl: "https://unsplash.it/1000",
+      color: 'white',
+      voteCount: 0,
+      commentCount: 0,
+    },
+    {
+      modpackId: 'placeholder',
+      name: "Modpack",
+      imageUrl: "https://unsplash.it/1000",
+      color: 'white',
+      voteCount: 0,
+      commentCount: 0,
+    },
+    {
+      modpackId: 'placeholder',
+      name: "Modpack",
+      imageUrl: "https://unsplash.it/1000",
+      color: 'white',
+      voteCount: 0,
+      commentCount: 0,
+    },
+    {
+      modpackId: 'placeholder',
+      name: "Modpack",
+      imageUrl: "https://unsplash.it/1000",
+      color: 'white',
+      voteCount: 0,
+      commentCount: 0,
+    },
+    {
+      modpackId: 'placeholder',
+      name: "Modpack",
+      imageUrl: "https://unsplash.it/1000",
+      color: 'white',
+      voteCount: 0,
+      commentCount: 0,
+    },
+    {
+      modpackId: 'placeholder',
+      name: "Modpack",
+      imageUrl: "https://unsplash.it/1000",
+      color: 'white',
+      voteCount: 0,
+      commentCount: 0,
+    },
+    {
+      modpackId: 'placeholder',
+      name: "Modpack",
+      imageUrl: "https://unsplash.it/1000",
+      color: 'white',
+      voteCount: 0,
+      commentCount: 0,
+    },
+    {
+      modpackId: 'placeholder',
+      name: "Modpack",
+      imageUrl: "https://unsplash.it/1000",
+      color: 'white',
+      voteCount: 0,
+      commentCount: 0,
+    },
+    {
+      modpackId: 'placeholder',
+      name: "Modpack",
+      imageUrl: "https://unsplash.it/1000",
+      color: 'white',
+      voteCount: 0,
+      commentCount: 0,
+    }
+  
+  ];

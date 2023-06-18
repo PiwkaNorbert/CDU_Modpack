@@ -4,7 +4,7 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import {DiscordProfileData} from "../UTILS/Interfaces"
 
 const UserContext = createContext<{
-  user: DiscordProfileData | null;
+  user: DiscordProfileData;
   increaseRemainingVotes: () => void;
   decreaseRemainingVotes: () => void;
   setRemainingVotes: (n: number) => void;
@@ -12,12 +12,12 @@ const UserContext = createContext<{
   logout: () => void;
 
 }>({
-  user: null,
-  increaseRemainingVotes: () => null,
-  decreaseRemainingVotes: () =>null,
-  setRemainingVotes: () => null,
-  login: () => null ,
-  logout: () => null,
+  user: undefined,
+  increaseRemainingVotes: () => {},
+  decreaseRemainingVotes: () =>{},
+  setRemainingVotes: () => {},
+  login: () => {} ,
+  logout: () => {},
 });
 
 // Path: UserProvider.tsx
@@ -25,8 +25,10 @@ const UserContext = createContext<{
 
 export const UserProvider: React.FC = ({ children }: { children?: React.ReactNode }) => {
   const [user, setUser] = useState<DiscordProfileData>();
+  
   useEffect(() => {
     const user_profile = localStorage.getItem("user_profile");
+    
     
     if (user_profile) {
       setUser(JSON.parse(user_profile));
@@ -37,38 +39,14 @@ export const UserProvider: React.FC = ({ children }: { children?: React.ReactNod
   const saveUserProfile = (user: DiscordProfileData) => {
     localStorage.setItem("user_profile", JSON.stringify(user));
   };
-  const increaseRemainingVotes = () => {
-      setUser({
-        ...user,
-        votesRemaining: user.votesRemaining + 1,
-      });
-      saveUserProfile(user)
 
-  };
-
-  const decreaseRemainingVotes = () => {
-    if (user.votesRemaining <= 0) {
-      setUser({
-        ...user,
-        votesRemaining: user.votesRemaining - 1,
-      });
-      saveUserProfile(user)
-    }
-    return  setUser({
-      ...user,
-      votesRemaining: 0,
-    });
-  };
 
   // method to set the value of remaining votes directly:
     const setRemainingVotes = (n: number) => {
-      
-        setUser({
-            ...user,
-            votesRemaining: n,
-        });
-        
-        saveUserProfile(user);
+      //  spread the old data and set the new value for votesRemaining 
+      const userNew = {...user, votesRemaining: n};
+      // save the user in the local storage
+      return  saveUserProfile(userNew);
     };
 
   // remove the user from the local storage
@@ -84,7 +62,6 @@ export const UserProvider: React.FC = ({ children }: { children?: React.ReactNod
   // save the user in the local storage and in the state
   const login = (user: DiscordProfileData) => {
     saveUserProfile(user);
-    setUser(user);
   };
 
 
@@ -92,8 +69,7 @@ export const UserProvider: React.FC = ({ children }: { children?: React.ReactNod
     <UserContext.Provider
       value={{
         user,
-        increaseRemainingVotes,
-        decreaseRemainingVotes,
+        setUser,
         setRemainingVotes,
         login,
         logout,
@@ -107,3 +83,12 @@ export const UserProvider: React.FC = ({ children }: { children?: React.ReactNod
 // Path: useUser.ts
 // create a hook that can be used to get the user data from the context provider
 export const useUser = () => useContext(UserContext);
+
+
+
+
+// const _userProfile = localStorage.getItem("user_profile");
+// const userProfile: DiscordProfileData = _userProfile == null ? {
+//   isLoggedIn: false,
+//   id: '', avatar: '', globalName: '', username: '', isAdmin: false
+// } : JSON.parse(_userProfile);

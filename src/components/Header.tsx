@@ -2,10 +2,21 @@ import  { useState } from "react";
 import { LoginButton } from "./LoginButton";
 import { LogoutButton } from "./LogoutButton";
 import { useUser } from "../HELPER/UserContext";
+import { useEffect } from "react";
 export const Header = () => {
   const [scroll, setScroll] = useState(false);
 
-  const {user: userProfile} = useUser();
+  // set the state of voteRemaining to the value of the user's votesRemaining
+const {user: userProfile} = useUser();
+
+const [votesRemaining, setVotesRemaining] = useState(localStorage.getItem('user_profile') && JSON.parse(localStorage?.getItem('user_profile')).votesRemaining);
+
+// useEffect(() => {
+//   if (userProfile?.isLoggedIn) {
+//     setVotesRemaining(userProfile.votesRemaining);
+//   }
+// }, [userProfile]);
+
 
   const changeColor = () => {
     window.scrollY >= 150 && window.innerWidth < 1280||
@@ -42,13 +53,12 @@ export const Header = () => {
 
      
         
-        {
-        userProfile != null && userProfile.isLoggedIn ? 
+        {userProfile?.isLoggedIn ? 
           <>
         {/* Amount of user votes remaining */}
 
             <div className=" justify-self-start min-[900px]:justify-self-center  min-[900px]:absolute ">
-              <p className="text-center uppercase ">{`You have ${userProfile.votesRemaining} votes remaining this month.`}</p>
+              <p className="text-center uppercase ">{`You have ${votesRemaining} votes remaining this month.`}</p>
             </div>
 
             <div className="flex items-center justify-end   w-full ">

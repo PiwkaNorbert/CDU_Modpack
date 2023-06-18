@@ -1,6 +1,6 @@
 import "./index.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, createBrowserRouter, createRoutesFromElements, Navigate, Route, RouterProvider, Routes,  } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes,  } from "react-router-dom";
 import PackListPage from "./pages/PackListPage";
 import PackDetails from "./pages/PackDetails";
 import Login from "./pages/Login";
@@ -10,7 +10,7 @@ import NotFoundPage from "./pages/NotFoundPage";
 import FetchingIndicator from "./components/FetchingIndicator";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import EditModpack from "./pages/EditModpack";
-import { useUser } from "./HELPER/UserContext";
+import { useUser,UserProvider } from "./HELPER/UserContext";
 
 // here we specify the routes for our app
 
@@ -23,6 +23,7 @@ function App() {
 
     return (
       <QueryClientProvider client={queryClient}>
+        <UserProvider>
         <main className="min-h-screen flex flex-col font-Tilt text-text  dark:bg-bg ">
           <BrowserRouter> 
             <Routes>
@@ -41,6 +42,7 @@ function App() {
           <ToastContainer  limit={3} />
           <FetchingIndicator />
         </main>
+        </UserProvider>
         {/* <ReactQueryDevtools /> */}
       </QueryClientProvider>
   )

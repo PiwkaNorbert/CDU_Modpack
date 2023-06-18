@@ -40,6 +40,7 @@ const Login = () => {
         tokenExpiry: data?.token_expiry,
     }
 
+    
     login(profileData)
     // Save the user profile in local storage
     // display a toast message to the user that they have logged in

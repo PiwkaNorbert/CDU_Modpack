@@ -11,7 +11,7 @@ export default function VoteForPackButton({modpackId, borderColor, timesVoted}: 
   const isFetching = useIsFetching()
 
 
-  const { user:userProfile, increaseRemainingVotes, decreaseRemainingVotes, setRemainingVotes } = useUser();
+  const { user:userProfile,  setRemainingVotes } = useUser();
 
   const addVote = useMutation(() => {
     return axios.get(`/api/add-vote/${modpackId}`,
@@ -19,12 +19,12 @@ export default function VoteForPackButton({modpackId, borderColor, timesVoted}: 
   {
     onSettled: (response) => {
       queryClient.invalidateQueries(["details", modpackId]);
-      decreaseRemainingVotes()
       setRemainingVotes(response?.data.votes_remaining);
     },
     onError: (err) =>  {
       console.error(err);
-      toast.error("Sorry, there was an error voting for this modpack!")},
+      toast.error("Sorry, there was an error voting for this modpack!")
+    },
       onSuccess: () => {
         toast.success("You have voted for this modpack!")
     }
@@ -36,7 +36,6 @@ export default function VoteForPackButton({modpackId, borderColor, timesVoted}: 
   {
     onSettled: (response) => {
       queryClient.invalidateQueries(["details", modpackId])
-      increaseRemainingVotes()
       setRemainingVotes(response?.data.votes_remaining);
     },
     onError: () =>  toast.error("Sorry, there was an error removing your vote for this modpack!"),

@@ -1,11 +1,15 @@
 import  { useState } from "react";
 import { LoginButton } from "./LoginButton";
 import { LogoutButton } from "./LogoutButton";
-import { useUser } from "../HELPER/UserContext";
+import { useUser } from "../HELPER/UserContext"
 export const Header = () => {
   const [scroll, setScroll] = useState(false);
+  const [votesRemaining, setVotesRemaining] = useState();
 
   const {user: userProfile} = useUser();
+
+  setVotesRemaining(userProfile?.votesRemaining)
+
 
   const changeColor = () => {
     window.scrollY >= 150 && window.innerWidth < 1280||
@@ -15,9 +19,12 @@ export const Header = () => {
     
   };
   window.addEventListener("scroll", changeColor);
- 
+//  votes remaining tracked in the state of the user profile 
+
+
+
+
  // if the size of the window is below 600px make a menu with to toggle 
-  
 
   return (
     <>
