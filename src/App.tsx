@@ -35,7 +35,7 @@ function App() {
               <>
                 <Route path="add-modpack" element={<AddModpack />} />
                 <Route
-                  path="edit-modpack/:modpackIdin"
+                  path="edit-modpack/:modpackId"
                   element={<EditModpack />}
                 />
               </>

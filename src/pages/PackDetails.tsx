@@ -42,7 +42,10 @@ const PackDetails = () => {
 
   return (
     <>
-      <div className="flex w-full flex-col justify-normal self-start bg-bg text-text lg:justify-center ">
+      <section
+        id="modpack__details"
+        className="flex w-full flex-col justify-normal self-start bg-bg text-text lg:justify-center "
+      >
         <div className="  bg-bg shadow-2xl shadow-bg/20 dark:shadow-none  lg:my-2 lg:max-w-4xl lg:justify-center lg:place-self-center lg:rounded-xl ">
           <div
             key={modpackId}
@@ -212,7 +215,7 @@ const PackDetails = () => {
             </div>
           </div>
         </div>
-      </div>
+      </section>
     </>
   );
 };

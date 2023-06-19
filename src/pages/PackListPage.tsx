@@ -21,7 +21,10 @@ const PackListPage = () => {
 
   return (
     <>
-      <div className="grid  w-full justify-normal self-center text-text lg:mx-auto lg:min-w-[900px] lg:max-w-[900px] ">
+      <section
+        id="modpack__gallery"
+        className="grid  w-full justify-normal self-center text-text lg:mx-auto lg:min-w-[900px] lg:max-w-[900px] "
+      >
         {/* set the width to ffit the content and assign them to sm md lg for the container  like lg:max-w-[1000px]
         below and assthese same things to the nav width*/}
         <div className="relative h-min overflow-hidden border-t-2 bg-bg dark:border-none dark:shadow-none md:mb-4 md:rounded-xl  md:border-none md:shadow-xl  ">
@@ -89,7 +92,7 @@ const PackListPage = () => {
             <div className="h-10 w-10"></div>
           )}
         </div>
-      </div>
+      </section>
       {/* <Footer borderColor="red" /> */}
     </>
   );
