@@ -59,23 +59,45 @@ const Header = () => {
                 <path d="M208,32H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM181.66,170.34a8,8,0,0,1-11.32,11.32L128,139.31,85.66,181.66a8,8,0,0,1-11.32-11.32L116.69,128,74.34,85.66A8,8,0,0,1,85.66,74.34L128,116.69l42.34-42.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path>
               </svg>
             </button>
-            <a href="/#about" className="my-5">
-              About
+
+            <a
+              className="rounded-sm p-5 hover:bg-hover-2"
+              href="https://forum.playcdu.co"
+              target="_blank"
+            >
+              Forum
             </a>
-            <a href="/#vote" className="my-5">
-              Vote
+            <a
+              className="rounded-md p-5  hover:bg-hover-2"
+              href="https://forum.playcdu.co/misc/contact"
+              data-xf-click="overlay"
+              target="_blank"
+            >
+              Contact us
             </a>
-            <a href="/#results" className="my-5">
-              Results
+
+            <a
+              className="rounded-sm p-5 hover:bg-hover-2"
+              href="https://forum.playcdu.co/help/terms/"
+              target="_blank"
+            >
+              Terms and rules
             </a>
-            <a href="/#contact" className="my-5">
-              Contact
+
+            <a
+              className="rounded-sm p-5 hover:bg-hover-2"
+              href="https://forum.playcdu.co/help/privacy-policy/"
+              target="_blank"
+            >
+              Privacy policy
             </a>
-            <a href="/#faq" className="my-5">
-              FAQ
-            </a>
-            <a href="/#rules" className="my-5">
-              Rules
+
+            <a
+              className="rounded-sm p-5 hover:bg-hover-2"
+              href="https://forum.playcdu.co/help/"
+              target="_blank"
+            >
+              Help
             </a>
           </div>
         ) : null}
@@ -129,7 +151,9 @@ const Header = () => {
           </>
         ) : (
           // Decide whether to display user's discord avatar (logged in) or "log in with discord" button (not logged in)
-          <LoginButton />
+          <div className="order-2 ml-auto max-[350px]:text-xs">
+            <LoginButton />
+          </div>
         )}
       </nav>
     </>

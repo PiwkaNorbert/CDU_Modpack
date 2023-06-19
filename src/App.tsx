@@ -45,7 +45,7 @@ function App() {
 
         <ToastContainer limit={3} />
         <FetchingIndicator />
-        <Footer />
+        {window.location.pathname === "/404" ? null : <Footer />}
       </main>
 
       {/* <ReactQueryDevtools /> */}
