@@ -1,16 +1,17 @@
 import { useParams } from "react-router-dom";
 import usePackDetailData from "../API/usePackDetailData";
-import { CommentsComponent } from "../components/CommentsComponent";
-import { IPackDetails } from "../UTILS/Interfaces";
-import Loading from "../components/Loading";
-import VoteForPackButton from "../components/VoteForPackButton";
-import PostComment from "../components/PostComment";
+import { CommentsComponent } from "../Components/CommentsComponent";
+import { IPackDetails } from "../Utils/Interfaces";
+import { IComment } from "../Utils/Interfaces";
+import "react-toastify/dist/ReactToastify.css";
+import Loading from "../Components/Loading";
+import VoteForPackButton from "../Components/VoteForPackButton";
+import PostComment from "../Components/PostComment";
 import { useUser } from "../Context/useUser";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { LoginButton } from "../components/LoginButton";
+import { LoginButton } from "../Components/LoginButton";
 import { useQueryClient } from "@tanstack/react-query";
-
 const PackDetails = () => {
   const { modpackId: id } = useParams();
   const modpackId = id as string;
@@ -29,21 +30,26 @@ const PackDetails = () => {
   const {
     name,
     description,
-    color: borderColor,
+    color,
     imageUrl,
     comments,
+    timesVoted,
     voteCount,
     suggestedBy,
   }: IPackDetails = data;
-
   const commentCount = comments
     ? comments.length
     : Math.floor(Math.random() * 10);
 
+  //  map the data in a  modern way with tailwind
+  const borderColor = color ? color : "";
+  // console.log(timesVoted);
+  console.log(comments);
+
   return (
     <>
-      <div className="flex w-full flex-col justify-normal self-start bg-bg text-text lg:justify-center ">
-        <div className="  bg-bg shadow-2xl shadow-bg/20 dark:shadow-none  lg:my-2 lg:max-w-4xl lg:justify-center lg:place-self-center lg:rounded-xl ">
+      <div className="bg-bg text-text flex w-full flex-col justify-normal self-start lg:justify-center ">
+        <div className="  bg-bg shadow-bg/20 shadow-2xl dark:shadow-none  lg:my-2 lg:max-w-4xl lg:justify-center lg:place-self-center lg:rounded-xl ">
           <div
             key={modpackId}
             className={` grid items-center overflow-hidden lg:rounded-md lg:border-4 border-${borderColor}-500 h-full `}
@@ -51,7 +57,7 @@ const PackDetails = () => {
             {/* backarrow to the root page */}
             <div className="flex justify-between gap-2  px-8 pt-4  max-[350px]:flex-col sm:gap-0 md:px-4 ">
               <div
-                className="flex min-w-fit cursor-pointer items-center gap-2 rounded-md px-3 py-1 text-text hover:bg-hover-1 hover:text-text dark:hover:bg-hover-2"
+                className="text-text hover:bg-hover-1 hover:text-text dark:hover:bg-hover-2 flex min-w-fit cursor-pointer items-center gap-2 rounded-md px-3 py-1"
                 onClick={() => (window.location.href = "/")}
               >
                 <svg
@@ -71,12 +77,12 @@ const PackDetails = () => {
                 <p className={` text-${borderColor}-500`}>Back</p>
               </div>
 
-              <div className="flex  gap-2 text-sm text-bg dark:text-text max-[350px]:mt-5 max-[350px]:flex-col xl:text-base ">
+              <div className="text-bg  dark:text-text flex gap-2 text-sm max-[350px]:mt-5 max-[350px]:flex-col xl:text-base ">
                 {/* edit modpack button only is userProfile is superUser */}
                 {user?.isLoggedIn && user?.isAdmin && (
                   <>
                     <button
-                      className={` rounded-md  bg-sec px-3 py-1 hover:bg-hover-1 hover:text-text dark:hover:bg-hover-2`}
+                      className={` bg-sec  hover:bg-hover-1 hover:text-text dark:hover:bg-hover-2 rounded-md px-3 py-1`}
                       onClick={() =>
                         (window.location.href = `/edit-modpack/${modpackId}`)
                       }
@@ -86,7 +92,7 @@ const PackDetails = () => {
 
                     {/* delete modpack button only is userProfile is superUser */}
                     <button
-                      className={` t rounded-md border border-sec px-3 py-1 font-thin text-red-500 hover:bg-hover-1 dark:hover:bg-hover-2`}
+                      className={` t border-sec hover:bg-hover-1 dark:hover:bg-hover-2 rounded-md border px-3 py-1 font-thin text-red-500`}
                       onClick={async () => {
                         if (
                           prompt(
@@ -149,6 +155,7 @@ const PackDetails = () => {
                   <div className="flex items-center justify-center gap-4">
                     <VoteForPackButton
                       modpackId={modpackId}
+                      timesVoted={timesVoted}
                       borderColor={borderColor}
                       isLoading={isLoading}
                       voteCount={voteCount}
@@ -200,7 +207,7 @@ const PackDetails = () => {
                     )
                   }
                   {/* Map comments from api the the img, username, userId, and the comment from the user */}
-                  {comments.map((comment, index) => (
+                  {comments.map((comment: IComment, index: number) => (
                     <CommentsComponent
                       index={index}
                       borderColor={borderColor}

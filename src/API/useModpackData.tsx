@@ -3,7 +3,7 @@ import axios from "axios";
 // srtucture the staticLabels to match the data from the api
 // url for 100x100 placeholder image 
 
-import { staticLabels } from '../Constants'
+// import { staticLabels } from '../Constants'
 
 const useModpackData = () => {
   const isDev = import.meta.env.VITE_NODE_ENV === "development";

@@ -1,23 +1,29 @@
 import { useParams } from "react-router-dom";
 import usePackDetailData from "../API/usePackDetailData";
-import { CommentsComponent } from "../components/CommentsComponent";
-import { IComment, IPackDetails } from "../UTILS/Interfaces";
-import VoteForPackButton from "../components/VoteForPackButton";
+import { CommentsComponent } from "../Components/CommentsComponent";
+import { IComment, IPackDetails } from "../Utils/Interfaces";
+import VoteForPackButton from "../Components/VoteForPackButton";
 
 const Modpack = () => {
-  const { modpackId: id  } = useParams();
+  const { modpackId: id } = useParams();
   const modpackId = id as string;
 
-  const { data, isError, isLoading } = usePackDetailData(modpackId );
+  const { data, isError, isLoading } = usePackDetailData(modpackId);
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error</div>;
 
-  const { name, description, imageUrl, color, comments,  voteCount }: IPackDetails =
-    data;
+  const {
+    name,
+    description,
+    imageUrl,
+    color,
+    comments,
+    voteCount,
+  }: IPackDetails = data;
 
   //  map the data in a  modern way with tailwind
   const borderColor = color ? color : "";
-console.log(`https://www.trainjumper.com${imageUrl}`);
+  console.log(`https://www.trainjumper.com${imageUrl}`);
 
   return (
     <>
@@ -25,7 +31,7 @@ console.log(`https://www.trainjumper.com${imageUrl}`);
         <div className="  bg-bkg-100 shadow-mainContainer md:rounded-xl  lg:max-w-4xl lg:justify-center lg:place-self-center">
           <div
             key={modpackId}
-            className={` grid items-center overflow-hidden border-4 text-bkg-0 md:rounded-md border-${borderColor}-500`}
+            className={` text-bkg-0 grid items-center overflow-hidden border-4 md:rounded-md border-${borderColor}-500`}
           >
             {/* backarrow to the root page */}
             <div className="flex  items-center justify-start px-4 pt-4">
@@ -64,7 +70,7 @@ console.log(`https://www.trainjumper.com${imageUrl}`);
                     </p>
                     <VoteForPackButton
                       modpackId={modpackId}
-                      timesVoted={voteCount}
+                      voteCount={voteCount}
                       borderColor={borderColor}
                       // this is the number of votes
                     />
@@ -85,18 +91,15 @@ console.log(`https://www.trainjumper.com${imageUrl}`);
                 </h3>
                 <div className="   p-4 ">
                   {/* Map comments from api the the img, username, userId, and the comment from the user */}
-                  {comments.map(
-                    ({ comment }: IComment, index: number) => {
-                      
-                      return (
-                        <CommentsComponent
-                          index={index}
-                          borderColor={borderColor}
-                          comment={comment}
-                        />
-                      );
-                    }
-                  )}
+                  {comments.map((comment: IComment, index: number) => {
+                    return (
+                      <CommentsComponent
+                        index={index}
+                        borderColor={borderColor}
+                        comment={comment}
+                      />
+                    );
+                  })}
                 </div>
               </div>
             </div>
@@ -107,5 +110,3 @@ console.log(`https://www.trainjumper.com${imageUrl}`);
   );
 };
 export default Modpack;
-
-

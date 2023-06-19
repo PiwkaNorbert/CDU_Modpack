@@ -47,7 +47,7 @@ const EditModpack = () => {
     { value: "violet", label: "Violet" },
     { value: "fuchsia", label: "Fuchsia" },
   ];
-  const isDev = import.meta.env.VITE_NODE_ENV === "development";
+  const isDev = import.meta?.env.VITE_NODE_ENV === "development";
   const apiBase = isDev ? "https://www.trainjumper.com" : "";
 
   const queryClient = useQueryClient();

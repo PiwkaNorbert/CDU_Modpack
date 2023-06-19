@@ -1,6 +1,5 @@
-import  {useState} from "react";
+import { useState } from "react";
 import { IModpack } from "../data";
-import { Footer } from "../components/Footer";
 import useModpackData from "../API/useModpackData";
 
 const Homepage = () => {
@@ -8,21 +7,21 @@ const Homepage = () => {
 
   // set state for a button to scroll to the top of the page
   const [pageBottom, setPageBottom] = useState(false);
-  
+
   window.addEventListener("scroll", () => {
     window.innerHeight + window.scrollY >= document.body.offsetHeight
-    ? setPageBottom(true)
-    : setPageBottom(false);
+      ? setPageBottom(true)
+      : setPageBottom(false);
   });
-  
+
   if (isError) return <div>Error</div>;
-  
+
   return (
     <>
       <div className="grid  justify-normal self-center md:justify-center  lg:justify-center">
-        <div className="my-4  overflow-hidden bg-bkg-100  shadow-mainContainer   md:rounded-xl">
+        <div className="bg-bkg-100  my-4 overflow-hidden  shadow-mainContainer   md:rounded-xl">
           {/* map the data variable in a grad 4x2  */}
-          <div className="text-bgk-100 flex items-center justify-between border-b-4 border-bkg-200 bg-bkg-600 p-3 text-xl  ">
+          <div className="text-bgk-100 border-bkg-200 bg-bkg-600 flex items-center justify-between border-b-4 p-3 text-xl  ">
             <p>Modpacks</p>
             {/* Show this button if you're logged in and a staff member */}
             <button className="text-content  h-10 rounded-md  bg-[#22B14C] px-3 py-1 text-sm">
@@ -39,7 +38,7 @@ const Homepage = () => {
                 return (
                   <div
                     key={modpackId}
-                    className={`flex items-start  justify-center overflow-hidden rounded-md border-4 text-bkg-0 ${borderColor} `}
+                    className={`text-bkg-0 flex  items-start justify-center overflow-hidden rounded-md border-4 ${borderColor} `}
                   >
                     <a
                       href={`/modpack/${modpackId}`}
@@ -64,7 +63,7 @@ const Homepage = () => {
           className=" p-body-inner  m-4 mt-0 flex items-center justify-end md:mr-0 lg:mr-0
           "
         >
-          <div className="mr-4 w-fit rounded-lg bg-bkg-100 px-2 py-1 text-bkg-0 shadow-mainContainer ">
+          <div className="bg-bkg-100 text-bkg-0 mr-4 w-fit rounded-lg px-2 py-1 shadow-mainContainer ">
             <a href="/login/" className="text-sm" data-xf-click="overlay">
               <span className="button-text">
                 You must log in or register to vote.
@@ -74,7 +73,7 @@ const Homepage = () => {
           {/* button to scroll to the top of the page */}
           {pageBottom ? (
             <button
-              className=" flex h-10 w-10 items-center justify-center rounded-full bg-bkg-300 text-sm"
+              className=" bg-bkg-300 flex h-10 w-10 items-center justify-center rounded-full text-sm"
               onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             >
               ^
@@ -84,7 +83,6 @@ const Homepage = () => {
           )}
         </div>
       </div>
-      <Footer  borderColor=""  />
     </>
   );
 };

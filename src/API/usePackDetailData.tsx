@@ -1,35 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+// import { placeholderDetails } from '../Constants'
 
-const staticLabels = 
-  {
-    name: "Modpack",
-    imageUrl: "https://unsplash.it/1000",
-    color: 'grey',
-    description: "This is a placeholder description",
-    timesVoted: 0,
-    voteCount: 0,
-    comments: [
-      {
-        username: "Placeholder",
-        comment: "This is a placeholder comment",
-        timestamp: 0,
-        discord_id: "0",
-        avatar_url: "https://unsplash.it/1000",
-      },
-    ]
-
-  }
-
-
-
-
-export const fetchPackDetail = async (modpackId:string) => {
+export const fetchPackDetail = async (modpackId: string) => {
   const isDev = import.meta.env.VITE_NODE_ENV === "development";
-  const apiBase = isDev ? 'https://www.trainjumper.com' : '';
+  const apiBase = isDev ? "https://www.trainjumper.com" : "";
 
-  const { data, status } = await axios.get(`${apiBase}/api/pack-details/${modpackId}`,
- );
+  const { data, status } = await axios.get(
+    `${apiBase}/api/pack-details/${modpackId}`
+  );
 
   if (status !== 200) throw new Error("No data found");
 
@@ -37,16 +16,18 @@ export const fetchPackDetail = async (modpackId:string) => {
 };
 
 const usePackDetailData = (modpackId: string) => {
-
-
-
-  return useQuery(["details", modpackId], ()=>fetchPackDetail(modpackId), {
+  return useQuery(["details", modpackId], () => fetchPackDetail(modpackId), {
     enabled: modpackId.length > 0,
     keepPreviousData: true,
     staleTime: 1000 * 60 * 2,
     refetchOnWindowFocus: false,
-    // initialData: staticLabels,
-
+    // initialData: placeholderDetails,
+    onError: (_err: Error) => {
+      console.error(_err);
+      throw new Error(
+        "Couldn't fetch Modpack details, please try again later."
+      );
+    },
   });
 };
 

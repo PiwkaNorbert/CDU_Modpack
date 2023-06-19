@@ -6,6 +6,7 @@ export interface IModpack {
   voteCount: number;
   commentCount: number;
 }
+
 export interface IPackDetails {
   color: string;
   comments: IComment[];
@@ -13,21 +14,21 @@ export interface IPackDetails {
   imageUrl: string;
   modpackId: string;
   name: string;
-  timesVoted: number;
   voteCount: number;
   suggestedBy: string;
 }
 export interface IComment {
-  username: string | undefined ;
+  username: string | undefined;
   comment: string | undefined;
-  timestamp: number | undefined;
+  timestamp: number;
   discord_id: string | undefined;
   avatar_url: string | undefined;
+  uuid: string;
 }
 export interface ICommentComponent {
   index: number;
   borderColor: string;
-  comment: IComment  ;
+  comment: IComment;
 }
 export interface DiscordProfileData {
   isLoggedIn: boolean | undefined;
@@ -38,15 +39,12 @@ export interface DiscordProfileData {
   isAdmin: boolean | undefined;
   votesRemaining: number | undefined;
   tokenExpiry: number | undefined;
-} 
+}
 export interface VoteForPackButtonProps {
   modpackId: string;
   borderColor: string;
-  timesVoted: number;
   voteCount: number;
+  isLoading: boolean;
 
   // Replace 'UserProfileType' with the actual type for the 'userProfile' prop
 }
-
-
-
