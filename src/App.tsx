@@ -13,10 +13,12 @@ import EditModpack from "./Pages/EditModpack";
 import Header from "./Components/Header";
 // here we specify the routes for our app
 import Footer from "./Components/Footer";
+import { useUser } from "./Context/useUser";
 
 const queryClient = new QueryClient();
 
 function App() {
+  const { user } = useUser();
   return (
     <QueryClientProvider client={queryClient}>
       <main className="flex min-h-screen flex-col text-text ">
@@ -27,11 +29,17 @@ function App() {
             <Route path="pack-details/:modpackId" element={<PackDetails />} />
             <Route path="login" element={<Login />} />
 
-            <Route path="add-modpack" element={<AddModpack />} />
-            <Route path="edit-modpack/:modpackIdin" element={<EditModpack />} />
-
             <Route path="*" element={<Navigate to="/404" replace />} />
             <Route path="404" element={<NotFoundPage />} />
+            {user?.isAdmin && (
+              <>
+                <Route path="add-modpack" element={<AddModpack />} />
+                <Route
+                  path="edit-modpack/:modpackIdin"
+                  element={<EditModpack />}
+                />
+              </>
+            )}
           </Routes>
         </BrowserRouter>
 
