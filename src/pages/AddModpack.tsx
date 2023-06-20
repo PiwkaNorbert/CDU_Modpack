@@ -3,22 +3,20 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { IModpack } from "../Utils/Interfaces";
+import { useNavigate } from "react-router-dom";
 
 export interface AddModpackProps {
-  modpackName: string;
-  modpackDescription: string;
-  modpackImage: File | undefined;
-  modpackColor: string;
-  modpackSuggestor: string;
+  name: string;
+  description: string;
+  image: File | undefined;
+  color: string;
+  suggestor: string;
 }
 
 const AddModpack = () => {
-  const [modpackName, setModpackName] = React.useState<string>("");
   const [modpackDescription, setModpackDescription] =
     React.useState<string>("");
-  const [modpackImage, setModpackImage] = React.useState<File>();
   const [modpackColor, setModpackColor] = React.useState<string>("sky");
-  const [modpackSuggestor, setModpackSuggestor] = React.useState<string>("");
 
   const colorOptions = [
     { value: "red", label: "Red" },
@@ -34,24 +32,13 @@ const AddModpack = () => {
   ];
 
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const addModpackMutation = useMutation(
-    ({
-      modpackName,
-      modpackDescription,
-      modpackImage,
-      modpackColor,
-      modpackSuggestor,
-    }: AddModpackProps) =>
+    (addModpackBody: AddModpackProps) =>
       axios.post(
         `/api/add-modpack`,
-        {
-          modpackName,
-          modpackDescription,
-          modpackImage,
-          modpackColor,
-          modpackSuggestor,
-        },
+        { addModpackBody },
         {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -60,30 +47,11 @@ const AddModpack = () => {
         }
       ),
     {
-      onSettled: () => {
+      onSuccess: (data) => {
+        queryClient.setQueryData(["modpacks"], data.data as IModpack[]);
         queryClient.invalidateQueries(["modpacks"]);
-
-        setModpackName("");
-        setModpackDescription("");
-        setModpackImage(undefined);
-        setModpackColor("");
-        setModpackSuggestor("");
-      },
-      onSuccess: () => {
-        queryClient.setQueriesData(["modpacks"], (oldData) => {
-          return [
-            ...(oldData !== undefined ? (oldData as IModpack[]) : []),
-            {
-              modpackName,
-              modpackDescription,
-              modpackImage,
-              modpackColor,
-              modpackSuggestor,
-            },
-          ];
-        });
-
         toast.success("Modpack Added!");
+        navigate("/");
       },
       onError: (error) => {
         toast.error(`Couldn't add modpack: ${error}`);
@@ -92,12 +60,6 @@ const AddModpack = () => {
   );
 
   const borderColor = modpackColor || "sky";
-
-  const fileSelectedHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setModpackImage(e.target.files[0]);
-    }
-  };
 
   return (
     <>
@@ -108,19 +70,17 @@ const AddModpack = () => {
         </h1>
       </div>
       <form
-        method="post"
         className="grid items-center justify-center gap-4 pt-[.5em] text-sm placeholder:text-slate-400  dark:text-bg xl:text-base"
         onSubmit={async (e: React.FormEvent<HTMLFormElement>) => {
           e.preventDefault();
-
           if (addModpackMutation.isLoading) return;
 
           addModpackMutation.mutate({
-            modpackName,
-            modpackDescription,
-            modpackImage,
-            modpackColor,
-            modpackSuggestor,
+            name: e.target.name.value,
+            description: e.target.description.value,
+            color: e.target.color.value,
+            suggestor: e.target.suggestor.value,
+            image: e.target.image.files[0],
           });
         }}
       >
@@ -129,9 +89,8 @@ const AddModpack = () => {
           required
           className={` h-8 rounded-md border-2  border-${borderColor}-500 px-3 py-1`}
           type="text"
-          placeholder="Modpack Name"
-          value={modpackName}
-          onChange={(e) => setModpackName(e.target.value)}
+          placeholder="Name"
+          name="name"
         />
 
         {/* Modpack description field, multi line. */}
@@ -140,6 +99,7 @@ const AddModpack = () => {
           className={` min-h-[100px] rounded-md border-2   border-${borderColor}-500 w-96 px-3 py-1 out-of-range:border-red-500 `}
           placeholder="Modpack Description"
           value={modpackDescription}
+          name="description"
           required
           onChange={(e) => {
             const newLength = e.target.value.length;
@@ -157,8 +117,10 @@ const AddModpack = () => {
         {/*Color selection*/}
         <select
           className={` h-8 rounded-md border-2  dark:text-bg border-${borderColor}-500 bg-${borderColor}-300 px-3 py-1 font-Tilt `}
-          value={modpackColor}
-          onChange={(e) => setModpackColor(e.target.value)}
+          name="color"
+          onChange={(e) => {
+            setModpackColor(e.target.value);
+          }}
         >
           {colorOptions.map((colorOption, index) => (
             <option
@@ -171,17 +133,16 @@ const AddModpack = () => {
           ))}
         </select>
 
-        <p className="-mb-2 dark:text-text">Modpack Image</p>
+        <p className="-mb-2 dark:text-text">Image</p>
         <input
           required
-          name="modpack__image--input"
+          name="image"
           className={`cursor-pointer rounded-md border-2 file:placeholder:text-slate-400 dark:text-text border-${borderColor}-500 h-8 w-full px-3 py-1`}
           type="file"
-          onChange={fileSelectedHandler}
         />
 
         <label
-          htmlFor="modpack__image--input"
+          htmlFor="image"
           className={`-mt-2 text-sm dark:text-text xl:text-base`}
         >
           {" "}
@@ -193,16 +154,16 @@ const AddModpack = () => {
           className={`h-8 rounded-md border-2   border-${borderColor}-500 px-3 py-1 `}
           type="text"
           placeholder="Modpack Suggestor"
-          value={modpackSuggestor}
-          onChange={(e) => setModpackSuggestor(e.target.value)}
+          name="suggestor"
         />
 
         <br />
 
         <button
           className={`h-16  rounded-md border-2 border-black dark:text-bg bg-${borderColor}-500 px-3 py-1 text-sm xl:text-base`}
+          disabled={addModpackMutation.isLoading}
         >
-          Add Modpack
+          {addModpackMutation.isLoading ? "Adding Modpack" : "Add Modpack"}
         </button>
       </form>
     </>

@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { IModpack } from "../Utils/Interfaces";
+import { toast } from "react-toastify";
 // srtucture the staticLabels to match the data from the api
 // url for 100x100 placeholder image
 
@@ -30,6 +31,9 @@ const useModpackData = (queryClient) => {
       console.error(_err);
 
       throw new Error("Couldn't fetch Modpack data, please try again later.");
+    },
+    onSuccess: (data) => {
+      toast.success("asdsa");
     },
   });
 };

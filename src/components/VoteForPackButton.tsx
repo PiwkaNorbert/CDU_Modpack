@@ -16,47 +16,42 @@ export default function VoteForPackButton({
   const { user, setRemainingVotes } = useUser();
 
   const addVote = useMutation(
-    () => {
-      return axios.get(`/api/add-vote/${modpackId}`, { withCredentials: true });
-    },
+    () => axios.get(`/api/add-vote/${modpackId}`, { withCredentials: true }),
     {
-      onSettled: (response) => {
-        queryClient.invalidateQueries(["details", modpackId]);
-        setRemainingVotes(response?.data.votes_remaining);
-      },
       onError: (err) => {
         console.error(err);
-        toast.error("Sorry, there was an error voting for this modpack!");
+        return toast.error(
+          "Sorry, there was an error voting for this modpack!"
+        );
       },
-      onSuccess: () => {
-        toast.success("You have voted for this modpack!");
+      onSuccess: (response) => {
+        queryClient.invalidateQueries(["details", modpackId]);
+        setRemainingVotes(response?.data.votes_remaining);
+        return toast.success("You have voted for this modpack!");
       },
     }
   );
 
   const removeVote = useMutation(
-    () => {
-      return axios.get(`/api/remove-vote/${modpackId}`, {
+    () =>
+      axios.get(`/api/remove-vote/${modpackId}`, {
         withCredentials: true,
-      });
-    },
+      }),
+
     {
-      onSettled: (response) => {
+      onError: (err) => {
+        console.error(err);
+        return toast.error(
+          "Sorry, there was an error removing your vote for this modpack!"
+        );
+      },
+      onSuccess: (response) => {
         queryClient.invalidateQueries(["details", modpackId]);
         setRemainingVotes(response?.data.votes_remaining);
-      },
-      onError: () =>
-        toast.error(
-          "Sorry, there was an error removing your vote for this modpack!"
-        ),
-      onSuccess: () => {
-        toast.success("You have removed your vote.");
-
-        // spread operator to spread the old data and to update the  votes remaining in the user profile data from local storage
+        return toast.success("You have removed your vote.");
       },
     }
   );
-
   return (
     <>
       {user?.isLoggedIn && (

@@ -8,12 +8,13 @@ import AddModpack from "./Pages/AddModpack";
 import { ToastContainer } from "react-toastify";
 import NotFoundPage from "./Pages/NotFoundPage";
 import FetchingIndicator from "./Components/FetchingIndicator";
-// import { ReactQueryDevtools } from "@tanstack/react-query-devtools"; // for dev only
+import "react-toastify/dist/ReactToastify.css";
 import EditModpack from "./Pages/EditModpack";
 import Header from "./Components/Header";
 // here we specify the routes for our app
 import Footer from "./Components/Footer";
 import { useUser } from "./Context/useUser";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const queryClient = new QueryClient();
 
@@ -31,7 +32,7 @@ function App() {
 
             <Route path="*" element={<Navigate to="/404" replace />} />
             <Route path="404" element={<NotFoundPage />} />
-            {user?.isAdmin && (
+            {!user?.isAdmin && (
               <>
                 <Route path="add-modpack" element={<AddModpack />} />
                 <Route
@@ -41,14 +42,14 @@ function App() {
               </>
             )}
           </Routes>
+          <ToastContainer limit={3} />
         </BrowserRouter>
 
-        <ToastContainer limit={3} />
         <FetchingIndicator />
         {window.location.pathname === "/404" ? null : <Footer />}
       </main>
 
-      {/* <ReactQueryDevtools /> */}
+      <ReactQueryDevtools />
     </QueryClientProvider>
   );
 }

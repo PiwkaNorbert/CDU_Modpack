@@ -36,7 +36,7 @@ const Header = () => {
             height="138"
             placeholderSrc={`https://placehold.jp/150x150.png`}
             //loading="lazy"
-            className=" lazy-load-image-loaded absolute top-0 z-10  cursor-pointer  justify-self-center p-2 hover:animate-bounce-slow "
+            className=" lazy-load-image absolute top-0 z-10  cursor-pointer  justify-self-center p-2 hover:animate-bounce-slow "
             onClick={() => (window.location.href = "/")}
           />
         </header>
