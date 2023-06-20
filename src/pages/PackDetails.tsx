@@ -142,7 +142,9 @@ const PackDetails = () => {
                 <img
                   src={`https://www.trainjumper.com${imageUrl}`}
                   alt="random"
-                  className={`"lg:w-full mx-4 place-self-center overflow-hidden rounded-md border-2 object-scale-down object-center sm:max-h-52 sm:w-full  sm:object-fill  lg:max-h-60
+                  width="412"
+                  height="233"
+                  className={` mx-4 aspect-video place-self-center overflow-hidden rounded-md border-2 object-cover object-center sm:max-h-52   sm:object-fill  lg:max-h-60
                border-${borderColor}-500 bg-${borderColor}-500`}
                 />
                 <div className="grid w-full content-center items-center md:mr-4 md:space-y-4">
@@ -204,11 +206,15 @@ const PackDetails = () => {
                   }
                   {/* Map comments from api the the img, username, userId, and the comment from the user */}
                   {comments.map((comment, index) => (
-                    <CommentsComponent
-                      index={index}
-                      borderColor={borderColor}
-                      comment={comment}
-                    />
+                    <div
+                      key={index}
+                      className="grid items-center justify-between"
+                    >
+                      <CommentsComponent
+                        borderColor={borderColor}
+                        comment={comment}
+                      />
+                    </div>
                   ))}
                 </div>
               </div>

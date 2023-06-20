@@ -26,7 +26,6 @@ export interface IComment {
   uuid: string;
 }
 export interface ICommentComponent {
-  index: number;
   borderColor: string;
   comment: IComment;
 }

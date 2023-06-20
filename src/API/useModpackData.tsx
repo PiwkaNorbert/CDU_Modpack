@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { IModpack } from "../Utils/Interfaces";
 // srtucture the staticLabels to match the data from the api
 // url for 100x100 placeholder image
 
@@ -14,9 +15,7 @@ const useModpackData = (queryClient) => {
 
     if (status !== 200) throw new Error("No Modpacks found");
 
-    data.forEach((pack) => {
-      console.log(pack);
-
+    data.forEach((pack: IModpack) => {
       queryClient.setQueryData(["details", pack.modpackId], pack);
     });
     return data;

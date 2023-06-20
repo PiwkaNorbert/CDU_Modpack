@@ -5,18 +5,14 @@ import { useUser } from "../Context/useUser";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-export function CommentsComponent({
-  index,
-  borderColor,
-  comment,
-}: ICommentComponent) {
+export function CommentsComponent({ borderColor, comment }: ICommentComponent) {
   const modpackId = window.location.pathname.split("/")[2];
   const { user } = useUser();
 
   const queryClient = useQueryClient();
 
   return (
-    <div key={index} className="grid items-center justify-between">
+    <>
       <div className="  flex items-center gap-4 pt-[1em] text-base">
         <img
           className="h-10 w-10 rounded-full"
@@ -84,6 +80,6 @@ export function CommentsComponent({
       <p className="text-content p-[.5em] text-justify text-sm xl:text-base  xl:text-base">
         {comment?.comment}
       </p>
-    </div>
+    </>
   );
 }

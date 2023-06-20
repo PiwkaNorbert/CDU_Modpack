@@ -1,6 +1,7 @@
 import { IModpack } from "../Utils/Interfaces";
 import { useQueryClient } from "@tanstack/react-query";
 import { fetchPackDetail } from "../API/usePackDetailData";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 const ModpackCard = ({
   modpackId,
   name,
@@ -26,16 +27,17 @@ const ModpackCard = ({
         className={`relative grid h-full flex-1 justify-items-center text-base/[1.25rem] `}
       >
         {/* toggle images in production */}
-        <img
+        <LazyLoadImage
           src={`https://www.trainjumper.com${imageUrl}`}
           alt={name ? name + " Image" : "Pack Image"}
           loading="lazy"
           width="275"
           height="155"
+          placeholderSrc={`https://placehold.jp/150x150.png`}
           // onLoad={(e) => {
           //   e.currentTarget.classList.remove('blur-md')
           // }}
-          className={`aspect-auto text-right bg-${color}-300 border-b-[3.5px] border-${color}-300 w-full overflow-hidden object-cover object-center`}
+          className={`aspect-video text-right bg-${color}-300 w-full border-b-[3.5px] border-${color}-300 overflow-hidden object-cover object-center`}
         />
 
         <div

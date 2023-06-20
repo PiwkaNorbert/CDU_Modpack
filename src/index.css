@@ -17,12 +17,11 @@
       --clr-acc: 264deg 82% 38%; /* #5111b0 */
       --clr-pri: 202deg 63% 62%; /* #62afdb */
       --clr-sec: 229deg 22% 20%; /* #282c3e */
-   
+
       --clr-border-0: 230deg 21% 23%; /* #2e3247 */
       /* #b473ff */
       /* #151827  #1a1d30*/
       --clr: #8e42ff;
-
     }
   }
   @media (prefers-color-scheme: light) {
@@ -47,13 +46,11 @@
 }
 ::-webkit-scrollbar-track {
   background: #282c3e;
-
 }
 ::-webkit-scrollbar-thumb {
   background: #62afdb;
   border-radius: 10px;
-  opacity: .5;
-
+  opacity: 0.5;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #518fb3;
@@ -62,64 +59,73 @@
   background: #41728f;
 }
 
-body{
+body {
   min-height: 100vh;
-  background: linear-gradient(90deg, hsl(var(--clr-bg)) 0%, hsl(var(--clr-bg)) 50%, hsl(var(--clr-sec)) 50%, hsl(var(--clr-sec)) 100%);
+  background: linear-gradient(
+    90deg,
+    hsl(var(--clr-bg)) 0%,
+    hsl(var(--clr-bg)) 50%,
+    hsl(var(--clr-sec)) 50%,
+    hsl(var(--clr-sec)) 100%
+  );
   background-size: 400% 400%;
   animation: gradient 15s ease infinite;
   font-family: "Tilt Warp", "cursive";
-  
-  
 }
 
-
-
- .btn__vote--heart{
-  background: url('/heart.svg');
+.btn__vote--heart {
+  background: url("/heart.svg");
   width: 20px;
   height: 20px;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
- }
- .btn__vote--heartbreak{
+}
+.btn__vote--heartbreak {
   width: 20px;
   height: 20px;
-  background-image: url('/heartbreak.svg');
+  background-image: url("/heartbreak.svg");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
- }
- .btn__vote--heart:disabled, .btn__vote--heartbreak:disabled{
-    /* disabled button no animation */
-    animation: none;
+}
+.btn__vote--heart:disabled,
+.btn__vote--heartbreak:disabled {
+  /* disabled button no animation */
+  animation: none;
   pointer-events: none;
-  }
-
-
- .heartFilled{
-  width: 20px;
-  height: 20px;
- }
-
- select{
-  font-family: "Tilt Warp", "cursive";
- }
- option{
-  font-family: "Tilt Warp", "cursive";
- }
-
- input[type=file]::file-selector-button {
- all: unset;
- content:" Select a file...";
- padding-right: 1rem;
- color:  rgb(148 163 184);
-
 }
 
+.heartFilled {
+  width: 20px;
+  height: 20px;
+}
 
+select {
+  font-family: "Tilt Warp", "cursive";
+}
+option {
+  font-family: "Tilt Warp", "cursive";
+}
 
-input[type=file]::file-selector-button:hover {
- color: rgb(100 116 139);
+input[type="file"]::file-selector-button {
+  all: unset;
+  content: " Select a file...";
+  padding-right: 1rem;
+  color: rgb(148 163 184);
+}
 
+input[type="file"]::file-selector-button:hover {
+  color: rgb(100 116 139);
+}
+.lazy-load-image-loaded {
+  width: 150px;
+  height: 138px;
+}
+
+@media only screen and (min-width: 1280px) {
+  .lazy-load-image-loaded {
+    width: 180px;
+    height: 166px;
+  }
 }

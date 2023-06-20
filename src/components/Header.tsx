@@ -2,6 +2,7 @@ import { useState } from "react";
 import { LoginButton } from "./LoginButton";
 import { LogoutButton } from "./LogoutButton";
 import { useUser } from "../Context/useUser";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const Header = () => {
   const [scroll, setScroll] = useState(false);
@@ -26,13 +27,16 @@ const Header = () => {
   return (
     <>
       {menu ? null : (
-        <header className="l relative hidden   h-[150px] items-center justify-center  text-sm md:grid xl:h-[180px] xl:text-base">
+        <header className="relative hidden   h-[150px] items-center justify-center  text-sm md:grid xl:h-[180px] xl:text-base">
           <div className=" absolute inset-0 m-auto bg-gradient-to-tr from-acc to-pri dark:brightness-50 "></div>
-          <img
+          <LazyLoadImage
             alt="CDU"
             src="/logo.png"
+            width="150"
+            height="138"
+            placeholderSrc={`https://placehold.jp/150x150.png`}
             //loading="lazy"
-            className=" absolute top-0 z-10 w-[150px]  cursor-pointer justify-self-center p-2 hover:animate-bounce-slow xl:w-[180px]"
+            className=" lazy-load-image-loaded absolute top-0 z-10  cursor-pointer  justify-self-center p-2 hover:animate-bounce-slow "
             onClick={() => (window.location.href = "/")}
           />
         </header>
