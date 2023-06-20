@@ -33,7 +33,7 @@ const ModpackCard = ({
           loading="lazy"
           width="275"
           height="155"
-          placeholderSrc={`https://placehold.jp/150x150.png`}
+          placeholderSrc={`https://placehold.jp/275x155.png`}
           // onLoad={(e) => {
           //   e.currentTarget.classList.remove('blur-md')
           // }}

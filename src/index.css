@@ -118,13 +118,13 @@ input[type="file"]::file-selector-button {
 input[type="file"]::file-selector-button:hover {
   color: rgb(100 116 139);
 }
-.lazy-load-image-loaded {
+.lazy-load-image {
   width: 150px;
   height: 138px;
 }
 
 @media only screen and (min-width: 1280px) {
-  .lazy-load-image-loaded {
+  .lazy-load-image {
     width: 180px;
     height: 166px;
   }
