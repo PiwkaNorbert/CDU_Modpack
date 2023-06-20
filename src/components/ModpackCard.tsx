@@ -1,5 +1,6 @@
 import { IModpack } from "../Utils/Interfaces";
-
+import { useQueryClient } from "@tanstack/react-query";
+import { fetchPackDetail } from "../API/usePackDetailData";
 const ModpackCard = ({
   modpackId,
   name,
@@ -8,13 +9,17 @@ const ModpackCard = ({
   voteCount,
   commentCount,
 }: IModpack) => {
+  const queryClient = useQueryClient();
+
   return (
     <div
       key={modpackId}
       className={`z-10 flex items-start justify-center overflow-hidden rounded-md border-[3.5px] text-text border-${color}-300 `}
-      // onMouseEnter={() => {
-      //   queryClient.prefetchQuery(['details', modpackId],()=>fetchPackDetail(modpackId as string, null))
-      // }}
+      onMouseEnter={() => {
+        queryClient.prefetchQuery(["details", modpackId], () =>
+          fetchPackDetail(modpackId as string)
+        );
+      }}
     >
       <a
         href={`/pack-details/${modpackId}`}

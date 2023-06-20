@@ -1,21 +1,24 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 // srtucture the staticLabels to match the data from the api
-// url for 100x100 placeholder image 
+// url for 100x100 placeholder image
 
 // import { staticLabels } from '../Constants'
 
-const useModpackData = () => {
+const useModpackData = (queryClient) => {
   const isDev = import.meta.env.VITE_NODE_ENV === "development";
-  const apiBase = isDev ? 'https://www.trainjumper.com' : '';
+  const apiBase = isDev ? "https://www.trainjumper.com" : "";
 
   const fetchModpacks = async () => {
     const { data, status } = await axios.get(`${apiBase}/api/list-packs`);
 
     if (status !== 200) throw new Error("No Modpacks found");
-    
-      console.log(data);  
-  
+
+    data.forEach((pack) => {
+      console.log(pack);
+
+      queryClient.setQueryData(["details", pack.modpackId], pack);
+    });
     return data;
   };
 
@@ -24,12 +27,12 @@ const useModpackData = () => {
     keepPreviousData: true,
     // initialData: staticLabels,
 
-    onError: (_err: Error) =>  {
+    onError: (_err: Error) => {
       console.error(_err);
-      
-      throw new Error("Couldn't fetch Modpack data, please try again later.")},
-  }
-  );
+
+      throw new Error("Couldn't fetch Modpack data, please try again later.");
+    },
+  });
 };
 
 export default useModpackData;
