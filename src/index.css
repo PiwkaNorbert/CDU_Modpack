@@ -122,6 +122,11 @@ input[type="file"]::file-selector-button:hover {
   width: 150px;
   height: 138px;
 }
+.lazy-load-image-2 {
+  min-width: 194px;
+  min-height: 109px;
+  overflow: hidden;
+}
 
 @media only screen and (min-width: 1280px) {
   .lazy-load-image {

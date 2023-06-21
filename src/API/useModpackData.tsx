@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 // srtucture the staticLabels to match the data from the api
 // url for 100x100 placeholder image
 
-// import { staticLabels } from '../Constants'
+import { staticLabels } from "../Constants";
 
 const useModpackData = (queryClient) => {
   const isDev = import.meta.env.VITE_NODE_ENV === "development";
@@ -25,7 +25,7 @@ const useModpackData = (queryClient) => {
   return useQuery(["modpacks"], fetchModpacks, {
     staleTime: 1000 * 60 * 5, // 5 minutes
     keepPreviousData: true,
-    // initialData: staticLabels,
+    placeholderData: staticLabels,
 
     onError: (_err: Error) => {
       console.error(_err);

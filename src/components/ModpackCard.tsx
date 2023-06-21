@@ -15,7 +15,7 @@ const ModpackCard = ({
   return (
     <div
       key={modpackId}
-      className={`z-10 flex items-start justify-center overflow-hidden rounded-md border-[3.5px] text-text border-${color}-300 `}
+      className={`z-10 flex items-start justify-center overflow-hidden rounded-md border-[3.5px] text-text lg:min-h-[109px] lg:min-w-[194px] border-${color}-300 `}
       onMouseEnter={() => {
         queryClient.prefetchQuery(["details", modpackId], () =>
           fetchPackDetail(modpackId as string)
@@ -33,11 +33,11 @@ const ModpackCard = ({
           loading="lazy"
           width="275"
           height="155"
-          placeholderSrc={`https://placehold.jp/275x155.png`}
+          placeholderSrc={`/src/assets/placeholderImg.png`}
           // onLoad={(e) => {
           //   e.currentTarget.classList.remove('blur-md')
           // }}
-          className={`aspect-video text-right bg-${color}-300 w-full border-b-[3.5px] border-${color}-300 overflow-hidden object-cover object-center`}
+          className={`lazy-load-image-2 aspect-video text-right bg-${color}-300 w-full border-b-[3.5px] border-${color}-300 overflow-hidden object-cover object-center`}
         />
 
         <div

@@ -8,6 +8,7 @@ import { useQueryClient } from "@tanstack/react-query";
 const PackListPage = () => {
   const queryClient = useQueryClient();
   const { data, isLoading, isError, error } = useModpackData(queryClient);
+  console.log(data);
 
   // set state for a button to scroll to the top of the page
   const [pageBottom, setPageBottom] = React.useState(false);
@@ -26,7 +27,7 @@ const PackListPage = () => {
     <>
       <section
         id="modpack__gallery"
-        className="grid  w-full justify-normal self-center text-text lg:mx-auto lg:min-w-[900px] lg:max-w-[900px] "
+        className="grid h-screen  w-full justify-normal self-center text-text lg:mx-auto lg:min-w-[900px] lg:max-w-[900px] "
       >
         {/* set the width to ffit the content and assign them to sm md lg for the container  like lg:max-w-[1000px]
         below and assthese same things to the nav width*/}
@@ -82,11 +83,11 @@ const PackListPage = () => {
           </div>
           <div className="absolute inset-0 h-full w-full flex-1 bg-text opacity-5"></div>
         </div>
-        <div className="p-body-inner m-4  mt-0 flex flex-1 items-center justify-end md:mr-0 lg:mr-0">
+        <div className="p-body-inner m-4  mt-0 flex  h-10   items-center justify-end md:mr-0 lg:mr-0">
           {/* button to scroll to the top of the page */}
           {pageBottom ? (
             <button
-              className=" flex h-10 w-10 items-center justify-center rounded-full bg-pri text-sm xl:text-base"
+              className=" flex w-10 items-center  justify-center rounded-full bg-pri text-sm hover:bg-hover-1 dark:hover:bg-hover-2 xl:text-base"
               onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             >
               ^

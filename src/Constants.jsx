@@ -15,7 +15,7 @@ export const staticLabels = [
   {
     modpackId: "placeholder",
     name: "Modpack",
-    imageUrl: "https://unsplash.it/1000",
+    imageUrl: "/src/assets/placeholderImg.png",
     color: "white",
     voteCount: 0,
     commentCount: 0,
@@ -23,7 +23,7 @@ export const staticLabels = [
   {
     modpackId: "placeholder",
     name: "Modpack",
-    imageUrl: "https://unsplash.it/1000",
+    imageUrl: "/src/assets/placeholderImg.png",
     color: "white",
     voteCount: 0,
     commentCount: 0,
@@ -31,7 +31,7 @@ export const staticLabels = [
   {
     modpackId: "placeholder",
     name: "Modpack",
-    imageUrl: "https://unsplash.it/1000",
+    imageUrl: "/src/assets/placeholderImg.png",
     color: "white",
     voteCount: 0,
     commentCount: 0,
@@ -39,7 +39,7 @@ export const staticLabels = [
   {
     modpackId: "placeholder",
     name: "Modpack",
-    imageUrl: "https://unsplash.it/1000",
+    imageUrl: "/src/assets/placeholderImg.png",
     color: "white",
     voteCount: 0,
     commentCount: 0,
@@ -47,7 +47,7 @@ export const staticLabels = [
   {
     modpackId: "placeholder",
     name: "Modpack",
-    imageUrl: "https://unsplash.it/1000",
+    imageUrl: "/src/assets/placeholderImg.png",
     color: "white",
     voteCount: 0,
     commentCount: 0,
@@ -55,7 +55,7 @@ export const staticLabels = [
   {
     modpackId: "placeholder",
     name: "Modpack",
-    imageUrl: "https://unsplash.it/1000",
+    imageUrl: "/src/assets/placeholderImg.png",
     color: "white",
     voteCount: 0,
     commentCount: 0,
@@ -63,7 +63,7 @@ export const staticLabels = [
   {
     modpackId: "placeholder",
     name: "Modpack",
-    imageUrl: "https://unsplash.it/1000",
+    imageUrl: "/src/assets/placeholderImg.png",
     color: "white",
     voteCount: 0,
     commentCount: 0,
@@ -71,7 +71,7 @@ export const staticLabels = [
   {
     modpackId: "placeholder",
     name: "Modpack",
-    imageUrl: "https://unsplash.it/1000",
+    imageUrl: "/src/assets/placeholderImg.png",
     color: "white",
     voteCount: 0,
     commentCount: 0,
@@ -79,7 +79,7 @@ export const staticLabels = [
   {
     modpackId: "placeholder",
     name: "Modpack",
-    imageUrl: "https://unsplash.it/1000",
+    imageUrl: "/src/assets/placeholderImg.png",
     color: "white",
     voteCount: 0,
     commentCount: 0,
@@ -87,7 +87,7 @@ export const staticLabels = [
   {
     modpackId: "placeholder",
     name: "Modpack",
-    imageUrl: "https://unsplash.it/1000",
+    imageUrl: "/src/assets/placeholderImg.png",
     color: "white",
     voteCount: 0,
     commentCount: 0,
@@ -96,7 +96,7 @@ export const staticLabels = [
 
 export const placeholderDetails = {
   name: "Modpack",
-  imageUrl: "https://unsplash.it/1000",
+  imageUrl: "/src/assets/placeholderImg.png",
   color: "grey",
   description: "This is a placeholder description",
   timesVoted: 0,
@@ -107,7 +107,7 @@ export const placeholderDetails = {
       comment: "This is a placeholder comment",
       timestamp: 0,
       discord_id: "0",
-      avatar_url: "https://unsplash.it/1000",
+      avatar_url: "a",
     },
   ],
 };

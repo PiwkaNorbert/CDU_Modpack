@@ -10,6 +10,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { LoginButton } from "../components/LoginButton";
 import { useQueryClient } from "@tanstack/react-query";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const PackDetails = () => {
   const { modpackId: id } = useParams();
@@ -139,12 +140,13 @@ const PackDetails = () => {
               <div className=" my-4 grid px-4 sm:grid-cols-2  md:space-x-4 ">
                 {/* toggle images in production */}
 
-                <img
+                <LazyLoadImage
                   src={`https://www.trainjumper.com${imageUrl}`}
                   alt="random"
                   width="412"
                   height="233"
-                  className={` mx-4 aspect-video place-self-center overflow-hidden rounded-md border-2 object-cover object-center sm:max-h-52   sm:object-fill  lg:max-h-60
+                  placeholderSrc={`/src/assets/placeholderImg.png`}
+                  className={`  aspect-video place-self-center overflow-hidden rounded-md border-2 object-cover object-center sm:max-h-52   sm:object-fill  lg:max-h-60
                border-${borderColor}-500 bg-${borderColor}-500`}
                 />
                 <div className="grid w-full content-center items-center md:mr-4 md:space-y-4">
