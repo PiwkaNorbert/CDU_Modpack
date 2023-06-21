@@ -1,7 +1,7 @@
 import React, { createContext, useEffect, useState } from "react";
 
 import { DiscordProfileData } from "../Utils/Interfaces";
-
+import { UserProviderProps } from "../Utils/Types";
 export const UserContext = createContext<{
   user: DiscordProfileData | undefined;
   setUser: React.Dispatch<React.SetStateAction<DiscordProfileData | undefined>>;
@@ -19,12 +19,12 @@ export const UserContext = createContext<{
 // Path: UserProvider.tsx
 // create a user provider that can be used in other components to get the user data from the context provider
 
-export const UserProvider: React.FC = ({
-  children,
-}: {
-  children?: React.ReactNode;
+export const UserProvider: React.FC<UserProviderProps> = ({
+  children
 }) => {
   const [user, setUser] = useState<DiscordProfileData | undefined>();
+
+  
 
   useEffect(() => {
     const user_profile = localStorage.getItem("user_profile");

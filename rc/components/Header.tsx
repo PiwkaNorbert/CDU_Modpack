@@ -55,7 +55,7 @@ export const Header = () => {
         {/* Amount of user votes remaining */}
 
             <div className=" justify-self-start min-[900px]:justify-self-center  min-[900px]:absolute ">
-              <p className="text-center uppercase ">{`You have ${userProfile.votesRemaining} votes remaining this month.`}</p>
+              <p className="text-center uppercase ">{`${userProfile.votesRemaining} votes remaining this month.`}</p>
             </div>
 
             <div className="flex items-center justify-end   w-full ">

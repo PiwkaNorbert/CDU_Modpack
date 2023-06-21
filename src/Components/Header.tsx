@@ -132,7 +132,7 @@ const Header = () => {
             />
 
             <div className=" order-3 hidden w-full justify-self-start sm:flex min-[900px]:justify-self-center  ">
-              <p className="text-center uppercase ">{`You have ${userProfile.votesRemaining} votes remaining this month.`}</p>
+              <p className="text-center uppercase ">{`${userProfile.votesRemaining} votes remaining this month.`}</p>
             </div>
 
             <div className="order-4 flex w-full items-center  justify-end ">

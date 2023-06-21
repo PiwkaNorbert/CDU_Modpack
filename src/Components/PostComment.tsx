@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useUser } from "../Context/useUser";
-import { IComment } from "../Utils/Interfaces";
+import { IPackDetails } from "../Utils/Interfaces";
 
 const PostComment = ({
   borderColor,
@@ -17,10 +17,15 @@ const PostComment = ({
   const { user } = useUser();
   const queryClient = useQueryClient();
 
+  const isDev = import.meta.env.VITE_NODE_ENV === "development";
+  const apiBase = isDev ? "https://www.trainjumper.com" : "";
+
+
   const commentMutation = useMutation(
     (comment: string) =>
+    toast.promise(
       axios.post(
-        `/api/comment`,
+        `${apiBase}/api/comment`,
         { comment, modpackId },
         {
           withCredentials: true,
@@ -29,22 +34,25 @@ const PostComment = ({
           },
         }
       ),
+      {
+        pending: 'Comment is pending',
+        success: 'Comment posted! 👌',
+        error: 'Comment rejected 🤯'
+      }),
     {
-      onSettled: () => {
-        queryClient.invalidateQueries(["details", modpackId]);
-        setComment("");
-      },
-      onSuccess: () => {
-        queryClient.setQueriesData(["details", modpackId], (oldData) => {
-          console.log(oldData);
 
+      onSuccess: () => {
+        queryClient.invalidateQueries(["details", modpackId]);
+        queryClient.setQueriesData(["details", modpackId], (oldData) => {
+          
+          const oldPackDetails = oldData as IPackDetails;
+          setComment("");
           return {
-            ...(oldData !== undefined ? (oldData as IComment[]) : []),
-            comments: { comment, username: "You" },
+            ...oldPackDetails,
+            comments: [...oldPackDetails.comments, {comment, username: 'You'}]
           };
         });
         setComment("");
-        toast.success("Comment posted!");
       },
       onError: (error) => {
         toast.error(`Couldn't post comment: ${error}`);

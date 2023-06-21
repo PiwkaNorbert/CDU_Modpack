@@ -8,7 +8,6 @@ import { useQueryClient } from "@tanstack/react-query";
 const PackListPage = () => {
   const queryClient = useQueryClient();
   const { data, isLoading, isError, error } = useModpackData(queryClient);
-  console.log(data);
 
   // set state for a button to scroll to the top of the page
   const [pageBottom, setPageBottom] = React.useState(false);

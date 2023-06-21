@@ -16,39 +16,49 @@ export default function VoteForPackButton({
   const { user, setRemainingVotes } = useUser();
 
   const addVote = useMutation(
-    () => axios.get(`/api/add-vote/${modpackId}`, { withCredentials: true }),
+   async () => await toast.promise(axios.get(`/api/add-vote/${modpackId}`, { withCredentials: true }),
+   {
+      pending: "Voting for this modpack...",
+      success: "Voted for this modpack!",
+      error: "Sorry, there was an error voting for this modpack!",
+   }),
     {
-      onError: (err) => {
-        console.error(err);
+      onError: (error: Error) => {
+        console.error(error);
         return toast.error(
-          "Sorry, there was an error voting for this modpack!"
+          `Error: ${error || "Unknown error"}}`
         );
       },
       onSuccess: (response) => {
         queryClient.invalidateQueries(["details", modpackId]);
         setRemainingVotes(response?.data.votes_remaining);
-        return toast.success("You have voted for this modpack!");
       },
     }
   );
 
   const removeVote = useMutation(
-    () =>
+   async () =>
+    await toast.promise(
       axios.get(`/api/remove-vote/${modpackId}`, {
         withCredentials: true,
-      }),
+       }),
+       {
+          pending: "Removing your vote...",
+          success: "Removed your vote.",
+          error: "Sorry, there was an error removing your vote for this modpack!",
+       }
+      ),
 
     {
-      onError: (err) => {
-        console.error(err);
+      onError: (error: Error) => {
+        console.error(error);
         return toast.error(
-          "Sorry, there was an error removing your vote for this modpack!"
+          `Error: ${error || "Unknown error"}}`
         );
       },
       onSuccess: (response) => {
         queryClient.invalidateQueries(["details", modpackId]);
         setRemainingVotes(response?.data.votes_remaining);
-        return toast.success("You have removed your vote.");
       },
     }
   );

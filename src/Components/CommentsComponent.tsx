@@ -1,9 +1,10 @@
-import { ICommentComponent } from "../Utils/Interfaces";
+import { ICommentComponent, IPackDetails } from "../Utils/Interfaces";
 import relativeDate from "../Helper/relativeDate";
 import { useQueryClient } from "@tanstack/react-query";
 import { useUser } from "../Context/useUser";
 import axios from "axios";
 import { toast } from "react-toastify";
+
 
 export function CommentsComponent({ borderColor, comment }: ICommentComponent) {
   const modpackId = window.location.pathname.split("/")[2];
@@ -28,9 +29,9 @@ export function CommentsComponent({ borderColor, comment }: ICommentComponent) {
           </p>
           {/* If userProfile is super user / moderator show delete comment button underneith */}
           {user?.isAdmin && (
-            <div className="flex items-center gap-2">
+            <div className="flex items-center justify-self-end gap-2">
               <button
-                className={`text-content text-justify text-${borderColor}-600 rounded-md px-3 py-1 text-xs hover:bg-hover-1 dark:hover:bg-hover-2`}
+                className={`text-content text-justify border border-sec  text-red-500 hover:bg-hover-1 dark:hover:bg-hover-2 rounded-md px-3 py-1 text-xs `}
                 onClick={async () => {
                   if (
                     prompt(
@@ -41,8 +42,8 @@ export function CommentsComponent({ borderColor, comment }: ICommentComponent) {
                   }
 
                   try {
-                    const res = await axios.delete(
-                      `http://trainjumper.com/api/delete-comment`,
+                    const res = await toast.promise(axios.delete(
+                      `/api/delete-comment`,
                       {
                         withCredentials: true,
                         headers: {
@@ -53,6 +54,12 @@ export function CommentsComponent({ borderColor, comment }: ICommentComponent) {
                           commentId: comment?.uuid,
                         },
                       }
+                    ),
+                    {
+                      pending: 'Attempting to delete comment...',
+                      success: 'Comment deleted! 👌',
+                      error: "Couldn't delete comment 🤯"
+                    }
                     );
                     res.status !== 200 && console.error(res);
 
@@ -61,13 +68,20 @@ export function CommentsComponent({ borderColor, comment }: ICommentComponent) {
                       "details",
                       modpackId,
                     ]);
+                    queryClient.setQueryData(["details", modpackId], (oldData) => {
+                       
+                    const oldPackDetails = oldData as IPackDetails;
+                    console.log(oldPackDetails);
+                    
+                    return {
+                      ...oldPackDetails,
+                      comments: [...oldPackDetails.comments.filter((c) => c.uuid !== comment?.uuid)]
+                    };
+                    })
 
-                    toast.success("Comment deleted");
-                    return (window.location.href = "/");
                   } catch (error: Error | unknown | string) {
                     console.error(error);
-                    toast.error("Error: Couldn't delete comment");
-                    throw new Error(error as string);
+                    toast.error(`Error: ${error}`);
                   }
                 }}
               >

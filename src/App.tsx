@@ -20,6 +20,7 @@ const queryClient = new QueryClient();
 
 function App() {
   const { user } = useUser();
+  console.log(user);
   return (
     <QueryClientProvider client={queryClient}>
       <main className="flex min-h-screen flex-col text-text ">
@@ -32,7 +33,7 @@ function App() {
 
             <Route path="*" element={<Navigate to="/404" replace />} />
             <Route path="404" element={<NotFoundPage />} />
-            {!user?.isAdmin && (
+            {/* {user?.isAdmin && ( */}
               <>
                 <Route path="add-modpack" element={<AddModpack />} />
                 <Route
@@ -40,9 +41,9 @@ function App() {
                   element={<EditModpack />}
                 />
               </>
-            )}
+            {/* )} */}
           </Routes>
-          <ToastContainer limit={3} />
+          <ToastContainer limit={3} pauseOnFocusLoss={false} autoClose={2000} />
         </BrowserRouter>
 
         <FetchingIndicator />

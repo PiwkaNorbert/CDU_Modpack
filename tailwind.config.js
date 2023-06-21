@@ -35,9 +35,9 @@ export default {
         },
       },
       backgroundImage: {
-        'heart': "url('heart.svg')",
-        'heartBreak': "url('heartbreak.svg')",
-        'comment': "url('chat-circle-fill.svg')",
+        'heart': "url('/heart.svg')",
+        'heartBreak': "url('/heartbreak.svg')",
+        'comment': "url('/chat-circle-fill.svg')",
       },
       boxShadow: {
         header: "0 0 8px 3px rgba(0,0,0,0.3)",

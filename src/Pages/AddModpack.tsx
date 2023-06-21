@@ -36,6 +36,7 @@ const AddModpack = () => {
 
   const addModpackMutation = useMutation(
     (addModpackBody: AddModpackProps) =>
+    toast.promise(
       axios.post(
         `/api/add-modpack`,
         { addModpackBody },
@@ -45,16 +46,29 @@ const AddModpack = () => {
           },
           withCredentials: true,
         }
-      ),
-    {
+        ),{
+          pending: "Adding Modpack...",
+          success: "Modpack Added!",
+          error: "Couldn't add modpack",
+        }
+        ),
+        {
       onSuccess: (data) => {
         queryClient.setQueryData(["modpacks"], data.data as IModpack[]);
         queryClient.invalidateQueries(["modpacks"]);
-        toast.success("Modpack Added!");
         navigate("/");
       },
-      onError: (error) => {
-        toast.error(`Couldn't add modpack: ${error}`);
+      onError: (error: Error) => {
+        if (axios.isAxiosError(error)) {
+          console.error('error message: ', error.message);
+          
+        } else {
+          console.error('unexpected error: ', error.message);
+          toast.error(`Couldn't add modpack: ${error.response?.data.message}`);
+          throw new Error(
+            "Couldn't fetch Modpack details, please try again later."
+          );
+        }
       },
     }
   );
@@ -75,12 +89,14 @@ const AddModpack = () => {
           e.preventDefault();
           if (addModpackMutation.isLoading) return;
 
+          const target = e.target as HTMLFormElement;
+
           addModpackMutation.mutate({
-            name: e.target.name.value,
-            description: e.target.description.value,
-            color: e.target.color.value,
-            suggestor: e.target.suggestor.value,
-            image: e.target.image.files[0],
+            name: target.name.value,
+            description: target.description.value,
+            color: target.color.value,
+            suggestor: target.suggestor.value,
+            image: target.image.files[0],
           });
         }}
       >

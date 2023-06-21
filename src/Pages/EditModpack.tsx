@@ -62,11 +62,11 @@ const EditModpack = () => {
       axios.post(
         `${apiBase}/api/edit-modpack/`,
         {
-          modpackName,
-          modpackDescription,
-          modpackImage,
-          modpackColor,
-          modpackSuggestor,
+         name: modpackName,
+         description: modpackDescription,
+         image: modpackImage,
+         color: modpackColor,
+         suggestor: modpackSuggestor,
         },
         { headers: { "Content-Type": "multipart/form-data" } }
       ),

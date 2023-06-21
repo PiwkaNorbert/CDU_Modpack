@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { IModpack } from "../data";
 import useModpackData from "../API/useModpackData";
+import { useQueryClient } from "@tanstack/react-query";
 
 const Homepage = () => {
-  const { data, isLoading, isError } = useModpackData();
+  const queryClient = useQueryClient();
+  const { data, isLoading, isError } = useModpackData(queryClient);
 
   // set state for a button to scroll to the top of the page
   const [pageBottom, setPageBottom] = useState(false);

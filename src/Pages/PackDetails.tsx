@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 import { LoginButton } from "../Components/LoginButton";
 import { useQueryClient } from "@tanstack/react-query";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-
+import { useNavigate } from "react-router-dom";
 const PackDetails = () => {
   const { modpackId: id } = useParams();
   const modpackId = id as string;
@@ -20,7 +20,7 @@ const PackDetails = () => {
     usePackDetailData(modpackId);
   const { user } = useUser();
   const queryClient = useQueryClient();
-
+  const navigate = useNavigate()
   const isDev = import.meta.env.VITE_NODE_ENV === "development";
   const apiBase = isDev ? "https://www.trainjumper.com" : "";
 
@@ -40,6 +40,7 @@ const PackDetails = () => {
   const commentCount = comments
     ? comments.length
     : Math.floor(Math.random() * 10);
+
 
   return (
     <>
@@ -101,7 +102,7 @@ const PackDetails = () => {
                         }
 
                         try {
-                          const res = await axios.delete(
+                          const res = await toast.promise(axios.delete(
                             `${apiBase}/api/delete-modpack`,
                             {
                               withCredentials: true,
@@ -112,7 +113,12 @@ const PackDetails = () => {
                                 modpackId,
                               },
                             }
-                          );
+                          ),{
+                            pending: "Deleting Modpack...",
+                            success: "Modpack deleted",
+                            error: "Error: Couldn't delete Modpack",
+
+                          });
                           res.status !== 200 && console.error(res);
 
                           queryClient.invalidateQueries([
@@ -121,8 +127,7 @@ const PackDetails = () => {
                             modpackId,
                           ]);
 
-                          toast.success("Modpack deleted");
-                          return (window.location.href = "/");
+                          return navigate("/")
                         } catch (error: Error | unknown | string) {
                           console.error(error);
                           toast.error("Error: Couldn't delete Modpack");
@@ -146,7 +151,7 @@ const PackDetails = () => {
                   width="412"
                   height="233"
                   placeholderSrc={`/src/assets/placeholderImg.png`}
-                  className={`  aspect-video place-self-center overflow-hidden rounded-md border-2 object-cover object-center sm:max-h-52   sm:object-fill  lg:max-h-60
+                  className={`  aspect-video place-self-center overflow-hidden mx-auto rounded-md border-2 object-cover object-center sm:max-h-52   sm:object-fill  lg:max-h-60
                border-${borderColor}-500 bg-${borderColor}-500`}
                 />
                 <div className="grid w-full content-center items-center md:mr-4 md:space-y-4">
