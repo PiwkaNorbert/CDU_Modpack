@@ -35,11 +35,17 @@ const AddModpack = () => {
   const navigate = useNavigate();
 
   const addModpackMutation = useMutation(
-    (addModpackBody: AddModpackProps) =>
+    ({ name, description, color, suggestor, image }: AddModpackProps) => 
     toast.promise(
       axios.post(
         `/api/add-modpack`,
-        { addModpackBody },
+        {
+          name,
+          description,
+          color,
+          suggestor,
+          image,
+        },
         {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -53,10 +59,9 @@ const AddModpack = () => {
         }
         ),
         {
-      onSuccess: (data) => {
-        queryClient.setQueryData(["modpacks"], data.data as IModpack[]);
+      onSuccess: () => {
         queryClient.invalidateQueries(["modpacks"]);
-        navigate("/");
+       return navigate("/");
       },
       onError: (error: Error) => {
         if (axios.isAxiosError(error)) {
@@ -64,7 +69,7 @@ const AddModpack = () => {
           
         } else {
           console.error('unexpected error: ', error.message);
-          toast.error(`Couldn't add modpack: ${error.response?.data.message}`);
+          // toast.error(`Couldn't add modpack: ${error.response?.data.message}`);
           throw new Error(
             "Couldn't fetch Modpack details, please try again later."
           );
@@ -176,7 +181,7 @@ const AddModpack = () => {
         <br />
 
         <button
-          className={`h-16  rounded-md border-2 border-black dark:text-bg bg-${borderColor}-500 px-3 py-1 text-sm xl:text-base`}
+          className={`h-16 disabled:bg-slate-600 rounded-md border-2 border-black dark:text-bg bg-${borderColor}-500 px-3 py-1 text-sm xl:text-base`}
           disabled={addModpackMutation.isLoading}
         >
           {addModpackMutation.isLoading ? "Adding Modpack" : "Add Modpack"}

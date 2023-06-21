@@ -23,6 +23,7 @@ const PackDetails = () => {
   const navigate = useNavigate()
   const isDev = import.meta.env.VITE_NODE_ENV === "development";
   const apiBase = isDev ? "https://www.trainjumper.com" : "";
+console.log(user);
 
   if (isLoading) return <Loading size="la-lx" fullScreen={true} other="" />;
   if (isError) return <p>{error?.message}</p>;
@@ -48,7 +49,7 @@ const PackDetails = () => {
         id="modpack__details"
         className="flex w-full flex-col justify-normal self-start bg-bg text-text lg:justify-center "
       >
-        <div className="  bg-bg shadow-2xl shadow-bg/20 dark:shadow-none  lg:my-2 lg:max-w-4xl lg:justify-center lg:place-self-center lg:rounded-xl ">
+        <div className="  bg-bg shadow-2xl shadow-bg/20 dark:shadow-none   lg:max-w-4xl lg:justify-center lg:place-self-center lg:rounded-xl ">
           <div
             key={modpackId}
             className={` grid items-center overflow-hidden lg:rounded-md lg:border-4 border-${borderColor}-500 h-full `}

@@ -27,6 +27,7 @@ export interface IComment {
 }
 export interface ICommentComponent {
   borderColor: string;
+  discordId : string | undefined;
   comment: IComment;
 }
 export interface DiscordProfileData {

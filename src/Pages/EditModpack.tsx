@@ -5,13 +5,15 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import usePackDetailData from "../API/usePackDetailData";
+import { useNavigate } from "react-router-dom";
+
 
 export interface AddModpackProps {
-  modpackName: string;
-  modpackDescription: string;
-  modpackImage: File | undefined;
-  modpackColor: string;
-  modpackSuggestor: string;
+  name: string;
+  description: string;
+  image: File | undefined;
+  color: string;
+  suggestor: string;
 }
 
 const EditModpack = () => {
@@ -19,21 +21,11 @@ const EditModpack = () => {
   // fetch the data from the server using the modpackName from the url
   const { modpackId: id } = useParams();
   const modpackId = id as string;
-  const { data: packDetails } = usePackDetailData(modpackId);
+  
+  const [modpackDescription, setModpackDescription] =
+    React.useState<string>("");
+  const [modpackColor, setModpackColor] = React.useState<string>("sky");
 
-  const [modpackName, setModpackName] = React.useState<string>(
-    packDetails?.name
-  );
-  const [modpackDescription, setModpackDescription] = React.useState<string>(
-    packDetails?.description
-  );
-  const [modpackImage, setModpackImage] = React.useState<File>();
-  const [modpackColor, setModpackColor] = React.useState<string>(
-    packDetails?.color
-  );
-  const [modpackSuggestor, setModpackSuggestor] = React.useState<string>(
-    packDetails?.suggestedBy
-  );
 
   const colorOptions = [
     { value: "red", label: "Red" },
@@ -51,86 +43,99 @@ const EditModpack = () => {
   const apiBase = isDev ? "https://www.trainjumper.com" : "";
 
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
+
   const editModpackMutation = useMutation(
-    ({
-      modpackName,
-      modpackDescription,
-      modpackImage,
-      modpackColor,
-      modpackSuggestor,
-    }: AddModpackProps) =>
+    ({ name, description, color, suggestor, image }: AddModpackProps) => 
+    toast.promise(
       axios.post(
-        `${apiBase}/api/edit-modpack/`,
+        `${apiBase}/api/edit-modpack`,
         {
-         name: modpackName,
-         description: modpackDescription,
-         image: modpackImage,
-         color: modpackColor,
-         suggestor: modpackSuggestor,
+          modpackId,
+          name,
+          description,
+          color,
+          suggestor,
+          image,
         },
-        { headers: { "Content-Type": "multipart/form-data" } }
-      ),
-    {
-      onSettled: () => {
-        queryClient.invalidateQueries(["details", modpackId]);
-      },
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          withCredentials: true,
+        }
+        ),{
+          loading: "Editing Modpack...",
+          success: "Modpack Edited!",
+        }
+        ),
+        {
       onSuccess: () => {
-        toast.success("Modpack Added!");
+        queryClient.invalidateQueries(["modpacks"]);
+       return navigate(`/pack-details/${modpackId}`);
       },
-      onError: (error) => {
-        toast.error(`Couldn't add modpack: ${error}`);
+      onError: (error: Error) => {
+        if (axios.isAxiosError(error)) {
+          console.error('error message: ', error.message);
+          return toast.error(error.response?.data.message);
+          
+        } else {
+          console.error('unexpected error: ', error.message);
+          // toast.error(`Couldn't add modpack: ${error.response?.data.message}`);
+           toast.error(error.response?.data.message);
+
+          throw new Error(
+            "Couldn't fetch Modpack details, please try again later."
+          );
+        }
       },
     }
   );
+  const borderColor = modpackColor || "sky";
 
-  const fileSelectedHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setModpackImage(e.target.files[0]);
-    }
-  };
 
   return (
     <>
       {/* Title of the form, centered */}
       <div className="flex items-center justify-center">
-        <h1 className="m-3 mt-5 text-2xl xl:text-3xl">Edit </h1>
+        <h1 className="m-3 mt-5 text-2xl xl:text-3xl">
+          Edit
+        </h1>
       </div>
       <form
-        method="post"
         className="grid items-center justify-center gap-4 pt-[.5em] text-sm placeholder:text-slate-400  dark:text-bg xl:text-base"
         onSubmit={async (e: React.FormEvent<HTMLFormElement>) => {
           e.preventDefault();
-
           if (editModpackMutation.isLoading) return;
 
+          const target = e.target as HTMLFormElement;
+
           editModpackMutation.mutate({
-            modpackName,
-            modpackDescription,
-            modpackImage,
-            modpackColor,
-            modpackSuggestor,
+            name: target.name.value,
+            description: target.description.value,
+            color: target.color.value,
+            suggestor: target.suggestor.value,
+            image: target.image.files[0],
           });
         }}
       >
         {/* Modpack name field, single line. */}
         <input
-          required
-          className={` h-8 rounded-md border-2  border-${packDetails?.color}-500 px-3 py-1`}
+          className={` h-8 rounded-md border-2  border-${borderColor}-500 px-3 py-1`}
           type="text"
-          placeholder="Modpack Name"
-          value={modpackName}
-          onChange={(e) => setModpackName(e.target.value)}
+          placeholder="Name"
+          name="name"
         />
 
         {/* Modpack description field, multi line. */}
         {/* In order to make the modpack field multi line, we need to use a textarea instead of an input. */}
         <textarea
-          className={` min-h-[100px] rounded-md border-2   border-${packDetails?.color}-500 w-96 px-3 py-1 out-of-range:border-red-500 `}
+          className={` min-h-[100px] rounded-md border-2   border-${borderColor}-500 w-96 px-3 py-1 out-of-range:border-red-500 `}
           placeholder="Modpack Description"
           value={modpackDescription}
-          required
+          name="description"
           onChange={(e) => {
-            const newLength = e.target.value?.length;
+            const newLength = e.target.value.length;
             if (newLength >= 0 && newLength <= 500) {
               return setModpackDescription(e.target.value);
             }
@@ -139,23 +144,17 @@ const EditModpack = () => {
         />
         {/* Adds a character counter to the description field */}
         <div className="-mt-2 flex items-center justify-center dark:text-text">
-          <p>{modpackDescription?.length}/500</p>
+          <p>{modpackDescription.length}/500</p>
         </div>
 
         {/*Color selection*/}
         <select
-          className={` h-8 rounded-md border-2  dark:text-bg border-${packDetails?.color}-500 bg-${packDetails?.color}-300 px-3 py-1 font-Tilt `}
-          value={modpackColor}
-          onChange={(e) => setModpackColor(e.target.value)}
+          className={` h-8 rounded-md border-2  dark:text-bg border-${borderColor}-500 bg-${borderColor}-300 px-3 py-1 font-Tilt `}
+          name="color"
+          onChange={(e) => {
+            setModpackColor(e.target.value);
+          }}
         >
-          <option
-            disabled
-            value={packDetails?.color}
-            selected
-            className="capitalized"
-          >
-            {packDetails?.color}
-          </option>
           {colorOptions.map((colorOption, index) => (
             <option
               key={index}
@@ -167,17 +166,15 @@ const EditModpack = () => {
           ))}
         </select>
 
-        <p className="-mb-2 dark:text-text">Modpack Image</p>
+        <p className="-mb-2 dark:text-text">Image</p>
         <input
-          required
-          name="modpack__image--input"
-          className={`cursor-pointer rounded-md border-2 file:placeholder:text-slate-400 dark:text-text border-${packDetails?.color}-500 h-8 w-full px-3 py-1`}
+          name="image"
+          className={`cursor-pointer rounded-md border-2 file:placeholder:text-slate-400 dark:text-text border-${borderColor}-500 h-8 w-full px-3 py-1`}
           type="file"
-          onChange={fileSelectedHandler}
         />
 
         <label
-          htmlFor="modpack__image--input"
+          htmlFor="image"
           className={`-mt-2 text-sm dark:text-text xl:text-base`}
         >
           {" "}
@@ -186,19 +183,19 @@ const EditModpack = () => {
 
         {/* Modpack suggestor field, single line. */}
         <input
-          className={`h-8 rounded-md border-2   border-${packDetails?.color}-500 px-3 py-1 `}
+          className={`h-8 rounded-md border-2   border-${borderColor}-500 px-3 py-1 `}
           type="text"
           placeholder="Modpack Suggestor"
-          value={modpackSuggestor}
-          onChange={(e) => setModpackSuggestor(e.target.value)}
+          name="suggestor"
         />
 
         <br />
 
         <button
-          className={`h-16  rounded-md border-2 border-black dark:text-bg bg-${packDetails?.color}-500 px-3 py-1 text-sm xl:text-base`}
+          className={`h-16 disabled:bg-slate-600 rounded-md border-2 border-black dark:text-bg bg-${borderColor}-500 px-3 py-1 text-sm xl:text-base`}
+          disabled={editModpackMutation.isLoading}
         >
-          Edit Modpack
+          {editModpackMutation.isLoading ? "Editing Modpack" : "Edit Modpack"}
         </button>
       </form>
     </>
