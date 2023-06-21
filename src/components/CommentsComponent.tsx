@@ -77,7 +77,7 @@ export function CommentsComponent({ borderColor, comment }: ICommentComponent) {
           )}
         </div>
       </div>
-      <p className="text-content p-[.5em] text-justify text-sm xl:text-base  xl:text-base">
+      <p className="text-content p-[.5em] text-justify text-sm xl:text-base ">
         {comment?.comment}
       </p>
     </>

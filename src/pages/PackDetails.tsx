@@ -1,14 +1,14 @@
 import { useParams } from "react-router-dom";
 import usePackDetailData from "../API/usePackDetailData";
-import { CommentsComponent } from "../components/CommentsComponent";
-import { IPackDetails } from "../UTILS/Interfaces";
-import Loading from "../components/Loading";
-import VoteForPackButton from "../components/VoteForPackButton";
-import PostComment from "../components/PostComment";
+import { CommentsComponent } from "../Components/CommentsComponent";
+import { IPackDetails } from "../Utils/Interfaces";
+import Loading from "../Components/Loading";
+import VoteForPackButton from "../Components/VoteForPackButton";
+import PostComment from "../Components/PostComment";
 import { useUser } from "../Context/useUser";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { LoginButton } from "../components/LoginButton";
+import { LoginButton } from "../Components/LoginButton";
 import { useQueryClient } from "@tanstack/react-query";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
