@@ -8,36 +8,43 @@ export default {
   content: ["./index.html", "./src/*/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      backgroundOpacity: ["active"],
       backgroundSize: {
-        'size-200': '200% 200%',
+        "size-200": "200% 200%",
       },
       backgroundPosition: {
-        'pos-0': '0% 0%',
-        'pos-100': '100% 100%',
+        "pos-0": "0% 0%",
+        "pos-100": "100% 100%",
       },
       animation: {
-        'bounce-slow': 'bounce-slow 2s linear infinite',
+        "bounce-slow": "bounce-slow 2s linear infinite",
         "pulse-slow": "pulse-slow 10s linear infinite",
         breathing: "breathing 5s ease-in-out infinite",
       },
       keyframes: {
-        'bounce-slow': {
-          '0%, 100%': { transform: 'translateY(0px)', animationTimingFunction: 'cubic-bezier(0.8, 0, 1, 1)' },
-          '50%': { transform: 'translateY(7px)', animationTimingFunction: 'cubic-bezier(0, 0, 0.2, 1)' },
+        "bounce-slow": {
+          "0%, 100%": {
+            transform: "translateY(0px)",
+            animationTimingFunction: "cubic-bezier(0.8, 0, 1, 1)",
+          },
+          "50%": {
+            transform: "translateY(7px)",
+            animationTimingFunction: "cubic-bezier(0, 0, 0.2, 1)",
+          },
         },
-        'pulse-slow': {
-          '0%, 100%': { opacity: 1 },
-          '50%': { opacity: 0.7 },
+        "pulse-slow": {
+          "0%, 100%": { opacity: 1 },
+          "50%": { opacity: 0.7 },
         },
         breathing: {
-          '0%, 100%': { transform: 'scale(1)' },
-          '50%': { transform: 'scale(1.05)' },
+          "0%, 100%": { transform: "scale(1)" },
+          "50%": { transform: "scale(1.05)" },
         },
       },
       backgroundImage: {
-        'heart': "url('/heart.svg')",
-        'heartBreak': "url('/heartbreak.svg')",
-        'comment': "url('/chat-circle-fill.svg')",
+        heart: "url('/heart.svg')",
+        heartBreak: "url('/heartbreak.svg')",
+        comment: "url('/chat-circle-fill.svg')",
       },
       boxShadow: {
         header: "0 0 8px 3px rgba(0,0,0,0.3)",
@@ -48,13 +55,13 @@ export default {
         "1em": ".5em",
       },
       colors: {
-        bg:  "hsl(var(--clr-bg) / <alpha-value>)",
-        text:  "hsl(var(--clr-text) / <alpha-value>)",
-        acc:  "hsl(var(--clr-acc) / <alpha-value>)",
-        pri:  "hsl(var(--clr-pri) / <alpha-value>)",
-        sec:  "hsl(var(--clr-sec) / <alpha-value>)",
+        bg: "hsl(var(--clr-bg) / <alpha-value>)",
+        text: "hsl(var(--clr-text) / <alpha-value>)",
+        acc: "hsl(var(--clr-acc) / <alpha-value>)",
+        pri: "hsl(var(--clr-pri) / <alpha-value>)",
+        sec: "hsl(var(--clr-sec) / <alpha-value>)",
 
-        borderColor:{
+        borderColor: {
           0: "hsl(var(--clr-border-0) / <alpha-value>)",
         },
         hover: {

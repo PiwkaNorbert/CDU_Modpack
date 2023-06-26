@@ -64,7 +64,7 @@ const PostComment = ({
   return (
     <form
       method="post"
-      className="flex  items-center justify-center gap-4  py-4 text-sm xl:text-base "
+      className="flex items-start justify-center gap-4  py-4 text-sm xl:text-base "
       onSubmit={async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         // short circuit if the user is already posting a comment
@@ -81,13 +81,24 @@ const PostComment = ({
         loading="lazy"
         className="h-10 w-10 rounded-full"
       />
-      <input
-        type="text"
-        className={` h-10 w-full rounded-md border  dark:text-bg border-${borderColor}-300 px-3 py-1 `}
-        placeholder="Add a comment..."
-        onChange={(e) => setComment(e.target.value)}
-        value={comment}
-      />
+      <div className=" w-full">
+        <textarea
+          className={` min-h-10 w-full rounded-md border  dark:text-bg border-${borderColor}-300 px-3 py-1 `}
+          placeholder="Add a comment..."
+          value={comment}
+          onChange={(e) => {
+            const newLength = e.target.value.length;
+            if (newLength >= 0 && newLength <= 500) {
+              return setComment(e.target.value);
+            }
+            toast.error("Too many characters");
+          }}
+        />
+        <div className="mt-2 flex items-center justify-center dark:text-text">
+          <p>{comment.length}/500</p>
+        </div>
+      </div>
+      {/* Adds a character counter to the description field */}
       <button
         type="submit"
         className={`h-10  rounded-md text-text  bg-${borderColor}-500  px-3 py-1 hover:opacity-80 `}
