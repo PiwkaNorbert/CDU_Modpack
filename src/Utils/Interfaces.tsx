@@ -5,6 +5,7 @@ export interface IModpack {
   color: string;
   voteCount: number;
   commentCount: number;
+  hasVoted: boolean;
 }
 
 export interface IPackDetails {
@@ -27,7 +28,7 @@ export interface IComment {
 }
 export interface ICommentComponent {
   borderColor: string;
-  discordId : string | undefined;
+  discordId: string | undefined;
   comment: IComment;
 }
 export interface DiscordProfileData {

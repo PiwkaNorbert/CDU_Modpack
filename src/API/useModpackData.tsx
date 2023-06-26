@@ -18,6 +18,8 @@ const useModpackData = (queryClient: QueryClient) => {
     data.forEach((pack: IModpack) => {
       queryClient.setQueryData(["details", pack.modpackId], pack);
     });
+    console.log("data: ", data);
+
     return data;
   };
 
@@ -25,14 +27,12 @@ const useModpackData = (queryClient: QueryClient) => {
     staleTime: 1000 * 60 * 5, // 5 minutes
     keepPreviousData: true,
     placeholderData: staticLabels,
-    
 
     onError: (_err: Error) => {
       console.error(_err);
 
       throw new Error("Couldn't fetch Modpack data, please try again later.");
     },
-
   });
 };
 

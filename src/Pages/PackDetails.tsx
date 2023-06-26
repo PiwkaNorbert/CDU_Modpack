@@ -20,10 +20,10 @@ const PackDetails = () => {
     usePackDetailData(modpackId);
   const { user } = useUser();
   const queryClient = useQueryClient();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const isDev = import.meta.env.VITE_NODE_ENV === "development";
   const apiBase = isDev ? "https://www.trainjumper.com" : "";
-console.log(user);
+  console.log(user);
 
   if (isLoading) return <Loading size="la-lx" fullScreen={true} other="" />;
   if (isError) return <p>{error?.message}</p>;
@@ -41,7 +41,6 @@ console.log(user);
   const commentCount = comments
     ? comments.length
     : Math.floor(Math.random() * 10);
-
 
   return (
     <>
@@ -103,9 +102,8 @@ console.log(user);
                         }
 
                         try {
-                          const res = await toast.promise(axios.delete(
-                            `${apiBase}/api/delete-modpack`,
-                            {
+                          const res = await toast.promise(
+                            axios.delete(`${apiBase}/api/delete-modpack`, {
                               withCredentials: true,
                               headers: {
                                 "Content-Type": "application/json",
@@ -113,13 +111,13 @@ console.log(user);
                               data: {
                                 modpackId,
                               },
+                            }),
+                            {
+                              pending: "Deleting Modpack...",
+                              success: "Modpack deleted",
+                              error: "Error: Couldn't delete Modpack",
                             }
-                          ),{
-                            pending: "Deleting Modpack...",
-                            success: "Modpack deleted",
-                            error: "Error: Couldn't delete Modpack",
-
-                          });
+                          );
                           res.status !== 200 && console.error(res);
 
                           queryClient.invalidateQueries([
@@ -128,7 +126,7 @@ console.log(user);
                             modpackId,
                           ]);
 
-                          return navigate("/")
+                          return navigate("/");
                         } catch (error: Error | unknown | string) {
                           console.error(error);
                           toast.error("Error: Couldn't delete Modpack");
@@ -152,7 +150,7 @@ console.log(user);
                   width="412"
                   height="233"
                   placeholderSrc={`/src/assets/placeholderImg.png`}
-                  className={`  aspect-video place-self-center overflow-hidden mx-auto rounded-md border-2 object-cover object-center sm:max-h-52   sm:object-fill  lg:max-h-60
+                  className={`  mx-auto aspect-video place-self-center overflow-hidden rounded-md border-2 object-cover object-center sm:max-h-52   sm:object-fill  lg:max-h-60
                border-${borderColor}-500 bg-${borderColor}-500`}
                 />
                 <div className="grid w-full content-center items-center md:mr-4 md:space-y-4">
@@ -174,6 +172,25 @@ console.log(user);
                 </div>
               </div>
               {/* style the descripion to scroll on overflow and a max height of 364px */}
+              <div className=" flex w-full flex-col items-center justify-center gap-2 px-4 sm:flex-row md:mt-4">
+                Modpack official page:{" "}
+                <a
+                  href="www."
+                  className={` flex items-center gap-1 text-${borderColor}-500 hover:opacity-80`}
+                >
+                  Here
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    fill="currentColor"
+                    stroke="currentColor"
+                    viewBox="0 0 256 256"
+                  >
+                    <path d="M192,136v72a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V80A16,16,0,0,1,48,64h72a8,8,0,0,1,0,16H48V208H176V136a8,8,0,0,1,16,0Zm32-96a8,8,0,0,0-8-8H152a8,8,0,0,0-5.66,13.66L172.69,72l-42.35,42.34a8,8,0,0,0,11.32,11.32L184,83.31l26.34,26.35A8,8,0,0,0,224,104Z"></path>
+                  </svg>
+                </a>
+              </div>
               <div className="my-4 px-4  ">
                 <h3 className="text-2xl capitalize xl:text-3xl ">
                   description

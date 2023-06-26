@@ -9,6 +9,7 @@ const ModpackCard = ({
   color,
   voteCount,
   commentCount,
+  hasVoted,
 }: IModpack) => {
   const queryClient = useQueryClient();
 
@@ -40,11 +41,15 @@ const ModpackCard = ({
           className={`lazy-load-image-2 aspect-video text-right bg-${color}-300 w-full border-b-[3.5px] border-${color}-300 overflow-hidden object-cover object-center`}
         />
 
+        <p className="text-content flex justify-center hyphens-auto px-2 py-4 text-center uppercase">
+          {name}
+        </p>
+
         <div
           className={`absolute flex overflow-hidden rounded-r-full text-bg dark:text-text bg-${color}-300 left-0 top-0 text-base leading-5 `}
         >
           <span
-            className={`flex h-8   w-8 items-center justify-center bg-transparent bg-heart bg-contain bg-center bg-no-repeat`}
+            className={`flex h-8    w-8 items-center justify-center bg-transparent bg-heart bg-contain bg-center bg-no-repeat`}
           >
             {voteCount}
           </span>
@@ -52,10 +57,6 @@ const ModpackCard = ({
             {commentCount}
           </span>
         </div>
-
-        <p className="text-content flex justify-center hyphens-auto px-2 py-4 text-center uppercase">
-          {name}
-        </p>
       </a>
     </div>
   );

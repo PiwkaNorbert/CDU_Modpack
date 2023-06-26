@@ -20,36 +20,37 @@ const PostComment = ({
   const isDev = import.meta.env.VITE_NODE_ENV === "development";
   const apiBase = isDev ? "https://www.trainjumper.com" : "";
 
-
   const commentMutation = useMutation(
     (comment: string) =>
-    toast.promise(
-      axios.post(
-        `${apiBase}/api/comment`,
-        { comment, modpackId },
+      toast.promise(
+        axios.post(
+          `${apiBase}/api/comment`,
+          { comment, modpackId },
+          {
+            withCredentials: true,
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        ),
         {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-          },
+          pending: "Comment is pending",
+          success: "Comment posted! 👌",
+          error: "Comment rejected 🤯",
         }
       ),
-      {
-        pending: 'Comment is pending',
-        success: 'Comment posted! 👌',
-        error: 'Comment rejected 🤯'
-      }),
     {
-
       onSuccess: () => {
         queryClient.invalidateQueries(["details", modpackId]);
         queryClient.setQueriesData(["details", modpackId], (oldData) => {
-          
           const oldPackDetails = oldData as IPackDetails;
           setComment("");
           return {
             ...oldPackDetails,
-            comments: [...oldPackDetails.comments, {comment, username: 'You'}]
+            comments: [
+              ...oldPackDetails.comments,
+              { comment, username: "You" },
+            ],
           };
         });
         setComment("");
@@ -89,7 +90,7 @@ const PostComment = ({
       />
       <button
         type="submit"
-        className={`h-10  rounded-md text-text  bg-${borderColor}-500   px-3 py-1 `}
+        className={`h-10  rounded-md text-text  bg-${borderColor}-500  px-3 py-1 hover:opacity-80 `}
       >
         Post
       </button>

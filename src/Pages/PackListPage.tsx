@@ -62,6 +62,7 @@ const PackListPage = () => {
                     color,
                     voteCount,
                     commentCount,
+                    hasVoted,
                   }: IModpack,
                   index: number
                 ) => {
@@ -74,6 +75,7 @@ const PackListPage = () => {
                       color={color}
                       voteCount={voteCount}
                       commentCount={commentCount}
+                      hasVoted={hasVoted}
                     />
                   );
                 }

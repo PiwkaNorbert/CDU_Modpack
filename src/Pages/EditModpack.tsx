@@ -7,7 +7,6 @@ import { useParams } from "react-router-dom";
 import usePackDetailData from "../API/usePackDetailData";
 import { useNavigate } from "react-router-dom";
 
-
 export interface AddModpackProps {
   name: string;
   description: string;
@@ -21,11 +20,10 @@ const EditModpack = () => {
   // fetch the data from the server using the modpackName from the url
   const { modpackId: id } = useParams();
   const modpackId = id as string;
-  
+
   const [modpackDescription, setModpackDescription] =
     React.useState<string>("");
   const [modpackColor, setModpackColor] = React.useState<string>("sky");
-
 
   const colorOptions = [
     { value: "red", label: "Red" },
@@ -46,43 +44,43 @@ const EditModpack = () => {
   const navigate = useNavigate();
 
   const editModpackMutation = useMutation(
-    ({ name, description, color, suggestor, image }: AddModpackProps) => 
-    toast.promise(
-      axios.post(
-        `${apiBase}/api/edit-modpack`,
-        {
-          modpackId,
-          name,
-          description,
-          color,
-          suggestor,
-          image,
-        },
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
+    ({ name, description, color, suggestor, image }: AddModpackProps) =>
+      toast.promise(
+        axios.post(
+          `${apiBase}/api/edit-modpack`,
+          {
+            modpackId,
+            name,
+            description,
+            color,
+            suggestor,
+            image,
           },
-          withCredentials: true,
-        }
-        ),{
-          loading: "Editing Modpack...",
-          success: "Modpack Edited!",
-        }
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+            withCredentials: true,
+          }
         ),
         {
+          pending: "Editing Modpack...",
+          success: "Modpack Edited!",
+        }
+      ),
+    {
       onSuccess: () => {
         queryClient.invalidateQueries(["modpacks"]);
-       return navigate(`/pack-details/${modpackId}`);
+        return navigate(`/pack-details/${modpackId}`);
       },
       onError: (error: Error) => {
         if (axios.isAxiosError(error)) {
-          console.error('error message: ', error.message);
+          console.error("error message: ", error.message);
           return toast.error(error.response?.data.message);
-          
         } else {
-          console.error('unexpected error: ', error.message);
+          console.error("unexpected error: ", error.message);
           // toast.error(`Couldn't add modpack: ${error.response?.data.message}`);
-           toast.error(error.response?.data.message);
+          toast.error(error.response?.data.message);
 
           throw new Error(
             "Couldn't fetch Modpack details, please try again later."
@@ -93,14 +91,11 @@ const EditModpack = () => {
   );
   const borderColor = modpackColor || "sky";
 
-
   return (
     <>
       {/* Title of the form, centered */}
       <div className="flex items-center justify-center">
-        <h1 className="m-3 mt-5 text-2xl xl:text-3xl">
-          Edit
-        </h1>
+        <h1 className="m-3 mt-5 text-2xl xl:text-3xl">Edit</h1>
       </div>
       <form
         className="grid items-center justify-center gap-4 pt-[.5em] text-sm placeholder:text-slate-400  dark:text-bg xl:text-base"
@@ -192,7 +187,7 @@ const EditModpack = () => {
         <br />
 
         <button
-          className={`h-16 disabled:bg-slate-600 rounded-md border-2 border-black dark:text-bg bg-${borderColor}-500 px-3 py-1 text-sm xl:text-base`}
+          className={`h-16 rounded-md border-2 border-black disabled:bg-slate-600 dark:text-bg bg-${borderColor}-500 px-3 py-1 text-sm xl:text-base`}
           disabled={editModpackMutation.isLoading}
         >
           {editModpackMutation.isLoading ? "Editing Modpack" : "Edit Modpack"}
