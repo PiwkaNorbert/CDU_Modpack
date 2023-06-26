@@ -2,6 +2,8 @@ import React, { createContext, useEffect, useState } from "react";
 
 import { DiscordProfileData } from "../Utils/Interfaces";
 import { UserProviderProps } from "../Utils/Types";
+import { toast } from "react-toastify";
+
 export const UserContext = createContext<{
   user: DiscordProfileData | undefined;
   setUser: React.Dispatch<React.SetStateAction<DiscordProfileData | undefined>>;
@@ -24,7 +26,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({
 }) => {
   const [user, setUser] = useState<DiscordProfileData | undefined>();
 
-  
+
 
   useEffect(() => {
     const user_profile = localStorage.getItem("user_profile");
@@ -62,6 +64,26 @@ export const UserProvider: React.FC<UserProviderProps> = ({
   const login = (user: DiscordProfileData) => {
     saveUserProfile(user);
   };
+  
+  const checkTokenExpiry = () => {
+    if (!user) return;
+
+    const tokenExpiry = user?.tokenExpiry
+    if (!tokenExpiry) return;
+    
+    // display the current time in seconds with utc with valid arguments
+    const now = Math.floor(Date.now() / 1000);
+    console.log(now);
+    
+    if (tokenExpiry < now) {
+      // TODO: refresh token
+      toast.error("Your session has expired. Please log in again.");
+      removeUserProfile();
+      setUser(undefined);
+    }
+    
+  };
+  checkTokenExpiry()
 
   return (
     <UserContext.Provider

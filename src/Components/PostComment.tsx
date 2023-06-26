@@ -83,19 +83,24 @@ const PostComment = ({
       />
       <div className=" w-full">
         <textarea
-          className={` min-h-10 w-full rounded-md border  dark:text-bg border-${borderColor}-300 px-3 py-1 `}
+          className={` min-h-10 h-fit w-full rounded-md border  dark:text-bg border-${borderColor}-300 px-3 py-1 `}
           placeholder="Add a comment..."
           value={comment}
+          maxLength={360}
+          minLength={1}
           onChange={(e) => {
             const newLength = e.target.value.length;
-            if (newLength >= 0 && newLength <= 500) {
+            if (newLength >= 1 && newLength <= 360) {
               return setComment(e.target.value);
             }
-            toast.error("Too many characters");
+            toast.error("Too many characters!", {
+              toastId: "too-many-characters"
+            });
+          
           }}
         />
         <div className="mt-2 flex items-center justify-center dark:text-text">
-          <p>{comment.length}/500</p>
+          <p>{comment.length}/360</p>
         </div>
       </div>
       {/* Adds a character counter to the description field */}

@@ -6,14 +6,9 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import usePackDetailData from "../API/usePackDetailData";
 import { useNavigate } from "react-router-dom";
+import { AddModpackProps } from "../Utils/Interfaces";
 
-export interface AddModpackProps {
-  name: string;
-  description: string;
-  image: File | undefined;
-  color: string;
-  suggestor: string;
-}
+
 
 const EditModpack = () => {
   //    edit the modpack data from packDetails using a mutation and queryClient to invalidate the cache and update the data on the page without a refresh
@@ -21,10 +16,9 @@ const EditModpack = () => {
   const { modpackId: id } = useParams();
   const modpackId = id as string;
 
-  const [modpackDescription, setModpackDescription] =
-    React.useState<string>("");
-  const [modpackColor, setModpackColor] = React.useState<string>("sky");
-
+  const { data, isLoading, isError }= usePackDetailData(modpackId)
+  const [borderColor, setBorderColor] = React.useState();
+  
   const colorOptions = [
     { value: "red", label: "Red" },
     { value: "orange", label: "Orange" },
@@ -44,7 +38,7 @@ const EditModpack = () => {
   const navigate = useNavigate();
 
   const editModpackMutation = useMutation(
-    ({ name, description, color, suggestor, image }: AddModpackProps) =>
+    ({ name, description, color, suggestor, image, officialUrl }: AddModpackProps) =>
       toast.promise(
         axios.post(
           `${apiBase}/api/edit-modpack`,
@@ -55,6 +49,7 @@ const EditModpack = () => {
             color,
             suggestor,
             image,
+            officialUrl
           },
           {
             headers: {
@@ -69,8 +64,11 @@ const EditModpack = () => {
         }
       ),
     {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["modpacks"]);
+      onSuccess: ({data}) => {
+        console.log(data.modpack);
+        
+        queryClient.invalidateQueries(["modpacks","details", modpackId]);
+        queryClient.setQueryData(["modpacks","details", modpackId], data.modpack)
         return navigate(`/pack-details/${modpackId}`);
       },
       onError: (error: Error) => {
@@ -89,14 +87,49 @@ const EditModpack = () => {
       },
     }
   );
-  const borderColor = modpackColor || "sky";
+  
+  if(isLoading) return (
+      <div className="flex h-full items-center justify-center">
+        <h1 className="m-3 mt-5 text-2xl xl:text-3xl">Loading...</h1>
+      </div> )
+
+      const getBorderColor = () => {
+        return borderColor ? borderColor : data?.color ? data?.color : "sky";
+      }
+
 
   return (
     <>
+    {/* backarrow to the root page */}
+    <div className="lg:mx-auto flex lg:min-w-[900px] lg:max-w-[900px]">
+      <div
+        className="flex min-w-min ml-4 mr-auto cursor-pointer items-center gap-2 rounded-md px-3 py-1 text-text hover:bg-sec hover:bg-opacity-20 hover:text-text dark:hover:bg-hover-2"
+        onClick={() => (window.location.href = `/pack-details/${modpackId}`)}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className={`h-8 w-8 text-${borderColor}-500`}
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M10 19l-7-7m0 0l7-7m-7 7h18"
+          />
+        </svg>
+        <p className={` text-${borderColor}-500`}>Cancel</p>
+      </div>
+    </div>
+
+
       {/* Title of the form, centered */}
       <div className="flex items-center justify-center">
         <h1 className="m-3 mt-5 text-2xl xl:text-3xl">Edit</h1>
       </div>
+
       <form
         className="grid items-center justify-center gap-4 pt-[.5em] text-sm placeholder:text-slate-400  dark:text-bg xl:text-base"
         onSubmit={async (e: React.FormEvent<HTMLFormElement>) => {
@@ -111,43 +144,39 @@ const EditModpack = () => {
             color: target.color.value,
             suggestor: target.suggestor.value,
             image: target.image.files[0],
+            officialUrl: target.officialUrl.value
           });
         }}
       >
         {/* Modpack name field, single line. */}
         <input
-          className={` h-8 rounded-md border-2  border-${borderColor}-500 px-3 py-1`}
+          className={` h-8 rounded-md border-2  border-${getBorderColor()}-500 px-3 py-1`}
           type="text"
           placeholder="Name"
           name="name"
+          defaultValue={data?.name}
         />
 
         {/* Modpack description field, multi line. */}
         {/* In order to make the modpack field multi line, we need to use a textarea instead of an input. */}
         <textarea
-          className={` min-h-[100px] rounded-md border-2   border-${borderColor}-500 w-96 px-3 py-1 out-of-range:border-red-500 `}
+          className={` min-h-[100px] rounded-md border-2 h-40   border-${getBorderColor()}-500 w-96 px-3 py-1 out-of-range:border-red-500 `}
           placeholder="Modpack Description"
-          value={modpackDescription}
+          defaultValue={data?.description}
           name="description"
-          onChange={(e) => {
-            const newLength = e.target.value.length;
-            if (newLength >= 0 && newLength <= 500) {
-              return setModpackDescription(e.target.value);
-            }
-            toast.error("Too many characters");
-          }}
+          maxLength={500}
+          minLength={0}
+         
         />
-        {/* Adds a character counter to the description field */}
-        <div className="-mt-2 flex items-center justify-center dark:text-text">
-          <p>{modpackDescription.length}/500</p>
-        </div>
+
 
         {/*Color selection*/}
         <select
-          className={` h-8 rounded-md border-2  dark:text-bg border-${borderColor}-500 bg-${borderColor}-300 px-3 py-1 font-Tilt `}
+          className={` h-8 rounded-md border-2  dark:text-bg border-${getBorderColor()}-500 bg-${getBorderColor()}-300 px-3 py-1 font-Tilt `}
           name="color"
+          defaultValue={data?.color}
           onChange={(e) => {
-            setModpackColor(e.target.value);
+            setBorderColor(e.target.value)
           }}
         >
           {colorOptions.map((colorOption, index) => (
@@ -164,7 +193,7 @@ const EditModpack = () => {
         <p className="-mb-2 dark:text-text">Image</p>
         <input
           name="image"
-          className={`cursor-pointer rounded-md border-2 file:placeholder:text-slate-400 dark:text-text border-${borderColor}-500 h-8 w-full px-3 py-1`}
+          className={`cursor-pointer rounded-md border-2 file:placeholder:text-slate-400 dark:text-text border-${getBorderColor()}-500 h-8 w-full px-3 py-1`}
           type="file"
         />
 
@@ -175,19 +204,27 @@ const EditModpack = () => {
           {" "}
           (PNG or JPG MAX. 5MB, 640x480px){" "}
         </label>
-
+        <input
+          required
+          className={` h-8 rounded-md border-2  border-${getBorderColor()}-500 px-3 py-1`}
+          type="text"
+          placeholder="Official URL"
+          name="officialUrl"
+          defaultValue={data?.officialUrl}
+        />
         {/* Modpack suggestor field, single line. */}
         <input
-          className={`h-8 rounded-md border-2   border-${borderColor}-500 px-3 py-1 `}
+          className={`h-8 rounded-md border-2   border-${getBorderColor()}-500 px-3 py-1 `}
           type="text"
           placeholder="Modpack Suggestor"
           name="suggestor"
+          defaultValue={data?.suggestedBy}
         />
 
         <br />
 
         <button
-          className={`h-16 rounded-md border-2 border-black disabled:bg-slate-600 dark:text-bg bg-${borderColor}-500 px-3 py-1 text-sm xl:text-base`}
+          className={`h-16 rounded-md border-2 border-black disabled:bg-slate-600 dark:text-bg bg-${getBorderColor()}-500 px-3 py-1 text-sm xl:text-base`}
           disabled={editModpackMutation.isLoading}
         >
           {editModpackMutation.isLoading ? "Editing Modpack" : "Edit Modpack"}

@@ -1,6 +1,6 @@
 export const LoginButton = () => {
     return <button
-        className=" text-content flex h-10 items-center gap-2 rounded-md px-3 py-1 dark:hover:bg-hover-2 hover:bg-hover-1 "
+        className=" text-content flex h-10 items-center gap-2 rounded-md px-3 py-1 dark:hover:bg-hover-2 hover:bg-opacity-80 "
         onClick={() => (window.location.href = `/auth/discord?returnUrl=${window.location.pathname}`)}>
         <svg
             xmlns="http://www.w3.org/2000/svg"

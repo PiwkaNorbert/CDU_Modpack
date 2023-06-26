@@ -5,14 +5,12 @@
 const colors = require("tailwindcss/colors");
 
 export default {
+  darkMode: 'class',
   content: ["./index.html", "./src/*/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
       backgroundOpacity: ["active"],
-<<<<<<< HEAD
-=======
 
->>>>>>> 0831ef2 (add ts config changes)
       backgroundSize: {
         "size-200": "200% 200%",
       },
@@ -95,7 +93,7 @@ export default {
   safelist: [
     {
       pattern:
-        /(bg|text|border)-(red|orange|yellow|lime|green|teal|sky|blue|violet|fuchsia|black)/,
+        /(bg|text|border|shadow|hover)-(red|orange|yellow|lime|green|teal|sky|blue|violet|fuchsia|black)/,
     },
   ],
 };

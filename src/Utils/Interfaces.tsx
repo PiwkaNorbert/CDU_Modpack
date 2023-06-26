@@ -5,7 +5,7 @@ export interface IModpack {
   color: string;
   voteCount: number;
   commentCount: number;
-  hasVoted: boolean;
+  timesVoted: number;
 }
 
 export interface IPackDetails {
@@ -15,8 +15,10 @@ export interface IPackDetails {
   imageUrl: string;
   modpackId: string;
   name: string;
-  voteCount: number;
+  officialUrl: string;
   suggestedBy: string;
+  timesVoted: number;
+  voteCount: number;
 }
 export interface IComment {
   username: string | undefined;
@@ -45,7 +47,17 @@ export interface VoteForPackButtonProps {
   modpackId: string;
   borderColor: string;
   voteCount: number;
+  timesVoted: number;
   isLoading: boolean;
 
   // Replace 'UserProfileType' with the actual type for the 'userProfile' prop
+}
+
+export interface AddModpackProps {
+  name: string;
+  description: string;
+  image: File | undefined;
+  color: string;
+  suggestor: string;
+  officialUrl: string;
 }

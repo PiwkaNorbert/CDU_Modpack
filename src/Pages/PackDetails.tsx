@@ -23,7 +23,6 @@ const PackDetails = () => {
   const navigate = useNavigate();
   const isDev = import.meta.env.VITE_NODE_ENV === "development";
   const apiBase = isDev ? "https://www.trainjumper.com" : "";
-  console.log(user);
 
   if (isLoading) return <Loading size="la-lx" fullScreen={true} other="" />;
   if (isError) return <p>{error?.message}</p>;
@@ -35,7 +34,9 @@ const PackDetails = () => {
     imageUrl,
     comments,
     voteCount,
+    officialUrl,
     suggestedBy,
+    timesVoted,
   }: IPackDetails = data;
 
   const commentCount = comments
@@ -48,15 +49,15 @@ const PackDetails = () => {
         id="modpack__details"
         className="flex w-full flex-col justify-normal self-start bg-bg text-text lg:justify-center "
       >
-        <div className="  bg-bg shadow-2xl shadow-bg/20 dark:shadow-none   lg:max-w-4xl lg:justify-center lg:place-self-center lg:rounded-xl ">
+        <div className="relative z-10  bg-bg shadow-2xl shadow-bg/20 dark:shadow-none lg:max-w-4xl lg:justify-center lg:place-self-center lg:rounded-xl ">
           <div
             key={modpackId}
-            className={` grid items-center overflow-hidden lg:rounded-md lg:border-4 border-${borderColor}-500 h-full `}
+            className={` grid z-10 items-center lg:rounded-md lg:shadow-2xl  h-full `}
           >
-            {/* backarrow to the root page */}
-            <div className="flex justify-between gap-2  px-8 pt-4  max-[350px]:flex-col sm:gap-0 md:px-4 ">
+            <div className="flex z-10 justify-between gap-2  px-8 pt-4  max-[350px]:flex-col sm:gap-0 md:px-4 ">
+              {/* backarrow to the root page */}
               <div
-                className="flex min-w-fit cursor-pointer items-center gap-2 rounded-md px-3 py-1 text-text hover:bg-hover-1 hover:text-text dark:hover:bg-hover-2"
+                className="flex min-w-fit cursor-pointer items-center gap-2 rounded-md px-3 py-1 text-text hover:bg-sec hover:bg-opacity-20 hover:text-text dark:hover:bg-hover-2"
                 onClick={() => (window.location.href = "/")}
               >
                 <svg
@@ -76,12 +77,12 @@ const PackDetails = () => {
                 <p className={` text-${borderColor}-500`}>Back</p>
               </div>
 
-              <div className="flex  gap-2 text-sm text-bg dark:text-text max-[350px]:mt-5 max-[350px]:flex-col xl:text-base ">
+              <div className="flex  gap-2 text-sm text-text max-[350px]:mt-5 max-[350px]:flex-col xl:text-base ">
                 {/* edit modpack button only is userProfile is superUser */}
                 {user?.isLoggedIn && user?.isAdmin && (
                   <>
                     <button
-                      className={` rounded-md  bg-sec px-3 py-1 hover:bg-hover-1 hover:text-text dark:hover:bg-hover-2`}
+                      className={` rounded-md  bg-sec px-3 py-1 hover:bg-opacity-80 dark:hover:bg-hover-2`}
                       onClick={() =>
                         (window.location.href = `/edit-modpack/${modpackId}`)
                       }
@@ -91,7 +92,7 @@ const PackDetails = () => {
 
                     {/* delete modpack button only is userProfile is superUser */}
                     <button
-                      className={` t rounded-md border border-sec px-3 py-1 font-thin text-red-500 hover:bg-hover-1 dark:hover:bg-hover-2`}
+                      className={` rounded-md border border-sec px-3 py-1 font-thin text-red-500 hover:bg-sec hover:bg-opacity-20 hover:border-opacity-20 dark:hover:bg-hover-2`}
                       onClick={async () => {
                         if (
                           prompt(
@@ -140,7 +141,7 @@ const PackDetails = () => {
                 )}
               </div>
             </div>
-            <div className={`grid items-center md:mx-4 `}>
+            <div className={`grid z-10 items-center md:mx-4 `}>
               <div className=" my-4 grid px-4 sm:grid-cols-2  md:space-x-4 ">
                 {/* toggle images in production */}
 
@@ -157,12 +158,13 @@ const PackDetails = () => {
                   <p className="text-content my-4 break-normal text-center text-4xl uppercase  md:my-0 ">
                     {name}
                   </p>
-                  <div className="flex items-center justify-center gap-4">
+                  <div className="flex items-center justify-center gap-2">
                     <VoteForPackButton
                       modpackId={modpackId}
                       borderColor={borderColor}
                       isLoading={isLoading}
                       voteCount={voteCount}
+                      timesVoted={timesVoted}
                     />
                   </div>
                   <p className="text-content my-4 break-normal text-center text-xs uppercase  md:my-0 ">
@@ -175,8 +177,9 @@ const PackDetails = () => {
               <div className=" flex w-full flex-col items-center justify-center gap-2 px-4 sm:flex-row md:mt-4">
                 Modpack official page:{" "}
                 <a
-                  href="www."
+                  href={officialUrl}
                   className={` flex items-center gap-1 text-${borderColor}-500 hover:opacity-80`}
+                  target="_blank"
                 >
                   Here
                   <svg
@@ -245,7 +248,10 @@ const PackDetails = () => {
               </div>
             </div>
           </div>
+          <div className="absolute inset-0 h-full w-full z-0 flex-1 bg-sec opacity-20"></div>
+          
         </div>
+        
       </section>
     </>
   );

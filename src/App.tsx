@@ -13,16 +13,17 @@ import EditModpack from "./Pages/EditModpack";
 import Header from "./Components/Header";
 // here we specify the routes for our app
 import Footer from "./Components/Footer";
-import { useUser } from "./Context/useUser";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { ThemeProvider } from "./Context/ThemeContext";
 
 const queryClient = new QueryClient();
 
 function App() {
-  const { user } = useUser();
-  console.log(user);
+  
   return (
     <QueryClientProvider client={queryClient}>
+      <ThemeProvider>
+
       <main className="flex min-h-screen flex-col text-text ">
         <Header />
         <BrowserRouter>
@@ -43,14 +44,14 @@ function App() {
               </>
             {/* )} */}
           </Routes>
-          <ToastContainer limit={3} pauseOnFocusLoss={false} autoClose={2000} />
+          <ToastContainer limit={2} pauseOnFocusLoss={false} autoClose={2000} />
         </BrowserRouter>
 
         <FetchingIndicator />
         {window.location.pathname === "/404" ? null : <Footer />}
       </main>
-
       <ReactQueryDevtools />
+      </ThemeProvider>
     </QueryClientProvider>
   );
 }

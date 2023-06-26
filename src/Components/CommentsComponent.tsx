@@ -5,7 +5,7 @@ import { useUser } from "../Context/useUser";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-export function CommentsComponent({ borderColor, comment }: ICommentComponent) {
+export function CommentsComponent({ borderColor, comment, discordId }: ICommentComponent) {
   const modpackId = window.location.pathname.split("/")[2];
   const { user } = useUser();
 
@@ -30,7 +30,7 @@ export function CommentsComponent({ borderColor, comment }: ICommentComponent) {
           {user?.isAdmin && (
             <div className="flex items-center gap-2 justify-self-end">
               <button
-                className={`text-content rounded-md border border-sec  px-3 py-1 text-justify text-xs text-red-500 hover:bg-hover-1 dark:hover:bg-hover-2 `}
+                className={`text-content rounded-md border border-sec  px-3 py-1 text-justify text-xs text-red-500 hover:bg-sec hover:bg-opacity-20 hover:border-opacity-20  dark:hover:bg-hover-2 `}
                 onClick={async () => {
                   if (
                     prompt(

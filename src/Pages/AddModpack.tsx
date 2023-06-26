@@ -3,14 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
-export interface AddModpackProps {
-  name: string;
-  description: string;
-  image: File | undefined;
-  color: string;
-  suggestor: string;
-}
+import { AddModpackProps } from "../Utils/Interfaces";
 
 const AddModpack = () => {
   const [modpackDescription, setModpackDescription] =
@@ -18,13 +11,13 @@ const AddModpack = () => {
   const [modpackColor, setModpackColor] = React.useState<string>("sky");
 
   const colorOptions = [
+    { value: "sky", label: "Sky" },
     { value: "red", label: "Red" },
     { value: "orange", label: "Orange" },
     { value: "yellow", label: "Yellow" },
     { value: "lime", label: "Lime" },
     { value: "green", label: "Green" },
     { value: "teal", label: "Teal" },
-    { value: "sky", label: "Sky" },
     { value: "blue", label: "Blue" },
     { value: "violet", label: "Violet" },
     { value: "fuchsia", label: "Fuchsia" },
@@ -34,7 +27,7 @@ const AddModpack = () => {
   const navigate = useNavigate();
 
   const addModpackMutation = useMutation(
-    ({ name, description, color, suggestor, image }: AddModpackProps) =>
+    ({ name, description, color, suggestor, image, officialUrl }: AddModpackProps) =>
       toast.promise(
         axios.post(
           `/api/add-modpack`,
@@ -44,6 +37,7 @@ const AddModpack = () => {
             color,
             suggestor,
             image,
+            officialUrl
           },
           {
             headers: {
@@ -81,6 +75,30 @@ const AddModpack = () => {
 
   return (
     <>
+      {/* backarrow to the root page */}
+      <div className="lg:mx-auto flex lg:min-w-[900px] lg:max-w-[900px]">
+      <div
+        className="flex min-w-min ml-4 mr-auto cursor-pointer items-center gap-2 rounded-md px-3 py-1 text-text hover:bg-sec hover:bg-opacity-20 hover:text-text dark:hover:bg-hover-2"
+        onClick={() => (window.location.href = `/`)}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className={`h-8 w-8 text-${borderColor}-500`}
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M10 19l-7-7m0 0l7-7m-7 7h18"
+          />
+        </svg>
+        <p className={` text-${borderColor}-500`}>Cancel</p>
+      </div>
+    </div>
+
       {/* Title of the form, centered */}
       <div className="flex items-center justify-center">
         <h1 className="m-3 mt-5 text-2xl xl:text-3xl">
@@ -101,6 +119,7 @@ const AddModpack = () => {
             color: target.color.value,
             suggestor: target.suggestor.value,
             image: target.image.files[0],
+            officialUrl: target.officialUrl.value
           });
         }}
       >
@@ -126,7 +145,9 @@ const AddModpack = () => {
             if (newLength >= 0 && newLength <= 500) {
               return setModpackDescription(e.target.value);
             }
-            toast.error("Too many characters");
+            toast.error("Too many characters!", {
+              toastId: "too-many-characters"
+            });
           }}
         />
         {/* Adds a character counter to the description field */}
@@ -138,6 +159,7 @@ const AddModpack = () => {
         <select
           className={` h-8 rounded-md border-2  dark:text-bg border-${borderColor}-500 bg-${borderColor}-300 px-3 py-1 font-Tilt `}
           name="color"
+          defaultValue="Sky"
           onChange={(e) => {
             setModpackColor(e.target.value);
           }}
@@ -168,7 +190,13 @@ const AddModpack = () => {
           {" "}
           (PNG or JPG MAX. 5MB, 640x480px){" "}
         </label>
-
+        <input
+          required
+          className={` h-8 rounded-md border-2  border-${borderColor}-500 px-3 py-1`}
+          type="text"
+          placeholder="Official URL"
+          name="officialUrl"
+        />
         {/* Modpack suggestor field, single line. */}
         <input
           className={`h-8 rounded-md border-2   border-${borderColor}-500 px-3 py-1 `}

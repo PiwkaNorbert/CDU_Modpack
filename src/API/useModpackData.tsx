@@ -4,7 +4,6 @@ import { IModpack } from "../Utils/Interfaces";
 // srtucture the staticLabels to match the data from the api
 // url for 100x100 placeholder image
 import { staticLabels } from "../Constants";
-import { toast } from "react-toastify";
 
 const useModpackData = (queryClient: QueryClient) => {
   const isDev = import.meta.env.VITE_NODE_ENV === "development";
@@ -18,7 +17,6 @@ const useModpackData = (queryClient: QueryClient) => {
     data.forEach((pack: IModpack) => {
       queryClient.setQueryData(["details", pack.modpackId], pack);
     });
-    console.log("data: ", data);
 
     return data;
   };
