@@ -8,7 +8,8 @@
     --clr-bg: 84deg 100% 99%; /* #fdfffa */
     --clr-acc: 264deg 82% 38%; /* #5111b0 */
     --clr-pri: 202deg 63% 62%; /* #62afdb */
-    --clr-sec: 229deg 22% 20%; /* #282c3e */
+    --clr-sec: 211deg 28% 74%; /* #aabccf */
+    /* --clr: hsl(211, 28%, 74%); */
   }
   @media (prefers-color-scheme: dark) {
     :root {

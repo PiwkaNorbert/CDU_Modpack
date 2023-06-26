@@ -200,7 +200,7 @@ const PackDetails = () => {
                 </div>
               </div>
 
-              <div className="xs:p-4 my-4 px-2 py-4  ">
+              <div className="xs:p-4 my-4 overflow-hidden px-2 py-4  ">
                 <h3 className="flex items-center justify-start  gap-4 text-2xl capitalize xl:text-3xl ">
                   comments ({commentCount}){" "}
                   {fetchStatus === "fetching" && (

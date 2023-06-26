@@ -5,7 +5,6 @@ import { useUser } from "../Context/useUser";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-
 export function CommentsComponent({ borderColor, comment }: ICommentComponent) {
   const modpackId = window.location.pathname.split("/")[2];
   const { user } = useUser();
@@ -29,9 +28,9 @@ export function CommentsComponent({ borderColor, comment }: ICommentComponent) {
           </p>
           {/* If userProfile is super user / moderator show delete comment button underneith */}
           {user?.isAdmin && (
-            <div className="flex items-center justify-self-end gap-2">
+            <div className="flex items-center gap-2 justify-self-end">
               <button
-                className={`text-content text-justify border border-sec  text-red-500 hover:bg-hover-1 dark:hover:bg-hover-2 rounded-md px-3 py-1 text-xs `}
+                className={`text-content rounded-md border border-sec  px-3 py-1 text-justify text-xs text-red-500 hover:bg-hover-1 dark:hover:bg-hover-2 `}
                 onClick={async () => {
                   if (
                     prompt(
@@ -42,9 +41,8 @@ export function CommentsComponent({ borderColor, comment }: ICommentComponent) {
                   }
 
                   try {
-                    const res = await toast.promise(axios.delete(
-                      `/api/delete-comment`,
-                      {
+                    const res = await toast.promise(
+                      axios.delete(`/api/delete-comment`, {
                         withCredentials: true,
                         headers: {
                           "Content-Type": "application/json",
@@ -53,13 +51,12 @@ export function CommentsComponent({ borderColor, comment }: ICommentComponent) {
                           modpackId,
                           commentId: comment?.uuid,
                         },
+                      }),
+                      {
+                        pending: "Attempting to delete comment...",
+                        success: "Comment deleted! 👌",
+                        error: "Couldn't delete comment 🤯",
                       }
-                    ),
-                    {
-                      pending: 'Attempting to delete comment...',
-                      success: 'Comment deleted! 👌',
-                      error: "Couldn't delete comment 🤯"
-                    }
                     );
                     res.status !== 200 && console.error(res);
 
@@ -68,17 +65,22 @@ export function CommentsComponent({ borderColor, comment }: ICommentComponent) {
                       "details",
                       modpackId,
                     ]);
-                    queryClient.setQueryData(["details", modpackId], (oldData) => {
-                       
-                    const oldPackDetails = oldData as IPackDetails;
-                    console.log(oldPackDetails);
-                    
-                    return {
-                      ...oldPackDetails,
-                      comments: [...oldPackDetails.comments.filter((c) => c.uuid !== comment?.uuid)]
-                    };
-                    })
+                    queryClient.setQueryData(
+                      ["details", modpackId],
+                      (oldData) => {
+                        const oldPackDetails = oldData as IPackDetails;
+                        console.log(oldPackDetails);
 
+                        return {
+                          ...oldPackDetails,
+                          comments: [
+                            ...oldPackDetails.comments.filter(
+                              (c) => c.uuid !== comment?.uuid
+                            ),
+                          ],
+                        };
+                      }
+                    );
                   } catch (error: Error | unknown | string) {
                     console.error(error);
                     toast.error(`Error: ${error}`);
@@ -91,7 +93,7 @@ export function CommentsComponent({ borderColor, comment }: ICommentComponent) {
           )}
         </div>
       </div>
-      <p className="text-content p-[.5em] text-justify text-sm xl:text-base ">
+      <p className="text-content break-all p-[.5em] text-justify text-sm xl:text-base ">
         {comment?.comment}
       </p>
     </>

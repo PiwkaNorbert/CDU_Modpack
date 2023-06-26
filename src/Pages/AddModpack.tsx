@@ -2,7 +2,6 @@ import React from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { IModpack } from "../Utils/Interfaces";
 import { useNavigate } from "react-router-dom";
 
 export interface AddModpackProps {
@@ -35,40 +34,40 @@ const AddModpack = () => {
   const navigate = useNavigate();
 
   const addModpackMutation = useMutation(
-    ({ name, description, color, suggestor, image }: AddModpackProps) => 
-    toast.promise(
-      axios.post(
-        `/api/add-modpack`,
-        {
-          name,
-          description,
-          color,
-          suggestor,
-          image,
-        },
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
+    ({ name, description, color, suggestor, image }: AddModpackProps) =>
+      toast.promise(
+        axios.post(
+          `/api/add-modpack`,
+          {
+            name,
+            description,
+            color,
+            suggestor,
+            image,
           },
-          withCredentials: true,
-        }
-        ),{
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+            withCredentials: true,
+          }
+        ),
+        {
           pending: "Adding Modpack...",
           success: "Modpack Added!",
           error: "Couldn't add modpack",
         }
-        ),
-        {
+      ),
+    {
       onSuccess: () => {
         queryClient.invalidateQueries(["modpacks"]);
-       return navigate("/");
+        return navigate("/");
       },
       onError: (error: Error) => {
         if (axios.isAxiosError(error)) {
-          console.error('error message: ', error.message);
-          
+          console.error("error message: ", error.message);
         } else {
-          console.error('unexpected error: ', error.message);
+          console.error("unexpected error: ", error.message);
           // toast.error(`Couldn't add modpack: ${error.response?.data.message}`);
           throw new Error(
             "Couldn't fetch Modpack details, please try again later."
@@ -181,7 +180,7 @@ const AddModpack = () => {
         <br />
 
         <button
-          className={`h-16 disabled:bg-slate-600 rounded-md border-2 border-black dark:text-bg bg-${borderColor}-500 px-3 py-1 text-sm xl:text-base`}
+          className={`h-16 rounded-md border-2 border-black disabled:bg-slate-600 dark:text-bg bg-${borderColor}-500 px-3 py-1 text-sm xl:text-base`}
           disabled={addModpackMutation.isLoading}
         >
           {addModpackMutation.isLoading ? "Adding Modpack" : "Add Modpack"}
