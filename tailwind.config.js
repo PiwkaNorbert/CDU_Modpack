@@ -9,6 +9,10 @@ export default {
   theme: {
     extend: {
       backgroundOpacity: ["active"],
+<<<<<<< HEAD
+=======
+
+>>>>>>> 0831ef2 (add ts config changes)
       backgroundSize: {
         "size-200": "200% 200%",
       },
