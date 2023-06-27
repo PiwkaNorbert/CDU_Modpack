@@ -19,7 +19,6 @@ export default function VoteForPackButton({
   const addVote = useMutation(
    async () => await toast.promise(axios.get(`/api/add-vote/${modpackId}`, { withCredentials: true }),
    {
-      success: "Voted for this modpack!",
       error: "Sorry, there was an error voting for this modpack!",
    }),
     {
@@ -31,8 +30,15 @@ export default function VoteForPackButton({
         );
       },
       onSuccess: (response) => {
-        queryClient.invalidateQueries(["details", modpackId]);
+        console.log(response.data);
+        
+        queryClient.invalidateQueries(["modpacks","details", modpackId]);
+        // invalidate user data so that the vote count updates on the page without a refresh and set the modpacks votecount to the new votecount
+        queryClient.setQueryData(["modpacks"], response?.data.user);
+
         votesRemaining(response?.data.votes_remaining);
+        toast.success(response?.data.message);
+
       },
     }
   );
@@ -44,7 +50,6 @@ export default function VoteForPackButton({
         withCredentials: true,
        }),
        {
-          success: "Removed your vote.",
           error: "Sorry, there was an error removing your vote for this modpack!",
        },
        {
@@ -60,8 +65,11 @@ export default function VoteForPackButton({
         );
       },
       onSuccess: (response) => {
-        queryClient.invalidateQueries(["details", modpackId]);
+        console.log(response.data);
+
+        queryClient.invalidateQueries(["modpacks","details", modpackId]);
         votesRemaining(response?.data.votes_remaining);
+        toast.success(response?.data.message);
       },
     }
   );

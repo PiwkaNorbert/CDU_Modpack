@@ -35,7 +35,7 @@ const EditModpack = () => {
   const apiBase = isDev ? "https://www.trainjumper.com" : "";
 
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const editModpackMutation = useMutation(
     ({ name, description, color, suggestor, image, officialUrl }: AddModpackProps) =>
@@ -60,13 +60,13 @@ const EditModpack = () => {
         ),
         {
           pending: "Editing Modpack...",
-          success: "Modpack Edited!",
         }
       ),
     {
       onSuccess: ({data}) => {
         queryClient.invalidateQueries(["modpacks","details", modpackId]);
         queryClient.setQueryData(["modpacks","details", modpackId], data.modpack)
+        toast.success(data.message);
         return window.location.pathname = (`/pack-details/${modpackId}`);
       },
       onError: (error: Error) => {

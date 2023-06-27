@@ -192,8 +192,8 @@ const Header = () => {
           alt="CDU"
           src="/logo.png"
           loading="lazy"
-          className={`top-0 z-10 order-1 block aspect-square h-10 cursor-pointer justify-self-center hover:animate-bounce-slow 
-              ${!isIntersecting || menu ? "block md:block" : ""}
+          className={`${!isIntersecting || menu ? "block md:block" : ""} top-0 z-10 order-1 block md:hidden aspect-square h-10 cursor-pointer justify-self-center hover:animate-bounce-slow 
+           
             `}
           onClick={() => navigate("/")}
         />
@@ -201,11 +201,11 @@ const Header = () => {
           <>
 
             <div className=" order-4 hidden z-10 w-full justify-self-start sm:flex min-[900px]:justify-self-center  ">
-              <p className="text-center uppercase ">{`${userProfile.votesRemaining} votes remaining this month.`}</p>
+              <p className="text-center uppercase ">{`${userProfile.votesRemaining} ${userProfile.votesRemaining == 1 ? "vote" : "votes"} remaining this month.`}</p>
             </div>
 
             <div className="order-4 flex w-full items-center z-10 justify-end ">
-              <p className=" mr-5 flex max-w-[180px] justify-center text-center uppercase max-[450px]:hidden">
+              <p className=" mr-5 flex max-w-[180px] justify-center text-center uppercase max-[500px]:hidden">
                 Logged in as
                 <br />
                 {userProfile.globalName}
