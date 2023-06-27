@@ -1,5 +1,4 @@
 import "./index.css";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import PackListPage from "./Pages/PackListPage";
 import PackDetails from "./Pages/PackDetails";
@@ -17,12 +16,10 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ThemeProvider } from "./Context/ThemeContext";
 import { useUser } from "./Context/useUser";
 
-const queryClient = new QueryClient();
 
 function App() {
   const { user } = useUser()
   return (
-    <QueryClientProvider client={queryClient}>
       <ThemeProvider>
 
       <main className="flex min-h-screen flex-col text-text ">
@@ -53,7 +50,6 @@ function App() {
       </main>
       <ReactQueryDevtools />
       </ThemeProvider>
-    </QueryClientProvider>
   );
 }
 

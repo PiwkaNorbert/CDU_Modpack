@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import usePackDetailData from "../API/usePackDetailData";
 import { CommentsComponent } from "../Components/CommentsComponent";
-import { IPackDetails } from "../Utils/Interfaces";
+import { IModpack,IPackDetails } from "../Utils/Interfaces";
 import Loading from "../Components/Loading";
 import VoteForPackButton from "../Components/VoteForPackButton";
 import PostComment from "../Components/PostComment";
@@ -125,6 +125,11 @@ const PackDetails = () => {
                             "details",
                             modpackId,
                           ]);
+                          queryClient.setQueryData(["modpacks"], (oldData: any) => {
+                            return oldData.filter(
+                              (modpack: IModpack) => modpack.modpackId !== modpackId
+                            );
+                          });
 
                           return navigate("/");
                         } catch (error: Error | unknown | string) {

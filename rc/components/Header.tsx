@@ -12,6 +12,7 @@ export const Header = () => {
 
 
 
+
   const changeColor = () => {
     window.scrollY >= 150 && window.innerWidth < 1280||
     window.innerWidth >= 1280 && window.scrollY >= 180 ?

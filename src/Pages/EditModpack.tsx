@@ -67,7 +67,7 @@ const EditModpack = () => {
       onSuccess: ({data}) => {
         queryClient.invalidateQueries(["modpacks","details", modpackId]);
         queryClient.setQueryData(["modpacks","details", modpackId], data.modpack)
-        return navigate(`/pack-details/${modpackId}`);
+        return window.location.pathname = (`/pack-details/${modpackId}`);
       },
       onError: (error: Error) => {
         if (axios.isAxiosError(error)) {

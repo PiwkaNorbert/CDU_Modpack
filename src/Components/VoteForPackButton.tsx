@@ -14,7 +14,7 @@ export default function VoteForPackButton({
   const queryClient = useQueryClient();
   const isFetching = useIsFetching();
 
-  const { user, setUser } = useUser();
+  const { user,votesRemaining } = useUser();
 
   const addVote = useMutation(
    async () => await toast.promise(axios.get(`/api/add-vote/${modpackId}`, { withCredentials: true }),
@@ -32,11 +32,7 @@ export default function VoteForPackButton({
       },
       onSuccess: (response) => {
         queryClient.invalidateQueries(["details", modpackId]);
-        setUser((prev) => ({
-          ...prev,
-          votesRemaining: response?.data.votes_remaining,
-        }));  
-        
+        votesRemaining(response?.data.votes_remaining);
       },
     }
   );
@@ -65,10 +61,7 @@ export default function VoteForPackButton({
       },
       onSuccess: (response) => {
         queryClient.invalidateQueries(["details", modpackId]);
-        setUser((prev) => ({
-          ...prev,
-          votesRemaining: response?.data.votes_remaining,
-        }));  
+        votesRemaining(response?.data.votes_remaining);
       },
     }
   );

@@ -1,11 +1,8 @@
-import  { useNavigate } from "react-router-dom"
-
 export const LoginButton = () => {
-    const navigate = useNavigate();
     
     return <button
         className=" text-content flex h-10 items-center gap-2 rounded-md px-3 py-1 dark:hover:bg-hover-2 hover:bg-opacity-80 "
-        onClick={() => navigate(`/auth/discord?returnUrl=${window.location.pathname}`)}>
+        onClick={() => (window.location.href = `/auth/discord?returnUrl=${window.location.pathname}`)}>
         <svg
             xmlns="http://www.w3.org/2000/svg"
             className="w-6 text-[#7289DA]"

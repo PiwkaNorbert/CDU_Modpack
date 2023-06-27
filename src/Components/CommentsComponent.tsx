@@ -69,7 +69,6 @@ export function CommentsComponent({ borderColor, comment, discordId }: ICommentC
                       ["details", modpackId],
                       (oldData) => {
                         const oldPackDetails = oldData as IPackDetails;
-                        console.log(oldPackDetails);
 
                         return {
                           ...oldPackDetails,

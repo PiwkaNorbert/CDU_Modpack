@@ -17,7 +17,6 @@ const ModpackCard = ({
 }: IModpack) => {
   const queryClient = useQueryClient();
         const text = color ? color : "blue";
-    const navigate = useNavigate()
 
   return (
     <div

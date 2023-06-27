@@ -63,7 +63,7 @@ const Header = () => {
       )}
       <nav
 
-        className={` sticky top-0 z-20 flex w-full lg:border-x-4 border-bg  items-center justify-stretch gap-2 bg-bg px-8 py-2 text-text md:justify-center md:px-4 lg:mx-auto lg:min-w-[896px] lg:max-w-[896px]  ${
+        className={` sticky top-0 z-[11] flex w-full lg:border-x-4 border-bg  items-center justify-stretch gap-2 bg-bg px-8 py-2 text-text md:justify-center md:px-4 lg:mx-auto lg:min-w-[896px] lg:max-w-[896px]  ${
           isIntersecting === true && "dark:bg-bg border-b  dark:border-pri shadow-md"
         }`}
       >
@@ -71,7 +71,7 @@ const Header = () => {
 
         {/* If the window size is below 600px display a modal with the nav */}
         {menu ? (
-          <div className="absolute left-0 top-0 z-20 flex h-screen w-full flex-col items-center justify-center bg-bg dark:bg-sec md:hidden">
+          <div className="absolute left-0 top-0 z-10 flex h-screen w-full flex-col items-center justify-center bg-bg dark:bg-sec md:hidden">
             <button className="absolute right-2 top-2" onClick={toggleMenu}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -127,7 +127,7 @@ const Header = () => {
           </div>
         ) : null}
 
-        <button className="order-2 sm:hidden z-10  " onClick={toggleMenu}>
+        <button className="order-2 sm:hidden z-10 " onClick={toggleMenu}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="32"
@@ -139,7 +139,7 @@ const Header = () => {
             <path d="M224,120v16a8,8,0,0,1-8,8H40a8,8,0,0,1-8-8V120a8,8,0,0,1,8-8H216A8,8,0,0,1,224,120Zm-8,56H40a8,8,0,0,0-8,8v16a8,8,0,0,0,8,8H216a8,8,0,0,0,8-8V184A8,8,0,0,0,216,176Zm0-128H40a8,8,0,0,0-8,8V72a8,8,0,0,0,8,8H216a8,8,0,0,0,8-8V56A8,8,0,0,0,216,48Z"></path>
           </svg>
         </button>
-        <div className="group relative order-1 flex items-center justify-center">
+        <div className="group relative order-3 flex items-center justify-center">
           <input
             type="checkbox"
             id="theme"
@@ -188,20 +188,19 @@ const Header = () => {
           </label>
         </div>
         
+        <img
+          alt="CDU"
+          src="/logo.png"
+          loading="lazy"
+          className={`top-0 z-10 order-1 block aspect-square h-10 cursor-pointer justify-self-center hover:animate-bounce-slow 
+              ${!isIntersecting || menu ? "block md:block" : ""}
+            `}
+          onClick={() => navigate("/")}
+        />
         {userProfile?.isLoggedIn ? (
           <>
-            {/* Amount of user votes remaining */}
-            <img
-              alt="CDU"
-              src="/logo.png"
-              loading="lazy"
-              className={`top-0 z-10 order-1 block aspect-square h-10 cursor-pointer justify-self-center hover:animate-bounce-slow hidden
-                  ${!isIntersecting || menu ? "block md:block" : ""}
-                `}
-              onClick={() => navigate("/")}
-            />
 
-            <div className=" order-3 hidden z-10 w-full justify-self-start sm:flex min-[900px]:justify-self-center  ">
+            <div className=" order-4 hidden z-10 w-full justify-self-start sm:flex min-[900px]:justify-self-center  ">
               <p className="text-center uppercase ">{`${userProfile.votesRemaining} votes remaining this month.`}</p>
             </div>
 
