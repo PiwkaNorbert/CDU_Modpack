@@ -9,6 +9,10 @@ export function CommentsComponent({ borderColor, comment, discordId }: ICommentC
   const modpackId = window.location.pathname.split("/")[2];
   const { user } = useUser();
 
+// make a loading state for this and wait till it's loaded
+  
+
+
   const queryClient = useQueryClient();
 
   return (
@@ -26,8 +30,8 @@ export function CommentsComponent({ borderColor, comment, discordId }: ICommentC
           <p className="text-content text-justify text-xs text-gray-400 xl:text-sm">
             {relativeDate(comment?.timestamp)}
           </p>
-          {/* If userProfile is super user / moderator show delete comment button underneith */}
-          {user?.isAdmin && (
+          {/* If userProfile is super user / moderator show delete comment button underneath */}
+          {user?.isAdmin || user?.globalName === comment?.username[0] && (
             <div className="flex items-center gap-2 justify-self-end">
               <button
                 className={`text-content rounded-md border border-sec  px-3 py-1 text-justify text-xs text-red-500 hover:bg-sec hover:bg-opacity-20 hover:border-opacity-20  dark:hover:bg-hover-2 `}

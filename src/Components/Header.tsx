@@ -5,37 +5,34 @@ import { useUser } from "../Context/useUser";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useTheme } from "../Context/useTheme";
 import { useEffect, useRef } from "react";
-import SunFillSVG from "./SVG/SunFillSVG";
 
 const Header = () => {
-
   // set the state of voteRemaining to the value of the user's votesRemaining
   const { user: userProfile } = useUser();
-  const {theme, toggleTheme} = useTheme();
+  const { theme, toggleTheme } = useTheme();
 
   const [isIntersecting, setIntersecting] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-      let observer: IntersectionObserver;
+    let observer: IntersectionObserver;
 
-      const handleObserver = (entries: IntersectionObserverEntry[]) => {
-          const [entry] = entries;
-          setIntersecting(entry.isIntersecting);
-      };
+    const handleObserver = (entries: IntersectionObserverEntry[]) => {
+      const [entry] = entries;
+      setIntersecting(entry.isIntersecting);
+    };
 
-      if (ref.current) {
-          observer = new IntersectionObserver(handleObserver);
-          observer.observe(ref.current);
+    if (ref.current) {
+      observer = new IntersectionObserver(handleObserver);
+      observer.observe(ref.current);
+    }
+
+    return () => {
+      if (observer && ref.current) {
+        observer.unobserve(ref.current);
       }
-
-      return () => {
-          if (observer && ref.current) {
-              observer.unobserve(ref.current);
-          }
-      };
+    };
   }, [ref]);
-
 
   // if the size of the window is below 600px make a menu with to toggle
   const [menu, setMenu] = useState(false);
@@ -46,9 +43,10 @@ const Header = () => {
   return (
     <>
       {menu ? null : (
-        <header 
-        ref={ref}
-         className="relative hidden z-0  h-[150px] items-center justify-center  text-sm md:grid xl:h-[180px] xl:text-base">
+        <header
+          ref={ref}
+          className="relative z-10 hidden  h-[150px] items-center justify-center  text-sm md:grid xl:h-[180px] xl:text-base"
+        >
           <div className=" absolute inset-0 m-auto bg-gradient-to-tr from-acc to-pri dark:brightness-50 "></div>
           <img
             alt="CDU"
@@ -56,22 +54,22 @@ const Header = () => {
             width="150"
             height="138"
             //loading="lazy"
-            className=" lazy-load-image absolute top-0 z-30  cursor-pointer  justify-self-center p-2 hover:animate-bounce-slow "
+            className=" lazy-load-image absolute top-0   cursor-pointer  justify-self-center p-2 hover:animate-bounce-slow "
             onClick={() => (window.location.href = "/")}
           />
         </header>
       )}
       <nav
-
-        className={` sticky top-0 z-20 flex w-full lg:border-x-4 border-bg  items-center justify-stretch gap-2 bg-bg px-8 py-2 text-text md:justify-center md:px-4 lg:mx-auto lg:min-w-[896px] lg:max-w-[896px]  ${
-          isIntersecting === true && "dark:bg-bg border-b  dark:border-pri shadow-md"
+        className={` sticky top-0 z-10 flex w-full items-center justify-stretch  gap-2 border-bg bg-bg px-8 py-2 text-text md:justify-center md:px-4 lg:mx-auto lg:min-w-[896px] lg:max-w-[896px] lg:border-x-4  ${
+          isIntersecting === true &&
+          "border-b shadow-md  dark:border-pri dark:bg-bg"
         }`}
       >
         {/* If the window size is below 600px display a button with "menu as the value and on click make a modal to display the nav */}
 
         {/* If the window size is below 600px display a modal with the nav */}
         {menu ? (
-          <div className="absolute left-0 top-0 z-20 flex h-screen w-full flex-col items-center justify-center bg-bg dark:bg-sec md:hidden">
+          <div className="absolute left-0 top-0 z-10 flex h-screen w-full flex-col items-center justify-center bg-bg dark:bg-sec md:hidden">
             <button className="absolute right-2 top-2" onClick={toggleMenu}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -127,7 +125,7 @@ const Header = () => {
           </div>
         ) : null}
 
-        <button className="order-2 sm:hidden z-10  " onClick={toggleMenu}>
+        <button className="z-10 order-2 sm:hidden  " onClick={toggleMenu}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="32"
@@ -139,14 +137,54 @@ const Header = () => {
             <path d="M224,120v16a8,8,0,0,1-8,8H40a8,8,0,0,1-8-8V120a8,8,0,0,1,8-8H216A8,8,0,0,1,224,120Zm-8,56H40a8,8,0,0,0-8,8v16a8,8,0,0,0,8,8H216a8,8,0,0,0,8-8V184A8,8,0,0,0,216,176Zm0-128H40a8,8,0,0,0-8,8V72a8,8,0,0,0,8,8H216a8,8,0,0,0,8-8V56A8,8,0,0,0,216,48Z"></path>
           </svg>
         </button>
-        <div onClick={toggleTheme} className="cursor-pointer">
-          {theme ? (
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 256 256"><path d="M235.54,150.21a104.84,104.84,0,0,1-37,52.91A104,104,0,0,1,32,120,103.09,103.09,0,0,1,52.88,57.48a104.84,104.84,0,0,1,52.91-37,8,8,0,0,1,10,10,88.08,88.08,0,0,0,109.8,109.8,8,8,0,0,1,10,10Z"></path></svg>
+        {/* style the input checkbox like an iphone button with a transistion */}
+        <div className="group relative order-1 flex items-center justify-center">
+          <input
+            type="checkbox"
+            id="theme"
+            className="hidden"
+            onChange={toggleTheme}
+            checked={theme}
+          />
+          {/* the track for the toggle */}
+          <label
+            htmlFor="theme"
+            className="flex h-8 w-16 cursor-pointer items-center justify-center rounded-full bg-text/20 p-1 transition-all duration-300 ease-in-out"
+          >
+            <span className="sr-only">Toggle Theme</span>
+            {/* this is the white ball inside track */}
+            <span
+              className={`${
+                theme ? "translate-x-4" : "-translate-x-4"
+              } z-20 inline-block h-6 w-6 transform rounded-full bg-white shadow-lg transition-all duration-300 ease-in-out group-hover:bg-pri`}
+            ></span>
+            {/* the icons 1 is sun the 2 is the moon */}
+            {theme ? (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                fill="currentColor"
+                viewBox="0 0 256 256"
+                className="absolute left-1 "
+              >
+                <path d="M235.54,150.21a104.84,104.84,0,0,1-37,52.91A104,104,0,0,1,32,120,103.09,103.09,0,0,1,52.88,57.48a104.84,104.84,0,0,1,52.91-37,8,8,0,0,1,10,10,88.08,88.08,0,0,0,109.8,109.8,8,8,0,0,1,10,10Z"></path>
+              </svg>
             ) : (
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 256 256"><path d="M120,40V16a8,8,0,0,1,16,0V40a8,8,0,0,1-16,0Zm8,24a64,64,0,1,0,64,64A64.07,64.07,0,0,0,128,64ZM58.34,69.66A8,8,0,0,0,69.66,58.34l-16-16A8,8,0,0,0,42.34,53.66Zm0,116.68-16,16a8,8,0,0,0,11.32,11.32l16-16a8,8,0,0,0-11.32-11.32ZM192,72a8,8,0,0,0,5.66-2.34l16-16a8,8,0,0,0-11.32-11.32l-16,16A8,8,0,0,0,192,72Zm5.66,114.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32-11.32ZM48,128a8,8,0,0,0-8-8H16a8,8,0,0,0,0,16H40A8,8,0,0,0,48,128Zm80,80a8,8,0,0,0-8,8v24a8,8,0,0,0,16,0V216A8,8,0,0,0,128,208Zm112-88H216a8,8,0,0,0,0,16h24a8,8,0,0,0,0-16Z"></path></svg>
-
-              )}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                fill="currentColor"
+                viewBox="0 0 256 256"
+                className="absolute right-1 "
+              >
+                <path d="M120,40V16a8,8,0,0,1,16,0V40a8,8,0,0,1-16,0Zm8,24a64,64,0,1,0,64,64A64.07,64.07,0,0,0,128,64ZM58.34,69.66A8,8,0,0,0,69.66,58.34l-16-16A8,8,0,0,0,42.34,53.66Zm0,116.68-16,16a8,8,0,0,0,11.32,11.32l16-16a8,8,0,0,0-11.32-11.32ZM192,72a8,8,0,0,0,5.66-2.34l16-16a8,8,0,0,0-11.32-11.32l-16,16A8,8,0,0,0,192,72Zm5.66,114.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32-11.32ZM48,128a8,8,0,0,0-8-8H16a8,8,0,0,0,0,16H40A8,8,0,0,0,48,128Zm80,80a8,8,0,0,0-8,8v24a8,8,0,0,0,16,0V216A8,8,0,0,0,128,208Zm112-88H216a8,8,0,0,0,0,16h24a8,8,0,0,0,0-16Z"></path>
+              </svg>
+            )}
+          </label>
         </div>
+
         {userProfile?.isLoggedIn ? (
           <>
             {/* Amount of user votes remaining */}
@@ -154,17 +192,17 @@ const Header = () => {
               alt="CDU"
               src="/logo.png"
               loading="lazy"
-              className={`top-0 z-10 order-1 block aspect-square h-10 cursor-pointer justify-self-center hover:animate-bounce-slow hidden
+              className={`top-0 z-10 order-1 block hidden aspect-square h-10 cursor-pointer justify-self-center hover:animate-bounce-slow
                   ${!isIntersecting || menu ? "block md:block" : ""}
                 `}
               onClick={() => (window.location.href = "/")}
             />
 
-            <div className=" order-3 hidden z-10 w-full justify-self-start sm:flex min-[900px]:justify-self-center  ">
+            <div className=" z-10 order-3 hidden w-full justify-self-start sm:flex min-[900px]:justify-self-center  ">
               <p className="text-center uppercase ">{`${userProfile.votesRemaining} votes remaining this month.`}</p>
             </div>
 
-            <div className="order-4 flex w-full items-center z-10 justify-end ">
+            <div className="z-10 order-4 flex w-full items-center justify-end ">
               <p className=" mr-5 flex max-w-[180px] justify-center text-center uppercase max-[450px]:hidden">
                 Logged in as
                 <br />
@@ -184,14 +222,13 @@ const Header = () => {
           </>
         ) : (
           // Decide whether to display user's discord avatar (logged in) or "log in with discord" button (not logged in)
-          <div className="order-2 z-10 ml-auto max-[350px]:text-xs">
+          <div className="z-10 order-2 ml-auto max-[350px]:text-xs">
             <LoginButton />
           </div>
         )}
-          {/* <div className={`absolute inset-0 h-full max-[450px]:hidden z-0 w-full flex-1 bg-text opacity-0 ${
+        {/* <div className={`absolute inset-0 h-full max-[450px]:hidden z-0 w-full flex-1 bg-text opacity-0 ${
           scroll === true && " opacity-10 "
         } `}></div> */}
-
       </nav>
     </>
   );

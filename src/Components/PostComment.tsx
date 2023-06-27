@@ -87,16 +87,15 @@ const PostComment = ({
           placeholder="Add a comment..."
           value={comment}
           maxLength={360}
-          minLength={1}
+          minLength={0}
           onChange={(e) => {
             const newLength = e.target.value.length;
             if (newLength >= 1 && newLength <= 360) {
               return setComment(e.target.value);
             }
             toast.error("Too many characters!", {
-              toastId: "too-many-characters"
+              toastId: "too-many-characters",
             });
-          
           }}
         />
         <div className="mt-2 flex items-center justify-center dark:text-text">
@@ -105,8 +104,9 @@ const PostComment = ({
       </div>
       {/* Adds a character counter to the description field */}
       <button
+        disabled={commentMutation.isLoading || comment.length === 0}
         type="submit"
-        className={`h-10  rounded-md text-text  bg-${borderColor}-500  px-3 py-1 hover:opacity-80 `}
+        className={`h-10  rounded-md text-text  bg-${borderColor}-500  px-3 py-1  hover:opacity-80 disabled:cursor-not-allowed disabled:bg-slate-500 hover:disabled:opacity-100 `}
       >
         Post
       </button>
