@@ -5,6 +5,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import HeartSVG from "./SVG/HeartSVG";
 import HeartFillSVG from "./SVG/HeartFillSVG";
 import CommentBubbleSVG from "./SVG/CommentBubbleSVG";
+import { useNavigate, Link } from "react-router-dom";
 const ModpackCard = ({
   modpackId,
   name,
@@ -16,6 +17,7 @@ const ModpackCard = ({
 }: IModpack) => {
   const queryClient = useQueryClient();
         const text = color ? color : "blue";
+    const navigate = useNavigate()
 
   return (
     <div
@@ -25,19 +27,12 @@ const ModpackCard = ({
         queryClient.prefetchQuery(["details", modpackId], () =>
           fetchPackDetail(modpackId as string)
         );
-        
-        // console.log(color);
-        // const text = color ? color : "blue";
-        // e.target.classList.add(`shadow-${text}-500`);
       }}
-      // onMouseLeave={(e) => {
-      //   const text = color ? color : "blue";
-      //   e.target.classList.remove(`shadow-${text}-500`);
-      // }}
+
     >
       <div className=" flex items-start  hover:text-opacity-100 justify-center justify-items-center overflow-hidden  ">
-        <a
-          href={`/pack-details/${modpackId}`}
+        <Link
+          to={`/pack-details/${modpackId}`}
           className={` grid h-full flex-1 text-base/[1.25rem] `}
         >
           {/* toggle images in production */}
@@ -57,7 +52,7 @@ const ModpackCard = ({
           <p className="text-content mb-2 flex justify-center hyphens-auto px-2 py-4 text-center uppercase">
             {name}
           </p>
-        </a>
+        </Link>
       </div>
 
       <div

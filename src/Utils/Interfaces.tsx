@@ -34,14 +34,14 @@ export interface ICommentComponent {
   comment: IComment;
 }
 export interface DiscordProfileData {
-  isLoggedIn: boolean | undefined;
-  avatar: string | undefined;
-  globalName: string | undefined;
-  id: string | undefined;
-  username: string | undefined;
-  isAdmin: boolean | undefined;
-  votesRemaining: number | undefined;
-  tokenExpiry: number | undefined;
+  isLoggedIn?: boolean | undefined;
+  avatar?: string | undefined;
+  globalName?: string | undefined;
+  id?: string | undefined;
+  username?: string | undefined;
+  isAdmin?: boolean | undefined;
+  votesRemaining?: number | undefined;
+  tokenExpiry?: number | undefined;
 }
 export interface VoteForPackButtonProps {
   modpackId: string;

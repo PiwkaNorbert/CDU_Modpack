@@ -2,13 +2,14 @@ import React from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { AddModpackProps } from "../Utils/Interfaces";
 
 const AddModpack = () => {
   const [modpackDescription, setModpackDescription] =
     React.useState<string>("");
   const [modpackColor, setModpackColor] = React.useState<string>("sky");
+
 
   const colorOptions = [
     { value: "sky", label: "Sky" },
@@ -63,6 +64,8 @@ const AddModpack = () => {
         } else {
           console.error("unexpected error: ", error.message);
           // toast.error(`Couldn't add modpack: ${error.response?.data.message}`);
+          toast.error(error.response?.data.message);
+
           throw new Error(
             "Couldn't fetch Modpack details, please try again later."
           );
@@ -76,10 +79,9 @@ const AddModpack = () => {
   return (
     <>
       {/* backarrow to the root page */}
-      <div className="lg:mx-auto flex lg:min-w-[900px] lg:max-w-[900px]">
-      <div
+      <div className="lg:mx-auto flex pt-4  lg:min-w-[900px] lg:max-w-[900px]">
+      <Link to="/"
         className="flex min-w-min ml-4 mr-auto cursor-pointer items-center gap-2 rounded-md px-3 py-1 text-text hover:bg-sec hover:bg-opacity-20 hover:text-text dark:hover:bg-hover-2"
-        onClick={() => (window.location.href = `/`)}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -96,7 +98,7 @@ const AddModpack = () => {
           />
         </svg>
         <p className={` text-${borderColor}-500`}>Cancel</p>
-      </div>
+      </Link>
     </div>
 
       {/* Title of the form, centered */}
@@ -208,7 +210,7 @@ const AddModpack = () => {
         <br />
 
         <button
-          className={`h-16 rounded-md border-2 border-black disabled:bg-slate-600 dark:text-bg bg-${borderColor}-500 px-3 py-1 text-sm xl:text-base`}
+          className={`h-16 rounded-md border-2 border-black hover:bg-opacity-80 disabled:bg-slate-600 dark:text-bg bg-${borderColor}-500 px-3 py-1 text-sm xl:text-base`}
           disabled={addModpackMutation.isLoading}
         >
           {addModpackMutation.isLoading ? "Adding Modpack" : "Add Modpack"}

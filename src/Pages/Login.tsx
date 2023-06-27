@@ -16,7 +16,7 @@ import { useUser } from "../Context/useUser";
 const Login = () => {
   const [searchParams] = useSearchParams();
   const returnUrl = searchParams.get("returnUrl");
-  const { login } = useUser();
+  const { setUser } = useUser();
 
   const { data, isLoading, isError } = useDiscordProfileData();
 
@@ -38,9 +38,10 @@ const Login = () => {
     tokenExpiry: data?.token_expiry,
   };
 
-  login(profileData);
-  // Save the user profile in local storage
+  setUser(profileData);
+  localStorage.setItem("profileData", JSON.stringify(profileData));
   // display a toast message to the user that they have logged in
+  
 
   if (!returnUrl) return <Navigate to="/" />;
 

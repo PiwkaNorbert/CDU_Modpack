@@ -15,18 +15,19 @@ import Header from "./Components/Header";
 import Footer from "./Components/Footer";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ThemeProvider } from "./Context/ThemeContext";
+import { useUser } from "./Context/useUser";
 
 const queryClient = new QueryClient();
 
 function App() {
-  
+  const { user } = useUser()
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
 
       <main className="flex min-h-screen flex-col text-text ">
-        <Header />
         <BrowserRouter>
+        <Header />
           <Routes>
             <Route path="/" element={<PackListPage />} />
             <Route path="pack-details/:modpackId" element={<PackDetails />} />
@@ -34,7 +35,7 @@ function App() {
 
             <Route path="*" element={<Navigate to="/404" replace />} />
             <Route path="404" element={<NotFoundPage />} />
-            {/* {user?.isAdmin && ( */}
+            {user?.isAdmin && (
               <>
                 <Route path="add-modpack" element={<AddModpack />} />
                 <Route
@@ -42,7 +43,7 @@ function App() {
                   element={<EditModpack />}
                 />
               </>
-            {/* )} */}
+             )} 
           </Routes>
           <ToastContainer limit={2} pauseOnFocusLoss={false} autoClose={2000} />
         </BrowserRouter>

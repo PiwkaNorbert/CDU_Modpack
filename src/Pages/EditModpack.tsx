@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import usePackDetailData from "../API/usePackDetailData";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { AddModpackProps } from "../Utils/Interfaces";
 
 
@@ -65,8 +65,6 @@ const EditModpack = () => {
       ),
     {
       onSuccess: ({data}) => {
-        console.log(data.modpack);
-        
         queryClient.invalidateQueries(["modpacks","details", modpackId]);
         queryClient.setQueryData(["modpacks","details", modpackId], data.modpack)
         return navigate(`/pack-details/${modpackId}`);
@@ -101,10 +99,9 @@ const EditModpack = () => {
   return (
     <>
     {/* backarrow to the root page */}
-    <div className="lg:mx-auto flex lg:min-w-[900px] lg:max-w-[900px]">
-      <div
+    <div className="lg:mx-auto flex pt-4  lg:min-w-[900px] lg:max-w-[900px]">
+      <Link to={`/pack-details/${modpackId}`}
         className="flex min-w-min ml-4 mr-auto cursor-pointer items-center gap-2 rounded-md px-3 py-1 text-text hover:bg-sec hover:bg-opacity-20 hover:text-text dark:hover:bg-hover-2"
-        onClick={() => (window.location.href = `/pack-details/${modpackId}`)}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -121,7 +118,7 @@ const EditModpack = () => {
           />
         </svg>
         <p className={` text-${borderColor}-500`}>Cancel</p>
-      </div>
+      </Link>
     </div>
 
 
@@ -224,7 +221,7 @@ const EditModpack = () => {
         <br />
 
         <button
-          className={`h-16 rounded-md border-2 border-black disabled:bg-slate-600 dark:text-bg bg-${getBorderColor()}-500 px-3 py-1 text-sm xl:text-base`}
+          className={`h-16 rounded-md border-2 border-black hover:bg-opacity-80  disabled:bg-slate-600 dark:text-bg bg-${getBorderColor()}-500 px-3 py-1 text-sm xl:text-base`}
           disabled={editModpackMutation.isLoading}
         >
           {editModpackMutation.isLoading ? "Editing Modpack" : "Edit Modpack"}

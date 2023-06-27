@@ -11,7 +11,8 @@ import { toast } from "react-toastify";
 import { LoginButton } from "../Components/LoginButton";
 import { useQueryClient } from "@tanstack/react-query";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
+
 const PackDetails = () => {
   const { modpackId: id } = useParams();
   const modpackId = id as string;
@@ -56,10 +57,9 @@ const PackDetails = () => {
           >
             <div className="flex z-10 justify-between gap-2  px-8 pt-4  max-[350px]:flex-col sm:gap-0 md:px-4 ">
               {/* backarrow to the root page */}
-              <div
+              <Link
                 className="flex min-w-fit cursor-pointer items-center gap-2 rounded-md px-3 py-1 text-text hover:bg-sec hover:bg-opacity-20 hover:text-text dark:hover:bg-hover-2"
-                onClick={() => (window.location.href = "/")}
-              >
+                to={"/"}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className={`h-8 w-8 text-${borderColor}-500`}
@@ -75,20 +75,19 @@ const PackDetails = () => {
                   />
                 </svg>
                 <p className={` text-${borderColor}-500`}>Back</p>
-              </div>
+              </Link>
 
               <div className="flex  gap-2 text-sm text-text max-[350px]:mt-5 max-[350px]:flex-col xl:text-base ">
                 {/* edit modpack button only is userProfile is superUser */}
                 {user?.isLoggedIn && user?.isAdmin && (
                   <>
-                    <button
-                      className={` rounded-md  bg-sec px-3 py-1 hover:bg-opacity-80 dark:hover:bg-hover-2`}
-                      onClick={() =>
-                        (window.location.href = `/edit-modpack/${modpackId}`)
-                      }
+                    <Link
+                      to={`/edit-modpack/${modpackId}`}
+                      className={` rounded-md flex items-center  bg-sec px-3 py-1 hover:bg-opacity-80 dark:hover:bg-hover-2`}
                     >
+
                       Edit Modpack
-                    </button>
+                    </Link>
 
                     {/* delete modpack button only is userProfile is superUser */}
                     <button
@@ -176,8 +175,8 @@ const PackDetails = () => {
               {/* style the descripion to scroll on overflow and a max height of 364px */}
               <div className=" flex w-full flex-col items-center justify-center gap-2 px-4 sm:flex-row md:mt-4">
                 Modpack official page:{" "}
-                <a
-                  href={officialUrl}
+                <Link
+                  to={officialUrl}
                   className={` flex items-center gap-1 text-${borderColor}-500 hover:opacity-80`}
                   target="_blank"
                 >
@@ -192,7 +191,7 @@ const PackDetails = () => {
                   >
                     <path d="M192,136v72a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V80A16,16,0,0,1,48,64h72a8,8,0,0,1,0,16H48V208H176V136a8,8,0,0,1,16,0Zm32-96a8,8,0,0,0-8-8H152a8,8,0,0,0-5.66,13.66L172.69,72l-42.35,42.34a8,8,0,0,0,11.32,11.32L184,83.31l26.34,26.35A8,8,0,0,0,224,104Z"></path>
                   </svg>
-                </a>
+                </Link>
               </div>
               <div className="my-4 px-4  ">
                 <h3 className="text-2xl capitalize xl:text-3xl ">
@@ -218,22 +217,22 @@ const PackDetails = () => {
                 <div className=" px-4 ">
                   {
                     // if user is not logged in, show login button
-                    !user ? (
+                    user?.isLoggedIn ? (
+                      <PostComment
+                        modpackId={modpackId}
+                        borderColor={borderColor}
+                      />
+                    ) : (
                       <div className="flex flex-col items-center justify-center gap-4">
                         <p className="text-content text-center">
                           Login to post a comment
                         </p>
                         <LoginButton />
                       </div>
-                    ) : (
-                      <PostComment
-                        modpackId={modpackId}
-                        borderColor={borderColor}
-                      />
                     )
                   }
                   {/* Map comments from api the the img, username, userId, and the comment from the user */}
-                  {comments.map((comment, index) => (
+                  {comments?.map((comment, index) => (
                     <div
                       key={index}
                       className="grid items-center justify-between"

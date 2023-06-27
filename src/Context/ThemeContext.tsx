@@ -2,14 +2,15 @@ import { createContext } from 'react';
 
 export type ThemeContextType = {
   theme: boolean,
-  toggleTheme: (value:string) => void;
+  setTheme: (theme: boolean) => void,
 };
 
 // create a context for the theme (light or dark)
 export const ThemeContext = createContext<ThemeContextType>({
   // theme default from window match media (dark mode if user preference is dark) or local storage
   theme: false,
-  toggleTheme: () => {},
+  setTheme: () => {},
+ 
 });
 
 // Path: ThemeContext.tsx
@@ -48,13 +49,8 @@ export const ThemeProvider: React.FC<UserProviderProps> = ({
     }
   }, [theme]);
 
-  function toggleTheme() {
-    setTheme(!theme);
-  }
-
-
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <ThemeContext.Provider value={{ theme, setTheme }}>
       {children}
     </ThemeContext.Provider>
   );

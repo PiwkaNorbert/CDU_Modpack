@@ -4,6 +4,7 @@ import useModpackData from "../API/useModpackData";
 import ModpackCard from "../Components/ModpackCard";
 import { useUser } from "../Context/useUser";
 import { useQueryClient } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
 
 const PackListPage = () => {
   const queryClient = useQueryClient();
@@ -20,8 +21,6 @@ const PackListPage = () => {
       : setPageBottom(false);
   });
 
-  // const login = useQuery(["login"], fetchLogin, { keepPreviousData: true });
-console.log("data", data)
   return (
     <>
       <section
@@ -36,13 +35,13 @@ console.log("data", data)
             <p className="z-10">Modpacks</p>
             {/* Show this button if you're logged in and a staff member */}
             {user?.isAdmin && (
-              <button
-                className="transition-bg z-10 h-10 rounded-md bg-gradient-to-r from-acc to-pri bg-size-200 bg-pos-0 
+              <Link to="/add-modpack"
+                className="transition-bg z-10 h-10 flex items-center rounded-md bg-gradient-to-r from-acc to-pri bg-size-200 bg-pos-0 
               px-3 py-1 text-sm text-bg duration-200 hover:bg-pos-100 dark:text-text xl:text-base"
-                onClick={() => (window.location.href = `/add-modpack`)}
               >
+
                 Add Modpack
-              </button>
+              </Link>
             )}
           </div>
           <div className=" grid  grid-cols-2 gap-5 p-5 max-[400px]:grid-cols-1 sm:grid-cols-3  md:grid-cols-3   lg:grid-cols-4   ">
@@ -84,7 +83,7 @@ console.log("data", data)
           </div>
           <div className="absolute inset-0 h-full w-full flex-1 bg-sec opacity-20"></div>
         </div>
-        <div className="p-body-inner m-4  mt-0 flex  h-10   items-center justify-end md:mr-0 lg:mr-0">
+        <div className="p-body-inner m-4  my-0 flex  h-10   items-center justify-end md:mr-0 lg:mr-0">
           {/* button to scroll to the top of the page */}
           {pageBottom ? (
             <button

@@ -1,7 +1,7 @@
 const Footer = () => {
   return (
     <footer
-      className={`mt-auto hidden text-sm text-text sm:block lg:mx-auto lg:min-w-[900px] lg:max-w-[900px] xl:text-base  `}
+      className={`mt-10 hidden text-sm text-text sm:block lg:mx-auto lg:min-w-[900px] lg:max-w-[900px] xl:text-base  `}
       id="footer"
     >
       <div className="p-footer-inner">

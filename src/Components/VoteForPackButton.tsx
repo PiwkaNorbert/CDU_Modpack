@@ -14,7 +14,7 @@ export default function VoteForPackButton({
   const queryClient = useQueryClient();
   const isFetching = useIsFetching();
 
-  const { user, setRemainingVotes } = useUser();
+  const { user, setUser } = useUser();
 
   const addVote = useMutation(
    async () => await toast.promise(axios.get(`/api/add-vote/${modpackId}`, { withCredentials: true }),
@@ -32,7 +32,11 @@ export default function VoteForPackButton({
       },
       onSuccess: (response) => {
         queryClient.invalidateQueries(["details", modpackId]);
-        setRemainingVotes(response?.data.votes_remaining);
+        setUser((prev) => ({
+          ...prev,
+          votesRemaining: response?.data.votes_remaining,
+        }));  
+        
       },
     }
   );
@@ -44,7 +48,6 @@ export default function VoteForPackButton({
         withCredentials: true,
        }),
        {
-          pending: "Removing your vote...",
           success: "Removed your vote.",
           error: "Sorry, there was an error removing your vote for this modpack!",
        },
@@ -62,7 +65,10 @@ export default function VoteForPackButton({
       },
       onSuccess: (response) => {
         queryClient.invalidateQueries(["details", modpackId]);
-        setRemainingVotes(response?.data.votes_remaining);
+        setUser((prev) => ({
+          ...prev,
+          votesRemaining: response?.data.votes_remaining,
+        }));  
       },
     }
   );

@@ -1,101 +1,62 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 import { DiscordProfileData } from "../Utils/Interfaces";
 import { UserProviderProps } from "../Utils/Types";
 import { toast } from "react-toastify";
 
-export const UserContext = createContext<{
-  user: DiscordProfileData | undefined;
-  setUser: React.Dispatch<React.SetStateAction<DiscordProfileData | undefined>>;
-  setRemainingVotes: (n: number) => void;
-  login: (user: DiscordProfileData) => void;
-  logout: () => void;
-}>({
-  user: {} as DiscordProfileData,
-  setUser: () => null,
-  setRemainingVotes: () => null,
-  login: () => null,
-  logout: () => null,
-});
-
 // Path: UserProvider.tsx
 // create a user provider that can be used in other components to get the user data from the context provider
+export interface AppState {
+  user?: Partial<DiscordProfileData>;
+  setUser: (user?: Partial<DiscordProfileData>) => void;
+}
 
-export const UserProvider: React.FC<UserProviderProps> = ({
-  children
-}) => {
-  const [user, setUser] = useState<DiscordProfileData | undefined>();
+const defaultState: AppState = {
+  user: {},
+  setUser: () => {},
+};
+export const UserContext = React.createContext<AppState>(defaultState);
+
+export const UserProvider: React.FunctionComponent<UserProviderProps> = (
+  props: UserProviderProps
+): JSX.Element => {
+  const [user, setUser] = React.useState<DiscordProfileData>();
+
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem('profileData');
+    
+    if (storedUser && !user) {
+      setUser(JSON.parse(storedUser));
+      console.log('user set from local storage');
+      
+    }
+  }, [user, setUser]);
 
 
 
   useEffect(() => {
-    const user_profile = localStorage.getItem("user_profile");
+    const checkTokenExpiry = () => {
+      if (!user) return;
 
-    if (user_profile) {
-      setUser(JSON.parse(user_profile));
-    }
-  }, []);
+      const tokenExpiry = user?.tokenExpiry;
+      if (!tokenExpiry) return;
 
-  // set the user in the local storage and make sure it is parsed to a json string
-  const saveUserProfile = (user: DiscordProfileData) => {
-    localStorage.setItem("user_profile", JSON.stringify(user));
-    setUser(user);
-  };
+      const now = Math.floor(Date.now() / 1000);
 
-  // method to set the value of remaining votes directly:
-  const setRemainingVotes = (n: number) => {
-    //  spread the old data and set the new value for votesRemaining
-    const userNew = { ...user, votesRemaining: n };
-    // save the user in the local storage
-    return saveUserProfile(userNew as DiscordProfileData);
-  };
+      if (tokenExpiry < now) {
+        // TODO: refresh token
+        toast.error("Your session has expired. Please log in again.");
+        setUser(undefined);
+      }
+    };
 
-  // remove the user from the local storage
-  const removeUserProfile = () => {
-    localStorage.removeItem("user_profile");
-  };
+    checkTokenExpiry();
+  }, [user]);
 
-  // remove the user from the local storage and from the state
-  const logout = () => {
-    removeUserProfile();
-    setUser(undefined);
-  };
-  // save the user in the local storage and in the state
-  const login = (user: DiscordProfileData) => {
-    saveUserProfile(user);
-  };
-  
-  const checkTokenExpiry = () => {
-    if (!user) return;
-
-    const tokenExpiry = user?.tokenExpiry
-    if (!tokenExpiry) return;
-    
-    // display the current time in seconds with utc with valid arguments
-    const now = Math.floor(Date.now() / 1000);
-    console.log(now);
-    
-    if (tokenExpiry < now) {
-      // TODO: refresh token
-      toast.error("Your session has expired. Please log in again.");
-      removeUserProfile();
-      setUser(undefined);
-    }
-    
-  };
-  checkTokenExpiry()
+  const value: AppState = { user, setUser };
 
   return (
-    <UserContext.Provider
-      value={{
-        user,
-        setUser,
-        setRemainingVotes,
-        login,
-        logout,
-      }}
-    >
-      {children}
-    </UserContext.Provider>
+    <UserContext.Provider value={value}>{props.children}</UserContext.Provider>
   );
 };
