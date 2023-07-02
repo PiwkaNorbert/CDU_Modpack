@@ -93,7 +93,7 @@ export default {
   safelist: [
     {
       pattern:
-        /(bg|text|border|shadow|hover)-(red|orange|yellow|lime|green|teal|sky|blue|violet|fuchsia|black)/,
+        /(bg|text|border|shadow|hover|min)-(red|orange|yellow|lime|green|teal|sky|blue|violet|fuchsia|black|h)/,
     },
   ],
 };

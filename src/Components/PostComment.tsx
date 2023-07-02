@@ -34,13 +34,13 @@ const PostComment = ({
           }
         ),
         {
-          pending: "Comment is pending",
           success: "Comment posted! 👌",
           error: "Comment rejected 🤯",
         }
       ),
     {
-      onSuccess: () => {
+      onSuccess: (response) => {
+        console.log(response);
         queryClient.invalidateQueries(["details", modpackId]);
         queryClient.setQueriesData(["details", modpackId], (oldData) => {
           const oldPackDetails = oldData as IPackDetails;
@@ -83,14 +83,13 @@ const PostComment = ({
       />
       <div className=" w-full">
         <textarea
-          className={` min-h-10 h-fit w-full rounded-md border  dark:text-bg border-${borderColor}-300 px-3 py-1 `}
+          className={` min-h-10 min-h-40  resize-none w-full rounded-md border  dark:text-bg border-${borderColor}-300 px-3 py-1 `}
           placeholder="Add a comment..."
           value={comment}
           maxLength={360}
-          minLength={1}
           onChange={(e) => {
             const newLength = e.target.value.length;
-            if (newLength >= 1 && newLength <= 360) {
+            if (newLength <= 360) {
               return setComment(e.target.value);
             }
             toast.error("Too many characters!", {
@@ -105,8 +104,9 @@ const PostComment = ({
       </div>
       {/* Adds a character counter to the description field */}
       <button
+        disabled={comment.length === 0 || commentMutation.isLoading}
         type="submit"
-        className={`h-10  rounded-md text-text  bg-${borderColor}-500  px-3 py-1 hover:opacity-80 `}
+        className={`h-10  rounded-md text-text  bg-${borderColor}-500 disabled:bg-slate-400 disabled:text-bg disabled:hover:opacity-100  px-3 py-1 hover:opacity-80 `}
       >
         Post
       </button>

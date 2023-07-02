@@ -27,7 +27,7 @@ export function CommentsComponent({ borderColor, comment, discordId }: ICommentC
             {relativeDate(comment?.timestamp)}
           </p>
           {/* If userProfile is super user / moderator show delete comment button underneith */}
-          {user?.isAdmin  && (
+          {(user?.isAdmin || user?.id === comment?.discord_id)  &&  (
             <div className="flex items-center gap-2 justify-self-end">
               <button
                 className={`text-content rounded-md border border-sec  px-3 py-1 text-justify text-xs text-red-500 hover:bg-sec hover:bg-opacity-20 hover:border-opacity-20  dark:hover:bg-hover-2 `}
@@ -92,7 +92,7 @@ export function CommentsComponent({ borderColor, comment, discordId }: ICommentC
           )}
         </div>
       </div>
-      <p className="text-content break-all p-[.5em] text-justify text-sm xl:text-base ">
+      <p className="text-content break-word p-[.5em] text-justify text-sm xl:text-base ">
         {comment?.comment}
       </p>
     </>

@@ -64,6 +64,7 @@ const getProfile = async () => {
   }, [user, setUser]);
 
 
+
   const votesRemaining = (n: number) => {
     //  spread the old data and set the new value for votesRemaining
     const userNew = { ...user, votesRemaining: n };
@@ -91,7 +92,7 @@ const getProfile = async () => {
     checkTokenExpiry();
   }, [user]);
 
-  const value: AppState = { user, setUser, votesRemaining};
+  const value: AppState = { user, setUser, votesRemaining,};
 
   return (
     <UserContext.Provider value={value}>{props.children}</UserContext.Provider>

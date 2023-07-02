@@ -22,7 +22,7 @@ function App() {
   return (
       <ThemeProvider>
 
-      <main className="flex min-h-screen flex-col text-text ">
+      <div className="flex flex-col text-text  min-h-screen">
         <BrowserRouter>
         <Header />
           <Routes>
@@ -47,7 +47,7 @@ function App() {
 
         <FetchingIndicator />
         {window.location.pathname === "/404" ? null : <Footer />}
-      </main>
+      </div>
       <ReactQueryDevtools />
       </ThemeProvider>
   );

@@ -21,7 +21,12 @@ const useDiscordProfileData = () => {
       console.error(_err);
       toast.error("Sorry, there was an error logging you in!")
     },
-    onSuccess: () => toast.success("Welcome back! You are now logged in!")
+    onSuccess: (response) => {
+      if (response.in_guild === false) return;
+
+       toast.success("Welcome back! You are now logged in!")
+
+    }
   });
 };
 
