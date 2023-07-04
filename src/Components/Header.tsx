@@ -5,67 +5,37 @@ import { useTheme } from "../Context/useTheme";
 import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { setupClickOutsideHandler } from "../Helper/setupClickOutsideHandler";
+import { links, userMenuItem } from "./HeaderData/data"; 
+
 
 const Header = () => {
 
   // set the state of voteRemaining to the value of the user's votesRemaining
-  const { user: userProfile, setUser } = useUser();
+  const { user, setUser } = useUser();
   const {theme, setTheme} = useTheme();
+  const navigate = useNavigate();
 
   const [isIntersecting, setIntersecting] = useState(false);
+  const [menu, setMenu] = useState(false);
+  const [profileMenuShow, setProfileMenuShow] = useState(false);
+
   const ref = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
 
 
-  const navigate = useNavigate();
-
-  useEffect(() => {
-      let observer: IntersectionObserver;
-
-      const handleObserver = (entries: IntersectionObserverEntry[]) => {
-          const [entry] = entries;
-          setIntersecting(entry.isIntersecting);
-      };
-
-      if (ref.current) {
-          observer = new IntersectionObserver(handleObserver);
-          observer.observe(ref.current);
-      }
-
-      return () => {
-          if (observer && ref.current) {
-              observer.unobserve(ref.current);
-          }
-      };
-  }, [ref]);
-
-
-  // if the size of the window is below 600px make a menu with to toggle
-  const [menu, setMenu] = useState(false);
-  const [profileMenuShow, setProfileMenuShow] = useState(false);
-
-  const toggleMenu = () => {
-    setMenu(!menu);
-  };
-
-  setupClickOutsideHandler(menuRef, setProfileMenuShow);
-
-
-
-  
-  const userMenuItem = [
+   const userMenuItem = [
 
     {
-      name: userProfile?.isLinked ? "linked" : "Unlink",
-
+      name: user?.isLinked ? "linked" : "Unlink",
+  
     },
     {
       name: "Logout",
       callBack: () => setUser(undefined),
     },
   ];
-
-  const links = [
+  
+   const links = [
     {
       name: "Forum",
       href: "https://forum.playcdu.co",
@@ -93,6 +63,37 @@ const Header = () => {
       target: "_blank",
     },
   ];
+
+
+
+  useEffect(() => {
+      let observer: IntersectionObserver;
+
+      const handleObserver = (entries: IntersectionObserverEntry[]) => {
+          const [entry] = entries;
+          setIntersecting(entry.isIntersecting);
+      };
+
+      if (ref.current) {
+          observer = new IntersectionObserver(handleObserver);
+          observer.observe(ref.current);
+      }
+
+      return () => {
+          if (observer && ref.current) {
+              observer.unobserve(ref.current);
+          }
+      };
+  }, [ref]);
+
+  // if the size of the window is below 600px make a menu with to toggle
+
+
+  const toggleMenu = () => {
+    setMenu(!menu);
+  };
+
+  setupClickOutsideHandler(menuRef, setProfileMenuShow);
 
   return (
     <>
@@ -174,7 +175,7 @@ const Header = () => {
                           <path d="M208,32H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM181.66,170.34a8,8,0,0,1-11.32,11.32L128,139.31,85.66,181.66a8,8,0,0,1-11.32-11.32L116.69,128,74.34,85.66A8,8,0,0,1,85.66,74.34L128,116.69l42.34-42.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path>
                         </svg>
                       </button>
-                      {links.map((link) => (
+                      {links.map((link:any) => (
                         <a
                           key={link.href}
                           className="rounded-sm p-5 hover:bg-hover-2"
@@ -286,18 +287,18 @@ const Header = () => {
             `}
           onClick={() => navigate("/")}
         />
-        {userProfile?.isLoggedIn ? (
+        {user?.isLoggedIn ? (
           <>
 
             <div className=" order-4 hidden z-10 w-full justify-self-start sm:flex min-[900px]:justify-self-center  ">
-              <p className="text-center uppercase ">{`${userProfile.votesRemaining} ${userProfile.votesRemaining == 1 ? "vote" : "votes"} remaining this month.`}</p>
+              <p className="text-center uppercase ">{`${user.votesRemaining} ${user.votesRemaining == 1 ? "vote" : "votes"} remaining this month.`}</p>
             </div>
 
             <div className="order-4 flex w-full items-center z-10 justify-end ">
-              <p className=" mr-5 flex max-w-[180px] justify-center text-center uppercase max-[500px]:hidden">
+              <p className=" mr-5 flex max-w-[180px] justify-center text-center text-sm uppercase max-[500px]:hidden">
                 Logged in as
                 <br />
-                {userProfile.globalName}
+                {user.globalName}
               </p>
               <div className=" z-10 flex items-center rounded-full border border-bkg/10 font-medium focus:outline-none focus:ring-4 focus:ring-bkg/90">
                 <button
@@ -311,10 +312,10 @@ const Header = () => {
                 >
                   <img
                     className="aspect-square w-12 cursor-pointer rounded-full   opacity-90 hover:opacity-100"
-                    src={`https://cdn.discordapp.com/avatars/${userProfile.id}/${userProfile.avatar}`}
+                    src={`https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}`}
                     alt={
-                      userProfile.username
-                        ? `${userProfile.username}'s avatar`
+                      user.username
+                        ? `${user.username}'s avatar`
                         : "avatar"
                     }
                   />
@@ -325,13 +326,13 @@ const Header = () => {
                   ref={menuRef}
                 >
                   {profileMenuShow && (
-                    <ul className="p-1 text-sm  " aria-labelledby="dropdown-button">
-                      {userMenuItem.map((item, i) => {
+                    <ul className="p-1 text-sm " aria-labelledby="dropdown-button">
+                      {userMenuItem.map((item:any, i: number) => {
                         return (
-                          <li key={i}>
-                            <button
+                          <li key={i} className="delay-0  mb-1 flex w-full items-center  justify-center gap-1 px-4 py-2  transition-all duration-200 ease-in-out last:mb-0 hover:rounded-xl last:hover:bg-text/20 last:active:bg-text/25 ">
+                            <a
                               type="button"
-                              className="delay-0  mb-1 flex w-full items-center  justify-center gap-1 px-4 py-2  transition-all duration-200 ease-in-out last:mb-0 hover:rounded-xl hover:bg-text/20 active:bg-text/25 "
+                              
                               onClick={item.callBack}
                             >
                               <span
@@ -339,7 +340,7 @@ const Header = () => {
                               >
                                 {item.name}
                               </span>
-                            </button>
+                            </a>
                           </li>
                         );
                       })}
@@ -365,3 +366,5 @@ const Header = () => {
   );
 };
 export default Header;
+
+
