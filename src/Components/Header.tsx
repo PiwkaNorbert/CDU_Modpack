@@ -27,6 +27,7 @@ const Header = () => {
 
     {
       name: user?.isLinked ? "linked" : "Unlink",
+      icon: user?.isLinked ? '/check.png' : '/cross.png'
   
     },
     {
@@ -335,11 +336,13 @@ const Header = () => {
                               
                               onClick={item.callBack}
                             >
-                              <span
-                                className={`flex gap-1 `}
+                              <div
+                                className={`flex gap-2 `}
                               >
-                                {item.name}
-                              </span>
+
+                                {item.name} 
+                              <img src={item.icon} className="w-8 aspect-square" />
+                              </div>
                             </a>
                           </li>
                         );
