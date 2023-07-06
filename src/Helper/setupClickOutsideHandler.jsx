@@ -1,6 +1,8 @@
-export const setupClickOutsideHandler = (ref, setShown) => {
+export const setupClickOutsideHandler = (menuRef, buttonRef, setShown) => {
+
     const handleClickOutside = (event) => {
-      if (ref.current && !ref.current.contains(event.target)) {
+      if (menuRef.current && !menuRef.current.contains(event.target) && !buttonRef.current.contains(event.target)) {
+
         setShown(false);
       }
     };

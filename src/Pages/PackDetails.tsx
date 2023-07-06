@@ -226,6 +226,8 @@ const PackDetails = () => {
                       <PostComment
                         modpackId={modpackId}
                         borderColor={borderColor}
+                        replyingTo={false}
+                        replyParentId=''
                       />
                     ) : (
                       <div className="flex flex-col items-center justify-center gap-4">

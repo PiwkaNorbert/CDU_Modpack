@@ -39,6 +39,7 @@ const getProfile = async () => {
     isAdmin: data?.is_admin,
     votesRemaining: data?.votes_remaining,
     tokenExpiry: data?.token_expiry,
+    isLinked: data?.is_linked,
   };
   
 

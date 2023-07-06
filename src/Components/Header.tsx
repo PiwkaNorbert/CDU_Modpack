@@ -21,12 +21,11 @@ const Header = () => {
 
   const ref = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
 
-
-   const userMenuItem = [
-
+  const userMenuItem = [
     {
-      name: user?.isLinked ? "linked" : "Unlink",
+      name: user?.isLinked ? "linked" : "Unlinked",
       icon: user?.isLinked ? '/check.png' : '/cross.png'
   
     },
@@ -66,6 +65,9 @@ const Header = () => {
   ];
 
 
+  useEffect(() => {
+    setupClickOutsideHandler(menuRef, menuButtonRef, setProfileMenuShow);
+  }, [menuRef, menuButtonRef,profileMenuShow]);
 
   useEffect(() => {
       let observer: IntersectionObserver;
@@ -94,7 +96,6 @@ const Header = () => {
     setMenu(!menu);
   };
 
-  setupClickOutsideHandler(menuRef, setProfileMenuShow);
 
   return (
     <>
@@ -307,8 +308,13 @@ const Header = () => {
                   id="dropdown-button"
                   data-dropdown-toggle="dropdown"
                   type="button"
+                  ref={menuButtonRef}
                   onClick={() => {
-                    setProfileMenuShow(!profileMenuShow);
+                    console.log(profileMenuShow);
+                    
+                    setProfileMenuShow(profileMenuShow ? false : true);
+                    console.log(profileMenuShow);
+
                   }}
                 >
                   <img
@@ -321,35 +327,38 @@ const Header = () => {
                     }
                   />
                 </button>
+                {profileMenuShow && (
                 <div
                   id="dropdown"
                   className="w-min-content absolute top-[67px] right-2 z-10 rounded-xl border border-text/20 bg-bg shadow"
                   ref={menuRef}
                 >
-                  {profileMenuShow && (
                     <ul className="p-1 text-sm " aria-labelledby="dropdown-button">
                       {userMenuItem.map((item:any, i: number) => {
                         return (
-                          <li key={i} className="delay-0  mb-1 flex w-full items-center  justify-center gap-1 px-4 py-2  transition-all duration-200 ease-in-out last:mb-0 hover:rounded-xl last:hover:bg-text/20 last:active:bg-text/25 ">
+                          <li key={i} className="delay-0  mb-1 flex w-full  gap-1 px-4 py-2  transition-all duration-200 ease-in-out last:mb-0 hover:rounded-xl last:hover:bg-text/20 last:cursor-pointer last:active:bg-text/25 ">
                             <a
                               type="button"
                               
                               onClick={item.callBack}
                             >
                               <div
-                                className={`flex gap-2 `}
+                                className={`flex items-center capitalize  justify-center gap-2 `}
                               >
 
                                 {item.name} 
-                              <img src={item.icon} className="w-8 aspect-square" />
+
+                                {item.icon && (
+                                  <img src={item.icon} className="w-6 aspect-square" />
+                                  )}
                               </div>
                             </a>
                           </li>
                         );
                       })}
                     </ul>
-                  )}
                 </div>
+                  )}
               </div>
 
             </div>

@@ -1,100 +1,86 @@
-import { ICommentComponent, IPackDetails } from "../Utils/Interfaces";
-import relativeDate from "../Helper/relativeDate";
+import { ICommentComponent } from "../Utils/Interfaces";
 import { useQueryClient } from "@tanstack/react-query";
-import { useUser } from "../Context/useUser";
-import axios from "axios";
-import { toast } from "react-toastify";
+import useCommentRepliesData,{ fetchCommentReplies } from "../API/useCommentRepliesData.tsx";
+import { useState } from "react";
+import  PostComment  from "./PostComment";
+import  {ReplyComponent}  from "./ReplyComponent";
 
-export function CommentsComponent({ borderColor, comment, discordId }: ICommentComponent) {
+
+export function CommentsComponent({ borderColor, comment }: ICommentComponent) {
   const modpackId = window.location.pathname.split("/")[2];
-  const { user } = useUser();
+  const [showReplies, setShowReplies] = useState(false);
+  const [showAddReply, setShowAddReply] = useState(false);
+  const {data, isLoading, isError} = useCommentRepliesData(comment?.uuid, comment?.reply_count );
+  
+  // console.log(comment)
+  console.log(data)
+
 
   const queryClient = useQueryClient();
 
+
   return (
     <>
-      <div className="  flex items-center gap-4 pt-[1em] text-base">
-        <img
-          className="h-10 w-10 rounded-full"
-          src={comment?.avatar_url}
-          alt="user"
-        />
-        <div className="flex items-center gap-2">
-          <p className={`text-content  text-justify text-${borderColor}-600`}>
-            {comment.username}
-          </p>
-          <p className="text-content text-justify text-xs text-gray-400 xl:text-sm">
-            {relativeDate(comment?.timestamp)}
-          </p>
-          {/* If userProfile is super user / moderator show delete comment button underneith */}
-          {(user?.isAdmin || user?.id === comment?.discord_id)  &&  (
-            <div className="flex items-center gap-2 justify-self-end">
-              <button
-                className={`text-content rounded-md border border-sec  px-3 py-1 text-justify text-xs text-red-500 hover:bg-sec hover:bg-opacity-20 hover:border-opacity-20  dark:hover:bg-hover-2 `}
-                onClick={async () => {
-                  if (
-                    prompt(
-                      "Are you sure you want to delete this comment?\nType 'yes' to confirm"
-                    ) !== "yes"
-                  ) {
-                    return toast.error("Modpack not deleted");
-                  }
+      <ReplyComponent borderColor={borderColor} comment={comment}  />
 
-                  try {
-                    const res = await toast.promise(
-                      axios.delete(`/api/delete-comment`, {
-                        withCredentials: true,
-                        headers: {
-                          "Content-Type": "application/json",
-                        },
-                        data: {
-                          modpackId,
-                          commentId: comment?.uuid,
-                        },
-                      }),
-                      {
-                        pending: "Attempting to delete comment...",
-                        success: "Comment deleted! 👌",
-                        error: "Couldn't delete comment 🤯",
-                      }
-                    );
-                    res.status !== 200 && console.error(res);
+      <div className="flex ">
 
-                    queryClient.invalidateQueries([
-                      "modpacks",
-                      "details",
-                      modpackId,
-                    ]);
-                    queryClient.setQueryData(
-                      ["details", modpackId],
-                      (oldData) => {
-                        const oldPackDetails = oldData as IPackDetails;
+        <button
+          className={` mr-1 rounded-md w-fit border border-sec  px-3 py-1 text-justify text-xs text-text  hover:bg-sec hover:bg-opacity-20 hover:border-opacity-20  dark:hover:bg-hover-2 `}
+          onClick={() => {
+            setShowAddReply(!showAddReply);
+          }}
+          >
+            Reply
+        </button>
+        {comment?.reply_count !== 0 && (
+        <>
+        <button
+        className={` ml-1 rounded-md w-fit border border-sec  px-3 py-1 text-justify text-blue-500 text-xs  hover:bg-sec hover:bg-opacity-20 hover:border-opacity-20  dark:hover:bg-hover-2 `}
+        disabled={comment?.reply_count === 0}
+        onMouseEnter={() => {
+          if (comment?.reply_count === 0) return;
+          queryClient.prefetchQuery(["replies", comment?.uuid], () =>
+          fetchCommentReplies(comment?.uuid as string)
+          
+          );
+        }}
+        
+        onClick={() => {
+          if (comment?.reply_count === 0) return;
+          setShowReplies(!showReplies);
+           }}>
 
-                        return {
-                          ...oldPackDetails,
-                          comments: [
-                            ...oldPackDetails.comments.filter(
-                              (c) => c.uuid !== comment?.uuid
-                            ),
-                          ],
-                        };
-                      }
-                    );
-                  } catch (error: Error | unknown | string) {
-                    console.error(error);
-                    toast.error(`Error: ${error}`);
-                  }
-                }}
-              >
-                Delete
-              </button>
-            </div>
-          )}
-        </div>
+          {comment?.reply_count} reply
+        </button>
+    
+      </>
+
+      )}
       </div>
-      <p className="text-content break-word p-[.5em] text-justify text-sm xl:text-base ">
-        {comment?.comment}
-      </p>
+      {showAddReply && (
+          <>
+            <PostComment borderColor={borderColor} modpackId={modpackId}  replyingTo={true}
+              replyParentId={comment?.uuid} />
+          </>
+        )}
+      {showReplies && (
+        <div className="ml-10">
+          {isLoading ? <p>Loading...</p> :
+          isError ? <p>Error</p> :
+          data?.map((reply: any) => (
+            <ReplyComponent
+              borderColor={borderColor}
+              comment={reply}
+              replyingTo={true}
+              replyParentId={comment?.uuid}
+         
+
+            />
+          ))}
+        </div>
+      )}
+
     </>
   );
 }

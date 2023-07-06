@@ -21,17 +21,35 @@ export interface IPackDetails {
   voteCount: number;
 }
 export interface IComment {
-  username: string | undefined;
-  comment: string | undefined;
-  timestamp: number;
-  discord_id: string | undefined;
-  avatar_url: string | undefined;
   uuid: string;
+  discord_id?: number ;
+  username?: string ;
+  comment?: string ;
+  timestamp: number;
+  last_updated_time?: number;
+  avatar_url?: string ;
+  profanity_score?: number;
+  reply_count?: number;
 }
+
+export interface ICommentReplies {
+  uuid?: string;
+  discord_id?: number ;
+  username?: string ;
+  comment?: string ;
+  timestamp?: number;
+  last_updated_time?: number;
+  avatar_url?: string ;
+  profanity_score?: number;
+  reply_count: number;
+
+}
+
 export interface ICommentComponent {
   borderColor: string;
-  discordId: string | undefined;
   comment: IComment;
+  replyingTo: boolean
+  replyParentId: string;
 }
 export interface DiscordProfileData {
   isLoggedIn?: boolean ;
