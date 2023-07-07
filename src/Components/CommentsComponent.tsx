@@ -50,7 +50,7 @@ export function CommentsComponent({ borderColor, comment }: ICommentComponent) {
               className={` ml-1 w-fit rounded-md border border-sec  px-3 py-1 text-justify text-xs text-blue-500  hover:border-opacity-20 hover:bg-sec hover:bg-opacity-20  dark:hover:bg-hover-2 `}
               disabled={comment?.reply_count === 0}
               onMouseEnter={() => {
-                if (comment?.reply_count === 0) return;
+                if (comment?.reply_count === 0 || showReplies) return;
                 queryClient.prefetchQuery(["replies", comment?.uuid], () =>
                   fetchCommentReplies(comment?.uuid as string)
                 );
