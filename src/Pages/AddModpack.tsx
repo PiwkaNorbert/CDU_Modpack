@@ -4,45 +4,36 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import { AddModpackProps } from "../Utils/Interfaces";
+import {tagOptions, colorOptions} from "../Helper/modifyModpack"
 
 const AddModpack = () => {
   const [modpackDescription, setModpackDescription] =
     React.useState<string>("");
   const [modpackColor, setModpackColor] = React.useState<string>("sky");
+  const [modpackTags, setModpackTags] = React.useState<string[]>([]);
 
+  let listOfTags = [] as string[];
 
-  const colorOptions = [
-    { value: "sky", label: "Sky" },
-    { value: "red", label: "Red" },
-    { value: "orange", label: "Orange" },
-    { value: "yellow", label: "Yellow" },
-    { value: "lime", label: "Lime" },
-    { value: "green", label: "Green" },
-    { value: "teal", label: "Teal" },
-    { value: "blue", label: "Blue" },
-    { value: "violet", label: "Violet" },
-    { value: "fuchsia", label: "Fuchsia" },
-  ];
 
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
   const addModpackMutation = useMutation(
-    ({ name, description, color, suggestor, image, officialUrl }: AddModpackProps) =>
+    ({ name, description, tags, color, suggestor, officialUrl }: AddModpackProps) =>
       toast.promise(
         axios.post(
           `/api/add-modpack`,
           {
             name,
             description,
+            tags,
             color,
             suggestor,
-            image,
             officialUrl
           },
           {
             headers: {
-              "Content-Type": "multipart/form-data",
+              "Content-Type": "application/json"
             },
             withCredentials: true,
           }
@@ -54,7 +45,7 @@ const AddModpack = () => {
         }
       ),
     {
-      onSuccess: () => {
+      onSettled: () => {
         queryClient.invalidateQueries(["modpacks"]);
         return navigate("/");
       },
@@ -118,10 +109,11 @@ const AddModpack = () => {
           addModpackMutation.mutate({
             name: target.name.value,
             description: target.description.value,
+            tags: modpackTags,
             color: target.color.value,
             suggestor: target.suggestor.value,
-            image: target.image.files[0],
             officialUrl: target.officialUrl.value
+            // image: target.image.files[0],
           });
         }}
       >
@@ -156,6 +148,32 @@ const AddModpack = () => {
         <div className="-mt-2 flex items-center justify-center dark:text-text">
           <p>{modpackDescription.length}/500</p>
         </div>
+        {/* Tag selector */}
+        <select
+          className={`  rounded-md border-2  dark:text-bg border-${borderColor}-500 bg-${borderColor}-300 px-3 py-1 font-Tilt `}
+          name="tags"
+          multiple
+          onChange={(e) => {
+             listOfTags = Array.from(
+              e.target.selectedOptions,
+              (option) => option.value
+            );
+             setModpackTags(listOfTags);
+             console.log(modpackTags);
+             
+
+          }}
+        >
+          {tagOptions.map((tagOption, index) => (
+            <option
+              key={index}
+              value={tagOption.value}
+              className={`hover:bg-${tagOption?.value}-500`}
+            >
+              {tagOption.label}
+            </option>
+          ))}
+        </select>
 
         {/*Color selection*/}
         <select
@@ -176,14 +194,15 @@ const AddModpack = () => {
             </option>
           ))}
         </select>
+      
 
-        <p className="-mb-2 dark:text-text">Image</p>
-        <input
+        {/* <p className="-mb-2 dark:text-text">Image</p> */}
+        {/* <input
           required
           name="image"
           className={`cursor-pointer rounded-md border-2 file:placeholder:text-slate-400 dark:text-text border-${borderColor}-500 h-8 w-full px-3 py-1`}
           type="file"
-        />
+        /> */}
 
         <label
           htmlFor="image"

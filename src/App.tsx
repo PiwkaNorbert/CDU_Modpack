@@ -35,12 +35,14 @@ function App() {
 
             <Route path="*" element={<Navigate to="/404" replace />} />
             <Route path="404" element={<NotFoundPage />} />
-            {/* {!user?.isLoggedIn && (
-              <> */}
-            <Route path="/checkout/" element={<Checkout />} />
-            <Route path="/payments" element={<Payments />} />
-            {/* </>
-            )} */}
+            {user?.isLoggedIn && (
+              <>
+                <Route path="/checkout/:modpackId" element={<Checkout />} />
+                <Route path="/payments" element={<Payments />} />
+                <Route path="/success" element={<CheckoutSuccess />}/>
+                <Route path="/failed" element={<CheckoutFail /> } />
+              </>
+            )}
             {/*
             <Route path="/customers">
               <Customers />
@@ -48,12 +50,7 @@ function App() {
             <Route path="/subscriptions">
               <Subscriptions />
             </Route>
-            <Route path="/success">
-              <CheckoutSuccess />
-            </Route>
-            <Route path="/failed">
-              <CheckoutFail />
-            </Route> */}
+            */}
 
             {user?.isAdmin && (
               <>

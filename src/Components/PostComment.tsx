@@ -5,6 +5,7 @@ import axios from "axios";
 import { useUser } from "../Context/useUser";
 import { IPackDetails } from "../Utils/Interfaces";
 
+
 const PostComment = ({
   borderColor,
   modpackId,
@@ -15,11 +16,13 @@ const PostComment = ({
   modpackId?: string;
   replyParentId: string;
   replyingTo: boolean;
+
 }) => {
   const [comment, setComment] = React.useState<string>("");
 
   const { user } = useUser();
   const queryClient = useQueryClient();
+
 
   const isDev = import.meta.env.VITE_NODE_ENV === "development";
   const apiBase = isDev ? "https://www.trainjumper.com" : "";
@@ -62,6 +65,8 @@ const PostComment = ({
 
   const commentMutation = useMutation(replyingTo ? fetchReply : fetchComment, {
     onSuccess: (response) => {
+
+      
       const commentData = {
         uuid: Math.random().toString(),
         comment: comment,
@@ -77,6 +82,7 @@ const PostComment = ({
           (oldData: any) => {
             // check it the old data is an array if not make an empty array
             const oldReplies = oldData as Array<any>;
+            if (!Array.isArray(oldReplies)) return [response];
             return [...oldReplies, response];
           }
         );
@@ -97,7 +103,7 @@ const PostComment = ({
     onSettled: () => {
       queryClient.invalidateQueries(["details", modpackId]);
       queryClient.invalidateQueries(["replies", replyParentId]);
-
+      
       setComment("");
     },
   });
@@ -105,13 +111,11 @@ const PostComment = ({
   return (
     <form
       method="post"
-      className="flex items-start justify-center gap-4  py-4 text-sm xl:text-base "
+      className={`flex items-start justify-center gap-4  py-4 text-sm xl:text-base ${replyingTo&& "pl-10"} `}
       onSubmit={async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        // short circuit if the user is already posting a comment
         if (commentMutation.isLoading) return;
 
-        // if statement to check if the user has any more comments left to post on this modpack
         commentMutation.mutate(comment);
       }}
     >

@@ -19,9 +19,6 @@ export function CommentsComponent({ borderColor, comment }: ICommentComponent) {
     comment?.reply_count
   );
 
-  // console.log(comment)
-  console.log(data);
-
   const queryClient = useQueryClient();
 
   return (
@@ -36,7 +33,7 @@ export function CommentsComponent({ borderColor, comment }: ICommentComponent) {
       <div className="flex ">
         {user?.isLoggedIn && (
           <button
-            className={` mr-1 w-fit rounded-md border border-sec  px-3 py-1 text-justify text-xs text-text  hover:border-opacity-20 hover:bg-sec hover:bg-opacity-20  dark:hover:bg-hover-2 `}
+            className={` mr-1 w-fit rounded-md border border-${borderColor}-500  px-3 py-1 text-justify text-xs text-text  hover:border-opacity-80 bg-${borderColor}-500 hover:bg-opacity-80  dark:hover:bg-hover-2 `}
             onClick={() => {
               setShowAddReply(!showAddReply);
             }}
@@ -66,14 +63,16 @@ export function CommentsComponent({ borderColor, comment }: ICommentComponent) {
         )}
       </div>
       {showAddReply && (
-        <>
+        
           <PostComment
             borderColor={borderColor}
             modpackId={modpackId}
             replyingTo={true}
             replyParentId={comment?.uuid}
+            showAddReply={showAddReply}
           />
-        </>
+          
+   
       )}
       {showReplies && (
         <div className="ml-10">
@@ -88,6 +87,7 @@ export function CommentsComponent({ borderColor, comment }: ICommentComponent) {
                 comment={reply}
                 replyingTo={true}
                 replyParentId={comment?.uuid}
+                
               />
             ))
           )}

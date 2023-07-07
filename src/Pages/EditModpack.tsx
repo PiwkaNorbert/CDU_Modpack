@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import usePackDetailData from "../API/usePackDetailData";
 import { useNavigate, Link } from "react-router-dom";
 import { AddModpackProps } from "../Utils/Interfaces";
+import {tagOptions, colorOptions} from "../Helper/modifyModpack"
 
 
 
@@ -15,22 +16,11 @@ const EditModpack = () => {
   // fetch the data from the server using the modpackName from the url
   const { modpackId: id } = useParams();
   const modpackId = id as string;
+  const [modpackTags, setModpackTags] = React.useState<string[]>([]);
 
   const { data, isLoading, isError }= usePackDetailData(modpackId)
   const [borderColor, setBorderColor] = React.useState();
-  
-  const colorOptions = [
-    { value: "red", label: "Red" },
-    { value: "orange", label: "Orange" },
-    { value: "yellow", label: "Yellow" },
-    { value: "lime", label: "Lime" },
-    { value: "green", label: "Green" },
-    { value: "teal", label: "Teal" },
-    { value: "sky", label: "Sky" },
-    { value: "blue", label: "Blue" },
-    { value: "violet", label: "Violet" },
-    { value: "fuchsia", label: "Fuchsia" },
-  ];
+
   const isDev = import.meta.env.VITE_NODE_ENV === "development";
   const apiBase = isDev ? "https://www.trainjumper.com" : "";
 
@@ -38,7 +28,7 @@ const EditModpack = () => {
   // const navigate = useNavigate();
 
   const editModpackMutation = useMutation(
-    ({ name, description, color, suggestor, image, officialUrl }: AddModpackProps) =>
+    ({ name, description,tags, color, suggestor, officialUrl }: AddModpackProps) =>
       toast.promise(
         axios.post(
           `${apiBase}/api/edit-modpack`,
@@ -46,9 +36,9 @@ const EditModpack = () => {
             modpackId,
             name,
             description,
+            tags,
             color,
             suggestor,
-            image,
             officialUrl
           },
           {
@@ -64,7 +54,6 @@ const EditModpack = () => {
       ),
     {
       onSuccess: ({data}) => {
-        queryClient.invalidateQueries(["modpacks","details", modpackId]);
         queryClient.setQueryData(["modpacks","details", modpackId], data.modpack)
         toast.success(data.message);
         return window.location.pathname = (`/pack-details/${modpackId}`);
@@ -82,6 +71,8 @@ const EditModpack = () => {
             "Couldn't fetch Modpack details, please try again later."
           );
         }
+      },onSettled: () => {
+        queryClient.invalidateQueries(["modpacks","details", modpackId]);
       },
     }
   );
@@ -138,9 +129,9 @@ const EditModpack = () => {
           editModpackMutation.mutate({
             name: target.name.value,
             description: target.description.value,
+            tags: modpackTags,
             color: target.color.value,
             suggestor: target.suggestor.value,
-            image: target.image.files[0],
             officialUrl: target.officialUrl.value
           });
         }}
@@ -165,6 +156,32 @@ const EditModpack = () => {
           minLength={0}
          
         />
+         {/* Tag selector */}
+         <select
+          className={`  rounded-md border-2  dark:text-bg border-${borderColor}-500 bg-${borderColor}-300 px-3 py-1 font-Tilt `}
+          name="tags"
+          multiple
+          onChange={(e) => {
+             listOfTags = Array.from(
+              e.target.selectedOptions,
+              (option) => option.value
+            );
+             setModpackTags(listOfTags);
+             console.log(modpackTags);
+             
+
+          }}
+        >
+          {tagOptions.map((tagOption, index) => (
+            <option
+              key={index}
+              value={tagOption.value}
+              className={`hover:bg-${tagOption?.value}-500`}
+            >
+              {tagOption.label}
+            </option>
+          ))}
+        </select>
 
 
         {/*Color selection*/}
@@ -188,11 +205,11 @@ const EditModpack = () => {
         </select>
 
         <p className="-mb-2 dark:text-text">Image</p>
-        <input
+        {/* <input
           name="image"
           className={`cursor-pointer rounded-md border-2 file:placeholder:text-slate-400 dark:text-text border-${getBorderColor()}-500 h-8 w-full px-3 py-1`}
           type="file"
-        />
+        /> */}
 
         <label
           htmlFor="image"

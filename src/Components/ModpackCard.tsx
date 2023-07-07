@@ -21,7 +21,7 @@ const ModpackCard = ({
   return (
     <div
       key={modpackId}
-      className={`relative z-10 mb-8  flex justify-center rounded-md border-[3.5px] hover:shadow-${text}-500 shadow-xl text-text lg:min-h-[109px] lg:min-w-[194px] border-${color}-300 `}
+      className={`relative z-10  mb-8 hover:scale-105 transition-transform flex justify-center rounded-md border-[3.5px] hover:shadow-white/50 hover:shadow-sm text-text lg:min-h-[109px] lg:min-w-[194px] border-${color}-300 `}
       onMouseEnter={() => {
         queryClient.prefetchQuery(["details", modpackId], () =>
           fetchPackDetail(modpackId as string)

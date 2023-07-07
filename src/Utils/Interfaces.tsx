@@ -22,39 +22,41 @@ export interface IPackDetails {
 }
 export interface IComment {
   uuid: string;
-  discord_id?: number;
-  username?: string;
-  comment?: string;
+  discord_id?: number ;
+  username?: string ;
+  comment?: string ;
   timestamp: number;
   last_updated_time?: number;
-  avatar_url?: string;
+  avatar_url?: string ;
   profanity_score?: number;
-  reply_count?: number;
+  reply_count: number;
 }
 
 export interface ICommentReplies {
-  uuid?: string;
-  discord_id?: number;
-  username?: string;
-  comment?: string;
+  uuid: string;
+  discord_id?: number ;
+  username?: string ;
+  comment?: string ;
   timestamp?: number;
   last_updated_time?: number;
-  avatar_url?: string;
+  avatar_url?: string ;
   profanity_score?: number;
   reply_count: number;
+
 }
 
 export interface ICommentComponent {
   borderColor: string;
   comment: IComment;
-  replyingTo: boolean;
+  replyingTo: boolean
   replyParentId: string;
+  
 }
 export interface DiscordProfileData {
-  isLoggedIn?: boolean;
-  avatar?: string;
-  globalName?: string;
-  id?: string;
+  isLoggedIn: boolean ;
+  avatar: string ;
+  globalName?: string ;
+  id?: string ;
   username?: string;
   isAdmin?: boolean;
   votesRemaining?: number;
@@ -75,8 +77,10 @@ export interface VoteForPackButtonProps {
 export interface AddModpackProps {
   name: string;
   description: string;
-  image: File | undefined;
+  tags: [];
   color: string;
   suggestor: string;
   officialUrl: string;
 }
+
+// image?: File ;

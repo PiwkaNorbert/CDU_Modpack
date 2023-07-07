@@ -2,30 +2,44 @@ import { useState } from "react";
 import { fetchFromAPI } from "../API/fetchPaymentData";
 import { useStripe } from "@stripe/react-stripe-js";
 import { useUser } from "../Context/useUser";
+import { useParams } from "react-router-dom";
+import  usePackDetailData  from "../API/usePackDetailData";
 
 export function Checkout() {
+  const { modpackId } = useParams()
+
   const stripe = useStripe();
   const { user } = useUser();
+  const {data, isLoading, isError} = usePackDetailData(modpackId)
 
-  const [product, setProduct] = useState({
-    name: "Hat",
-    description: "Pug hat. A hat your pug will love.",
-    images: ["https://i.imgur.com/EHyR2nP.png"],
-    amount: 799,
+
+  // const [product, setProduct] = useState({
+  //   name: "Hat",
+  //   images: ["https://i.imgur.com/EHyR2nP.png"],
+  //   price: 29.99,
+  //   currency: "usd",
+  //   quantity: 1,
+  // });
+
+  if (isLoading) return <div>Loading...</div>
+  if (isError) return <div>Error</div>
+
+  const product = {
+  
+    images: [`https://www.trainjumper.com${data?.imageUrl}`],
     currency: "usd",
-    quantity: 0,
-  });
+    quantity: 1,
+    user_id: user?.id
+  }
 
-  const changeQuantity = (v: number) =>
-    setProduct({ ...product, quantity: Math.max(0, product.quantity + v) });
 
   const handleClick = async () => {
-    const body = { line_items: [product], user_id: user?.id };
-    const { id: sessionId } = await fetchFromAPI("checkouts", {
+    const body = { line_items: [product]};
+    const { id: sessionId } = await fetchFromAPI(`create-checkout-session/${modpackId}`, {
       body,
     });
 
-    const { error } = await stripe?.redirectToCheckout({
+    const { error } = await stripe.redirectToCheckout({
       sessionId,
     });
 
@@ -44,29 +58,18 @@ export function Checkout() {
           <div
             className={`grid h-full items-center p-4 lg:rounded-md  lg:shadow-2xl `}
           >
-            <h3>{product.name}</h3>
-            <h4>Stripe Amount: {product.amount}</h4>
+            <h3>{data?.name}</h3>
 
-            <img src={product.images[0]} width="250px" alt="product" />
+            <img src={`https://www.trainjumper.com${data?.imageUrl}`} width="250px" alt="product" />
             {/* style payment button changeQuantity */}
             <div className=" flex items-center gap-2">
-              <button
-                className="  border border-text/20 p-2"
-                onClick={() => changeQuantity(-1)}
-              >
-                -
-              </button>
-              <span>{product.quantity}</span>
-              <button
-                className=" border border-text/20 p-2 px-2 "
-                onClick={() => changeQuantity(1)}
-              >
-                +
-              </button>
+
+              <span>1</span>
+
             </div>
             <hr />
 
-            <button onClick={handleClick} disabled={product.quantity < 1}>
+            <button onClick={handleClick} >
               Start Checkout
             </button>
           </div>

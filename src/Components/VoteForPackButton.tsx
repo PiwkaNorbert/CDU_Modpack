@@ -1,9 +1,10 @@
 import axios from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { VoteForPackButtonProps } from "../Utils/Interfaces";
-import { toast,ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { useUser } from "../Context/useUser";
 import { useIsFetching } from "@tanstack/react-query";
+import { IModpack } from "../Utils/Interfaces";
 
 export default function VoteForPackButton({
   modpackId,
@@ -14,15 +15,36 @@ export default function VoteForPackButton({
   const queryClient = useQueryClient();
   const isFetching = useIsFetching();
 
-  const { user,votesRemaining } = useUser();
+  const { user, votesRemaining } = useUser();
+
+  function changeVoteCount(response:any) {
+        if(response.status !== 200) throw new Error(response.data.error)
+
+    queryClient.setQueryData(["details",modpackId], response?.data.modpack);
+    queryClient.setQueryData(["modpacks"], (oldData)=>{
+      const modpacks = oldData as IModpack[];
+      if(!modpacks) return;
+
+      return modpacks.map((modpack:any)=>{
+        
+        if(modpack.modpackId === modpackId){
+          
+          return {...modpack,
+            voteCount: response?.data.modpack.voteCount,
+            timesVoted: response?.data.modpack.timesVoted
+          }
+        }
+        return modpack
+      })
+      
+      
+
+    });
+  }
 
   const addVote = useMutation(
-   async () => await toast.promise(axios.get(`/api/add-vote/${modpackId}`, { withCredentials: true }),
-   {
-      error: "Sorry, there was an error voting for this modpack!",
-   }),
+   async () => await axios.get(`/api/add-vote/${modpackId}`, { withCredentials: true }),
     {
-
       onError: (error: Error) => {
         console.error(error);
         return toast.error(
@@ -30,18 +52,18 @@ export default function VoteForPackButton({
         );
       },
       onSuccess: (response) => {
-        console.log(response.data);
-        
-        queryClient.invalidateQueries(["modpacks","details", modpackId]);
-        // invalidate user data so that the vote count updates on the page without a refresh and set the modpacks votecount to the new votecount
-        queryClient.setQueryData(["modpacks"], response?.data.user);
-
+        changeVoteCount(response)
         votesRemaining(response?.data.votes_remaining);
-        toast.success(response?.data.message);
+
+        toast.success(response?.data.message, { toastId: "add-vote" });
 
       },
+      onSettled: () => {
+        queryClient.invalidateQueries(["modpacks","details", modpackId]);
+      }
     }
   );
+
 
   const removeVote = useMutation(
    async () =>
@@ -56,7 +78,6 @@ export default function VoteForPackButton({
         "autoClose": 5000,
        }
       ),
-
     {
       onError: (error: Error) => {
         console.error(error);
@@ -65,17 +86,21 @@ export default function VoteForPackButton({
         );
       },
       onSuccess: (response) => {
-        console.log(response.data);
+        changeVoteCount(response)
+         votesRemaining(response?.data.votes_remaining);
 
-        queryClient.invalidateQueries(["modpacks","details", modpackId]);
-        votesRemaining(response?.data.votes_remaining);
-        toast.success(response?.data.message);
+        toast.success(response?.data.message, { toastId: "remove-vote"});
+
       },
+      onSettled: () => {
+        queryClient.invalidateQueries(["modpacks","details", modpackId]);
+      }
     }
   );
+
   return (
     <>
-      {user?.isLoggedIn && (
+      {user?.isLinked && (
         <button
           disabled={(isFetching !== 0) || timesVoted === 0}
           className={`text-content button__for-hearts group h-10 rounded-md disabled:bg-slate-400 hover:bg-opacity-80 bg-${borderColor}-500 px-3 py-1 text-sm xl:text-base`}
@@ -106,7 +131,7 @@ export default function VoteForPackButton({
           ? "No votes"
           : `${voteCount} ${voteCount === 1 ? "Vote" : "Votes"}`}
       </p>
-      {user?.isLoggedIn && (
+      {user?.isLinked && (
         <button
           disabled={!(isFetching === 0) || user?.votesRemaining === 0 }
           className={`text-content button__for-hearts group h-10 rounded-md disabled:bg-slate-400 hover:bg-opacity-80 bg-${borderColor}-500 px-3 py-1 text-sm xl:text-base`}
@@ -130,7 +155,6 @@ export default function VoteForPackButton({
           )}
         </button>
       )}
-      <ToastContainer limit={1}/>
     </>
   );
 }

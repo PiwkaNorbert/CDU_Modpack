@@ -1,19 +1,21 @@
-const API = "http://localhost:3333";
+
 
 /**
  * A helper function to fetch data from your API.
  */
-export async function fetchFromAPI(endpointURL, opts) {
-  const { method, body } = { method: "POST", body: null, ...opts };
-  const { user_id } = body;
-  console.log(user_id);
+export async function fetchFromAPI(endpointURL:string, opts: any) {
 
-  const res = await fetch(`${API}/${endpointURL}`, {
+  const isDev = import.meta.env.VITE_NODE_ENV === "development";
+  const apiBase = isDev ? "https://www.trainjumper.com" : "";
+
+  const { method, body } = { method: "POST", body: null, ...opts };
+
+
+  const res = await fetch(`${apiBase}/api/${endpointURL}`, {
     method,
     ...(body && { body: JSON.stringify(body) }),
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${user_id}`,
     },
   });
 

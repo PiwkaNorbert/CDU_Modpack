@@ -1,4 +1,7 @@
 import { createContext } from 'react';
+// Path: ThemeContext.tsx
+import React, { useState, useEffect } from 'react';
+import { UserProviderProps } from '../Utils/Types';
 
 export type ThemeContextType = {
   theme: boolean,
@@ -13,9 +16,6 @@ export const ThemeContext = createContext<ThemeContextType>({
  
 });
 
-// Path: ThemeContext.tsx
-import React, { useState, useEffect } from 'react';
-import { UserProviderProps } from '../Utils/Types';
 
 export const ThemeProvider: React.FC<UserProviderProps> = ({
   children

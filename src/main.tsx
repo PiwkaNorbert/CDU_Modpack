@@ -10,7 +10,7 @@ import { loadStripe } from "@stripe/stripe-js";
 const queryClient = new QueryClient();
 
 export const stripePromise = loadStripe(
-  "pk_test_51NR98WDWcgAx3rjdlUBGdz5ocQm1gXU99aRcp3HLVshTsHmTR84I5PI4YvHfGmXlaw2OswDGyRnBfpdAm0AoSkPO00puHLmj4f"
+  "pk_test_51NQxDnL5T85uKxdIMo0DT5909UKJHiWZzOdAqx5w87slUndmCNZF2gFeKhExWGfyE9WA5eDp0zG3oMg2AdoYBY6b00uvq1Zud7"
 );
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(

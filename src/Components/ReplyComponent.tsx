@@ -47,17 +47,18 @@ export function ReplyComponent({ borderColor, comment, replyingTo, replyParentId
       if (replyingTo) {
 
         queryClient.setQueryData(
-          ["details", modpackId],
-          (oldData: any) => {
-          console.log(oldData);
+          ["replies", replyParentId],
+          (oldData) => {
+          const oldReplies = oldData as ICommentComponent[];
+          // filter the replies to remove the deleted comment
+          return [
+            ...oldReplies.filter(
+              (c:any) =>
+                c.uuid !== comment?.uuid
+            ),
+          ]
           
-            return {
-              ...oldData,
-              oldData: oldData.filter(
-                (c) => c.uuid !== replyParentId
-              )
-             
-            };
+         
           }
         );
       
@@ -121,6 +122,7 @@ export function ReplyComponent({ borderColor, comment, replyingTo, replyParentId
           {(user?.isAdmin || user?.id === comment?.discord_id)  &&  (
             <div className="flex items-center gap-2 justify-self-end">
               <button
+                disabled={deleteCommentMutation.isLoading}
                 className={`text-content rounded-md border border-sec  px-3 py-1 text-justify text-xs text-red-500 hover:bg-sec hover:bg-opacity-20 hover:border-opacity-20  dark:hover:bg-hover-2 `}
                 onClick={async () => {
                   if (
@@ -128,8 +130,10 @@ export function ReplyComponent({ borderColor, comment, replyingTo, replyParentId
                       "Are you sure you want to delete this comment?\nType 'yes' to confirm"
                     ) !== "yes"
                   ) {
-                    return toast.error("Modpack not deleted");
+                    return toast.error("Unable to delete comment");
                   }
+                  if(deleteCommentMutation.isLoading) return;
+                  
                   deleteCommentMutation.mutate(
                     comment?.uuid
                   );
