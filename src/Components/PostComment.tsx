@@ -9,10 +9,10 @@ const PostComment = ({
   borderColor,
   modpackId,
   replyParentId,
-  replyingTo
+  replyingTo,
 }: {
   borderColor: string;
-  modpackId: string;
+  modpackId?: string;
   replyParentId: string;
   replyingTo: boolean;
 }) => {
@@ -24,7 +24,7 @@ const PostComment = ({
   const isDev = import.meta.env.VITE_NODE_ENV === "development";
   const apiBase = isDev ? "https://www.trainjumper.com" : "";
 
-  const fetchComment = async (comment:string) => {
+  const fetchComment = async (comment: string) => {
     try {
       const { data } = await axios.post(
         `${apiBase}/api/comment`,
@@ -39,12 +39,10 @@ const PostComment = ({
       return data;
     } catch (error) {
       throw new Error(error);
-
     }
-  }
+  };
 
-
-  const fetchReply = async (comment:string) => {
+  const fetchReply = async (comment: string) => {
     try {
       const { data } = await axios.post(
         `${apiBase}/api/add-reply`,
@@ -59,66 +57,50 @@ const PostComment = ({
       return data;
     } catch (error) {
       throw new Error(error);
-
     }
-  }
+  };
 
+  const commentMutation = useMutation(replyingTo ? fetchReply : fetchComment, {
+    onSuccess: (response) => {
+      const commentData = {
+        uuid: Math.random().toString(),
+        comment: comment,
+        timestamp: Date.now(),
+        username: user?.username,
+        avatar_url: user?.avatar,
+        reply_count: 0,
+      };
 
-  const commentMutation = useMutation(
-    replyingTo ? fetchReply : fetchComment,
-    {
-      onSuccess: (response) => {
-        
-        const commentData = {
-          uuid: Math.random().toString(),
-          comment: comment,
-          timestamp: Date.now(),
-          username: user?.username,
-          avatar_url: user?.avatar,
-          reply_count: 0,
-        }
-
-        if (replyingTo) {
-        
-          queryClient.setQueriesData(["replies", replyParentId],  (oldData:any) => {
+      if (replyingTo) {
+        queryClient.setQueriesData(
+          ["replies", replyParentId],
+          (oldData: any) => {
             // check it the old data is an array if not make an empty array
             const oldReplies = oldData as Array<any>;
-            return [
-              ...oldReplies,
-              response
-            ]
-        
+            return [...oldReplies, response];
           }
-         
-          )
-        } 
-        if (!replyingTo){
-         
-          queryClient.setQueriesData(["details", modpackId], (oldData) => {
-            const oldPackDetails = oldData as IPackDetails;
-            return {
-              ...oldPackDetails,
-              comments: [
-                commentData,
-                ...oldPackDetails.comments
-              ],
-            };
-          });
-        }
-        
-      },
-      onError: (error) => {
-        toast.error(`Couldn't post comment: ${error}`);
-      },
-      onSettled: () => {
-        queryClient.invalidateQueries(["details", modpackId]);
-        queryClient.invalidateQueries(["replies", replyParentId]);
-
-        setComment("");
-     
+        );
       }
-    }
-  );
+      if (!replyingTo) {
+        queryClient.setQueriesData(["details", modpackId], (oldData) => {
+          const oldPackDetails = oldData as IPackDetails;
+          return {
+            ...oldPackDetails,
+            comments: [commentData, ...oldPackDetails.comments],
+          };
+        });
+      }
+    },
+    onError: (error) => {
+      toast.error(`Couldn't post comment: ${error}`);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries(["details", modpackId]);
+      queryClient.invalidateQueries(["replies", replyParentId]);
+
+      setComment("");
+    },
+  });
 
   return (
     <form
@@ -142,7 +124,7 @@ const PostComment = ({
       />
       <div className=" w-full">
         <textarea
-          className={` min-h-10 min-h-40  resize-none w-full rounded-md border  dark:text-bg border-${borderColor}-300 px-3 py-1 `}
+          className={` min-h-10 min-h-40  w-full resize-none rounded-md border  dark:text-bg border-${borderColor}-300 px-3 py-1 `}
           placeholder="Add a comment..."
           value={comment}
           maxLength={360}
@@ -152,9 +134,8 @@ const PostComment = ({
               return setComment(e.target.value);
             }
             toast.error("Too many characters!", {
-              toastId: "too-many-characters"
+              toastId: "too-many-characters",
             });
-          
           }}
         />
         <div className="mt-2 flex items-center justify-center dark:text-text">
@@ -165,10 +146,9 @@ const PostComment = ({
       <button
         disabled={comment.length === 0 || commentMutation.isLoading}
         type="submit"
-        className={`h-10  rounded-md text-text  bg-${borderColor}-500 disabled:bg-slate-400 disabled:text-bg disabled:hover:opacity-100  px-3 py-1 hover:opacity-80 `}
+        className={`h-10  rounded-md text-text  bg-${borderColor}-500 px-3 py-1 hover:opacity-80  disabled:bg-slate-400 disabled:text-bg disabled:hover:opacity-100 `}
       >
-        
-       {commentMutation.isLoading? "Replying.." : "Reply"}
+        {commentMutation.isLoading ? "Replying.." : "Reply"}
       </button>
     </form>
   );

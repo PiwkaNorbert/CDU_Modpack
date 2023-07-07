@@ -16,15 +16,18 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ThemeProvider } from "./Context/ThemeContext";
 import { useUser } from "./Context/useUser";
 
+import { Checkout, CheckoutSuccess, CheckoutFail } from "./Pages/Checkout";
+import Payments from "./Pages/Payments";
+import Customers from "./Pages/Customers";
+import Subscriptions from "./Pages/Subscriptions";
 
 function App() {
-  const { user } = useUser()
+  const { user } = useUser();
   return (
-      <ThemeProvider>
-
-      <div className="flex flex-col text-text  min-h-screen">
+    <ThemeProvider>
+      <div className="flex min-h-screen flex-col  text-text">
         <BrowserRouter>
-        <Header />
+          <Header />
           <Routes>
             <Route path="/" element={<PackListPage />} />
             <Route path="pack-details/:modpackId" element={<PackDetails />} />
@@ -32,6 +35,26 @@ function App() {
 
             <Route path="*" element={<Navigate to="/404" replace />} />
             <Route path="404" element={<NotFoundPage />} />
+            {/* {!user?.isLoggedIn && (
+              <> */}
+            <Route path="/checkout/" element={<Checkout />} />
+            <Route path="/payments" element={<Payments />} />
+            {/* </>
+            )} */}
+            {/*
+            <Route path="/customers">
+              <Customers />
+            </Route>
+            <Route path="/subscriptions">
+              <Subscriptions />
+            </Route>
+            <Route path="/success">
+              <CheckoutSuccess />
+            </Route>
+            <Route path="/failed">
+              <CheckoutFail />
+            </Route> */}
+
             {user?.isAdmin && (
               <>
                 <Route path="add-modpack" element={<AddModpack />} />
@@ -40,7 +63,7 @@ function App() {
                   element={<EditModpack />}
                 />
               </>
-             )} 
+            )}
           </Routes>
           <ToastContainer limit={2} pauseOnFocusLoss={false} autoClose={2000} />
         </BrowserRouter>
@@ -49,7 +72,7 @@ function App() {
         {window.location.pathname === "/404" ? null : <Footer />}
       </div>
       <ReactQueryDevtools />
-      </ThemeProvider>
+    </ThemeProvider>
   );
 }
 

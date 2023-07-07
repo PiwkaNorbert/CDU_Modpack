@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import usePackDetailData from "../API/usePackDetailData";
 import { CommentsComponent } from "../Components/CommentsComponent";
-import { IModpack,IPackDetails } from "../Utils/Interfaces";
+import { IModpack, IPackDetails } from "../Utils/Interfaces";
 import Loading from "../Components/Loading";
 import VoteForPackButton from "../Components/VoteForPackButton";
 import PostComment from "../Components/PostComment";
@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 import { LoginButton } from "../Components/LoginButton";
 import { useQueryClient } from "@tanstack/react-query";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import { useNavigate,Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const PackDetails = () => {
   const { modpackId: id } = useParams();
@@ -53,13 +53,14 @@ const PackDetails = () => {
         <div className="relative z-10  bg-bg shadow-2xl shadow-bg/20 dark:shadow-none lg:max-w-4xl lg:justify-center lg:place-self-center lg:rounded-xl ">
           <div
             key={modpackId}
-            className={` grid z-10 items-center lg:rounded-md lg:shadow-2xl  h-full `}
+            className={` z-10 grid h-full items-center lg:rounded-md  lg:shadow-2xl `}
           >
-            <div className="flex z-10 justify-between gap-2  px-8 pt-4  max-[350px]:flex-col sm:gap-0 md:px-4 ">
+            <div className="z-10 flex justify-between gap-2  px-8 pt-4  max-[350px]:flex-col sm:gap-0 md:px-4 ">
               {/* backarrow to the root page */}
               <Link
                 className="flex min-w-fit cursor-pointer items-center gap-2 rounded-md px-3 py-1 text-text hover:bg-sec hover:bg-opacity-20 hover:text-text dark:hover:bg-hover-2"
-                to={"/"}>
+                to={"/"}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className={`h-8 w-8 text-${borderColor}-500`}
@@ -78,20 +79,30 @@ const PackDetails = () => {
               </Link>
 
               <div className="flex  gap-2 text-sm text-text max-[350px]:mt-5 max-[350px]:flex-col xl:text-base ">
-                {/* edit modpack button only is userProfile is superUser */}
+                {
+                  //   sponsor this modpack button
+                  !user?.isLoggedIn && !user?.inGuild && (
+                    <Link
+                      to={`/checkout/${modpackId}`}
+                      className={` flex items-center rounded-md  bg-sec px-3 py-1 hover:bg-opacity-80 dark:hover:bg-hover-2`}
+                    >
+                      Sponsor this modpack
+                    </Link>
+                  )
+                }
+
+                {/* edit modpack button and delete modpack*/}
                 {user?.isLoggedIn && user?.isAdmin && (
                   <>
                     <Link
                       to={`/edit-modpack/${modpackId}`}
-                      className={` rounded-md flex items-center  bg-sec px-3 py-1 hover:bg-opacity-80 dark:hover:bg-hover-2`}
+                      className={` flex items-center rounded-md  bg-sec px-3 py-1 hover:bg-opacity-80 dark:hover:bg-hover-2`}
                     >
-
                       Edit Modpack
                     </Link>
 
-                    {/* delete modpack button only is userProfile is superUser */}
                     <button
-                      className={` rounded-md border border-sec px-3 py-1 font-thin text-red-500 hover:bg-sec hover:bg-opacity-20 hover:border-opacity-20 dark:hover:bg-hover-2`}
+                      className={` rounded-md border border-sec px-3 py-1 font-thin text-red-500 hover:border-opacity-20 hover:bg-sec hover:bg-opacity-20 dark:hover:bg-hover-2`}
                       onClick={async () => {
                         if (
                           prompt(
@@ -125,11 +136,15 @@ const PackDetails = () => {
                             "details",
                             modpackId,
                           ]);
-                          queryClient.setQueryData(["modpacks"], (oldData: any) => {
-                            return oldData.filter(
-                              (modpack: IModpack) => modpack.modpackId !== modpackId
-                            );
-                          });
+                          queryClient.setQueryData(
+                            ["modpacks"],
+                            (oldData: any) => {
+                              return oldData.filter(
+                                (modpack: IModpack) =>
+                                  modpack.modpackId !== modpackId
+                              );
+                            }
+                          );
 
                           return navigate("/");
                         } catch (error: Error | unknown | string) {
@@ -145,7 +160,7 @@ const PackDetails = () => {
                 )}
               </div>
             </div>
-            <div className={`grid z-10 items-center md:mx-4 `}>
+            <div className={`z-10 grid items-center md:mx-4 `}>
               <div className=" my-4 grid px-4 sm:grid-cols-2  md:space-x-4 ">
                 {/* toggle images in production */}
 
@@ -227,7 +242,7 @@ const PackDetails = () => {
                         modpackId={modpackId}
                         borderColor={borderColor}
                         replyingTo={false}
-                        replyParentId=''
+                        replyParentId=""
                       />
                     ) : (
                       <div className="flex flex-col items-center justify-center gap-4">
@@ -247,6 +262,8 @@ const PackDetails = () => {
                       <CommentsComponent
                         borderColor={borderColor}
                         comment={comment}
+                        replyingTo={false}
+                        replyParentId=""
                       />
                     </div>
                   ))}
@@ -254,10 +271,8 @@ const PackDetails = () => {
               </div>
             </div>
           </div>
-          <div className="absolute inset-0 h-full w-full z-0 flex-1 bg-sec opacity-20"></div>
-          
+          <div className="absolute inset-0 z-0 h-full w-full flex-1 bg-sec opacity-20"></div>
         </div>
-        
       </section>
     </>
   );
