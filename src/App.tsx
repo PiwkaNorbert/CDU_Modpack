@@ -20,6 +20,7 @@ import { Checkout, CheckoutSuccess, CheckoutFail } from "./Pages/Checkout";
 import Payments from "./Pages/Payments";
 import Customers from "./Pages/Customers";
 import Subscriptions from "./Pages/Subscriptions";
+import LoginDev from "./Pages/LoginDev";
 
 function App() {
   const { user } = useUser();
@@ -32,6 +33,7 @@ function App() {
             <Route path="/" element={<PackListPage />} />
             <Route path="pack-details/:modpackId" element={<PackDetails />} />
             <Route path="login" element={<Login />} />
+            <Route path="loginDev" element={<LoginDev />} />
 
             <Route path="*" element={<Navigate to="/404" replace />} />
             <Route path="404" element={<NotFoundPage />} />
@@ -39,8 +41,8 @@ function App() {
               <>
                 <Route path="/checkout/:modpackId" element={<Checkout />} />
                 <Route path="/payments" element={<Payments />} />
-                <Route path="/success" element={<CheckoutSuccess />}/>
-                <Route path="/failed" element={<CheckoutFail /> } />
+                <Route path="/success" element={<CheckoutSuccess />} />
+                <Route path="/failed" element={<CheckoutFail />} />
               </>
             )}
             {/*

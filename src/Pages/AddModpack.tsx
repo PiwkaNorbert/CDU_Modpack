@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import { AddModpackProps } from "../Utils/Interfaces";
-import {tagOptions, colorOptions} from "../Helper/modifyModpack"
+import { tagOptions, colorOptions } from "../Helper/modifyModpack";
 
 const AddModpack = () => {
   const [modpackDescription, setModpackDescription] =
@@ -14,12 +14,18 @@ const AddModpack = () => {
 
   let listOfTags = [] as string[];
 
-
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
   const addModpackMutation = useMutation(
-    ({ name, description, tags, color, suggestor, officialUrl }: AddModpackProps) =>
+    ({
+      name,
+      description,
+      tags,
+      color,
+      suggestor,
+      officialUrl,
+    }: AddModpackProps) =>
       toast.promise(
         axios.post(
           `/api/add-modpack`,
@@ -29,11 +35,11 @@ const AddModpack = () => {
             tags,
             color,
             suggestor,
-            officialUrl
+            officialUrl,
           },
           {
             headers: {
-              "Content-Type": "application/json"
+              "Content-Type": "application/json",
             },
             withCredentials: true,
           }
@@ -47,7 +53,6 @@ const AddModpack = () => {
     {
       onSettled: () => {
         queryClient.invalidateQueries(["modpacks"]);
-        return navigate("/");
       },
       onError: (error: Error) => {
         if (axios.isAxiosError(error)) {
@@ -62,6 +67,9 @@ const AddModpack = () => {
           );
         }
       },
+      onSuccess: () => {
+        return navigate("/");
+      },
     }
   );
 
@@ -70,27 +78,28 @@ const AddModpack = () => {
   return (
     <>
       {/* backarrow to the root page */}
-      <div className="lg:mx-auto flex pt-4  lg:min-w-[900px] lg:max-w-[900px]">
-      <Link to="/"
-        className="flex min-w-min ml-4 mr-auto cursor-pointer items-center gap-2 rounded-md px-3 py-1 text-text hover:bg-sec hover:bg-opacity-20 hover:text-text dark:hover:bg-hover-2"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className={`h-8 w-8 text-${borderColor}-500`}
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
+      <div className="flex pt-4 lg:mx-auto  lg:min-w-[900px] lg:max-w-[900px]">
+        <Link
+          to="/"
+          className="ml-4 mr-auto flex min-w-min cursor-pointer items-center gap-2 rounded-md px-3 py-1 text-text hover:bg-sec hover:bg-opacity-20 hover:text-text dark:hover:bg-hover-2"
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M10 19l-7-7m0 0l7-7m-7 7h18"
-          />
-        </svg>
-        <p className={` text-${borderColor}-500`}>Cancel</p>
-      </Link>
-    </div>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className={`h-8 w-8 text-${borderColor}-500`}
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M10 19l-7-7m0 0l7-7m-7 7h18"
+            />
+          </svg>
+          <p className={` text-${borderColor}-500`}>Cancel</p>
+        </Link>
+      </div>
 
       {/* Title of the form, centered */}
       <div className="flex items-center justify-center">
@@ -112,7 +121,7 @@ const AddModpack = () => {
             tags: modpackTags,
             color: target.color.value,
             suggestor: target.suggestor.value,
-            officialUrl: target.officialUrl.value
+            officialUrl: target.officialUrl.value,
             // image: target.image.files[0],
           });
         }}
@@ -140,7 +149,7 @@ const AddModpack = () => {
               return setModpackDescription(e.target.value);
             }
             toast.error("Too many characters!", {
-              toastId: "too-many-characters"
+              toastId: "too-many-characters",
             });
           }}
         />
@@ -154,14 +163,12 @@ const AddModpack = () => {
           name="tags"
           multiple
           onChange={(e) => {
-             listOfTags = Array.from(
+            listOfTags = Array.from(
               e.target.selectedOptions,
               (option) => option.value
             );
-             setModpackTags(listOfTags);
-             console.log(modpackTags);
-             
-
+            setModpackTags(listOfTags);
+            console.log(modpackTags);
           }}
         >
           {tagOptions.map((tagOption, index) => (
@@ -194,7 +201,6 @@ const AddModpack = () => {
             </option>
           ))}
         </select>
-      
 
         {/* <p className="-mb-2 dark:text-text">Image</p> */}
         {/* <input

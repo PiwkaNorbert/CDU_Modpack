@@ -50,9 +50,14 @@ export const UserProvider: React.FunctionComponent<UserProviderProps> = (
   useEffect(() => {
     const storedUser = localStorage.getItem("profileData");
 
-    if (storedUser && !user) {
-      setUser(JSON.parse(storedUser));
-      getProfile();
+    if (storedUser) {
+      const parsedUser = JSON.parse(storedUser);
+      if (parsedUser?.tokenExpiry < Date.now()) {
+        toast.error("Your session has expired. Please log in again.");
+        setUser(undefined);
+      } else if (!user) {
+        getProfile();
+      }
     } else if (!storedUser && !user) {
       console.log("no user set");
       setUser(undefined);
