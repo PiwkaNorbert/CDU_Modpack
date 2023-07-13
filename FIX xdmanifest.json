@@ -1,0 +1,13 @@
+{
+  "lang": "en",
+  "name": "CDU Modpack Voter",
+  "short_name": "CDU Voter",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "64x64",
+      "type": "image/svg+xml"
+    }
+  ],
+  "display": "standalone"
+}

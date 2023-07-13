@@ -99,6 +99,10 @@ const AddModpack = () => {
           </svg>
           <p className={` text-${borderColor}-500`}>Cancel</p>
         </Link>
+        <ul className="steps">
+          <li className="step step-primary">1</li>
+
+        </ul>
       </div>
 
       {/* Title of the form, centered */}

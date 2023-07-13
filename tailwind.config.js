@@ -89,7 +89,7 @@ export default {
     },
   },
 
-  plugins: [require("@tailwindcss/container-queries")],
+  plugins: [require("@tailwindcss/container-queries"),require("daisyui")],
   safelist: [
     {
       pattern:
