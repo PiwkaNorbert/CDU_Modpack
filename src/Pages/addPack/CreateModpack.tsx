@@ -3,10 +3,9 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
-import { AddModpackProps } from "../Utils/Interfaces";
-import { tagOptions, colorOptions } from "../Helper/modifyModpack";
-
-const AddModpack = () => {
+import { AddModpackProps } from "../../Utils/Interfaces";
+import { tagOptions, colorOptions } from "../../Helper/modifyModpack";
+export const CreateModpack = () => {
   const [modpackDescription, setModpackDescription] =
     React.useState<string>("");
   const [modpackColor, setModpackColor] = React.useState<string>("sky");
@@ -77,34 +76,6 @@ const AddModpack = () => {
 
   return (
     <>
-      {/* backarrow to the root page */}
-      <div className="flex pt-4 lg:mx-auto  lg:min-w-[900px] lg:max-w-[900px]">
-        <Link
-          to="/"
-          className="ml-4 mr-auto flex min-w-min cursor-pointer items-center gap-2 rounded-md px-3 py-1 text-text hover:bg-sec hover:bg-opacity-20 hover:text-text dark:hover:bg-hover-2"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className={`h-8 w-8 text-${borderColor}-500`}
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M10 19l-7-7m0 0l7-7m-7 7h18"
-            />
-          </svg>
-          <p className={` text-${borderColor}-500`}>Cancel</p>
-        </Link>
-        <ul className="steps">
-          <li className="step step-primary">1</li>
-
-        </ul>
-      </div>
-
       {/* Title of the form, centered */}
       <div className="flex items-center justify-center">
         <h1 className="m-3 mt-5 text-2xl xl:text-3xl">
@@ -208,11 +179,11 @@ const AddModpack = () => {
 
         {/* <p className="-mb-2 dark:text-text">Image</p> */}
         {/* <input
-          required
-          name="image"
-          className={`cursor-pointer rounded-md border-2 file:placeholder:text-slate-400 dark:text-text border-${borderColor}-500 h-8 w-full px-3 py-1`}
-          type="file"
-        /> */}
+      required
+      name="image"
+      className={`cursor-pointer rounded-md border-2 file:placeholder:text-slate-400 dark:text-text border-${borderColor}-500 h-8 w-full px-3 py-1`}
+      type="file"
+    /> */}
 
         <label
           htmlFor="image"
@@ -237,16 +208,33 @@ const AddModpack = () => {
         />
 
         <br />
-
-        <button
-          className={`h-16 rounded-md border-2 border-black hover:bg-opacity-80 disabled:bg-slate-600 dark:text-bg bg-${borderColor}-500 px-3 py-1 text-sm xl:text-base`}
-          disabled={addModpackMutation.isLoading}
-        >
-          {addModpackMutation.isLoading ? "Adding Modpack" : "Add Modpack"}
-        </button>
+        <div className="flex justify-between text-sm dark:text-bg xl:text-base">
+          <button
+            className={`  rounded-md border-2 border-black hover:bg-opacity-80 disabled:bg-slate-600 bg-${borderColor}-500 px-3 py-1 `}
+            disabled={addModpackMutation.isLoading}
+            type="submit"
+          >
+            {addModpackMutation.isLoading ? "Adding Modpack" : "Add Modpack"}
+          </button>
+          <Link
+            to={"/add-modpack/photos"}
+            className=" bg-${borderColor}-500 group flex rounded-md border-2 border-black px-3 py-1 text-text hover:bg-opacity-80 disabled:bg-slate-600 "
+          >
+            {addModpackMutation.isLoading ? "..." : "Add Photos"}
+            {/* arrow right svg  */}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              fill="currentColor"
+              className=" group-hover:animate-bounce-slow-x ml-2"
+              viewBox="0 0 256 256"
+            >
+              <path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"></path>
+            </svg>
+          </Link>
+        </div>
       </form>
     </>
   );
 };
-
-export default AddModpack;

@@ -1,14 +1,8 @@
 import "./index.css";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import PackListPage from "./Pages/PackListPage";
-import PackDetails from "./Pages/PackDetails";
-import Login from "./Pages/Login";
-import AddModpack from "./Pages/AddModpack";
 import { ToastContainer } from "react-toastify";
-import NotFoundPage from "./Pages/NotFoundPage";
 import FetchingIndicator from "./Components/FetchingIndicator";
 import "react-toastify/dist/ReactToastify.css";
-import EditModpack from "./Pages/EditModpack";
 import Header from "./Components/Header";
 // here we specify the routes for our app
 import Footer from "./Components/Footer";
@@ -17,10 +11,18 @@ import { ThemeProvider } from "./Context/ThemeContext";
 import { useUser } from "./Context/useUser";
 
 import { Checkout, CheckoutSuccess, CheckoutFail } from "./Pages/Checkout";
+import PackListPage from "./Pages/PackListPage";
+import PackDetails from "./Pages/PackDetails";
+import Login from "./Pages/Login";
+import NotFoundPage from "./Pages/NotFoundPage";
+import AddMPLayout from "./Pages/addPack/AddMPLayout";
+import AddModpackPhotos from "./Pages/addPack/AddPhotos";
+import EditModpack from "./Pages/EditModpack";
 import Payments from "./Pages/Payments";
 import Customers from "./Pages/Customers";
 import Subscriptions from "./Pages/Subscriptions";
 import LoginDev from "./Pages/LoginDev";
+import { CreateModpack } from "./Pages/addPack/CreateModpack";
 
 function App() {
   const { user } = useUser();
@@ -56,7 +58,13 @@ function App() {
 
             {user?.isAdmin && (
               <>
-                <Route path="add-modpack" element={<AddModpack />} />
+                <Route path="add-modpack" element={<AddMPLayout />}>
+                  <Route path="create" element={<CreateModpack />} />
+                  <Route
+                    path="photos/:modpackId"
+                    element={<AddModpackPhotos />}
+                  />
+                </Route>
                 <Route
                   path="edit-modpack/:modpackId"
                   element={<EditModpack />}

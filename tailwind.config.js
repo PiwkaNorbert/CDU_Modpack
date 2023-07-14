@@ -5,7 +5,7 @@
 const colors = require("tailwindcss/colors");
 
 export default {
-  darkMode: 'class',
+  darkMode: "class",
   content: ["./index.html", "./src/*/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
@@ -41,6 +41,16 @@ export default {
         breathing: {
           "0%, 100%": { transform: "scale(1)" },
           "50%": { transform: "scale(1.05)" },
+        },
+        "bounce-slow-x": {
+          "0%, 100%": {
+            transform: "translateX(0px)",
+            animationTimingFunction: "cubic-bezier(0.8, 0, 1, 1)",
+          },
+          "50%": {
+            transform: "translateX(7px)",
+            animationTimingFunction: "cubic-bezier(0, 0, 0.2, 1)",
+          },
         },
       },
       backgroundImage: {
@@ -89,7 +99,7 @@ export default {
     },
   },
 
-  plugins: [require("@tailwindcss/container-queries"),require("daisyui")],
+  plugins: [require("@tailwindcss/container-queries"), require("daisyui")],
   safelist: [
     {
       pattern:

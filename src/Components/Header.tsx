@@ -3,16 +3,14 @@ import { LoginButton } from "./LoginButton";
 import { useUser } from "../Context/useUser";
 import { useTheme } from "../Context/useTheme";
 import { useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { setupClickOutsideHandler } from "../Helper/setupClickOutsideHandler";
-import { links, userMenuItem } from "./HeaderData/data"; 
-
+import { links, userMenuItem } from "./HeaderData/data";
 
 const Header = () => {
-
   // set the state of voteRemaining to the value of the user's votesRemaining
   const { user, setUser } = useUser();
-  const {theme, setTheme} = useTheme();
+  const { theme, setTheme } = useTheme();
   const navigate = useNavigate();
 
   const [isIntersecting, setIntersecting] = useState(false);
@@ -26,16 +24,15 @@ const Header = () => {
   const userMenuItem = [
     {
       name: user?.isLinked ? "linked" : "Unlinked",
-      icon: user?.isLinked ? '/check.png' : '/cross.png'
-  
+      icon: user?.isLinked ? "/check.png" : "/cross.png",
     },
     {
       name: "Logout",
       callBack: () => setUser(undefined),
     },
   ];
-  
-   const links = [
+
+  const links = [
     {
       name: "Forum",
       href: "https://forum.playcdu.co",
@@ -64,45 +61,43 @@ const Header = () => {
     },
   ];
 
-
   useEffect(() => {
     setupClickOutsideHandler(menuRef, menuButtonRef, setProfileMenuShow);
-  }, [menuRef, menuButtonRef,profileMenuShow]);
+  }, [menuRef, menuButtonRef, profileMenuShow]);
 
   useEffect(() => {
-      let observer: IntersectionObserver;
+    let observer: IntersectionObserver;
 
-      const handleObserver = (entries: IntersectionObserverEntry[]) => {
-          const [entry] = entries;
-          setIntersecting(entry.isIntersecting);
-      };
+    const handleObserver = (entries: IntersectionObserverEntry[]) => {
+      const [entry] = entries;
+      setIntersecting(entry.isIntersecting);
+    };
 
-      if (ref.current) {
-          observer = new IntersectionObserver(handleObserver);
-          observer.observe(ref.current);
+    if (ref.current) {
+      observer = new IntersectionObserver(handleObserver);
+      observer.observe(ref.current);
+    }
+
+    return () => {
+      if (observer && ref.current) {
+        observer.unobserve(ref.current);
       }
-
-      return () => {
-          if (observer && ref.current) {
-              observer.unobserve(ref.current);
-          }
-      };
+    };
   }, [ref]);
 
   // if the size of the window is below 600px make a menu with to toggle
-
 
   const toggleMenu = () => {
     setMenu(!menu);
   };
 
-
   return (
     <>
       {menu ? null : (
-        <header 
-        ref={ref}
-         className="relative hidden z-0 h-[140px] items-center justify-center  text-sm md:grid xl:h-[170px] xl:text-base">
+        <header
+          ref={ref}
+          className="relative z-0 hidden h-[140px] items-center justify-center  text-sm md:grid xl:h-[170px] xl:text-base"
+        >
           <div className=" absolute inset-0 m-auto bg-gradient-to-tr from-acc to-pri dark:brightness-50 "></div>
           <img
             alt="CDU"
@@ -116,11 +111,11 @@ const Header = () => {
         </header>
       )}
       <nav
-
-        className={` sticky top-0 z-[11] flex w-full lg:border-x-4 border-bg  items-center justify-stretch gap-2 bg-bg px-8 py-2 text-text md:justify-center md:px-4 lg:mx-auto lg:min-w-[896px] lg:max-w-[896px]  ${
+        className={` sticky top-0 z-[11] flex w-full items-center justify-stretch  gap-2 border-bg bg-bg px-8 py-2 text-text md:justify-center md:px-4 lg:mx-auto lg:min-w-[896px] lg:max-w-[896px] lg:border-x-4  ${
           isIntersecting === true && " shadow-md"
         }`}
       >
+        <Link to="loginDev">Login Dev</Link>
         {/* If the window size is below 600px display a button with "menu as the value and on click make a modal to display the nav */}
 
         {/* If the window size is below 600px display a modal with the nav */}
@@ -138,60 +133,37 @@ const Header = () => {
                 <path d="M208,32H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM181.66,170.34a8,8,0,0,1-11.32,11.32L128,139.31,85.66,181.66a8,8,0,0,1-11.32-11.32L116.69,128,74.34,85.66A8,8,0,0,1,85.66,74.34L128,116.69l42.34-42.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path>
               </svg>
             </button>
-                {menu ? null : (
-                  <header 
-                    ref={ref}
-                    className="relative hidden z-0 h-[140px] items-center justify-center  text-sm md:grid xl:h-[170px] xl:text-base"
+            {menu ? null : (
+              <header
+                ref={ref}
+                className="relative z-0 hidden h-[140px] items-center justify-center  text-sm md:grid xl:h-[170px] xl:text-base"
+              >
+                <div className=" absolute inset-0 m-auto bg-gradient-to-tr from-acc to-pri dark:brightness-50 "></div>
+                <img
+                  alt="CDU"
+                  src="/logo.png"
+                  width="140"
+                  height="128"
+                  //loading="lazy"
+                  className=" lazy-load-image absolute top-0 z-30  cursor-pointer  justify-self-center p-2 hover:animate-bounce-slow "
+                  onClick={() => navigate("/")}
+                />
+              </header>
+            )}
+            <nav
+              className={` sticky top-0 z-[11] flex w-full items-center justify-stretch  gap-2 border-bg bg-bg px-8 py-2 text-text md:justify-center md:px-4 lg:mx-auto lg:min-w-[896px] lg:max-w-[896px] lg:border-x-4  ${
+                isIntersecting === true && " shadow-md"
+              }`}
+            >
+              {/* If the window size is below 600px display a button with "menu as the value and on click make a modal to display the nav */}
+
+              {/* If the window size is below 600px display a modal with the nav */}
+              {menu ? (
+                <div className="absolute left-0 top-0 z-10 flex h-screen w-full flex-col items-center justify-center bg-bg dark:bg-sec md:hidden">
+                  <button
+                    className="absolute right-2 top-2"
+                    onClick={toggleMenu}
                   >
-                    <div className=" absolute inset-0 m-auto bg-gradient-to-tr from-acc to-pri dark:brightness-50 "></div>
-                    <img
-                      alt="CDU"
-                      src="/logo.png"
-                      width="140"
-                      height="128"
-                      //loading="lazy"
-                      className=" lazy-load-image absolute top-0 z-30  cursor-pointer  justify-self-center p-2 hover:animate-bounce-slow "
-                      onClick={() => navigate("/")}
-                    />
-                  </header>
-                )}
-                <nav
-                  className={` sticky top-0 z-[11] flex w-full lg:border-x-4 border-bg  items-center justify-stretch gap-2 bg-bg px-8 py-2 text-text md:justify-center md:px-4 lg:mx-auto lg:min-w-[896px] lg:max-w-[896px]  ${
-                    isIntersecting === true && " shadow-md"
-                  }`}
-                >
-                  {/* If the window size is below 600px display a button with "menu as the value and on click make a modal to display the nav */}
-
-                  {/* If the window size is below 600px display a modal with the nav */}
-                  {menu ? (
-                    <div className="absolute left-0 top-0 z-10 flex h-screen w-full flex-col items-center justify-center bg-bg dark:bg-sec md:hidden">
-                      <button className="absolute right-2 top-2" onClick={toggleMenu}>
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="32"
-                          height="32"
-                          fill="currentColor"
-                          stroke="currentColor"
-                          viewBox="0 0 256 256"
-                        >
-                          <path d="M208,32H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM181.66,170.34a8,8,0,0,1-11.32,11.32L128,139.31,85.66,181.66a8,8,0,0,1-11.32-11.32L116.69,128,74.34,85.66A8,8,0,0,1,85.66,74.34L128,116.69l42.34-42.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path>
-                        </svg>
-                      </button>
-                      {links.map((link:any) => (
-                        <a
-                          key={link.href}
-                          className="rounded-sm p-5 hover:bg-hover-2"
-                          href={link.href}
-                          target={link.target}
-                          data-xf-click={link["data-xf-click"]}
-                        >
-                          {link.name}
-                        </a>
-                      ))}
-                    </div>
-                  ) : null}
-
-                  <button className="order-2 sm:hidden z-10 " onClick={toggleMenu}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="32"
@@ -200,26 +172,51 @@ const Header = () => {
                       stroke="currentColor"
                       viewBox="0 0 256 256"
                     >
-                      <path d="M224,120v16a8,8,0,0,1-8,8H40a8,8,0,0,1-8-8V120a8,8,0,0,1,8-8H216A8,8,0,0,1,224,120Zm-8,56H40a8,8,0,0,0-8,8v16a8,8,0,0,0,8,8H216a8,8,0,0,0,8-8V184A8,8,0,0,0,216,176Zm0-128H40a8,8,0,0,0-8,8V72a8,8,0,0,0,8,8H216a8,8,0,0,0,8-8V56A8,8,0,0,0,216,48Z"></path>
+                      <path d="M208,32H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM181.66,170.34a8,8,0,0,1-11.32,11.32L128,139.31,85.66,181.66a8,8,0,0,1-11.32-11.32L116.69,128,74.34,85.66A8,8,0,0,1,85.66,74.34L128,116.69l42.34-42.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path>
                     </svg>
                   </button>
-                  <div className="group relative order-3 flex items-center justify-center">
-                    <input
-                      type="checkbox"
-                      id="theme"
-                      className="hidden"
-                      onClick={() => {
-                        setTheme(!theme);
-                      }}
-                      checked={theme}
-                    />
-                  </div>
-                </nav>
-  
+                  {links.map((link: any) => (
+                    <a
+                      key={link.href}
+                      className="rounded-sm p-5 hover:bg-hover-2"
+                      href={link.href}
+                      target={link.target}
+                      data-xf-click={link["data-xf-click"]}
+                    >
+                      {link.name}
+                    </a>
+                  ))}
+                </div>
+              ) : null}
+
+              <button className="z-10 order-2 sm:hidden " onClick={toggleMenu}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="32"
+                  height="32"
+                  fill="currentColor"
+                  stroke="currentColor"
+                  viewBox="0 0 256 256"
+                >
+                  <path d="M224,120v16a8,8,0,0,1-8,8H40a8,8,0,0,1-8-8V120a8,8,0,0,1,8-8H216A8,8,0,0,1,224,120Zm-8,56H40a8,8,0,0,0-8,8v16a8,8,0,0,0,8,8H216a8,8,0,0,0,8-8V184A8,8,0,0,0,216,176Zm0-128H40a8,8,0,0,0-8,8V72a8,8,0,0,0,8,8H216a8,8,0,0,0,8-8V56A8,8,0,0,0,216,48Z"></path>
+                </svg>
+              </button>
+              <div className="group relative order-3 flex items-center justify-center">
+                <input
+                  type="checkbox"
+                  id="theme"
+                  className="hidden"
+                  onClick={() => {
+                    setTheme(!theme);
+                  }}
+                  checked={theme}
+                />
+              </div>
+            </nav>
           </div>
         ) : null}
 
-        <button className="order-2 sm:hidden z-10 " onClick={toggleMenu}>
+        <button className="z-10 order-2 sm:hidden " onClick={toggleMenu}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="32"
@@ -236,8 +233,8 @@ const Header = () => {
             type="checkbox"
             id="theme"
             className="hidden"
-            onClick={()=>{
-              setTheme(!theme)
+            onClick={() => {
+              setTheme(!theme);
             }}
             checked={theme}
           />
@@ -279,30 +276,33 @@ const Header = () => {
             )}
           </label>
         </div>
-        
+
         <img
           alt="CDU"
           src="/logo.png"
           loading="lazy"
-          className={`${!isIntersecting || menu ? "block md:block" : ""} top-0 z-10 order-1 block md:hidden aspect-square h-10 cursor-pointer justify-self-center hover:animate-bounce-slow 
+          className={`${
+            !isIntersecting || menu ? "block md:block" : ""
+          } top-0 z-10 order-1 block aspect-square h-10 cursor-pointer justify-self-center hover:animate-bounce-slow md:hidden 
            
             `}
           onClick={() => navigate("/")}
         />
         {user?.isLoggedIn ? (
           <>
-
-            <div className=" order-4 hidden z-10 w-full justify-self-start sm:flex min-[900px]:justify-self-center  ">
-              <p className="text-center uppercase ">{`${user.votesRemaining} ${user.votesRemaining == 1 ? "vote" : "votes"} remaining this month.`}</p>
+            <div className=" z-10 order-4 hidden w-full justify-self-start sm:flex min-[900px]:justify-self-center  ">
+              <p className="text-center uppercase ">{`${user.votesRemaining} ${
+                user.votesRemaining == 1 ? "vote" : "votes"
+              } remaining this month.`}</p>
             </div>
 
-            <div className="order-4 flex w-full items-center z-10 justify-end ">
+            <div className="z-10 order-4 flex w-full items-center justify-end ">
               <p className=" mr-5 flex max-w-[180px] justify-center text-center text-sm uppercase max-[500px]:hidden">
                 Logged in as
                 <br />
                 {user.globalName}
               </p>
-              <div className=" z-10 flex items-center rounded-full border border-bkg/10 font-medium focus:outline-none focus:ring-4 focus:ring-bkg/90">
+              <div className=" border-bkg/10 focus:ring-bkg/90 z-10 flex items-center rounded-full border font-medium focus:outline-none focus:ring-4">
                 <button
                   className="w-12"
                   id="dropdown-button"
@@ -311,72 +311,67 @@ const Header = () => {
                   ref={menuButtonRef}
                   onClick={() => {
                     console.log(profileMenuShow);
-                    
+
                     setProfileMenuShow(profileMenuShow ? false : true);
                     console.log(profileMenuShow);
-
                   }}
                 >
                   <img
                     className="aspect-square w-12 cursor-pointer rounded-full   opacity-90 hover:opacity-100"
                     src={`https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}`}
-                    alt={
-                      user.username
-                        ? `${user.username}'s avatar`
-                        : "avatar"
-                    }
+                    alt={user.username ? `${user.username}'s avatar` : "avatar"}
                   />
                 </button>
                 {profileMenuShow && (
-                <div
-                  id="dropdown"
-                  className="w-min-content absolute top-[67px] right-2 z-10 rounded-xl border border-text/20 bg-bg shadow"
-                  ref={menuRef}
-                >
-                    <ul className="p-1 text-sm " aria-labelledby="dropdown-button">
-                      {userMenuItem.map((item:any, i: number) => {
+                  <div
+                    id="dropdown"
+                    className="w-min-content absolute right-2 top-[67px] z-10 rounded-xl border border-text/20 bg-bg shadow"
+                    ref={menuRef}
+                  >
+                    <ul
+                      className="p-1 text-sm "
+                      aria-labelledby="dropdown-button"
+                    >
+                      {userMenuItem.map((item: any, i: number) => {
                         return (
-                          <li key={i} className="delay-0  mb-1 flex w-full  gap-1 px-4 py-2  transition-all duration-200 ease-in-out last:mb-0 hover:rounded-xl last:hover:bg-text/20 last:cursor-pointer last:active:bg-text/25 ">
-                            <a
-                              type="button"
-                              
-                              onClick={item.callBack}
-                            >
+                          <li
+                            key={i}
+                            className="mb-1  flex w-full gap-1  px-4 py-2 transition-all  delay-0 duration-200 ease-in-out last:mb-0 last:cursor-pointer hover:rounded-xl last:hover:bg-text/20 last:active:bg-text/25 "
+                          >
+                            <a type="button" onClick={item.callBack}>
                               <div
-                                className={`flex items-center capitalize  justify-center gap-2 `}
+                                className={`flex items-center justify-center  gap-2 capitalize `}
                               >
-
-                                {item.name} 
+                                {item.name}
 
                                 {item.icon && (
-                                  <img src={item.icon} className="w-6 aspect-square" />
-                                  )}
+                                  <img
+                                    src={item.icon}
+                                    className="aspect-square w-6"
+                                  />
+                                )}
                               </div>
                             </a>
                           </li>
                         );
                       })}
                     </ul>
-                </div>
-                  )}
+                  </div>
+                )}
               </div>
-
             </div>
           </>
         ) : (
           // Decide whether to display user's discord avatar (logged in) or "log in with discord" button (not logged in)
-          <div className="order-2 z-10 ml-auto max-[350px]:text-xs">
+          <div className="z-10 order-2 ml-auto max-[350px]:text-xs">
             <LoginButton />
           </div>
         )}
-          {/* <div className={`absolute inset-0 h-full max-[450px]:hidden z-0 w-full flex-1 bg-text opacity-0 ${
+        {/* <div className={`absolute inset-0 h-full max-[450px]:hidden z-0 w-full flex-1 bg-text opacity-0 ${
           scroll === true && " opacity-10 "
         } `}></div> */}
-
       </nav>
     </>
   );
 };
 export default Header;
-
-

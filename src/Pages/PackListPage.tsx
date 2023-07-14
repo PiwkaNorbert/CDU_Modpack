@@ -20,7 +20,6 @@ const PackListPage = () => {
       ? setPageBottom(true)
       : setPageBottom(false);
   });
-  
 
   return (
     <>
@@ -30,17 +29,17 @@ const PackListPage = () => {
       >
         {/* set the width to ffit the content and assign them to sm md lg for the container  like lg:max-w-[1000px]
         below and assthese same things to the nav width*/}
-        <div className="relative h-min overflow-hidden border-t-2 bg-bg dark:bg-bg dark:border-none dark:shadow-2xl dark:shadow md:mb-4 md:rounded-xl  md:border-none md:shadow-2xl  ">
+        <div className="relative h-min overflow-hidden border-t-2 bg-bg dark:border-none dark:bg-bg dark:shadow  md:mb-4 md:rounded-xl  md:border-none md:shadow-2xl  ">
           {/* map the data variable in a grad 4x2  */}
           <div className="md:space-x-none  flex   justify-between   space-x-4 p-5 text-xl text-text xl:text-2xl ">
             <p className="z-10">Modpacks</p>
             {/* Show this button if you're logged in and a staff member */}
             {user?.isAdmin && (
-              <Link to="/add-modpack"
-                className="transition-bg z-10 h-10 flex items-center rounded-md bg-gradient-to-r from-acc to-pri bg-size-200 bg-pos-0 
+              <Link
+                to="/add-modpack/create"
+                className="transition-bg z-10 flex h-10 items-center rounded-md bg-gradient-to-r from-acc to-pri bg-size-200 bg-pos-0 
               px-3 py-1 text-sm text-bg duration-200 hover:bg-pos-100 dark:text-text xl:text-base"
               >
-
                 Add Modpack
               </Link>
             )}
@@ -104,4 +103,3 @@ const PackListPage = () => {
 };
 
 export default PackListPage;
-
