@@ -2,7 +2,7 @@ import React from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { AddModpackProps } from "../../Utils/Interfaces";
 import { tagOptions, colorOptions } from "../../Helper/modifyModpack";
 export const CreateModpack = () => {
@@ -10,6 +10,9 @@ export const CreateModpack = () => {
     React.useState<string>("");
   const [modpackColor, setModpackColor] = React.useState<string>("sky");
   const [modpackTags, setModpackTags] = React.useState<string[]>([]);
+
+  const isDev = import.meta.env.VITE_NODE_ENV === "development";
+  const apiBase = isDev ? "https://www.trainjumper.com" : "";
 
   let listOfTags = [] as string[];
 
@@ -25,52 +28,45 @@ export const CreateModpack = () => {
       suggestor,
       officialUrl,
     }: AddModpackProps) =>
-      toast.promise(
-        axios.post(
-          `/api/add-modpack`,
-          {
-            name,
-            description,
-            tags,
-            color,
-            suggestor,
-            officialUrl,
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-            withCredentials: true,
-          }
-        ),
+      axios.post(
+        `${apiBase}/api/add-modpack`,
         {
-          pending: "Adding Modpack...",
-          success: "Modpack Added!",
-          error: "Couldn't add modpack",
+          name,
+          description,
+          tags,
+          color,
+          suggestor,
+          officialUrl,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
         }
       ),
+
     {
       onSettled: () => {
         queryClient.invalidateQueries(["modpacks"]);
       },
-      onError: (error: Error) => {
-        if (axios.isAxiosError(error)) {
-          console.error("error message: ", error.message);
-        } else {
-          console.error("unexpected error: ", error.message);
-          // toast.error(`Couldn't add modpack: ${error.response?.data.message}`);
-          toast.error(error.response?.data.message);
+      onError: (response: any) => {
+        console.log(response);
 
-          throw new Error(
-            "Couldn't fetch Modpack details, please try again later."
-          );
-        }
+        toast.error(response?.data.error);
+
+        throw new Error(
+          response?.data.error
+            ? response?.data.error
+            : "Couldn't add modpack, please try again later."
+        );
       },
-      onSuccess: () => {
-        return navigate("/");
+      onSuccess: (response) => {
+        return navigate(`/add-modpack/photos/${response.data.modpackId}`);
       },
     }
   );
+  console.log(modpackTags);
 
   const borderColor = modpackColor || "sky";
 
@@ -83,7 +79,7 @@ export const CreateModpack = () => {
         </h1>
       </div>
       <form
-        className="grid items-center justify-center gap-4 pt-[.5em] text-sm placeholder:text-slate-400  dark:text-bg xl:text-base"
+        className="grid items-center justify-center gap-4 pt-[.5em] text-sm placeholder:text-slate-400  dark:text-text xl:text-base"
         onSubmit={async (e: React.FormEvent<HTMLFormElement>) => {
           e.preventDefault();
           if (addModpackMutation.isLoading) return;
@@ -109,7 +105,6 @@ export const CreateModpack = () => {
           placeholder="Name"
           name="name"
         />
-
         {/* Modpack description field, multi line. */}
         {/* In order to make the modpack field multi line, we need to use a textarea instead of an input. */}
         <textarea
@@ -132,30 +127,33 @@ export const CreateModpack = () => {
         <div className="-mt-2 flex items-center justify-center dark:text-text">
           <p>{modpackDescription.length}/500</p>
         </div>
-        {/* Tag selector */}
-        <select
-          className={`  rounded-md border-2  dark:text-bg border-${borderColor}-500 bg-${borderColor}-300 px-3 py-1 font-Tilt `}
-          name="tags"
-          multiple
-          onChange={(e) => {
-            listOfTags = Array.from(
-              e.target.selectedOptions,
-              (option) => option.value
-            );
-            setModpackTags(listOfTags);
-            console.log(modpackTags);
-          }}
-        >
-          {tagOptions.map((tagOption, index) => (
-            <option
-              key={index}
-              value={tagOption.value}
-              className={`hover:bg-${tagOption?.value}-500`}
-            >
-              {tagOption.label}
-            </option>
-          ))}
-        </select>
+        {/* A Tag selector that has pill shaped containers from tagOptions that when clicked once it pushes the tagoptions value to listOfTags and if clicked again it removes the tagoptions value from listOfTags and if the value is in the listOfTags it gets a checkmark on the left handside of the text */}
+        <div className=" mb-4 w-96">
+          <div className=" flex flex-wrap justify-center gap-2">
+            {tagOptions.map((tagOption, index) => (
+              <button
+                type="button"
+                key={index}
+                className={`  ${
+                  modpackTags.includes(tagOption.value)
+                    ? `bg-${borderColor}-200 text-bg dark:text-bg `
+                    : `bg-slate-700 text-text`
+                } btn flex items-center justify-center rounded-full px-3 py-1 text-xs  xl:text-base`}
+                onClick={() => {
+                  if (modpackTags.includes(tagOption.value)) {
+                    setModpackTags(
+                      modpackTags.filter((tag) => tag !== tagOption.value)
+                    );
+                  } else {
+                    setModpackTags([...modpackTags, tagOption.value]);
+                  }
+                }}
+              >
+                {tagOption.label}
+              </button>
+            ))}
+          </div>
+        </div>
 
         {/*Color selection*/}
         <select
@@ -176,7 +174,6 @@ export const CreateModpack = () => {
             </option>
           ))}
         </select>
-
         {/* <p className="-mb-2 dark:text-text">Image</p> */}
         {/* <input
       required
@@ -184,7 +181,6 @@ export const CreateModpack = () => {
       className={`cursor-pointer rounded-md border-2 file:placeholder:text-slate-400 dark:text-text border-${borderColor}-500 h-8 w-full px-3 py-1`}
       type="file"
     /> */}
-
         <label
           htmlFor="image"
           className={`-mt-2 text-sm dark:text-text xl:text-base`}
@@ -206,34 +202,15 @@ export const CreateModpack = () => {
           placeholder="Modpack Suggestor"
           name="suggestor"
         />
-
         <br />
-        <div className="flex justify-between text-sm dark:text-bg xl:text-base">
-          <button
-            className={`  rounded-md border-2 border-black hover:bg-opacity-80 disabled:bg-slate-600 bg-${borderColor}-500 px-3 py-1 `}
-            disabled={addModpackMutation.isLoading}
-            type="submit"
-          >
-            {addModpackMutation.isLoading ? "Adding Modpack" : "Add Modpack"}
-          </button>
-          <Link
-            to={"/add-modpack/photos"}
-            className=" bg-${borderColor}-500 group flex rounded-md border-2 border-black px-3 py-1 text-text hover:bg-opacity-80 disabled:bg-slate-600 "
-          >
-            {addModpackMutation.isLoading ? "..." : "Add Photos"}
-            {/* arrow right svg  */}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              fill="currentColor"
-              className=" group-hover:animate-bounce-slow-x ml-2"
-              viewBox="0 0 256 256"
-            >
-              <path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"></path>
-            </svg>
-          </Link>
-        </div>
+
+        <button
+          className={` h-10 rounded-md border-2 border-black hover:bg-opacity-80 disabled:bg-slate-600 bg-${borderColor}-500 px-3 py-1  text-sm dark:text-bg xl:text-base`}
+          disabled={addModpackMutation.isLoading}
+          type="submit"
+        >
+          {addModpackMutation.isLoading ? "Adding Modpack" : "Add Modpack"}
+        </button>
       </form>
     </>
   );

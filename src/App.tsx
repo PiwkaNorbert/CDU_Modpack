@@ -16,7 +16,7 @@ import PackDetails from "./Pages/PackDetails";
 import Login from "./Pages/Login";
 import NotFoundPage from "./Pages/NotFoundPage";
 import AddMPLayout from "./Pages/addPack/AddMPLayout";
-import AddModpackPhotos from "./Pages/addPack/AddPhotos";
+import AddModpackPhotos from "./Pages/addPack/AddImage";
 import EditModpack from "./Pages/EditModpack";
 import Payments from "./Pages/Payments";
 import Customers from "./Pages/Customers";

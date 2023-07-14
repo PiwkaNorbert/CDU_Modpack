@@ -35,17 +35,15 @@ const AddModpack = () => {
           <NavLink to={"create"}>
             <li className="step-primary step ">Create</li>
           </NavLink>
-          <NavLink to={"photos"}>
-            <li
-              className={`step  ${
-                location.pathname === "/add-modpack/photos"
-                  ? "step-primary"
-                  : undefined
-              }`}
-            >
-              Add Photos
-            </li>
-          </NavLink>
+          <li
+            className={`step  ${
+              location.pathname === "/add-modpack/photos"
+                ? "step-primary"
+                : undefined
+            }`}
+          >
+            Add Photos
+          </li>
         </ul>
         <div className="w-[113.8px]"></div>
       </div>

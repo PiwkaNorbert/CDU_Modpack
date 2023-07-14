@@ -11,7 +11,7 @@ const AddModpackPhotos = () => {
   const isDev = import.meta.env.VITE_NODE_ENV === "development";
   const apiBase = isDev ? "https://www.trainjumper.com" : "";
 
-  const addPhotoMutation = useMutation(
+  const addImageMutation = useMutation(
     (body: AddModpackProps) =>
       toast.promise(
         axios.post(
@@ -27,9 +27,9 @@ const AddModpackPhotos = () => {
           }
         ),
         {
-          pending: "Adding Photo...",
-          success: "Photo Added!",
-          error: "Couldn't add Photo",
+          pending: "Adding Image...",
+          success: "Image Added!",
+          error: "Couldn't add Image",
         }
       ),
     {
@@ -60,19 +60,19 @@ const AddModpackPhotos = () => {
       {/* Title of the form, centered */}
       <div className="flex items-center justify-center">
         <h1 className="m-3 mt-5 text-2xl xl:text-3xl">
-          Add Photos to your Modpack
+          Add Image/s to your Modpack
         </h1>
       </div>
       <form
         className="grid items-center justify-center gap-4 pt-[.5em] text-sm placeholder:text-slate-400  dark:text-bg xl:text-base"
         onSubmit={async (e: React.FormEvent<HTMLFormElement>) => {
           e.preventDefault();
-          if (addPhotoMutation.isLoading) return;
+          if (addImageMutation.isLoading) return;
 
           const target = e.target as HTMLFormElement;
           console.log(target.image.files);
 
-          addPhotoMutation.mutate(target.image.files);
+          addImageMutation.mutate(target.image.files);
         }}
       >
         <p className="-mb-2 dark:text-text">Image</p>
@@ -94,10 +94,10 @@ const AddModpackPhotos = () => {
 
         <button
           className={`  rounded-md border-2 border-black bg-red-500 px-3 py-1 text-sm hover:bg-opacity-80 disabled:bg-slate-600 dark:text-bg xl:text-base `}
-          disabled={addPhotoMutation.isLoading}
+          disabled={addImageMutation.isLoading}
           type="submit"
         >
-          {addPhotoMutation.isLoading ? "Adding Modpack" : "Add Modpack"}
+          {addImageMutation.isLoading ? "Adding Modpack" : "Add Modpack"}
         </button>
       </form>
     </>
