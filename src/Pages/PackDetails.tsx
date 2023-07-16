@@ -9,7 +9,7 @@ import { useUser } from "../Context/useUser";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { LoginButton } from "../Components/LoginButton";
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useNavigate,Link } from "react-router-dom";
 import { ReplyProvider } from "../Context/useShowReplyContext";
@@ -26,8 +26,54 @@ const PackDetails = () => {
   const isDev = import.meta.env.VITE_NODE_ENV === "development";
   const apiBase = isDev ? "https://www.trainjumper.com" : "";
 
+
+  const delteModpack = async () => await axios.delete(`${apiBase}/api/delete-modpack`, {
+    withCredentials: true,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data: {
+      modpackId,
+    },
+  })
+
+  const deleteModpackMutation = useMutation(delteModpack, {
+    onSuccess: (response) => {
+      queryClient.setQueryData(["modpacks"], (oldData: any) => {
+        return oldData.filter(
+          (modpack: IModpack) => modpack.modpackId !== modpackId
+        );
+      });
+   
+      return navigate("/");
+
+    },
+    onError: (error: any) => {
+
+      if (error.status === 401) {
+        console.error("You are not authorized to delete this modpack")
+        return toast.error(error?.response?.data?.error, {
+          toastId: "deleteModpackError",
+        });
+      }
+      
+  
+      return console.error(error);
+      
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries([
+        "modpacks",
+        "details",
+        modpackId,
+      ]);
+    },
+  });
   if (isLoading) return <Loading size="la-lx" fullScreen={true} other="" />;
   if (isError) return <p>{error?.message}</p>;
+
+
+
 
   const {
     name,
@@ -96,7 +142,7 @@ const PackDetails = () => {
                   <>
                     <Link
                       to={`/edit-modpack/${modpackId}`}
-                      className={` rounded-md flex items-center  bg-sec px-3 py-1 hover:bg-opacity-80 dark:hover:bg-hover-2`}
+                      className={` flex items-center text-text rounded-md border border-sec px-3 py-1 font-thin  hover:bg-sec hover:bg-opacity-20 hover:border-opacity-20 dark:hover:bg-hover-2`}
                     >
 
                       Edit Modpack
@@ -104,7 +150,8 @@ const PackDetails = () => {
 
                     {/* delete modpack button only is userProfile is superUser */}
                     <button
-                      className={` rounded-md border border-sec px-3 py-1 font-thin text-red-500 hover:bg-sec hover:bg-opacity-20 hover:border-opacity-20 dark:hover:bg-hover-2`}
+                    disabled={deleteModpackMutation.isLoading}
+                      className={` rounded-md  px-3 py-1 font-thin text-red-500 hover:bg-sec hover:bg-opacity-20 disabled:bg-slate-400 hover:border-opacity-20 dark:hover:bg-hover-2`}
                       onClick={async () => {
                         if (
                           prompt(
@@ -113,46 +160,12 @@ const PackDetails = () => {
                         ) {
                           return toast.error("Modpack not deleted");
                         }
-
-                        try {
-                          const res = await toast.promise(
-                            axios.delete(`${apiBase}/api/delete-modpack`, {
-                              withCredentials: true,
-                              headers: {
-                                "Content-Type": "application/json",
-                              },
-                              data: {
-                                modpackId,
-                              },
-                            }),
-                            {
-                              pending: "Deleting Modpack...",
-                              success: "Modpack deleted",
-                              error: "Error: Couldn't delete Modpack",
-                            }
-                          );
-                          res.status !== 200 && console.error(res);
-
-                          queryClient.invalidateQueries([
-                            "modpacks",
-                            "details",
-                            modpackId,
-                          ]);
-                          queryClient.setQueryData(["modpacks"], (oldData: any) => {
-                            return oldData.filter(
-                              (modpack: IModpack) => modpack.modpackId !== modpackId
-                            );
-                          });
-
-                          return navigate("/");
-                        } catch (error: Error | unknown | string) {
-                          console.error(error);
-                          toast.error("Error: Couldn't delete Modpack");
-                          throw new Error(error as string);
-                        }
+                        if (deleteModpackMutation.isLoading) return;
+                        deleteModpackMutation.mutate();
+                       
                       }}
                     >
-                      Delete Modpack
+                      <svg xmlns="http://www.w3.org/2000/svg" width="26" height="32" fill="currentColor" className="text-red-500" viewBox="0 0 256 256"><path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM112,168a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm0-120H96V40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8Z"></path></svg>
                     </button>
                   </>
                 )}

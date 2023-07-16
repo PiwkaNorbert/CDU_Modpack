@@ -5,6 +5,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AddModpackProps } from "../../Utils/Interfaces";
 import { tagOptions, colorOptions } from "../../Helper/modifyModpack";
+import SuggestedByUserSearch from "../../Components/SuggestedByUserSearch";
 export const CreateModpack = () => {
   const [modpackDescription, setModpackDescription] =
     React.useState<string>("");
@@ -14,7 +15,6 @@ export const CreateModpack = () => {
   const isDev = import.meta.env.VITE_NODE_ENV === "development";
   const apiBase = isDev ? "https://www.trainjumper.com" : "";
 
-  let listOfTags = [] as string[];
 
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -66,7 +66,6 @@ export const CreateModpack = () => {
       },
     }
   );
-  console.log(modpackTags);
 
   const borderColor = modpackColor || "sky";
 
@@ -136,9 +135,9 @@ export const CreateModpack = () => {
                 key={index}
                 className={`  ${
                   modpackTags.includes(tagOption.value)
-                    ? `bg-${borderColor}-200 text-bg dark:text-bg `
+                    ? `bg-${borderColor}-400 text-bg dark:text-bg `
                     : `bg-slate-700 text-text`
-                } btn flex items-center justify-center rounded-full px-3 py-1 text-xs  xl:text-base`}
+                }  flex items-center justify-center rounded-full px-3 py-1 text-sm hover:bg-opacity-80 transition-colors duration-200 ease-in-out `}
                 onClick={() => {
                   if (modpackTags.includes(tagOption.value)) {
                     setModpackTags(
@@ -157,7 +156,7 @@ export const CreateModpack = () => {
 
         {/*Color selection*/}
         <select
-          className={` h-8 rounded-md border-2  dark:text-bg border-${borderColor}-500 bg-${borderColor}-300 px-3 py-1 font-Tilt `}
+          className={` h-8 rounded-md border-2 cursor-pointer  dark:text-bg border-${borderColor}-500 bg-${borderColor}-300 px-3 py-1 font-Tilt `}
           name="color"
           defaultValue="Sky"
           onChange={(e) => {
@@ -196,13 +195,7 @@ export const CreateModpack = () => {
           name="officialUrl"
         />
         {/* Modpack suggestor field, single line. */}
-        <input
-          className={`h-8 rounded-md border-2   border-${borderColor}-500 px-3 py-1 `}
-          type="text"
-          placeholder="Modpack Suggestor"
-          name="suggestor"
-        />
-        <br />
+       <SuggestedByUserSearch  />
 
         <button
           className={` h-10 rounded-md border-2 border-black hover:bg-opacity-80 disabled:bg-slate-600 bg-${borderColor}-500 px-3 py-1  text-sm dark:text-bg xl:text-base`}

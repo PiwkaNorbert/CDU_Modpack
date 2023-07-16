@@ -1,11 +1,7 @@
-import { Link, NavLink, Outlet, useLocation, useMatch } from "react-router-dom";
+import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 
 const AddModpack = () => {
   const location = useLocation();
-  console.log(window.location.pathname);
-  console.log(location.pathname);
-  const match = useMatch("/add-modpack");
-  console.log(match);
 
   return (
     <>
@@ -33,7 +29,7 @@ const AddModpack = () => {
         </Link>
         <ul className="steps mx-auto">
           <NavLink to={"create"}>
-            <li className="step-primary step ">Create</li>
+            <li className="step step-primary  ">Create</li>
           </NavLink>
           <li
             className={`step  ${

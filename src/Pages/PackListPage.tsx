@@ -5,6 +5,7 @@ import ModpackCard from "../Components/ModpackCard";
 import { useUser } from "../Context/useUser";
 import { useQueryClient } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
+import ModpackTagSearch from "../Components/ModpackTagSearch";
 
 const PackListPage = () => {
   const queryClient = useQueryClient();
@@ -14,6 +15,7 @@ const PackListPage = () => {
   const [pageBottom, setPageBottom] = React.useState(false);
 
   const { user } = useUser();
+console.log(data);
 
   window.addEventListener("scroll", () => {
     window.innerHeight + window.scrollY >= document.body.offsetHeight
@@ -31,9 +33,13 @@ const PackListPage = () => {
         below and assthese same things to the nav width*/}
         <div className="relative h-min overflow-hidden border-t-2 bg-bg dark:border-none dark:bg-bg dark:shadow  md:mb-4 md:rounded-xl  md:border-none md:shadow-2xl  ">
           {/* map the data variable in a grad 4x2  */}
-          <div className="md:space-x-none  flex   justify-between   space-x-4 p-5 text-xl text-text xl:text-2xl ">
+          <div className="md:space-x-none  flex items-center  justify-between   space-x-4 p-5 text-xl text-text xl:text-2xl ">
             <p className="z-10">Modpacks</p>
             {/* Show this button if you're logged in and a staff member */}
+
+            <ModpackTagSearch />
+
+
             {user?.isAdmin && (
               <Link
                 to="/add-modpack/create"
