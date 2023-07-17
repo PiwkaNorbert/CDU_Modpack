@@ -2,7 +2,7 @@ import React from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AddModpackProps } from "../../Utils/Interfaces";
 import { tagOptions, colorOptions } from "../../Helper/modifyModpack";
 import SuggestedByUserSearch from "../../Components/SuggestedByUserSearch";
@@ -14,7 +14,6 @@ export const CreateModpack = () => {
 
   const isDev = import.meta.env.VITE_NODE_ENV === "development";
   const apiBase = isDev ? "https://www.trainjumper.com" : "";
-
 
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -137,7 +136,7 @@ export const CreateModpack = () => {
                   modpackTags.includes(tagOption.value)
                     ? `bg-${borderColor}-400 text-bg dark:text-bg `
                     : `bg-slate-700 text-text`
-                }  flex items-center justify-center rounded-full px-3 py-1 text-sm hover:bg-opacity-80 transition-colors duration-200 ease-in-out `}
+                }  flex items-center justify-center rounded-full px-3 py-1 text-sm transition-colors duration-200 ease-in-out hover:bg-opacity-80 `}
                 onClick={() => {
                   if (modpackTags.includes(tagOption.value)) {
                     setModpackTags(
@@ -156,7 +155,7 @@ export const CreateModpack = () => {
 
         {/*Color selection*/}
         <select
-          className={` h-8 rounded-md border-2 cursor-pointer  dark:text-bg border-${borderColor}-500 bg-${borderColor}-300 px-3 py-1 font-Tilt `}
+          className={` h-8 cursor-pointer rounded-md border-2  dark:text-bg border-${borderColor}-500 bg-${borderColor}-300 px-3 py-1 font-Tilt `}
           name="color"
           defaultValue="Sky"
           onChange={(e) => {
@@ -194,8 +193,15 @@ export const CreateModpack = () => {
           placeholder="Official URL"
           name="officialUrl"
         />
+
         {/* Modpack suggestor field, single line. */}
-       <SuggestedByUserSearch  />
+        <SuggestedByUserSearch />
+        <Link
+          to={"/add-modpack/photos/12312"}
+          className="ml-4  flex min-w-min cursor-pointer items-center gap-2 rounded-md px-3 py-1 text-text hover:bg-sec hover:bg-opacity-20 hover:text-text dark:hover:bg-hover-2"
+        >
+          liunk
+        </Link>
 
         <button
           className={` h-10 rounded-md border-2 border-black hover:bg-opacity-80 disabled:bg-slate-600 bg-${borderColor}-500 px-3 py-1  text-sm dark:text-bg xl:text-base`}

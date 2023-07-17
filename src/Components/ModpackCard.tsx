@@ -16,20 +16,19 @@ const ModpackCard = ({
   timesVoted,
 }: IModpack) => {
   const queryClient = useQueryClient();
-        const text = color ? color : "blue";
+  const text = color ? color : "blue";
 
   return (
     <div
       key={modpackId}
-      className={`relative z-10  mb-8 hover:scale-105 transition-transform flex justify-center rounded-md border-[3.5px] hover:shadow-white/50 hover:shadow-sm text-text lg:min-h-[109px] lg:min-w-[194px] border-${color}-300 `}
+      className={`relative z-10  mb-8 flex justify-center rounded-md border-[3.5px] text-text transition-transform hover:scale-105 hover:shadow-sm hover:shadow-white/50 lg:min-h-[109px] lg:min-w-[194px] border-${color}-300 `}
       onMouseEnter={() => {
         queryClient.prefetchQuery(["details", modpackId], () =>
           fetchPackDetail(modpackId as string)
         );
       }}
-
     >
-      <div className=" flex items-start  hover:text-opacity-100 justify-center justify-items-center overflow-hidden  ">
+      <div className=" flex items-start  justify-center justify-items-center overflow-hidden hover:text-opacity-100  ">
         <Link
           to={`/pack-details/${modpackId}`}
           className={` grid h-full flex-1 text-base/[1.25rem] `}
@@ -55,7 +54,7 @@ const ModpackCard = ({
       </div>
 
       <div
-        className={`absolute flex text-text   divide-x overflow-hidden rounded-full border-[3.5px] bg-bg px-2 py-1  border-${color}-300 -bottom-[22px]  items-center text-base `}
+        className={`absolute flex h-9 divide-x   overflow-hidden rounded-full border-[3.5px] bg-bg px-2 py-1 text-text  border-${color}-300 -bottom-[22px]  items-center text-base `}
       >
         <div className="flex items-center gap-1 pr-2">
           <picture className={`flex`}>

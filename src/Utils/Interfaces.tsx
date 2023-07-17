@@ -3,6 +3,7 @@ export interface IModpack {
   name: string;
   imageUrl: string;
   color: string;
+  tags: string[];
   voteCount: number;
   commentCount: number;
   timesVoted: number;
@@ -15,6 +16,7 @@ export interface IPackDetails {
   imageUrl: string;
   modpackId: string;
   name: string;
+  tags: string[];
   officialUrl: string;
   suggestedBy: string;
   timesVoted: number;
@@ -22,41 +24,39 @@ export interface IPackDetails {
 }
 export interface IComment {
   uuid: string;
-  discord_id?: number ;
-  username?: string ;
-  comment?: string ;
+  discord_id?: number;
+  username?: string;
+  comment?: string;
   timestamp: number;
   last_updated_time?: number;
-  avatar_url?: string ;
+  avatar_url?: string;
   profanity_score?: number;
   reply_count: number;
 }
 
 export interface ICommentReplies {
   uuid: string;
-  discord_id?: number ;
-  username?: string ;
-  comment?: string ;
+  discord_id?: number;
+  username?: string;
+  comment?: string;
   timestamp?: number;
   last_updated_time?: number;
-  avatar_url?: string ;
+  avatar_url?: string;
   profanity_score?: number;
   reply_count: number;
-
 }
 
 export interface ICommentComponent {
   borderColor: string;
   comment: IComment;
-  replyingTo: boolean
+  replyingTo: boolean;
   replyParentId: string;
-  
 }
 export interface DiscordProfileData {
-  isLoggedIn: boolean ;
-  avatar: string ;
-  globalName?: string ;
-  id?: string ;
+  isLoggedIn: boolean;
+  avatar: string;
+  globalName?: string;
+  id?: string;
   username?: string;
   isAdmin?: boolean;
   votesRemaining?: number;

@@ -26,6 +26,7 @@ const Header = () => {
       name: user?.isLinked ? "linked" : "Unlinked",
       icon: user?.isLinked ? "/check.png" : "/cross.png",
     },
+
     {
       name: "Logout",
       callBack: () => setUser(undefined),
@@ -115,81 +116,25 @@ const Header = () => {
           isIntersecting === true && " shadow-md"
         }`}
       >
-        <Link to="loginDev">Login Dev</Link>
         {/* If the window size is below 600px display a button with "menu as the value and on click make a modal to display the nav */}
 
         {/* If the window size is below 600px display a modal with the nav */}
         {menu ? (
-          <div className="absolute left-0 top-0 z-10 flex h-screen w-full flex-col items-center justify-center bg-bg dark:bg-sec md:hidden">
-            <button className="absolute right-2 top-2" onClick={toggleMenu}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="32"
-                height="32"
-                fill="currentColor"
-                stroke="currentColor"
-                viewBox="0 0 256 256"
-              >
-                <path d="M208,32H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM181.66,170.34a8,8,0,0,1-11.32,11.32L128,139.31,85.66,181.66a8,8,0,0,1-11.32-11.32L116.69,128,74.34,85.66A8,8,0,0,1,85.66,74.34L128,116.69l42.34-42.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path>
-              </svg>
-            </button>
-            {menu ? null : (
-              <header
-                ref={ref}
-                className="relative z-0 hidden h-[140px] items-center justify-center  text-sm md:grid xl:h-[170px] xl:text-base"
-              >
-                <div className=" absolute inset-0 m-auto bg-gradient-to-tr from-acc to-pri dark:brightness-50 "></div>
-                <img
-                  alt="CDU"
-                  src="/logo.png"
-                  width="140"
-                  height="128"
-                  //loading="lazy"
-                  className=" lazy-load-image absolute top-0 z-30  cursor-pointer  justify-self-center p-2 hover:animate-bounce-slow "
-                  onClick={() => navigate("/")}
-                />
-              </header>
-            )}
-            <nav
-              className={` sticky top-0 z-[11] flex w-full items-center justify-stretch  gap-2 border-bg bg-bg px-8 py-2 text-text md:justify-center md:px-4 lg:mx-auto lg:min-w-[896px] lg:max-w-[896px] lg:border-x-4  ${
-                isIntersecting === true && " shadow-md"
-              }`}
-            >
-              {/* If the window size is below 600px display a button with "menu as the value and on click make a modal to display the nav */}
+          <div className="fixed left-0 top-0 z-50 flex h-screen w-full flex-col  justify-center bg-bg dark:bg-sec md:hidden">
+            {/* If the window size is below 600px display a button with "menu as the value and on click make a modal to display the nav */}
 
-              {/* If the window size is below 600px display a modal with the nav */}
-              {menu ? (
-                <div className="absolute left-0 top-0 z-10 flex h-screen w-full flex-col items-center justify-center bg-bg dark:bg-sec md:hidden">
-                  <button
-                    className="absolute right-2 top-2"
-                    onClick={toggleMenu}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="32"
-                      height="32"
-                      fill="currentColor"
-                      stroke="currentColor"
-                      viewBox="0 0 256 256"
-                    >
-                      <path d="M208,32H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM181.66,170.34a8,8,0,0,1-11.32,11.32L128,139.31,85.66,181.66a8,8,0,0,1-11.32-11.32L116.69,128,74.34,85.66A8,8,0,0,1,85.66,74.34L128,116.69l42.34-42.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path>
-                    </svg>
-                  </button>
-                  {links.map((link: any) => (
-                    <a
-                      key={link.href}
-                      className="rounded-sm p-5 hover:bg-hover-2"
-                      href={link.href}
-                      target={link.target}
-                      data-xf-click={link["data-xf-click"]}
-                    >
-                      {link.name}
-                    </a>
-                  ))}
-                </div>
-              ) : null}
+            {/* If the window size is below 600px display a modal with the nav */}
+            <img
+              alt="CDU"
+              src="/logo.png"
+              width="100"
+              //loading="lazy"
+              className="  absolute top-0 z-30  cursor-pointer  justify-self-center p-2 hover:animate-bounce-slow "
+              onClick={() => navigate("/")}
+            />
 
-              <button className="z-10 order-2 sm:hidden " onClick={toggleMenu}>
+            <div className="absolute left-0 top-0 z-10 flex h-screen w-full flex-col items-center justify-center bg-bg dark:bg-sec md:hidden">
+              <button className="absolute right-2 top-2" onClick={toggleMenu}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="32"
@@ -198,21 +143,33 @@ const Header = () => {
                   stroke="currentColor"
                   viewBox="0 0 256 256"
                 >
-                  <path d="M224,120v16a8,8,0,0,1-8,8H40a8,8,0,0,1-8-8V120a8,8,0,0,1,8-8H216A8,8,0,0,1,224,120Zm-8,56H40a8,8,0,0,0-8,8v16a8,8,0,0,0,8,8H216a8,8,0,0,0,8-8V184A8,8,0,0,0,216,176Zm0-128H40a8,8,0,0,0-8,8V72a8,8,0,0,0,8,8H216a8,8,0,0,0,8-8V56A8,8,0,0,0,216,48Z"></path>
+                  <path d="M208,32H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM181.66,170.34a8,8,0,0,1-11.32,11.32L128,139.31,85.66,181.66a8,8,0,0,1-11.32-11.32L116.69,128,74.34,85.66A8,8,0,0,1,85.66,74.34L128,116.69l42.34-42.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path>
                 </svg>
               </button>
-              <div className="group relative order-3 flex items-center justify-center">
-                <input
-                  type="checkbox"
-                  id="theme"
-                  className="hidden"
-                  onClick={() => {
-                    setTheme(!theme);
-                  }}
-                  checked={theme}
-                />
-              </div>
-            </nav>
+              {links.map((link: any) => (
+                <a
+                  key={link.href}
+                  className="rounded-sm p-5 hover:bg-hover-2"
+                  href={link.href}
+                  target={link.target}
+                  data-xf-click={link["data-xf-click"]}
+                >
+                  {link.name}
+                </a>
+              ))}
+            </div>
+
+            <div className="group relative order-3 flex items-center justify-center">
+              <input
+                type="checkbox"
+                id="theme"
+                className="hidden"
+                onClick={() => {
+                  setTheme(!theme);
+                }}
+                checked={theme}
+              />
+            </div>
           </div>
         ) : null}
 
@@ -310,10 +267,7 @@ const Header = () => {
                   type="button"
                   ref={menuButtonRef}
                   onClick={() => {
-                    console.log(profileMenuShow);
-
-                    setProfileMenuShow(profileMenuShow ? false : true);
-                    console.log(profileMenuShow);
+                    setProfileMenuShow(!profileMenuShow);
                   }}
                 >
                   <img
@@ -329,14 +283,28 @@ const Header = () => {
                     ref={menuRef}
                   >
                     <ul
-                      className="p-1 text-sm "
+                      className="space-y-1 p-1 text-sm"
                       aria-labelledby="dropdown-button"
                     >
+                      {user?.isAdmin && (
+                        <li>
+                          <Link
+                            onClick={() => {
+                              setProfileMenuShow(!profileMenuShow);
+                            }}
+                            to="/add-modpack/create"
+                            className="transition-bg z-10 flex  items-center rounded-md bg-gradient-to-r from-acc to-pri bg-size-200 bg-pos-0 
+                px-3 py-1 text-sm text-bg duration-200 hover:bg-pos-100 dark:text-text xl:text-base"
+                          >
+                            Add Modpack
+                          </Link>
+                        </li>
+                      )}
                       {userMenuItem.map((item: any, i: number) => {
                         return (
                           <li
                             key={i}
-                            className="mb-1  flex w-full gap-1  px-4 py-2 transition-all  delay-0 duration-200 ease-in-out last:mb-0 last:cursor-pointer hover:rounded-xl last:hover:bg-text/20 last:active:bg-text/25 "
+                            className="mb-1  flex w-full gap-1  px-3 py-1 transition-all  delay-0 duration-200 ease-in-out last:mb-0 last:cursor-pointer hover:rounded-xl last:hover:bg-text/20 last:active:bg-text/25 "
                           >
                             <a type="button" onClick={item.callBack}>
                               <div
@@ -364,6 +332,8 @@ const Header = () => {
         ) : (
           // Decide whether to display user's discord avatar (logged in) or "log in with discord" button (not logged in)
           <div className="z-10 order-2 ml-auto max-[350px]:text-xs">
+            <Link to="loginDev">Login Dev</Link>
+
             <LoginButton />
           </div>
         )}

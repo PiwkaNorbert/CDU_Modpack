@@ -22,6 +22,7 @@ const usePackDetailData = (modpackId: string) => {
     keepPreviousData: true,
     staleTime: 1000 * 60 * 2,
     refetchOnWindowFocus: false,
+
     // initialData: placeholderDetails,
     onError: (error: Error) => {
       if (axios.isAxiosError(error)) {

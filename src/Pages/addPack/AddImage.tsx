@@ -5,14 +5,14 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AddModpackProps } from "../../Utils/Interfaces";
 
-const AddModpackPhotos = () => {
+const AddImage = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const isDev = import.meta.env.VITE_NODE_ENV === "development";
   const apiBase = isDev ? "https://www.trainjumper.com" : "";
 
   const addImageMutation = useMutation(
-    (body: AddModpackProps) =>
+    (body) =>
       toast.promise(
         axios.post(
           `${apiBase}/api/add-modpack`,
@@ -72,7 +72,7 @@ const AddModpackPhotos = () => {
           const target = e.target as HTMLFormElement;
           console.log(target.image.files);
 
-          addImageMutation.mutate(target.image.files);
+          addImageMutation.mutate({ images: target.image.files });
         }}
       >
         <p className="-mb-2 dark:text-text">Image</p>
@@ -104,4 +104,4 @@ const AddModpackPhotos = () => {
   );
 };
 
-export default AddModpackPhotos;
+export default AddImage;

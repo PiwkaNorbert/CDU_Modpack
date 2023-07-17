@@ -5,7 +5,6 @@ import axios from "axios";
 import { useUser } from "../Context/useUser";
 import { IPackDetails } from "../Utils/Interfaces";
 
-
 const PostComment = ({
   borderColor,
   modpackId,
@@ -16,33 +15,27 @@ const PostComment = ({
   modpackId?: string;
   replyParentId: string;
   replyingTo: boolean;
-
 }) => {
   const [comment, setComment] = React.useState<string>("");
 
   const { user } = useUser();
   const queryClient = useQueryClient();
 
-
   const isDev = import.meta.env.VITE_NODE_ENV === "development";
   const apiBase = isDev ? "https://www.trainjumper.com" : "";
 
   const fetchComment = async (comment: string) => {
-    try {
-      const { data } = await axios.post(
-        `${apiBase}/api/comment`,
-        { comment, modpackId },
-        {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      return data;
-    } catch (error) {
-      throw new Error(error);
-    }
+    const { data } = await axios.post(
+      `${apiBase}/api/comment`,
+      { comment, modpackId },
+      {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return data;
   };
 
   const fetchReply = async (comment: string) => {
@@ -65,8 +58,6 @@ const PostComment = ({
 
   const commentMutation = useMutation(replyingTo ? fetchReply : fetchComment, {
     onSuccess: (response) => {
-
-      
       const commentData = {
         uuid: Math.random().toString(),
         comment: comment,
@@ -97,13 +88,17 @@ const PostComment = ({
         });
       }
     },
-    onError: (error) => {
-      toast.error(`Couldn't post comment: ${error}`);
+    onError: (error: any) => {
+      if (error.response.status === 401) {
+        toast.error(error.response.data.error);
+      } else {
+        toast.error(error);
+      }
     },
     onSettled: () => {
       queryClient.invalidateQueries(["details", modpackId]);
       queryClient.invalidateQueries(["replies", replyParentId]);
-      
+
       setComment("");
     },
   });
@@ -111,7 +106,9 @@ const PostComment = ({
   return (
     <form
       method="post"
-      className={`flex items-start justify-center gap-4  py-4 text-sm xl:text-base ${replyingTo&& "pl-10"} `}
+      className={`flex items-start justify-center gap-4  py-4 text-sm xl:text-base ${
+        replyingTo && "pl-10"
+      } `}
       onSubmit={async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (commentMutation.isLoading) return;
