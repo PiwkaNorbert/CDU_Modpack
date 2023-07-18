@@ -285,20 +285,6 @@ const Header = () => {
                       className="space-y-1 p-1 text-sm"
                       aria-labelledby="dropdown-button"
                     >
-                      {user?.isAdmin && (
-                        <li>
-                          <Link
-                            onClick={() => {
-                              setProfileMenuShow(!profileMenuShow);
-                            }}
-                            to="/add-modpack/create"
-                            className="transition-bg z-10 flex  items-center rounded-md bg-gradient-to-r from-acc to-pri bg-size-200 bg-pos-0 
-                px-3 py-1 text-sm text-bg duration-200 hover:bg-pos-100 dark:text-text xl:text-base"
-                          >
-                            Add Modpack
-                          </Link>
-                        </li>
-                      )}
                       {userMenuItem.map((item: any, i: number) => {
                         return (
                           <li
