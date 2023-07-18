@@ -99,11 +99,14 @@ export default {
     },
   },
 
-  plugins: [require("@tailwindcss/container-queries"), require("daisyui")],
+  plugins: [require("daisyui"), require("@tailwindcss/container-queries")],
   safelist: [
     {
       pattern:
-        /(bg|text|border|shadow|hover|min)-(red|orange|yellow|lime|green|teal|sky|blue|violet|fuchsia|black|h|grey|slate)/,
+        /(bg|text|border|shadow|hover|min|steps|step|daisy)-(red|orange|yellow|lime|green|teal|sky|blue|violet|fuchsia|black|h|gray|slate|gradient|dashed|dotted|grey|primary)/,
     },
   ],
+  daisyui: {
+    prefix: "daisy-", // prefix for daisyUI classnames (components, modifiers and responsive class names. Not colors)
+  },
 };

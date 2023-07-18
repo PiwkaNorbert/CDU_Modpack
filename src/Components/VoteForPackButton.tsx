@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { useUser } from "../Context/useUser";
 import { useIsFetching } from "@tanstack/react-query";
 import { IModpack } from "../Utils/Interfaces";
+import { errorHandling } from "../Helper/errorHandling";
 
 export default function VoteForPackButton({
   modpackId,
@@ -48,10 +49,8 @@ export default function VoteForPackButton({
       }),
     {
       onError: (error: Error) => {
-        console.error(error.response?.data.error);
-        return toast.error(
-          `Error: ${error.response.data.error || "Unknown error"}`
-        );
+        errorHandling(error)
+
       },
       onSuccess: (response) => {
         if (response.status !== 200) throw new Error(response.data.error);
@@ -82,10 +81,9 @@ export default function VoteForPackButton({
         }
       ),
     {
-      onError: (error: Error) => {
-        console.error(error);
+      onError: (error: any) => {
+        errorHandling(error)
 
-        return toast.error(`Error: ${error || "Unknown error"}}`);
       },
       onSuccess: (response) => {
         if (response.status !== 200) throw new Error(response.data.error);

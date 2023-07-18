@@ -5,7 +5,6 @@ import { useTheme } from "../Context/useTheme";
 import { useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { setupClickOutsideHandler } from "../Helper/setupClickOutsideHandler";
-import { links, userMenuItem } from "./HeaderData/data";
 
 const Header = () => {
   // set the state of voteRemaining to the value of the user's votesRemaining

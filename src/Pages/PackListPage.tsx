@@ -4,6 +4,8 @@ import useModpackData from "../API/useModpackData";
 import ModpackCard from "../Components/ModpackCard";
 import { useQueryClient } from "@tanstack/react-query";
 import { tagOptions } from "../Helper/modifyModpack";
+import { useUser } from "../Context/useUser";
+import AddPackCard from "./addPack/AddPackCard";
 
 const PackListPage = () => {
   const queryClient = useQueryClient();
@@ -16,6 +18,7 @@ const PackListPage = () => {
     setModPackFilterByTags,
     setModPackFilterByInput,
   } = useModpackData(queryClient);
+  const { user } = useUser();
 
   // set state for a button to scroll to the top of the page
   const [pageBottom, setPageBottom] = React.useState(false);
@@ -40,6 +43,19 @@ const PackListPage = () => {
         id="modpack__gallery"
         className="grid h-full   w-full justify-normal self-center text-text lg:mx-auto lg:min-w-[900px] lg:max-w-[900px] "
       >
+        <ul className="steps ">
+          {/* prettier-ignore */}
+          <li className="step step-primary  ">
+            <a href={"create"}>Create</a>
+          </li>
+          <li
+            className={`btn  step ${
+              location.pathname === "/add-modpack/photos" ? "step-primary" : ""
+            }`}
+          >
+            Add Photos
+          </li>
+        </ul>
         {/* set the width to ffit the content and assign them to sm md lg for the container  like lg:max-w-[1000px]
         below and assthese same things to the nav width*/}
         <div className="relative h-min overflow-hidden border-t-2 bg-bg dark:border-none dark:bg-bg dark:shadow  md:mb-4 md:rounded-xl  md:border-none md:shadow-2xl  ">
@@ -86,8 +102,8 @@ const PackListPage = () => {
                     key={index}
                     className={`${
                       modPackFilterByTags.includes(tagOption.value)
-                        ? `bg-slate-300 text-bg dark:text-bg `
-                        : `bg-slate-700 text-text`
+                        ? `bg-slate-700 text-bg dark:bg-slate-300 dark:text-bg `
+                        : `bg-slate-300 text-text dark:bg-slate-700`
                     }  z-10 flex items-center justify-center rounded-full px-3 py-1 text-sm transition-colors duration-200 ease-in-out hover:bg-opacity-80 `}
                     onClick={() => {
                       if (modPackFilterByTags.includes(tagOption.value)) {
@@ -120,35 +136,38 @@ const PackListPage = () => {
             ) : data?.length === 0 ? (
               <div className="col-span-full text-center">No Modpacks</div>
             ) : (
-              data?.map(
-                (
-                  {
-                    modpackId,
-                    name,
-                    imageUrl,
-                    color,
-                    voteCount,
-                    tags,
-                    commentCount,
-                    timesVoted,
-                  }: IModpack,
-                  index: number
-                ) => {
-                  return (
-                    <ModpackCard
-                      key={index}
-                      modpackId={modpackId}
-                      name={name}
-                      imageUrl={imageUrl}
-                      color={color}
-                      tags={tags}
-                      voteCount={voteCount}
-                      commentCount={commentCount}
-                      timesVoted={timesVoted}
-                    />
-                  );
-                }
-              )
+              <>
+                {user?.isAdmin && <AddPackCard />}
+                {data?.map(
+                  (
+                    {
+                      modpackId,
+                      name,
+                      imageUrl,
+                      color,
+                      voteCount,
+                      tags,
+                      commentCount,
+                      timesVoted,
+                    }: IModpack,
+                    index: number
+                  ) => {
+                    return (
+                      <ModpackCard
+                        key={index}
+                        modpackId={modpackId}
+                        name={name}
+                        imageUrl={imageUrl}
+                        color={color}
+                        tags={tags}
+                        voteCount={voteCount}
+                        commentCount={commentCount}
+                        timesVoted={timesVoted}
+                      />
+                    );
+                  }
+                )}
+              </>
             )}
           </div>
           <div className="absolute inset-0 h-full w-full flex-1 bg-sec opacity-20"></div>

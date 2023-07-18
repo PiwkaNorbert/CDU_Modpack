@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { AddModpackProps } from "../../Utils/Interfaces";
+import { errorHandling } from "../../Helper/errorHandling";
 
 const AddImage = () => {
   const queryClient = useQueryClient();
@@ -36,18 +36,8 @@ const AddImage = () => {
       onSettled: () => {
         queryClient.invalidateQueries(["modpacks"]);
       },
-      onError: (error: Error) => {
-        if (axios.isAxiosError(error)) {
-          console.error("error message: ", error.message);
-        } else {
-          console.error("unexpected error: ", error.message);
-          // toast.error(`Couldn't add modpack: ${error.response?.data.message}`);
-          toast.error(error.response?.data.message);
-
-          throw new Error(
-            "Couldn't fetch Modpack details, please try again later."
-          );
-        }
+      onError: (error: any) => {
+        errorHandling(error);
       },
       onSuccess: () => {
         return navigate("/");

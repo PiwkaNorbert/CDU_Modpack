@@ -1,8 +1,9 @@
 import { QueryClient, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { IModpack } from "../Utils/Interfaces";
-import { staticLabels } from "../Constants";
+// import { staticLabels } from "../Constants";
 import { useCallback, useState } from "react";
+import { errorHandling } from "../Helper/errorHandling";
 
 const useModpackData = (queryClient: QueryClient) => {
   const [modPackFilterByInput, setModPackFilterByInput] = useState("");
@@ -64,10 +65,8 @@ const useModpackData = (queryClient: QueryClient) => {
       retry: 2,
       select: filterModpacks,
 
-      onError: (_err: Error) => {
-        console.error(_err);
-
-        throw new Error("Couldn't fetch Modpack data, please try again later.");
+      onError: (error: any) => {
+        errorHandling(error);
       },
     }
   );

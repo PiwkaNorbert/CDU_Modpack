@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 // import { placeholderDetails } from "../Constants";
-import { toast } from "react-toastify";
+import { errorHandling } from "../Helper/errorHandling";
 
 export const fetchPackDetail = async (modpackId: string) => {
   const isDev = import.meta.env.VITE_NODE_ENV === "development";
@@ -24,16 +24,8 @@ const usePackDetailData = (modpackId: string) => {
     refetchOnWindowFocus: false,
 
     // initialData: placeholderDetails,
-    onError: (error: Error) => {
-      if (axios.isAxiosError(error)) {
-        console.error("error message: ", error.message);
-        return toast.error(error.response?.data.message);
-      } else {
-        console.error("unexpected error: ", error);
-        throw new Error(
-          "Couldn't fetch Modpack details, please try again later."
-        );
-      }
+    onError: (error: any) => {
+      errorHandling(error);
     },
   });
 };

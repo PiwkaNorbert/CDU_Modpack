@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { AddModpackProps } from "../../Utils/Interfaces";
 import { tagOptions, colorOptions } from "../../Helper/modifyModpack";
 import SuggestedByUserSearch from "../../Components/SuggestedByUserSearch";
+import { errorHandling } from "../../Helper/errorHandling";
 export const CreateModpack = () => {
   const [modpackDescription, setModpackDescription] =
     React.useState<string>("");
@@ -49,16 +50,8 @@ export const CreateModpack = () => {
       onSettled: () => {
         queryClient.invalidateQueries(["modpacks"]);
       },
-      onError: (response: any) => {
-        console.log(response);
-
-        toast.error(response?.data.error);
-
-        throw new Error(
-          response?.data.error
-            ? response?.data.error
-            : "Couldn't add modpack, please try again later."
-        );
+      onError: (error: any) => {
+        errorHandling(error);
       },
       onSuccess: (response) => {
         return navigate(`/add-modpack/photos/${response.data.modpackId}`);
@@ -134,8 +127,8 @@ export const CreateModpack = () => {
                 key={index}
                 className={`  ${
                   modpackTags.includes(tagOption.value)
-                    ? `bg-${borderColor}-400 text-bg dark:text-bg `
-                    : `bg-slate-700 text-text`
+                    ? `bg-${borderColor}-500  text-bg dark:text-bg `
+                    : `bg-slate-300 text-text dark:bg-slate-700`
                 }  flex items-center justify-center rounded-full px-3 py-1 text-sm transition-colors duration-200 ease-in-out hover:bg-opacity-80 `}
                 onClick={() => {
                   if (modpackTags.includes(tagOption.value)) {

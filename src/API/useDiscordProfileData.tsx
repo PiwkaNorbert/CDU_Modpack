@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { errorHandling } from "../Helper/errorHandling";
 
 export const fetchProfile = async () => {
 
@@ -17,9 +18,9 @@ export const fetchProfile = async () => {
 const useDiscordProfileData = () => {
 
   return useQuery(["login"], fetchProfile, {
-    onError: (_err: Error) =>  {
-      console.error(_err);
-      toast.error("Sorry, there was an error logging you in!")
+    onError: (error: any) =>  {
+      errorHandling(error)
+
     },
     onSuccess: (response) => {
       if (response.in_guild === false) return;

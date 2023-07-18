@@ -1,4 +1,4 @@
-import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 
 const AddModpack = () => {
   const location = useLocation();
@@ -27,15 +27,15 @@ const AddModpack = () => {
           </svg>
           <p className={` `}>Cancel</p>
         </Link>
-        <ul className="steps mx-auto">
-          <NavLink to={"create"}>
-            <li className="step step-primary  ">Create</li>
-          </NavLink>
+
+        <ul className="steps ">
+          {/* prettier-ignore */}
+          <li className="step step-primary  ">
+            <Link to={"create"}>Create</Link>
+          </li>
           <li
-            className={`step  ${
-              location.pathname === "/add-modpack/photos"
-                ? "step-primary"
-                : undefined
+            className={`btn  step ${
+              location.pathname === "/add-modpack/photos" ? "step-primary" : ""
             }`}
           >
             Add Photos

@@ -14,6 +14,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useNavigate, Link } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { setupClickOutsideHandler } from "../Helper/setupClickOutsideHandler";
+import { errorHandling } from "../Helper/errorHandling";
 
 const PackDetails = () => {
   const { modpackId: id } = useParams();
@@ -60,15 +61,7 @@ const PackDetails = () => {
       return navigate("/");
     },
     onError: (error: any) => {
-      console.error(error);
-      if (error.response.status === 401) {
-        console.error("You are not authorized to delete this modpack");
-        return toast.error(error?.response?.data?.error, {
-          toastId: "deleteModpackError",
-        });
-      } else {
-        return toast.error("Couldn't delete modpack, please try again later.");
-      }
+      errorHandling(error);
     },
     onSettled: () => {
       queryClient.invalidateQueries(["modpacks", "details", modpackId]);
@@ -250,7 +243,7 @@ const PackDetails = () => {
                   {tags?.map((tag, index) => (
                     <div
                       key={index}
-                      className={`z-10 ml-2 flex items-center justify-start self-start rounded-full border capitalize first:ml-4 border-${borderColor}-500 bg-slate-700 px-2 py-0.5 text-sm text-text transition-colors duration-200 ease-in-out  `}
+                      className={`z-10 ml-2 flex items-center justify-start self-start rounded-full border capitalize first:ml-4 border-${borderColor}-500 bg-slate-300 px-2 py-0.5 text-sm text-text/70 transition-colors duration-200 ease-in-out dark:bg-slate-700  `}
                     >
                       {tag}
                     </div>

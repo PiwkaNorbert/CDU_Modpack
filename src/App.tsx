@@ -19,8 +19,8 @@ import AddMPLayout from "./Pages/addPack/AddMPLayout";
 import AddImage from "./Pages/addPack/AddImage";
 import EditModpack from "./Pages/EditModpack";
 import Payments from "./Pages/Payments";
-import Customers from "./Pages/Customers";
-import Subscriptions from "./Pages/Subscriptions";
+// import Customers from "./Pages/Customers";
+// import Subscriptions from "./Pages/Subscriptions";
 import LoginDev from "./Pages/LoginDev";
 import { CreateModpack } from "./Pages/addPack/CreateModpack";
 

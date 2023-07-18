@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { useUser } from "../Context/useUser";
 import { IPackDetails } from "../Utils/Interfaces";
+import { errorHandling } from "../Helper/errorHandling";
 
 const PostComment = ({
   borderColor,
@@ -39,21 +40,17 @@ const PostComment = ({
   };
 
   const fetchReply = async (comment: string) => {
-    try {
-      const { data } = await axios.post(
-        `${apiBase}/api/add-reply`,
-        { comment, parentId: replyParentId },
-        {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      return data;
-    } catch (error) {
-      throw new Error(error);
-    }
+    const { data } = await axios.post(
+      `${apiBase}/api/add-reply`,
+      { comment, parentId: replyParentId },
+      {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return data;
   };
 
   const commentMutation = useMutation(replyingTo ? fetchReply : fetchComment, {
@@ -89,11 +86,7 @@ const PostComment = ({
       }
     },
     onError: (error: any) => {
-      if (error.response.status === 401) {
-        toast.error(error.response.data.error);
-      } else {
-        toast.error(error);
-      }
+      errorHandling(error);
     },
     onSettled: () => {
       queryClient.invalidateQueries(["details", modpackId]);
@@ -106,7 +99,7 @@ const PostComment = ({
   return (
     <form
       method="post"
-      className={`flex items-start justify-center gap-4  py-4 text-sm xl:text-base ${
+      className={`flex items-start justify-center gap-4 py-4 text-sm  text-text dark:text-text xl:text-base ${
         replyingTo && "pl-10"
       } `}
       onSubmit={async (e: React.FormEvent<HTMLFormElement>) => {
@@ -125,7 +118,7 @@ const PostComment = ({
       />
       <div className=" w-full">
         <textarea
-          className={` min-h-10 min-h-40  w-full resize-none rounded-md border  dark:text-bg border-${borderColor}-300 px-3 py-1 `}
+          className={` min-h-10 min-h-40  w-full resize-none rounded-md border   border-${borderColor}-300 px-3 py-1 `}
           placeholder="Add a comment..."
           value={comment}
           maxLength={360}
@@ -149,7 +142,8 @@ const PostComment = ({
         type="submit"
         className={`h-10  rounded-md text-text  bg-${borderColor}-500 px-3 py-1 hover:opacity-80  disabled:bg-slate-400 disabled:text-bg disabled:hover:opacity-100 `}
       >
-        {commentMutation.isLoading ? "Replying.." : "Reply"}
+        {replyingTo ? (commentMutation.isLoading ? "Replying.." : "Reply") : ""}
+        {!replyingTo ? (commentMutation.isLoading ? "Posting.." : "Post") : ""}
       </button>
     </form>
   );

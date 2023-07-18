@@ -77,7 +77,7 @@ export interface VoteForPackButtonProps {
 export interface AddModpackProps {
   name: string;
   description: string;
-  tags: [];
+  tags: string[];
   color: string;
   suggestor: string;
   officialUrl: string;

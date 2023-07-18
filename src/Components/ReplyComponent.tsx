@@ -6,99 +6,71 @@ import { toast } from "react-toastify";
 
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { errorHandling } from "../Helper/errorHandling";
 
-
-export function ReplyComponent({ borderColor, comment, replyingTo, replyParentId }: ICommentComponent) {
-  const { modpackId} = useParams<{ modpackId: string }>();
+export function ReplyComponent({
+  borderColor,
+  comment,
+  replyingTo,
+  replyParentId,
+}: ICommentComponent) {
+  const { modpackId } = useParams<{ modpackId: string }>();
   const { user } = useUser();
-
 
   const queryClient = useQueryClient();
 
+  const deleteComment = async (value: string) => {
+    const res = await axios.delete(`/api/delete-comment`, {
+      withCredentials: true,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: {
+        modpackId,
+        commentId: value,
+      },
+    });
 
-  const deleteComment = async (value:string) => {
-    try {
-      const res = await toast.promise(
-        axios.delete(`/api/delete-comment`, {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-          },
-          data: {
-            modpackId,
-            commentId: value,
-          },
-        }),
-        {
-          error: "Couldn't delete comment 🤯",
-        }
-      );
-      res.status !== 200 && console.error(res);
-
-    } catch (error: Error | unknown | string) {
-      console.error(error);
-      toast.error(`Error: ${error}`);
-    }
-  }
+    if (res.status !== 200) throw new Error("Unable to delete comment");
+    return res.data;
+  };
 
   const deleteCommentMutation = useMutation(deleteComment, {
     onSuccess: () => {
-      toast.success("Comment deleted! 👌");
       if (replyingTo) {
-
-        queryClient.setQueryData(
-          ["replies", replyParentId],
-          (oldData) => {
+        queryClient.setQueryData(["replies", replyParentId], (oldData) => {
           const oldReplies = oldData as ICommentComponent[];
           // filter the replies to remove the deleted comment
-          return [
-            ...oldReplies.filter(
-              (c:any) =>
-                c.uuid !== comment?.uuid
-            ),
-          ]
-          
-         
-          }
-        );
-      
+          return [...oldReplies.filter((c: any) => c.uuid !== comment?.uuid)];
+        });
+        return toast.success("Comment deleted! 👌");
       }
 
       if (!replyingTo) {
+        queryClient.setQueryData(["details", modpackId], (oldData) => {
+          const oldPackDetails = oldData as IPackDetails;
 
-        queryClient.setQueryData(
-          ["details", modpackId],
-          (oldData) => {
-            const oldPackDetails = oldData as IPackDetails;
-
-            return {
-              ...oldPackDetails,
-              comments: [
-                ...oldPackDetails.comments.filter(
-                  (c) => c.uuid !== comment?.uuid
-                ),
-              ],
-            };
-          }
-        );
+          return {
+            ...oldPackDetails,
+            comments: [
+              ...oldPackDetails.comments.filter(
+                (c) => c.uuid !== comment?.uuid
+              ),
+            ],
+          };
+        });
+        return toast.success("Comment deleted! 👌");
       }
-
-
     },
-    onError: (error: Error | unknown | string) => {
-      console.error(error);
-      toast.error(`Error: ${error}`);
+    onError: (error: any) => {
+      errorHandling(error)
+
     },
     onSettled: () => {
-      queryClient.invalidateQueries([
-        "modpacks",
-        "details",
-        modpackId,
-      ]);
-        // queryClient.invalidateQueries(["replies", replyTo]);
-
-    }
-  })
+      queryClient.invalidateQueries(["modpacks", "details", modpackId]);
+      // queryClient.invalidateQueries(["replies", replyTo]);
+    },
+  });
 
   return (
     <>
@@ -116,14 +88,12 @@ export function ReplyComponent({ borderColor, comment, replyingTo, replyParentId
             {relativeDate(comment?.timestamp)}
           </p>
 
-   
-    
           {/* If userProfile is super user / moderator show delete comment button underneith */}
-          {(user?.isAdmin || user?.id === comment?.discord_id)  &&  (
+          {(user?.isAdmin || user?.id === comment?.discord_id) && (
             <div className="flex items-center gap-2 justify-self-end">
               <button
                 disabled={deleteCommentMutation.isLoading}
-                className={`text-content rounded-md border border-sec  px-3 py-1 text-justify text-xs text-red-500 hover:bg-sec hover:bg-opacity-20 hover:border-opacity-20  dark:hover:bg-hover-2 `}
+                className={`text-content rounded-md border border-sec  px-3 py-1 text-justify text-xs text-red-500 hover:border-opacity-20 hover:bg-sec hover:bg-opacity-20  dark:hover:bg-hover-2 `}
                 onClick={async () => {
                   if (
                     prompt(
@@ -132,13 +102,9 @@ export function ReplyComponent({ borderColor, comment, replyingTo, replyParentId
                   ) {
                     return toast.error("Unable to delete comment");
                   }
-                  if(deleteCommentMutation.isLoading) return;
-                  
-                  deleteCommentMutation.mutate(
-                    comment?.uuid
-                  );
+                  if (deleteCommentMutation.isLoading) return;
 
-                  
+                  deleteCommentMutation.mutate(comment?.uuid);
                 }}
               >
                 Delete
