@@ -90,7 +90,7 @@ const EditModpack = () => {
   return (
     <>
       {/* backarrow to the root page */}
-      <div className="flex pt-4 lg:mx-auto  lg:min-w-[900px] lg:max-w-[900px]">
+      <div className="flex pt-4 text-text lg:mx-auto lg:min-w-[900px] lg:max-w-[900px]">
         <Link
           to={`/pack-details/${modpackId}`}
           className="ml-4 mr-auto flex min-w-min cursor-pointer items-center gap-2 rounded-md px-3 py-1 text-text hover:bg-sec hover:bg-opacity-20 hover:text-text dark:hover:bg-hover-2"
@@ -119,7 +119,7 @@ const EditModpack = () => {
       </div>
 
       <form
-        className="grid items-center justify-center gap-4 pt-[.5em] text-sm placeholder:text-slate-400  dark:text-bg xl:text-base"
+        className="grid items-center justify-center gap-4 pt-[.5em] text-sm text-text  placeholder:text-slate-400 xl:text-base"
         onSubmit={async (e: React.FormEvent<HTMLFormElement>) => {
           e.preventDefault();
           if (editModpackMutation.isLoading) return;
@@ -156,29 +156,37 @@ const EditModpack = () => {
           minLength={0}
         />
         {/* Tag selector */}
-        <select
-          className={`  rounded-md border-2  dark:text-bg border-${borderColor}-500 bg-${borderColor}-300 px-3 py-1 font-Tilt `}
-          name="tags"
-          multiple
-          onChange={(e) => {
-            listOfTags = Array.from(
-              e.target.selectedOptions,
-              (option) => option.value
-            );
-            setModpackTags(listOfTags);
-            console.log(modpackTags);
-          }}
-        >
-          {tagOptions.map((tagOption, index) => (
-            <option
-              key={index}
-              value={tagOption.value}
-              className={`hover:bg-${tagOption?.value}-500`}
-            >
-              {tagOption.label}
-            </option>
-          ))}
-        </select>
+        <div className=" mb-4 w-96">
+          <div className=" flex flex-wrap justify-center gap-2 text-text dark:text-text">
+            {tagOptions.map((tagOption, index) => (
+              <button
+                type="button"
+                key={index}
+                className={`  ${
+                  modpackTags.includes(tagOption.value)
+                    ? `bg-${data.color}-500 dark:bg-${data.color}-500 text-bg `
+                    : `bg-slate-300  dark:bg-slate-700`
+                } ${
+                  data?.tags?.includes(tagOption.value)
+                    ? `bg-${data.color}-300 dark:bg-${data.color}-300 `
+                    : `bg-slate-300  dark:bg-slate-700 `
+                }
+                flex items-center justify-center rounded-full px-3 py-1 text-sm transition-colors duration-200 ease-in-out hover:bg-opacity-80 `}
+                onClick={() => {
+                  if (modpackTags.includes(tagOption.value)) {
+                    setModpackTags(
+                      modpackTags.filter((tag) => tag !== tagOption.value)
+                    );
+                  } else {
+                    setModpackTags([...modpackTags, tagOption.value]);
+                  }
+                }}
+              >
+                {tagOption.label}
+              </button>
+            ))}
+          </div>
+        </div>
 
         {/*Color selection*/}
         <select

@@ -49,8 +49,7 @@ export default function VoteForPackButton({
       }),
     {
       onError: (error: Error) => {
-        errorHandling(error)
-
+        errorHandling(error);
       },
       onSuccess: (response) => {
         if (response.status !== 200) throw new Error(response.data.error);
@@ -82,8 +81,7 @@ export default function VoteForPackButton({
       ),
     {
       onError: (error: any) => {
-        errorHandling(error)
-
+        errorHandling(error);
       },
       onSuccess: (response) => {
         if (response.status !== 200) throw new Error(response.data.error);
@@ -125,7 +123,7 @@ export default function VoteForPackButton({
         </button>
       )}
       <p
-        className={`flex h-10 items-center rounded-md border px-3 py-1 border-${borderColor}-500`}
+        className={` min-w-24 max-w-28 flex h-10 items-center justify-center rounded-md border px-3 py-1 border-${borderColor}-500`}
       >
         {voteCount == 0
           ? "No votes"

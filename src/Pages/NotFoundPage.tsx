@@ -11,11 +11,19 @@ const NotFoundPage = () => {
         clearInterval(downloadTimer);
         navigate("/");
       }
-      document.getElementById("countdown")!.innerHTML = timeleft.toString();
+      const countdownElement = document.querySelector("#countdown");
+      if (countdownElement !== null) {
+        countdownElement.innerHTML = timeleft.toString();
+      }
       timeleft -= 1;
     }, 1000);
   };
-  countdown();
+
+  useEffect(() => {
+    if (window.location.href.endsWith("/404")) {
+      countdown();
+    }
+  }, []);
 
   return (
     <div className="h-4xl grid w-full items-center justify-center text-xl text-text xl:text-2xl">

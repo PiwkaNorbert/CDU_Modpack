@@ -278,7 +278,7 @@ const Header = () => {
                 {profileMenuShow && (
                   <div
                     id="dropdown"
-                    className="w-min-content absolute right-2 top-[67px] z-10 rounded-xl border border-text/20 bg-bg shadow"
+                    className="w-min-content absolute right-2 top-[67px] z-50 rounded-xl border border-text/20 bg-bg shadow"
                     ref={menuRef}
                   >
                     <ul

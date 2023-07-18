@@ -52,7 +52,7 @@ export function Checkout() {
     <>
       <section
         id="modpack__payment"
-        className="flex h-full w-full flex-col justify-normal self-start bg-bg text-text lg:justify-center "
+        className="z-10 flex h-full w-full flex-col justify-normal self-start bg-bg text-text lg:justify-center "
       >
         <div className="relative z-20 bg-bg  p-4 shadow-2xl shadow-bg/20 dark:shadow-none lg:max-w-4xl lg:justify-center lg:place-self-center lg:rounded-xl ">
           <Link

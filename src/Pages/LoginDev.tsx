@@ -20,11 +20,10 @@ const LoginDev = () => {
   // assign random data to the user
   const profileData: DiscordProfileData = {
     isLoggedIn: true,
-    avatar:
-      "https://cdn.discordapp.com/avatars/123456789012345678/123456789012345678.png?size=128",
-    globalName: "username#1234",
-    id: "123456789012345678",
-    username: "username",
+    avatar: "aa58910dc6d5ca6feba60c415bba2b6b",
+    globalName: "iberius#1234",
+    id: "176079322140901376",
+    username: "Iberius",
     isAdmin: true,
     votesRemaining: 12,
     tokenExpiry: Date.now() + 1209600000,

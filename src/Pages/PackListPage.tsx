@@ -43,19 +43,6 @@ const PackListPage = () => {
         id="modpack__gallery"
         className="grid h-full   w-full justify-normal self-center text-text lg:mx-auto lg:min-w-[900px] lg:max-w-[900px] "
       >
-        <ul className="steps ">
-          {/* prettier-ignore */}
-          <li className="step step-primary  ">
-            <a href={"create"}>Create</a>
-          </li>
-          <li
-            className={`btn  step ${
-              location.pathname === "/add-modpack/photos" ? "step-primary" : ""
-            }`}
-          >
-            Add Photos
-          </li>
-        </ul>
         {/* set the width to ffit the content and assign them to sm md lg for the container  like lg:max-w-[1000px]
         below and assthese same things to the nav width*/}
         <div className="relative h-min overflow-hidden border-t-2 bg-bg dark:border-none dark:bg-bg dark:shadow  md:mb-4 md:rounded-xl  md:border-none md:shadow-2xl  ">

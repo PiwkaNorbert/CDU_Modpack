@@ -237,7 +237,7 @@ const PackDetails = () => {
                 </div>
               </div>
               {/* style the descripion to scroll on overflow and a max height of 364px */}
-              <div className="  my-4 grid w-full  items-start justify-between gap-2 px-4 sm:grid-cols-2 sm:flex-row md:mt-4 md:space-x-4">
+              <div className="  my-4 grid w-full  items-start justify-between gap-4 px-4 sm:grid-cols-2 sm:flex-row md:mt-4 md:gap-0 md:space-x-4">
                 {/* map the tags */}
                 <div className="flex flex-row">
                   {tags?.map((tag, index) => (
