@@ -99,7 +99,7 @@ const PostComment = ({
   return (
     <form
       method="post"
-      className={`flex items-start justify-center gap-4 py-4 text-sm  text-text dark:text-text xl:text-base ${
+      className={`flex items-start justify-center gap-4  pb-2 pt-4 text-sm  text-text dark:text-text xl:text-base ${
         replyingTo && "pl-10"
       } `}
       onSubmit={async (e: React.FormEvent<HTMLFormElement>) => {

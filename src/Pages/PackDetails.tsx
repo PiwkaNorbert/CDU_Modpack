@@ -51,7 +51,7 @@ const PackDetails = () => {
     });
 
   const deleteModpackMutation = useMutation(delteModpack, {
-    onSuccess: (response) => {
+    onSuccess: () => {
       queryClient.setQueryData(["modpacks"], (oldData: any) => {
         return oldData.filter(
           (modpack: IModpack) => modpack.modpackId !== modpackId
@@ -243,7 +243,7 @@ const PackDetails = () => {
                   {tags?.map((tag, index) => (
                     <div
                       key={index}
-                      className={`z-10 ml-2 flex items-center justify-start self-start rounded-full border capitalize first:ml-4 border-${borderColor}-500 bg-slate-300 px-2 py-0.5 text-sm text-text/70 transition-colors duration-200 ease-in-out dark:bg-slate-700  `}
+                      className={`z-10 ml-2 flex items-center justify-start self-start rounded-full border-2 capitalize first:ml-4 border-${borderColor}-500 bg-bg px-2 py-0.5 text-sm text-text/80   `}
                     >
                       {tag}
                     </div>
@@ -280,7 +280,7 @@ const PackDetails = () => {
               </div>
 
               <div className="xs:p-4 my-4 overflow-hidden px-2 py-4  ">
-                <h3 className="flex items-center justify-start  gap-4 text-2xl capitalize xl:text-3xl ">
+                <h3 className="mb-4 flex items-center justify-start  gap-4 text-2xl capitalize xl:text-3xl ">
                   comments ({commentCount}){" "}
                   {fetchStatus === "fetching" && (
                     <Loading
@@ -292,7 +292,7 @@ const PackDetails = () => {
                 </h3>
                 {/* input for posting comments by current user */}
                 {!user?.isLoggedIn && <LoginButton />}
-                <div className=" px-4 ">
+                <div className=" px-4">
                   {/* if user is logged in, show comment input */}
                   {user?.isLoggedIn && user?.isLinked && (
                     <PostComment
@@ -317,7 +317,7 @@ const PackDetails = () => {
                   {comments?.map((comment, index) => (
                     <div
                       key={index}
-                      className="grid items-center justify-between"
+                      className="grid items-center justify-between pb-4 last:pb-0 "
                     >
                       <CommentsComponent
                         borderColor={borderColor}

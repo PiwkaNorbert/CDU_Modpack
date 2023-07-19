@@ -63,8 +63,7 @@ export function ReplyComponent({
       }
     },
     onError: (error: any) => {
-      errorHandling(error)
-
+      errorHandling(error);
     },
     onSettled: () => {
       queryClient.invalidateQueries(["modpacks", "details", modpackId]);
@@ -74,7 +73,7 @@ export function ReplyComponent({
 
   return (
     <>
-      <div className="  flex items-center gap-4 pt-[1em] text-base">
+      <div className="  flex items-center gap-4 pt-[1em] text-base first:pt-0">
         <img
           className="h-10 w-10 rounded-full"
           src={comment?.avatar_url}

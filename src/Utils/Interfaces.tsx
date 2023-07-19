@@ -84,3 +84,10 @@ export interface AddModpackProps {
 }
 
 // image?: File ;
+
+export interface IAddVoteButtonProps {
+  votesRemaining?: number;
+}
+export interface IRemoveVoteButtonProps {
+  timesVoted?: number;
+}

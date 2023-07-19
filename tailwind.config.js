@@ -104,6 +104,7 @@ export default {
     {
       pattern:
         /(bg|text|border|shadow|hover|min|steps|step|daisy)-(red|orange|yellow|lime|green|teal|sky|blue|violet|fuchsia|black|h|gray|slate|gradient|dashed|dotted|grey|primary)/,
+      variants: ["dark", "hover", "responsive", "first", "last"],
     },
   ],
   daisyui: {

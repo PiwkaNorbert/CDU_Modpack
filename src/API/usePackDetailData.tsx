@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 // import { placeholderDetails } from "../Constants";
 import { errorHandling } from "../Helper/errorHandling";
+import { IPackDetails } from "../Utils/Interfaces";
 
 export const fetchPackDetail = async (modpackId: string) => {
   const isDev = import.meta.env.VITE_NODE_ENV === "development";
@@ -17,17 +18,21 @@ export const fetchPackDetail = async (modpackId: string) => {
 };
 
 const usePackDetailData = (modpackId: string) => {
-  return useQuery(["details", modpackId], () => fetchPackDetail(modpackId), {
-    enabled: modpackId.length > 0,
-    keepPreviousData: true,
-    staleTime: 1000 * 60 * 2,
-    refetchOnWindowFocus: false,
+  return useQuery<IPackDetails>(
+    ["details", modpackId],
+    () => fetchPackDetail(modpackId),
+    {
+      enabled: modpackId.length > 0,
+      keepPreviousData: true,
+      staleTime: 1000 * 60 * 2,
+      refetchOnWindowFocus: false,
 
-    // initialData: placeholderDetails,
-    onError: (error: any) => {
-      errorHandling(error);
-    },
-  });
+      // initialData: placeholderDetails,
+      onError: (error: any) => {
+        errorHandling(error);
+      },
+    }
+  );
 };
 
 export default usePackDetailData;

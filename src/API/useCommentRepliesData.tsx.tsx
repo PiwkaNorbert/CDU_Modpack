@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 // import { placeholderDetails } from '../Constants'
-import { toast } from "react-toastify";
 import { errorHandling } from "../Helper/errorHandling";
 
 export const fetchCommentReplies = async (commentId: string) => {

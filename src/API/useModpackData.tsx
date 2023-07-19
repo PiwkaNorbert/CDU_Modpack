@@ -18,7 +18,7 @@ const useModpackData = (queryClient: QueryClient) => {
       // sort packs by input value
       if (modPackFilterByInput) {
         filteredModpacks = filteredModpacks.filter(
-          (modpack: IModpack) =>
+          (modpack) =>
             modpack.name
               .toLowerCase()
               .includes(modPackFilterByInput.toLowerCase()) ||
@@ -48,14 +48,14 @@ const useModpackData = (queryClient: QueryClient) => {
 
     if (status !== 200) throw new Error("No Modpacks found");
 
-    data.forEach((pack: IModpack) => {
-      queryClient.setQueryData(["details", pack.modpackId], pack);
+    data.forEach((modpack: IModpack) => {
+      queryClient.setQueryData(["details", modpack.modpackId], modpack);
     });
 
     return data;
   };
 
-  const { data, isLoading, isError, error } = useQuery(
+  const { data, isLoading, isError, error } = useQuery<IModpack[]>(
     ["modpacks"],
     fetchModpacks,
     {

@@ -31,8 +31,8 @@ const ModpackCard = ({
         to={`/pack-details/${modpackId}`}
         className={`overflow-hidden rounded-sm  bg-bg `}
       >
-        <div className=" flex items-start  justify-center justify-items-center rounded-md  hover:text-opacity-100  ">
-          <div className=" grid  h-full flex-1 overflow-hidden text-base/[1.25rem]">
+        <div className=" flex h-full justify-center rounded-md  hover:text-opacity-100  ">
+          <div className="  flex h-full  flex-1 flex-col overflow-hidden text-base/[1.25rem]">
             {/* toggle images in production */}
             <LazyLoadImage
               src={`https://www.trainjumper.com${imageUrl}`}
@@ -47,7 +47,7 @@ const ModpackCard = ({
               className={`lazy-load-image-2 aspect-video text-right bg-${color}-300 w-full border-b-[3.5px] border-${color}-300  object-cover object-center`}
             />
 
-            <p className="text-content mb-2 flex justify-center hyphens-auto px-2 py-4 text-center uppercase">
+            <p className="text-content mb-4 flex h-[72px] min-h-max items-center justify-center hyphens-auto px-2 py-2 text-center uppercase">
               {name}
             </p>
           </div>
@@ -55,7 +55,7 @@ const ModpackCard = ({
           <div
             className={`absolute flex h-9 divide-x   overflow-hidden rounded-full border-[3.5px] bg-bg px-2 py-1 text-text  border-${color}-300 -bottom-[22px]  items-center text-base `}
           >
-            <div className="flex items-center gap-1 pr-2">
+            <div className=" flex items-center gap-1 pr-2">
               <picture className={`flex`}>
                 {timesVoted > 0 ? <HeartFillSVG /> : <HeartSVG />}
               </picture>

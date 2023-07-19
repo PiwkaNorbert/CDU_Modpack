@@ -28,14 +28,16 @@ const AddModpack = () => {
           <p className={` `}>Cancel</p>
         </Link>
 
-        <ul className="steps ">
+        <ul className="daisy-steps ">
           {/* prettier-ignore */}
-          <li className="step step-primary  ">
+          <li className="daisy-step daisy-step-primary  ">
             <Link to={"create"}>Create</Link>
           </li>
           <li
-            className={`btn  step ${
-              location.pathname === "/add-modpack/photos" ? "step-primary" : ""
+            className={`daisy-btn  daisy-step ${
+              location.pathname === "/add-modpack/photos"
+                ? "daisy-step-primary"
+                : ""
             }`}
           >
             Add Photos
