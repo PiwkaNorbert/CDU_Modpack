@@ -31,3 +31,6 @@ export const colorOptions = [
   { value: "violet", label: "Violet" },
   { value: "fuchsia", label: "Fuchsia" },
 ];
+
+export const tagMap = new Map(tagOptions.map(option => [option.value, option.label]));
+

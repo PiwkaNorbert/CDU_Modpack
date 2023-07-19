@@ -15,6 +15,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { setupClickOutsideHandler } from "../Helper/setupClickOutsideHandler";
 import { errorHandling } from "../Helper/errorHandling";
+import { tagMap } from "../Helper/modifyModpack";
 
 const PackDetails = () => {
   const { modpackId: id } = useParams();
@@ -86,6 +87,8 @@ const PackDetails = () => {
   const commentCount = comments
     ? comments.length
     : Math.floor(Math.random() * 10);
+
+
 
   return (
     <>
@@ -240,14 +243,18 @@ const PackDetails = () => {
               <div className="  my-4 grid w-full  items-start justify-between gap-4 px-4 sm:grid-cols-2 sm:flex-row md:mt-4 md:gap-0 md:space-x-4">
                 {/* map the tags */}
                 <div className="flex flex-row">
-                  {tags?.map((tag, index) => (
-                    <div
+                  {tags?.map((tag, index) => {
+
+                    const label = tagMap.get(tag);
+                    
+                    return (
+                      <div
                       key={index}
                       className={`z-10 ml-2 flex items-center justify-start self-start rounded-full border-2 capitalize first:ml-4 border-${borderColor}-500 bg-bg px-2 py-0.5 text-sm text-text/80   `}
                     >
-                      {tag}
+                      {label}
                     </div>
-                  ))}
+                  )})}
                 </div>
                 <div className="flex justify-center ">
                   Modpack official page:{" "}
@@ -317,7 +324,7 @@ const PackDetails = () => {
                   {comments?.map((comment, index) => (
                     <div
                       key={index}
-                      className="grid items-center justify-between pb-4 last:pb-0 "
+                      className="grid items-center justify-between pb-6 last:pb-0 "
                     >
                       <CommentsComponent
                         borderColor={borderColor}
