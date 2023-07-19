@@ -94,14 +94,14 @@ const PackDetails = () => {
     <>
       <section
         id="modpack__details"
-        className="flex w-full flex-col justify-normal self-start bg-bg text-text lg:justify-center "
+        className="flex w-full flex-col justify-normal self-start  text-text lg:justify-center "
       >
-        <div className="relative z-10  bg-bg shadow-2xl shadow-bg/20 dark:shadow-none lg:max-w-4xl lg:justify-center lg:place-self-center lg:rounded-xl ">
+        <div className="relative z-10  shadow-2xl  shadow-bg/20 dark:shadow-none lg:max-w-4xl lg:justify-center lg:place-self-center lg:rounded-xl ">
           <div
             key={modpackId}
-            className={` z-10 grid h-full items-center lg:rounded-md  lg:shadow-2xl `}
+            className={` z-10 grid h-full items-center  lg:rounded-md  lg:shadow-2xl `}
           >
-            <div className="relative z-10 flex justify-between gap-2  px-8 pt-4  max-[350px]:flex-col sm:gap-0 md:px-4 ">
+            <div className=" z-10 flex justify-between gap-2  px-8 pt-4  max-[350px]:flex-col sm:gap-0 md:px-4 ">
               {/* backarrow to the root page */}
               <Link
                 className="flex min-w-fit cursor-pointer items-center gap-2 rounded-md px-3 py-1 text-text hover:bg-sec hover:bg-opacity-20 hover:text-text dark:hover:bg-hover-2"
@@ -141,7 +141,7 @@ const PackDetails = () => {
                 {user?.isLoggedIn && user?.isAdmin && (
                   <>
                     <button
-                      className="w-12"
+                      className="w-12  flex items-center justify-center "
                       id="dropdown-button-packdetails"
                       data-dropdown-toggle="dropdown"
                       type="button"
@@ -207,7 +207,7 @@ const PackDetails = () => {
                 )}
               </div>
             </div>
-            <div className={`z-[5] grid items-center md:mx-4 `}>
+            <div className={`z-[5] grid items-center md:px-4 `}>
               <div className=" my-4 grid px-4 sm:grid-cols-2  md:space-x-4 ">
                 {/* toggle images in production */}
 

@@ -20,47 +20,6 @@ const Header = () => {
   const menuRef = useRef<HTMLDivElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
 
-  const userMenuItem = [
-    {
-      name: user?.isLinked ? "linked" : "Unlinked",
-      icon: user?.isLinked ? "/check.png" : "/cross.png",
-    },
-
-    {
-      name: "Logout",
-      callBack: () => setUser(undefined),
-    },
-  ];
-
-  const links = [
-    {
-      name: "Forum",
-      href: "https://forum.playcdu.co",
-      target: "_blank",
-    },
-    {
-      name: "Contact us",
-      href: "https://forum.playcdu.co/misc/contact",
-      target: "_blank",
-      "data-xf-click": "overlay",
-    },
-    {
-      name: "Terms and rules",
-      href: "https://forum.playcdu.co/help/terms/",
-      target: "_blank",
-    },
-    {
-      name: "Privacy policy",
-      href: "https://forum.playcdu.co/help/privacy-policy/",
-      target: "_blank",
-    },
-    {
-      name: "Help",
-      href: "https://forum.playcdu.co/help/",
-      target: "_blank",
-    },
-  ];
-
   useEffect(() => {
     setupClickOutsideHandler(menuRef, menuButtonRef, setProfileMenuShow);
   }, [menuRef, menuButtonRef, profileMenuShow]);
@@ -112,7 +71,7 @@ const Header = () => {
       )}
       <nav
         className={` sticky top-0 z-[11] flex w-full items-center justify-stretch  gap-2 border-bg bg-bg px-8 py-2 text-text md:justify-center md:px-4 lg:mx-auto lg:min-w-[896px] lg:max-w-[896px] lg:border-x-4  ${
-          isIntersecting === true && " shadow-md"
+          isIntersecting && " shadow-md"
         }`}
       >
         {/* If the window size is below 600px display a button with "menu as the value and on click make a modal to display the nav */}
@@ -285,29 +244,40 @@ const Header = () => {
                       className="space-y-1 p-1 text-sm"
                       aria-labelledby="dropdown-button"
                     >
-                      {userMenuItem.map((item: any, i: number) => {
-                        return (
-                          <li
-                            key={i}
-                            className="mb-1  flex w-full gap-1  px-3 py-1 transition-all  delay-0 duration-200 ease-in-out last:mb-0 last:cursor-pointer hover:rounded-xl last:hover:bg-text/20 last:active:bg-text/25 "
-                          >
-                            <a type="button" onClick={item.callBack}>
-                              <div
-                                className={`flex items-center justify-center  gap-2 capitalize `}
-                              >
-                                {item.name}
+                
+                      <li
+                        data-tip="How to get Linked"
+                        className={` mb-1  daisy-tooltip flex w-full gap-1  px-3 py-1 transition-all  delay-0 duration-200 ease-in-out last:mb-0 cursor-pointer rounded-lg hover:bg-text/20 active:bg-text/25 `}
+                      >
+                        <a type="button"
+                            href="https://forum.playcdu.co/threads/how-to-link-your-discord-and-minecraft-accounts.922/"
+                            target="_blank"
+                            className={`flex items-center justify-center  gap-2 capitalize `}
+                            onClick={() => {
+                              setProfileMenuShow(false)
+                            }}
+                        >
+                            {user?.isLinked ? "linked" : 'unlinked'}
 
-                                {item.icon && (
-                                  <img
-                                    src={item.icon}
-                                    className="aspect-square w-6"
-                                  />
-                                )}
-                              </div>
-                            </a>
-                          </li>
-                        );
-                      })}
+                      
+                              <img
+                                src={user?.isLinked ? "/check.png" : "/cross.png"}
+                                className="aspect-square w-6"
+                              />
+                        </a>
+                      </li>
+                      <li
+                        className={` mb-1  flex w-full gap-1  px-3 py-1 transition-all  delay-0 duration-200 ease-in-out last:mb-0 cursor-pointer rounded-lg hover:bg-text/20 active:bg-text/25 `}
+                      >
+                        <a type="button"
+                            className={`flex items-center justify-center  gap-2 capitalize `}
+                            onClick={() => {
+                            setUser(undefined)
+                            }}
+                        >
+                            Logout
+                        </a>
+                      </li>
                     </ul>
                   </div>
                 )}
@@ -330,3 +300,32 @@ const Header = () => {
   );
 };
 export default Header;
+
+const links = [
+  {
+    name: "Forum",
+    href: "https://forum.playcdu.co",
+    target: "_blank",
+  },
+  {
+    name: "Contact us",
+    href: "https://forum.playcdu.co/misc/contact",
+    target: "_blank",
+    "data-xf-click": "overlay",
+  },
+  {
+    name: "Terms and rules",
+    href: "https://forum.playcdu.co/help/terms/",
+    target: "_blank",
+  },
+  {
+    name: "Privacy policy",
+    href: "https://forum.playcdu.co/help/privacy-policy/",
+    target: "_blank",
+  },
+  {
+    name: "Help",
+    href: "https://forum.playcdu.co/help/",
+    target: "_blank",
+  },
+];

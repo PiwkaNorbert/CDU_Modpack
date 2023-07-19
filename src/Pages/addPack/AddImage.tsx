@@ -48,13 +48,13 @@ const AddImage = () => {
   return (
     <>
       {/* Title of the form, centered */}
-      <div className="flex items-center justify-center">
+      <div className="flex items-center  justify-center">
         <h1 className="m-3 mt-5 text-2xl xl:text-3xl">
           Add Image/s to your Modpack
         </h1>
       </div>
       <form
-        className="grid items-center justify-center gap-4 pt-[.5em] text-sm placeholder:text-slate-400  dark:text-bg xl:text-base"
+        className="grid items-center justify-center gap-4 pt-[.5em] mb-8 text-sm placeholder:text-slate-400  dark:text-bg xl:text-base"
         onSubmit={async (e: React.FormEvent<HTMLFormElement>) => {
           e.preventDefault();
           if (addImageMutation.isLoading) return;

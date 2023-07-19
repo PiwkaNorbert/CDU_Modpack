@@ -39,12 +39,13 @@ function App() {
 
             <Route path="*" element={<Navigate to="/404" replace />} />
             <Route path="404" element={<NotFoundPage />} />
+            <Route path="/payment-succeeded/:modpackId" element={<CheckoutSuccess />} />
+            <Route path="/payment-failed/:modpackId" element={<CheckoutFail />} />
+
             {user?.isLoggedIn && (
               <>
                 <Route path="/checkout/:modpackId" element={<Checkout />} />
                 <Route path="/payments" element={<Payments />} />
-                <Route path="/success" element={<CheckoutSuccess />} />
-                <Route path="/failed" element={<CheckoutFail />} />
               </>
             )}
             {/*

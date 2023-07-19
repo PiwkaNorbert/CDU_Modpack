@@ -4,12 +4,18 @@ const AddModpack = () => {
   const location = useLocation();
 
   return (
-    <>
-      {/* backarrow to the root page */}
-      <div className="flex pt-4 lg:mx-auto  lg:min-w-[900px] lg:max-w-[900px]">
+    <section
+    id="modpack__addpack"
+    className="z-10 grid h-full flex-1  w-full justify-normal  text-text lg:mx-auto lg:min-w-[900px] lg:max-w-[900px] "
+  >
+    <div className="relative h-min overflow-hidden border-t-2 pb-4  dark:border-none dark:shadow  md:mb-4 md:rounded-b-md  md:border-none md:shadow-xl  ">
+    <div
+        className={` z-10 grid h-full items-center  lg:rounded-md   `}
+      >
+        <div className=" z-10 md:grid md:grid-cols-3 justify-between gap-2  px-8 pt-4  max-[350px]:flex-col sm:gap-0 md:px-4 ">
         <Link
           to={"/"}
-          className="ml-4  flex min-w-min cursor-pointer items-center gap-2 rounded-md px-3 py-1 text-text hover:bg-sec hover:bg-opacity-20 hover:text-text dark:hover:bg-hover-2"
+          className="ml-4 self-center flex min-w-min cursor-pointer  justify-self-start items-center gap-2 rounded-md px-3 py-1 text-text hover:bg-sec hover:bg-opacity-20 hover:text-text dark:hover:bg-hover-2"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -28,13 +34,13 @@ const AddModpack = () => {
           <p className={` `}>Cancel</p>
         </Link>
 
-        <ul className="daisy-steps ">
+        <ul className="daisy-steps  ">
           {/* prettier-ignore */}
           <li className="daisy-step daisy-step-primary  ">
             <Link to={"create"}>Create</Link>
           </li>
           <li
-            className={`daisy-btn  daisy-step ${
+            className={`daisy-step ${
               location.pathname === "/add-modpack/photos"
                 ? "daisy-step-primary"
                 : ""
@@ -43,12 +49,16 @@ const AddModpack = () => {
             Add Photos
           </li>
         </ul>
-        <div className="w-[113.8px]"></div>
-      </div>
+
+        </div>
       {/* in the outlet the nested routes are displayed */}
 
       <Outlet />
-    </>
+      </div>
+      <div className="absolute inset-0 -z-10 h-full w-full flex-1 bg-sec opacity-20"></div>
+
+      </div>
+    </section>
   );
 };
 

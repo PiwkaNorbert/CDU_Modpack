@@ -80,10 +80,10 @@ export function ReplyComponent({
           alt="user"
         />
         <div className="flex items-center gap-2">
-          <p className={`text-content  text-justify text-${borderColor}-600`}>
+          <p className={`  text-justify text-${borderColor}-600`}>
             {comment.username}
           </p>
-          <p className="text-content text-justify text-xs text-gray-400 xl:text-sm">
+          <p className=" text-justify text-xs text-text/60 xl:text-sm">
             {relativeDate(comment?.timestamp)}
           </p>
 
@@ -92,7 +92,7 @@ export function ReplyComponent({
             <div className="flex items-center gap-2 justify-self-end">
               <button
                 disabled={deleteCommentMutation.isLoading}
-                className={`text-content rounded-md border border-sec  px-3 py-1 text-justify text-xs text-red-500 hover:border-opacity-20 hover:bg-sec hover:bg-opacity-20  dark:hover:bg-hover-2 `}
+                className={` rounded-md border border-sec  px-3 py-1 text-justify text-xs text-red-500 hover:border-opacity-20 hover:bg-sec hover:bg-opacity-20  dark:hover:bg-hover-2 `}
                 onClick={async () => {
                   if (
                     prompt(
@@ -112,7 +112,7 @@ export function ReplyComponent({
           )}
         </div>
       </div>
-      <p className="text-content break-word p-[.5em] text-justify text-sm xl:text-base ">
+      <p className=" break-word p-[.5em] text-justify text-sm xl:text-base ">
         {comment?.comment}
       </p>
     </>

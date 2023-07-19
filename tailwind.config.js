@@ -99,7 +99,7 @@ export default {
     },
   },
 
-  plugins: [require("daisyui"), require("@tailwindcss/container-queries")],
+  plugins: [require('@tailwindcss/typography'),require("daisyui"), require("@tailwindcss/container-queries")],
   safelist: [
     {
       pattern:
@@ -108,6 +108,7 @@ export default {
     },
   ],
   daisyui: {
+    theme: false,
     prefix: "daisy-", // prefix for daisyUI classnames (components, modifiers and responsive class names. Not colors)
   },
 };

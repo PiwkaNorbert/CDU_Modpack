@@ -70,7 +70,7 @@ export const CreateModpack = () => {
         </h1>
       </div>
       <form
-        className="grid items-center justify-center gap-4 pt-[.5em] text-sm placeholder:text-slate-400  dark:text-text xl:text-base"
+        className="grid items-center justify-center gap-4 pt-[.5em] mb-8 text-sm placeholder:text-slate-400  dark:text-text xl:text-base"
         onSubmit={async (e: React.FormEvent<HTMLFormElement>) => {
           e.preventDefault();
           if (addModpackMutation.isLoading) return;
