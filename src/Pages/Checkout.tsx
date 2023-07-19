@@ -42,6 +42,7 @@ export function Checkout() {
     const { error } = await stripe.redirectToCheckout({
       sessionId,
     });
+    
 
     if (error) {
       console.log(error);
