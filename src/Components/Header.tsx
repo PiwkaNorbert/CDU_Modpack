@@ -249,7 +249,7 @@ const Header = () => {
                     >
                       <li
                         data-tip="How to get Linked"
-                        className={` active:bg-text/15  daisy-tooltip mb-1 flex w-full  cursor-pointer gap-1 rounded-lg  px-3 py-1 transition-all delay-0 duration-200 ease-in-out last:mb-0 hover:bg-text/10 `}
+                        className={` active:bg-text/15  mb-1 flex w-full  cursor-pointer gap-1 rounded-lg  px-3 py-1 transition-all delay-0 duration-200 ease-in-out last:mb-0 hover:bg-text/10 `}
                       >
                         <a
                           type="button"

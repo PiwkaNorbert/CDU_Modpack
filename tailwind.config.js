@@ -101,7 +101,6 @@ export default {
 
   plugins: [
     require("@tailwindcss/typography"),
-    require("daisyui"),
     require("@tailwindcss/container-queries"),
   ],
   safelist: [
@@ -111,8 +110,4 @@ export default {
       variants: ["dark", "hover", "responsive", "first", "last", "group-hover"],
     },
   ],
-  daisyui: {
-    theme: false,
-    prefix: "daisy-", // prefix for daisyUI classnames (components, modifiers and responsive class names. Not colors)
-  },
 };
