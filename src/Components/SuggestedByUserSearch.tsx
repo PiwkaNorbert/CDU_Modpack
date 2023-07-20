@@ -1,9 +1,8 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 
 function SuggestedByUserSearch() {
   const [loading, setLoading] = useState(false);
-  const [debounceTimer, setDebounceTimer] = useState();
+  const [debounceTimer, setDebounceTimer] = useState<any>(null);
   const [username, setUsername] = useState("");
   const [exists, setExists] = useState(false);
 

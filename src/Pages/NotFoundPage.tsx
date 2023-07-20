@@ -1,23 +1,22 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const NotFoundPage = () => {
-  const navigate = useNavigate();
-  let timeleft = 4;
+  // const navigate = useNavigate();
+  // let timeleft = 4;
 
-  const countdown = () => {
-    let downloadTimer = setInterval(function () {
-      if (timeleft === 0) {
-        clearInterval(downloadTimer);
-        navigate("/");
-      }
-      const countdownElement = document.querySelector("#countdown");
-      if (countdownElement !== null) {
-        countdownElement.innerHTML = timeleft.toString();
-      }
-      timeleft -= 1;
-    }, 1000);
-  };
+  // const countdown = () => {
+  //   let downloadTimer = setInterval(function () {
+  //     if (timeleft === 0) {
+  //       clearInterval(downloadTimer);
+  //       navigate("/");
+  //     }
+  //     const countdownElement = document.querySelector("#countdown");
+  //     if (countdownElement !== null) {
+  //       countdownElement.innerHTML = timeleft.toString();
+  //     }
+  //     timeleft -= 1;
+  //   }, 1000);
+  // };
   //  MEMORY LEAK
   // useEffect(() => {
   //   if (window.location.href.endsWith("/404")) {

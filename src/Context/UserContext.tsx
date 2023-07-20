@@ -9,7 +9,7 @@ import { fetchProfile } from "../API/useDiscordProfileData";
 // create a user provider that can be used in other components to get the user data from the context provider
 export interface AppState {
   user?: Partial<DiscordProfileData>;
-  setUser: (user?: Partial<DiscordProfileData>) => void;
+  setUser: React.Dispatch<React.SetStateAction<DiscordProfileData | undefined>>;
   votesRemaining: (amount: number) => void;
 }
 
@@ -47,24 +47,23 @@ export const UserProvider: React.FunctionComponent<UserProviderProps> = (
     localStorage.setItem("profileData", JSON.stringify(profileData));
   };
 
-
   useEffect(() => {
     const storedUser = localStorage.getItem("profileData");
 
     if (storedUser) {
       const parsedUser = JSON.parse(storedUser);
 
-      
-      if (parsedUser?.tokenExpiry < Date.now()/1000) {
+      if (parsedUser?.tokenExpiry < Date.now() / 1000) {
         // check if the users token has expired
 
         toast.error("Your session has expired. Please log in again.", {
-          autoClose: 5000, toastId: "session-expired", onClose: () => {
+          autoClose: 5000,
+          toastId: "session-expired",
+          onClose: () => {
             localStorage.removeItem("profileData");
-          }
+          },
         });
         setUser(undefined);
-
       } else if (!user) {
         // check if there is no user in the state and set the user to the stored user
         getProfile();

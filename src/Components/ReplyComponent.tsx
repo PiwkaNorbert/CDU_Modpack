@@ -84,10 +84,10 @@ export function ReplyComponent({
         />
         <div className="flex items-center gap-2">
           <p className={`  text-justify text-${borderColor}-600`}>
-            {comment.username}
+            {comment?.username}
           </p>
           <p className=" text-justify text-xs text-text/60 xl:text-sm">
-            {relativeDate(comment?.timestamp)}
+            {relativeDate(comment!.timestamp)}
           </p>
 
           {/* If userProfile is super user / moderator show delete comment button underneith */}
@@ -106,7 +106,9 @@ export function ReplyComponent({
                   }
                   if (deleteCommentMutation.isLoading) return;
 
-                  deleteCommentMutation.mutate(comment?.uuid);
+                  const commentId = comment?.uuid as string;
+
+                  deleteCommentMutation.mutate(commentId);
                 }}
               >
                 Delete

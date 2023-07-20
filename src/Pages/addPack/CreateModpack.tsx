@@ -78,7 +78,13 @@ export const CreateModpack = () => {
           e.preventDefault();
           if (addModpackMutation.isLoading) return;
 
-          const target = e.target as HTMLFormElement;
+          const target = e.target as HTMLFormElement & {
+            name: { value: string };
+            description: { value: string };
+            color: { value: string };
+            suggestor: { value: string };
+            officialUrl: { value: string };
+          };
 
           addModpackMutation.mutate({
             name: target.name.value,

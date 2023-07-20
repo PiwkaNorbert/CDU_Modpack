@@ -119,7 +119,7 @@ const PackListPage = () => {
             {isLoading ? (
               <div className="col-span-full text-center">Loading...</div>
             ) : isError ? (
-              <div className="col-span-full "> {error!.message}</div>
+              <div className="col-span-full "> {error?.message}</div>
             ) : data?.length === 0 ? (
               <div className="col-span-full text-center">No Modpacks</div>
             ) : (

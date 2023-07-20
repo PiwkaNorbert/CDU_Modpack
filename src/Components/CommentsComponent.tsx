@@ -9,14 +9,17 @@ import { ReplyComponent } from "./ReplyComponent";
 import { useUser } from "../Context/useUser.tsx";
 import { useParams } from "react-router-dom";
 
-export function CommentsComponent({ borderColor, comment }: ICommentComponent) {
+export function CommentsComponent({
+  borderColor,
+  comment,
+}: Partial<ICommentComponent>) {
   const { user } = useUser();
   const { modpackId } = useParams();
   const [showReplies, setShowReplies] = useState(false);
-  const [showAddReply, setShowAddReply] = useState(false);
+  const [showAddReply, setShowAddReply] = useState<boolean>(false);
   const { data, isLoading, isError } = useCommentRepliesData(
-    comment?.uuid,
-    comment?.reply_count
+    comment?.uuid as string,
+    comment?.reply_count as number
   );
 
   const queryClient = useQueryClient();
@@ -24,7 +27,7 @@ export function CommentsComponent({ borderColor, comment }: ICommentComponent) {
   return (
     <>
       <ReplyComponent
-        borderColor={borderColor}
+        borderColor={borderColor && borderColor ? borderColor : "sky"}
         comment={comment}
         replyingTo={false}
         replyParentId=""
@@ -64,11 +67,10 @@ export function CommentsComponent({ borderColor, comment }: ICommentComponent) {
       </div>
       {showAddReply && (
         <PostComment
-          borderColor={borderColor}
+          borderColor={borderColor && borderColor ? borderColor : "sky"}
           modpackId={modpackId}
           replyingTo={true}
-          replyParentId={comment?.uuid}
-          showAddReply={showAddReply}
+          replyParentId={comment?.uuid || ""}
         />
       )}
       {showReplies && (
@@ -80,10 +82,10 @@ export function CommentsComponent({ borderColor, comment }: ICommentComponent) {
           ) : (
             data?.map((reply: any) => (
               <ReplyComponent
-                borderColor={borderColor}
+                borderColor={borderColor && borderColor ? borderColor : "sky"}
                 comment={reply}
                 replyingTo={true}
-                replyParentId={comment?.uuid}
+                replyParentId={comment?.uuid || ""}
               />
             ))
           )}

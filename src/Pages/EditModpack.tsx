@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import usePackDetailData from "../API/usePackDetailData";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { AddModpackProps } from "../Utils/Interfaces";
 import { tagOptions, colorOptions } from "../Helper/modifyModpack";
 import { errorHandling } from "../Helper/errorHandling";
@@ -15,10 +15,10 @@ const EditModpack = () => {
   // fetch the data from the server using the modpackName from the url
   const { modpackId: id } = useParams();
   const modpackId = id as string;
-  const [modpackTags, setModpackTags] = React.useState<string[]>([]);
+  const [modpackTags, setModpackTags] = useState<string[]>([]);
 
-  const { data, isLoading, isError } = usePackDetailData(modpackId);
-  const [borderColor, setBorderColor] = React.useState();
+  const { data, isLoading } = usePackDetailData(modpackId);
+  const [borderColor, setBorderColor] = useState<string>();
 
   const isDev = import.meta.env.VITE_NODE_ENV === "development";
   const apiBase = isDev ? "https://www.trainjumper.com" : "";
@@ -127,7 +127,13 @@ const EditModpack = () => {
           e.preventDefault();
           if (editModpackMutation.isLoading) return;
 
-          const target = e.target as HTMLFormElement;
+          const target = e.target as HTMLFormElement & {
+            name: { value: string };
+            description: { value: string };
+            color: { value: string };
+            suggestor: { value: string };
+            officialUrl: { value: string };
+          };
 
           editModpackMutation.mutate({
             name: target.name.value,
@@ -167,11 +173,11 @@ const EditModpack = () => {
                 key={index}
                 className={`  ${
                   modpackTags.includes(tagOption.value)
-                    ? `bg-${data.color}-500 dark:bg-${data.color}-500 text-bg `
+                    ? `bg-${data?.color}-500 dark:bg-${data?.color}-500 text-bg `
                     : `bg-slate-300  dark:bg-slate-700`
                 } ${
                   data?.tags?.includes(tagOption.value)
-                    ? `bg-${data.color}-300 dark:bg-${data.color}-300 `
+                    ? `bg-${data.color}-300 dark:bg-${data?.color}-300 `
                     : `bg-slate-300  dark:bg-slate-700 `
                 }
                 flex items-center justify-center rounded-full px-3 py-1 text-sm transition-colors duration-200 ease-in-out hover:bg-opacity-80 `}

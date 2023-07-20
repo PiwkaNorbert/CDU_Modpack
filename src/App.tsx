@@ -18,7 +18,6 @@ import NotFoundPage from "./Pages/NotFoundPage";
 import AddMPLayout from "./Pages/addPack/AddMPLayout";
 import AddImage from "./Pages/addPack/AddImage";
 import EditModpack from "./Pages/EditModpack";
-import Payments from "./Pages/Payments";
 // import Customers from "./Pages/Customers";
 // import Subscriptions from "./Pages/Subscriptions";
 import LoginDev from "./Pages/LoginDev";
@@ -39,13 +38,18 @@ function App() {
 
             <Route path="*" element={<Navigate to="/404" replace />} />
             <Route path="404" element={<NotFoundPage />} />
-            <Route path="/payment-succeeded/:modpackId" element={<CheckoutSuccess />} />
-            <Route path="/payment-failed/:modpackId" element={<CheckoutFail />} />
+            <Route
+              path="/payment-succeeded/:modpackId"
+              element={<CheckoutSuccess />}
+            />
+            <Route
+              path="/payment-failed/:modpackId"
+              element={<CheckoutFail />}
+            />
 
             {user?.isLoggedIn && (
               <>
                 <Route path="/checkout/:modpackId" element={<Checkout />} />
-                <Route path="/payments" element={<Payments />} />
               </>
             )}
             {/*

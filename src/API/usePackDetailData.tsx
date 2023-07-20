@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { placeholderDetails } from "../Constants";
+import axios, { AxiosError } from "axios";
+// import { placeholderDetails } from "../Constants";
 import { errorHandling } from "../Helper/errorHandling";
 import { IPackDetails } from "../Utils/Interfaces";
 
@@ -18,7 +18,7 @@ export const fetchPackDetail = async (modpackId: string) => {
 };
 
 const usePackDetailData = (modpackId: string) => {
-  return useQuery<IPackDetails>(
+  return useQuery<IPackDetails, AxiosError>(
     ["details", modpackId],
     () => fetchPackDetail(modpackId),
     {
@@ -28,7 +28,7 @@ const usePackDetailData = (modpackId: string) => {
       refetchOnWindowFocus: false,
       retry: 2,
 
-      placeholderData: placeholderDetails,
+      // placeholderData: placeholderDetails,
       onError: (error) => {
         if (error instanceof Error) {
           return errorHandling(error);

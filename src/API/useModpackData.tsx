@@ -1,7 +1,7 @@
 import { QueryClient, useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { IModpack } from "../Utils/Interfaces";
-import { staticLabels } from "../Constants";
+// import { staticLabels } from "../Constants";
 import { useCallback, useState } from "react";
 import { errorHandling } from "../Helper/errorHandling";
 
@@ -55,18 +55,18 @@ const useModpackData = (queryClient: QueryClient) => {
     return data;
   };
 
-  const { data, isLoading, isError, error } = useQuery<IModpack[]>(
+  const { data, isLoading, isError, error } = useQuery<IModpack[], AxiosError>(
     ["modpacks"],
     fetchModpacks,
     {
       staleTime: 1000 * 60 * 5, // 5 minutes
       keepPreviousData: true,
       retry: 2,
-      placeholderData: staticLabels,
+      // placeholderData: staticLabels,
       select: filterModpacks,
 
       onError: (error) => {
-        if (error instanceof Error) {
+        if (axios.isAxiosError(error)) {
           return errorHandling(error);
         }
         throw error;

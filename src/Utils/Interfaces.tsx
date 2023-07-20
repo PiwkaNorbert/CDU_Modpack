@@ -38,7 +38,7 @@ export interface ICommentReplies {
   uuid: string;
   discord_id?: number;
   username?: string;
-  comment?: string;
+  comment: string;
   timestamp?: number;
   last_updated_time?: number;
   avatar_url?: string;
@@ -48,7 +48,7 @@ export interface ICommentReplies {
 
 export interface ICommentComponent {
   borderColor: string;
-  comment: IComment;
+  comment?: IComment;
   replyingTo: boolean;
   replyParentId: string;
 }

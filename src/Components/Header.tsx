@@ -29,8 +29,10 @@ const Header = () => {
     let observer: IntersectionObserver;
 
     const handleObserver = (entries: IntersectionObserverEntry[]) => {
-      const [entry] = entries;
-      setIntersecting(entry.isIntersecting);
+      const entry = entries[0];
+      if (entry) {
+        setIntersecting(entry.isIntersecting);
+      }
     };
 
     if (ref.current) {
