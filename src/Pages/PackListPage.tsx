@@ -173,7 +173,6 @@ const PackListPage = () => {
           )}
         </div>
       </section>
-      {/* <Footer borderColor="red" /> */}
     </>
   );
 };

@@ -50,8 +50,11 @@ export const CreateModpack = () => {
       onSettled: () => {
         queryClient.invalidateQueries(["modpacks"]);
       },
-      onError: (error: any) => {
-        errorHandling(error);
+      onError: (error) => {
+        if (error instanceof Error) {
+          return errorHandling(error);
+        }
+        throw error;
       },
       onSuccess: (response) => {
         return navigate(`/add-modpack/photos/${response.data.modpackId}`);
@@ -70,7 +73,7 @@ export const CreateModpack = () => {
         </h1>
       </div>
       <form
-        className="grid items-center justify-center gap-4 pt-[.5em] mb-8 text-sm placeholder:text-slate-400  dark:text-text xl:text-base"
+        className="mb-8 grid items-center justify-center gap-4 pt-[.5em] text-sm placeholder:text-slate-400  dark:text-text xl:text-base"
         onSubmit={async (e: React.FormEvent<HTMLFormElement>) => {
           e.preventDefault();
           if (addModpackMutation.isLoading) return;
@@ -165,20 +168,7 @@ export const CreateModpack = () => {
             </option>
           ))}
         </select>
-        {/* <p className="-mb-2 dark:text-text">Image</p> */}
-        {/* <input
-      required
-      name="image"
-      className={`cursor-pointer rounded-md border-2 file:placeholder:text-slate-400 dark:text-text border-${borderColor}-500 h-8 w-full px-3 py-1`}
-      type="file"
-    /> */}
-        <label
-          htmlFor="image"
-          className={`-mt-2 text-sm dark:text-text xl:text-base`}
-        >
-          {" "}
-          (PNG or JPG MAX. 5MB, 640x480px){" "}
-        </label>
+
         <input
           required
           className={` h-8 rounded-md border-2  border-${borderColor}-500 px-3 py-1`}

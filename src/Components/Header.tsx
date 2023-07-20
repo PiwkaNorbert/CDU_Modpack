@@ -5,6 +5,7 @@ import { useTheme } from "../Context/useTheme";
 import { useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { setupClickOutsideHandler } from "../Helper/setupClickOutsideHandler";
+import SignOutSVG from "./SVG/SignOutSVG";
 
 const Header = () => {
   // set the state of voteRemaining to the value of the user's votesRemaining
@@ -244,38 +245,39 @@ const Header = () => {
                       className="space-y-1 p-1 text-sm"
                       aria-labelledby="dropdown-button"
                     >
-                
                       <li
                         data-tip="How to get Linked"
-                        className={` mb-1  daisy-tooltip flex w-full gap-1  px-3 py-1 transition-all  delay-0 duration-200 ease-in-out last:mb-0 cursor-pointer rounded-lg hover:bg-text/20 active:bg-text/25 `}
+                        className={` active:bg-text/15  daisy-tooltip mb-1 flex w-full  cursor-pointer gap-1 rounded-lg  px-3 py-1 transition-all delay-0 duration-200 ease-in-out last:mb-0 hover:bg-text/10 `}
                       >
-                        <a type="button"
-                            href="https://forum.playcdu.co/threads/how-to-link-your-discord-and-minecraft-accounts.922/"
-                            target="_blank"
-                            className={`flex items-center justify-center  gap-2 capitalize `}
-                            onClick={() => {
-                              setProfileMenuShow(false)
-                            }}
+                        <a
+                          type="button"
+                          href="https://forum.playcdu.co/threads/how-to-link-your-discord-and-minecraft-accounts.922/"
+                          target="_blank"
+                          className={`flex items-center justify-center  gap-2 capitalize `}
+                          onClick={() => {
+                            setProfileMenuShow(false);
+                          }}
                         >
-                            {user?.isLinked ? "linked" : 'unlinked'}
+                          {user?.isLinked ? "linked" : "unlinked"}
 
-                      
-                              <img
-                                src={user?.isLinked ? "/check.png" : "/cross.png"}
-                                className="aspect-square w-6"
-                              />
+                          <img
+                            src={user?.isLinked ? "/check.png" : "/cross.png"}
+                            className="aspect-square w-6"
+                          />
                         </a>
                       </li>
                       <li
-                        className={` mb-1  flex w-full gap-1  px-3 py-1 transition-all  delay-0 duration-200 ease-in-out last:mb-0 cursor-pointer rounded-lg hover:bg-text/20 active:bg-text/25 `}
+                        className={` active:bg-text/15  mb-1 flex w-full  cursor-pointer gap-1 rounded-lg  px-3 py-1 transition-all delay-0 duration-200 ease-in-out last:mb-0 hover:bg-text/10 `}
                       >
-                        <a type="button"
-                            className={`flex items-center justify-center  gap-2 capitalize `}
-                            onClick={() => {
-                            setUser(undefined)
-                            }}
+                        <a
+                          type="button"
+                          className={`flex items-center justify-center  gap-2 capitalize `}
+                          onClick={() => {
+                            setUser(undefined);
+                          }}
                         >
-                            Logout
+                          Logout
+                          <SignOutSVG />
                         </a>
                       </li>
                     </ul>

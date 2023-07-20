@@ -14,8 +14,11 @@ export const fetchProfile = async () => {
 
 const useDiscordProfileData = () => {
   return useQuery(["login"], fetchProfile, {
-    onError: (error: any) => {
-      errorHandling(error);
+    onError: (error) => {
+      if (error instanceof Error) {
+        return errorHandling(error);
+      }
+      throw error;
     },
     onSuccess: (response) => {
       if (response.in_guild === false) return;

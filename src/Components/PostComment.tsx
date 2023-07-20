@@ -85,8 +85,11 @@ const PostComment = ({
         });
       }
     },
-    onError: (error: any) => {
-      errorHandling(error);
+    onError: (error) => {
+      if (error instanceof Error) {
+        return errorHandling(error);
+      }
+      throw error;
     },
     onSettled: () => {
       queryClient.invalidateQueries(["details", modpackId]);

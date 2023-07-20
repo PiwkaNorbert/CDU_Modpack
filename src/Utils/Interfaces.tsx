@@ -91,3 +91,8 @@ export interface IAddVoteButtonProps {
 export interface IRemoveVoteButtonProps {
   timesVoted?: number;
 }
+
+export interface IAddImageProps {
+  images: FileList;
+  modpackId?: string;
+}

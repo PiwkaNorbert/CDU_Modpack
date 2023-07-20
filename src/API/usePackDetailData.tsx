@@ -28,8 +28,11 @@ const usePackDetailData = (modpackId: string) => {
       refetchOnWindowFocus: false,
 
       // initialData: placeholderDetails,
-      onError: (error: any) => {
-        errorHandling(error);
+      onError: (error) => {
+        if (error instanceof Error) {
+          return errorHandling(error);
+        }
+        throw error;
       },
     }
   );

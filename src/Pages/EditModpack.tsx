@@ -67,8 +67,11 @@ const EditModpack = () => {
         toast.success(data.message);
         return (window.location.pathname = `/pack-details/${modpackId}`);
       },
-      onError: (error: any) => {
-        errorHandling(error);
+      onError: (error) => {
+        if (error instanceof Error) {
+          return errorHandling(error);
+        }
+        throw error;
       },
       onSettled: () => {
         queryClient.invalidateQueries(["modpacks", "details", modpackId]);

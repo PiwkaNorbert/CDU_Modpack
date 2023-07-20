@@ -65,8 +65,11 @@ const useModpackData = (queryClient: QueryClient) => {
       retry: 2,
       select: filterModpacks,
 
-      onError: (error: any) => {
-        errorHandling(error);
+      onError: (error) => {
+        if (error instanceof Error) {
+          return errorHandling(error);
+        }
+        throw error;
       },
     }
   );

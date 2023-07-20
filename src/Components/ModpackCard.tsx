@@ -29,21 +29,20 @@ const ModpackCard = ({
     >
       <Link
         to={`/pack-details/${modpackId}`}
-        className={`overflow-hidden rounded-sm  bg-bg `}
+        className={`w-full overflow-hidden rounded-sm bg-bg `}
       >
         <div className=" flex h-full justify-center rounded-md  hover:text-opacity-100  ">
           <div className="  flex h-full  flex-1 flex-col overflow-hidden text-base/[1.25rem]">
             {/* toggle images in production */}
             <LazyLoadImage
-              src={`https://www.trainjumper.com${imageUrl}`}
+              src={`https://www.trainjumper.com${
+                imageUrl === null ? "/static/placeholder.png" : imageUrl
+              }`}
               alt={name ? name + " Image" : "Pack Image"}
               loading="lazy"
               width="275"
               height="155"
               placeholderSrc={`/src/assets/placeholderImg.png`}
-              // onLoad={(e) => {
-              //   e.currentTarget.classList.remove('blur-md')
-              // }}
               className={`lazy-load-image-2 aspect-video text-right bg-${color}-300 w-full border-b-[3.5px] border-${color}-300  object-cover object-center`}
             />
 

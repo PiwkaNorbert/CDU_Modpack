@@ -26,8 +26,11 @@ const useCommentRepliesData = (commentId: string, replyCount: number) => {
       staleTime: 1000 * 60 * 1,
       refetchOnWindowFocus: false,
       // initialData: placeholderDetails,
-      onError: (error: any) => {
-        errorHandling(error);
+      onError: (error) => {
+        if (error instanceof Error) {
+          return errorHandling(error);
+        }
+        throw error;
       },
     }
   );

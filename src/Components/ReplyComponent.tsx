@@ -62,8 +62,11 @@ export function ReplyComponent({
         return toast.success("Comment deleted! 👌");
       }
     },
-    onError: (error: any) => {
-      errorHandling(error);
+    onError: (error) => {
+      if (error instanceof Error) {
+        return errorHandling(error);
+      }
+      throw error;
     },
     onSettled: () => {
       queryClient.invalidateQueries(["modpacks", "details", modpackId]);

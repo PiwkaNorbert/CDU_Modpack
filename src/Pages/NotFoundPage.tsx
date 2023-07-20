@@ -21,7 +21,7 @@ const NotFoundPage = () => {
 
   useEffect(() => {
     if (window.location.href.endsWith("/404")) {
-      countdown();
+      // countdown();
     }
   }, []);
 

@@ -61,8 +61,11 @@ const PackDetails = () => {
 
       return navigate("/");
     },
-    onError: (error: any) => {
-      errorHandling(error);
+    onError: (error) => {
+      if (error instanceof Error) {
+        return errorHandling(error);
+      }
+      throw error;
     },
     onSettled: () => {
       queryClient.invalidateQueries(["modpacks", "details", modpackId]);
@@ -87,8 +90,6 @@ const PackDetails = () => {
   const commentCount = comments
     ? comments.length
     : Math.floor(Math.random() * 10);
-
-
 
   return (
     <>
@@ -141,7 +142,7 @@ const PackDetails = () => {
                 {user?.isLoggedIn && user?.isAdmin && (
                   <>
                     <button
-                      className="w-12  flex items-center justify-center "
+                      className="flex  w-12 items-center justify-center "
                       id="dropdown-button-packdetails"
                       data-dropdown-toggle="dropdown"
                       type="button"
@@ -169,13 +170,13 @@ const PackDetails = () => {
                         ref={menuRef}
                       >
                         <ul
-                          className="p-1 text-sm "
+                          className="gap-1 p-1 text-sm last:mb-0 "
                           aria-labelledby="dropdown-button"
                         >
                           <li>
                             <Link
                               to={`/edit-modpack/${modpackId}`}
-                              className="mb-1  flex w-full gap-1  px-4 py-2 transition-all  delay-0 duration-200 ease-in-out last:mb-0 last:cursor-pointer hover:rounded-xl last:hover:bg-text/20 last:active:bg-text/25 "
+                              className="last:active:bg-text/15  mb-1 flex w-full  cursor-pointer gap-1 rounded-lg  px-4 py-2 transition-all delay-0 duration-200  ease-in-out hover:bg-text/10 "
                             >
                               Edit Modpack
                             </Link>
@@ -184,7 +185,7 @@ const PackDetails = () => {
                             {/* delete modpack button only is userProfile is superUser */}
                             <button
                               disabled={deleteModpackMutation.isLoading}
-                              className="mb-1  flex w-full gap-1  px-4 py-2 text-red-500  transition-all delay-0 duration-200 ease-in-out last:mb-0 last:cursor-pointer hover:rounded-xl last:hover:bg-text/20 last:active:bg-text/25 "
+                              className="last:active:bg-text/15  flex w-full   cursor-pointer rounded-lg  px-4 py-2 text-red-500 transition-all delay-0 duration-200 ease-in-out hover:bg-text/10 "
                               onClick={async () => {
                                 if (
                                   prompt(
@@ -213,10 +214,9 @@ const PackDetails = () => {
 
                 <LazyLoadImage
                   src={`https://www.trainjumper.com${imageUrl}`}
-                  alt="random"
+                  alt="Modpack Image"
                   width="412"
                   height="233"
-                  placeholderSrc={`/src/assets/placeholderImg.png`}
                   className={`  mx-auto aspect-video place-self-center overflow-hidden rounded-md border-2 object-cover object-center sm:max-h-52   sm:object-fill  lg:max-h-60
                border-${borderColor}-500 bg-${borderColor}-500`}
                 />
@@ -240,21 +240,21 @@ const PackDetails = () => {
                 </div>
               </div>
               {/* style the descripion to scroll on overflow and a max height of 364px */}
-              <div className="  my-4 grid w-full  items-start justify-between gap-4 px-4 sm:grid-cols-2 sm:flex-row md:mt-4 md:gap-0 md:space-x-4">
+              <div className="  my-2 grid w-full  items-start justify-between gap-4 px-4 sm:grid-cols-2 sm:flex-row  md:gap-0 md:space-x-4">
                 {/* map the tags */}
                 <div className="flex flex-row">
                   {tags?.map((tag, index) => {
-
                     const label = tagMap.get(tag);
-                    
+
                     return (
                       <div
-                      key={index}
-                      className={`z-10 ml-2 flex items-center justify-start self-start rounded-full border-2 capitalize first:ml-4 border-${borderColor}-500 bg-bg px-2 py-0.5 text-sm text-text/80   `}
-                    >
-                      {label}
-                    </div>
-                  )})}
+                        key={index}
+                        className={`z-10 ml-2 flex items-center justify-start self-start rounded-full border-2 capitalize first:ml-4 border-${borderColor}-500 bg-bg px-2 py-0.5 text-sm text-text/80   `}
+                      >
+                        {label}
+                      </div>
+                    );
+                  })}
                 </div>
                 <div className="flex justify-center ">
                   Modpack official page:{" "}

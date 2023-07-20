@@ -99,12 +99,16 @@ export default {
     },
   },
 
-  plugins: [require('@tailwindcss/typography'),require("daisyui"), require("@tailwindcss/container-queries")],
+  plugins: [
+    require("@tailwindcss/typography"),
+    require("daisyui"),
+    require("@tailwindcss/container-queries"),
+  ],
   safelist: [
     {
       pattern:
-        /(bg|text|border|shadow|hover|min|steps|step|daisy)-(red|orange|yellow|lime|green|teal|sky|blue|violet|fuchsia|black|h|gray|slate|gradient|dashed|dotted|grey|primary)/,
-      variants: ["dark", "hover", "responsive", "first", "last"],
+        /(bg|text|border|shadow|hover|min|steps|step|daisy|animate)-(red|orange|yellow|lime|green|teal|sky|blue|violet|fuchsia|black|h|gray|slate|gradient|dashed|dotted|grey|primary|bounce|steps|step|step-primary)/,
+      variants: ["dark", "hover", "responsive", "first", "last", "group-hover"],
     },
   ],
   daisyui: {

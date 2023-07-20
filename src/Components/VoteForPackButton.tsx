@@ -50,8 +50,11 @@ export default function VoteForPackButton({
         withCredentials: true,
       }),
     {
-      onError: (error: Error) => {
-        errorHandling(error);
+      onError: (error) => {
+        if (error instanceof Error) {
+          return errorHandling(error);
+        }
+        throw error;
       },
       onSuccess: (response) => {
         if (response.status !== 200) throw new Error(response.data.error);
@@ -82,8 +85,11 @@ export default function VoteForPackButton({
         }
       ),
     {
-      onError: (error: any) => {
-        errorHandling(error);
+      onError: (error) => {
+        if (error instanceof Error) {
+          return errorHandling(error);
+        }
+        throw error;
       },
       onSuccess: (response) => {
         if (response.status !== 200) throw new Error(response.data.error);

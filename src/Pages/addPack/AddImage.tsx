@@ -1,43 +1,41 @@
 import React from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { toast } from "react-toastify";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { errorHandling } from "../../Helper/errorHandling";
+import { IAddImageProps } from "../../Utils/Interfaces";
 
 const AddImage = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const isDev = import.meta.env.VITE_NODE_ENV === "development";
   const apiBase = isDev ? "https://www.trainjumper.com" : "";
+  const { modpackId } = useParams();
 
   const addImageMutation = useMutation(
-    (body) =>
-      toast.promise(
-        axios.post(
-          `${apiBase}/api/add-modpack`,
-          {
-            body,
-          },
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-            withCredentials: true,
-          }
-        ),
+    ({ images, modpackId }: IAddImageProps) =>
+      axios.post(
+        `${apiBase}/api/add_pack_image`,
         {
-          pending: "Adding Image...",
-          success: "Image Added!",
-          error: "Couldn't add Image",
+          images,
+          modpackId,
+        },
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          withCredentials: true,
         }
       ),
     {
       onSettled: () => {
         queryClient.invalidateQueries(["modpacks"]);
       },
-      onError: (error: any) => {
-        errorHandling(error);
+      onError: (error) => {
+        if (error instanceof Error) {
+          return errorHandling(error);
+        }
+        throw error;
       },
       onSuccess: () => {
         return navigate("/");
@@ -54,7 +52,7 @@ const AddImage = () => {
         </h1>
       </div>
       <form
-        className="grid items-center justify-center gap-4 pt-[.5em] mb-8 text-sm placeholder:text-slate-400  dark:text-bg xl:text-base"
+        className="mb-8 grid items-center justify-center gap-4 pt-[.5em] text-sm placeholder:text-slate-400  dark:text-bg xl:text-base"
         onSubmit={async (e: React.FormEvent<HTMLFormElement>) => {
           e.preventDefault();
           if (addImageMutation.isLoading) return;
@@ -62,7 +60,10 @@ const AddImage = () => {
           const target = e.target as HTMLFormElement;
           console.log(target.image.files);
 
-          addImageMutation.mutate({ images: target.image.files });
+          addImageMutation.mutate({
+            images: target.image.files,
+            modpackId,
+          });
         }}
       >
         <p className="-mb-2 dark:text-text">Image</p>
