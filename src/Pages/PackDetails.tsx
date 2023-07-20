@@ -217,7 +217,7 @@ const PackDetails = () => {
                   alt="Modpack Image"
                   width="412"
                   height="233"
-                  className={`  mx-auto aspect-video place-self-center overflow-hidden rounded-md border-2 object-cover object-center sm:max-h-52   sm:object-fill  lg:max-h-60
+                  className={`  mx-auto aspect-video place-self-center overflow-hidden rounded-md border-2 object-fill object-center sm:max-h-52     lg:max-h-60
                border-${borderColor}-500 bg-${borderColor}-500`}
                 />
                 <div className="grid w-full content-center items-center md:mr-4 md:space-y-4">

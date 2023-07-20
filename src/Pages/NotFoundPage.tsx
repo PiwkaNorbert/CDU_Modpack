@@ -18,12 +18,12 @@ const NotFoundPage = () => {
       timeleft -= 1;
     }, 1000);
   };
-
-  useEffect(() => {
-    if (window.location.href.endsWith("/404")) {
-      // countdown();
-    }
-  }, []);
+  //  MEMORY LEAK
+  // useEffect(() => {
+  //   if (window.location.href.endsWith("/404")) {
+  //     countdown();
+  //   }
+  // }, []);
 
   return (
     <div className="h-4xl grid w-full items-center justify-center text-xl text-text xl:text-2xl">

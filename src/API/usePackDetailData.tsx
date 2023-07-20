@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-// import { placeholderDetails } from "../Constants";
+import { placeholderDetails } from "../Constants";
 import { errorHandling } from "../Helper/errorHandling";
 import { IPackDetails } from "../Utils/Interfaces";
 
@@ -26,8 +26,9 @@ const usePackDetailData = (modpackId: string) => {
       keepPreviousData: true,
       staleTime: 1000 * 60 * 2,
       refetchOnWindowFocus: false,
+      retry: 2,
 
-      // initialData: placeholderDetails,
+      placeholderData: placeholderDetails,
       onError: (error) => {
         if (error instanceof Error) {
           return errorHandling(error);

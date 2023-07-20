@@ -43,7 +43,7 @@ const ModpackCard = ({
               width="275"
               height="155"
               placeholderSrc={`/src/assets/placeholderImg.png`}
-              className={`lazy-load-image-2 aspect-video text-right bg-${color}-300 w-full border-b-[3.5px] border-${color}-300  object-cover object-center`}
+              className={`lazy-load-image-2 aspect-video text-right bg-${color}-300 w-full border-b-[3.5px] border-${color}-300  object-fill object-center`}
             />
 
             <p className="text-content mb-4 flex h-[72px] min-h-max items-center justify-center hyphens-auto px-2 py-2 text-center uppercase">

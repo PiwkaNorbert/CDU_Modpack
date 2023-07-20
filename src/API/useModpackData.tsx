@@ -1,7 +1,7 @@
 import { QueryClient, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { IModpack } from "../Utils/Interfaces";
-// import { staticLabels } from "../Constants";
+import { staticLabels } from "../Constants";
 import { useCallback, useState } from "react";
 import { errorHandling } from "../Helper/errorHandling";
 
@@ -61,8 +61,8 @@ const useModpackData = (queryClient: QueryClient) => {
     {
       staleTime: 1000 * 60 * 5, // 5 minutes
       keepPreviousData: true,
-      // placeholderData: staticLabels,
       retry: 2,
+      placeholderData: staticLabels,
       select: filterModpacks,
 
       onError: (error) => {

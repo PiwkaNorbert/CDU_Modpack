@@ -60,6 +60,7 @@ function SuggestedByUserSearch() {
 
   useEffect(() => {
     confirmUsername();
+    console.log("username changed");
   }, [username]);
 
   return (
