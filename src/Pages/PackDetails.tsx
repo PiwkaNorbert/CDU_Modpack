@@ -79,6 +79,8 @@ const PackDetails = () => {
     description,
     color: borderColor,
     imageUrl,
+    galleryImageUrls,
+    galleryThumbnailUrls,
     comments,
     voteCount,
     officialUrl,
@@ -217,7 +219,7 @@ const PackDetails = () => {
                   alt="Modpack Image"
                   width="412"
                   height="233"
-                  className={`  mx-auto aspect-video place-self-center overflow-hidden rounded-md border-2 object-fill object-center sm:max-h-52     lg:max-h-60
+                  className={`  mx-auto aspect-video max-h-52 place-self-center overflow-hidden rounded-md border-2 object-fill object-center     lg:max-h-60
                border-${borderColor}-500 bg-${borderColor}-500`}
                 />
                 <div className="grid w-full content-center items-center md:mr-4 md:space-y-4">
@@ -239,6 +241,26 @@ const PackDetails = () => {
                   </p>
                 </div>
               </div>
+              {/* map the image gallery to a collague */}
+              {galleryImageUrls?.length > 1 && (
+                <div className="my-4 px-4  ">
+                  <h3 className="text-2xl capitalize xl:text-3xl ">Gallery</h3>
+                  <div className="mt-2 flex flex-wrap justify-items-start gap-2 ">
+                    {galleryImageUrls?.map((imageUrl, index) => (
+                      <LazyLoadImage
+                        key={index}
+                        src={`https://www.trainjumper.com${imageUrl}`}
+                        alt="Modpack Image"
+                        width="81.3"
+                        height="43.3"
+                        className={`  aspect-video max-h-20 place-self-center overflow-hidden rounded-md border-2 object-fill object-center     lg:max-h-60
+               border-${borderColor}-500 bg-${borderColor}-500`}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {/* style the descripion to scroll on overflow and a max height of 364px */}
               <div className="  my-2 grid w-full  items-start justify-between gap-4 px-4 sm:grid-cols-2 sm:flex-row  md:gap-0 md:space-x-4">
                 {/* map the tags */}

@@ -14,6 +14,8 @@ export interface IPackDetails {
   comments: IComment[];
   description: string;
   imageUrl: string;
+  galleryImageUrls:  string[]; //
+  galleryThumbnailUrls: string[]; //
   modpackId: string;
   name: string;
   tags: string[];
