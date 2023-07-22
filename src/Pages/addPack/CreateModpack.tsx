@@ -73,7 +73,7 @@ export const CreateModpack = () => {
         </h1>
       </div>
       <form
-        className="mb-8 grid items-center justify-center gap-4 pt-[.5em] text-sm placeholder:text-slate-400  dark:text-text xl:text-base"
+        className="mb-8 grid items-center justify-center gap-4 pt-[.5em] text-sm placeholder:text-slate-400 text-text   xl:text-base"
         onSubmit={async (e: React.FormEvent<HTMLFormElement>) => {
           e.preventDefault();
           if (addModpackMutation.isLoading) return;
@@ -100,7 +100,7 @@ export const CreateModpack = () => {
         {/* Modpack name field, single line. */}
         <input
           required
-          className={` h-8 rounded-md border-2  border-${borderColor}-500 px-3 py-1`}
+          className={` h-8 rounded-md border-2 bg-bg  border-${borderColor}-500 px-3 py-1`}
           type="text"
           placeholder="Name"
           name="name"
@@ -108,7 +108,7 @@ export const CreateModpack = () => {
         {/* Modpack description field, multi line. */}
         {/* In order to make the modpack field multi line, we need to use a textarea instead of an input. */}
         <textarea
-          className={` min-h-[100px] rounded-md border-2   border-${borderColor}-500 w-96 px-3 py-1 out-of-range:border-red-500 `}
+          className={` min-h-[100px] rounded-md border-2 bg-bg  border-${borderColor}-500 w-96 px-3 py-1 out-of-range:border-red-500 `}
           placeholder="Modpack Description"
           value={modpackDescription}
           name="description"
@@ -124,7 +124,7 @@ export const CreateModpack = () => {
           }}
         />
         {/* Adds a character counter to the description field */}
-        <div className="-mt-2 flex items-center justify-center dark:text-text">
+        <div className="-mt-2 flex items-center justify-center t">
           <p>{modpackDescription.length}/500</p>
         </div>
         {/* A Tag selector that has pill shaped containers from tagOptions that when clicked once it pushes the tagoptions value to listOfTags and if clicked again it removes the tagoptions value from listOfTags and if the value is in the listOfTags it gets a checkmark on the left handside of the text */}
@@ -177,7 +177,7 @@ export const CreateModpack = () => {
 
         <input
           required
-          className={` h-8 rounded-md border-2  border-${borderColor}-500 px-3 py-1`}
+          className={` h-8 rounded-md border-2 bg-bg  border-${borderColor}-500 px-3 py-1`}
           type="text"
           placeholder="Official URL"
           name="officialUrl"
@@ -187,13 +187,13 @@ export const CreateModpack = () => {
         <SuggestedByUserSearch />
         <Link
           to={"/add-modpack/photos/12312"}
-          className="ml-4  flex min-w-min cursor-pointer items-center gap-2 rounded-md px-3 py-1 text-text hover:bg-sec hover:bg-opacity-20 hover:text-text dark:hover:bg-hover-2"
+          className="ml-4  flex min-w-min cursor-pointer items-center gap-2 rounded-md px-3 py-1  hover:bg-sec hover:bg-opacity-20  dark:hover:bg-hover-2"
         >
           liunk
         </Link>
 
         <button
-          className={` h-10 rounded-md border-2 border-black hover:bg-opacity-80 disabled:bg-slate-600 bg-${borderColor}-500 px-3 py-1  text-sm dark:text-bg xl:text-base`}
+          className={` h-10 rounded-md border-2 border-black hover:bg-opacity-80 disabled:bg-slate-600 bg-${borderColor}-500 px-3 py-1  text-sm  xl:text-base`}
           disabled={addModpackMutation.isLoading}
           type="submit"
         >

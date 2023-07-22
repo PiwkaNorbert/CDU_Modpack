@@ -95,14 +95,17 @@ const PackDetails = () => {
 
   return (
     <>
+
+
+
       <section
         id="modpack__details"
-        className="flex w-full flex-col justify-normal self-start  text-text lg:justify-center "
+        key={modpackId}
+        className="z-10 grid h-full w-full  flex-1 justify-normal  text-text lg:mx-auto lg:min-w-[900px] lg:max-w-[900px] "
       >
-        <div className="relative z-10  shadow-2xl  shadow-bg/20 dark:shadow-none lg:max-w-4xl lg:justify-center lg:place-self-center lg:rounded-xl ">
+        <div className="relative h-min overflow-hidden border-t-2 pb-4  dark:border-none dark:shadow  md:mb-4 md:rounded-b-md  md:border-none md:shadow-xl   ">
           <div
-            key={modpackId}
-            className={` z-10 grid h-full items-center  lg:rounded-md  lg:shadow-2xl `}
+            className={` z-10 grid h-full items-center  lg:rounded-md  `}
           >
             <div className=" z-10 flex justify-between gap-2  px-8 pt-4  max-[350px]:flex-col sm:gap-0 md:px-4 ">
               {/* backarrow to the root page */}
