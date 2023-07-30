@@ -93,6 +93,7 @@ const PackDetails = () => {
     ? comments.length
     : Math.floor(Math.random() * 10);
 
+
   return (
     <>
 
@@ -136,7 +137,7 @@ const PackDetails = () => {
                   user?.isLoggedIn && user?.inGuild && (
                     <Link
                       to={`/checkout/${modpackId}`}
-                      className={` flex items-center rounded-md  bg-sec px-3 py-1 hover:bg-opacity-80 dark:hover:bg-hover-2`}
+                      className={` flex items-center rounded-md  bg-${borderColor}-600 px-3 py-1 hover:bg-opacity-80`}
                     >
                       Sponsor Pack!
                     </Link>
@@ -147,7 +148,7 @@ const PackDetails = () => {
                 {user?.isLoggedIn && user?.isAdmin && (
                   <>
                     <button
-                      className="flex  w-12 items-center justify-center "
+                      className="flex  w-12 items-center justify-center rounded-md  hover:opacity-60"
                       id="dropdown-button-packdetails"
                       data-dropdown-toggle="dropdown"
                       type="button"
@@ -216,15 +217,9 @@ const PackDetails = () => {
             <div className={`z-[5] grid items-center md:px-4 `}>
               <div className=" my-4 grid px-4 sm:grid-cols-2  md:space-x-4 ">
                 {/* toggle images in production */}
-
-                <LazyLoadImage
-                  src={`https://www.trainjumper.com${imageUrl}`}
-                  alt="Modpack Image"
-                  width="412"
-                  height="233"
-                  className={`  mx-auto aspect-video max-h-52 place-self-center overflow-hidden rounded-md border-2 object-fill object-center     lg:max-h-60
-               border-${borderColor}-500 bg-${borderColor}-500`}
-                />
+                  <div>
+                    <ImageCarousel galleryImageUrls={galleryImageUrls} galleryThumbnailUrls={galleryThumbnailUrls} imageUrl={imageUrl}    borderColor={borderColor}/>
+                  </div>
                 <div className="grid w-full content-center items-center md:mr-4 md:space-y-4">
                   <p className="text-content my-4 break-normal text-center text-4xl uppercase  md:my-0 ">
                     {name}
@@ -244,25 +239,6 @@ const PackDetails = () => {
                   </p>
                 </div>
               </div>
-              {/* map the image gallery to a collague */}
-              {galleryImageUrls?.length > 1 && (
-                <div className="my-4 px-4  ">
-                  <h3 className="text-2xl capitalize xl:text-3xl ">Gallery</h3>
-                  <div className="mt-2 flex flex-wrap justify-items-start gap-2 ">
-                    {galleryImageUrls?.map((imageUrl, index) => (
-                      <LazyLoadImage
-                        key={index}
-                        src={`https://www.trainjumper.com${imageUrl}`}
-                        alt="Modpack Image"
-                        width="81.3"
-                        height="43.3"
-                        className={`  aspect-video max-h-20 place-self-center overflow-hidden rounded-md border-2 object-fill object-center     lg:max-h-60
-               border-${borderColor}-500 bg-${borderColor}-500`}
-                      />
-                    ))}
-                  </div>
-                </div>
-              )}
 
               {/* style the descripion to scroll on overflow and a max height of 364px */}
               <div className="  my-2 grid w-full  items-start justify-between gap-4 px-4 sm:grid-cols-2 sm:flex-row  md:gap-0 md:space-x-4">
@@ -349,7 +325,7 @@ const PackDetails = () => {
                   {comments?.map((comment, index) => (
                     <div
                       key={index}
-                      className="grid items-center justify-between pb-6 last:pb-0 "
+                      className="grid items-center justify-between  last:pb-0 "
                     >
                       <CommentsComponent
                         borderColor={borderColor}
@@ -368,3 +344,139 @@ const PackDetails = () => {
   );
 };
 export default PackDetails;
+
+
+export const ImageCarousel = ({ galleryImageUrls, galleryThumbnailUrls, borderColor }) => {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [showModal, setShowModal] = useState(false);
+  const [imageSrc, setImageSrc] = useState("");
+
+  let initialIndex  = galleryImageUrls.indexOf(imageSrc);
+  if (initialIndex === -1) {
+    initialIndex = 0
+  }
+
+  const handleImageClick = (imageUrl) => {
+    setImageSrc(imageUrl);
+    setShowModal(true);
+  };
+  const handleNextImage = () => {
+    if (currentImageIndex === galleryImageUrls.length - 1) {
+      setCurrentImageIndex(0);
+    } else {
+      setCurrentImageIndex(currentImageIndex + 1);
+    }
+  };
+
+  const handlePrevImage = () => {
+    if (currentImageIndex === 0) {
+      setCurrentImageIndex(galleryImageUrls.length - 1);
+    } else {
+      setCurrentImageIndex(currentImageIndex - 1);
+    }
+  };
+
+
+console.log(galleryImageUrls);
+console.log(galleryThumbnailUrls);
+
+  return (
+    <>
+      <div className="relative  ">
+        <LazyLoadImage
+          src={`https://www.trainjumper.com${galleryImageUrls[currentImageIndex]}`}
+          alt="Modpack Image"
+          width="412"
+          height="233"
+          className={`mx-auto aspect-video max-h-52 place-self-center overflow-hidden rounded-md border-2 object-fill object-center lg:max-h-60 border-${borderColor}-500 bg-${borderColor}-500`}
+        />
+        {galleryImageUrls?.length > 1 && (
+          <div className="absolute inset-0 flex ">
+            <div className="flex items-center justify-between group gap-2 flex-1">
+              <button
+                onClick={handlePrevImage}
+                className={`items-center hidden group-hover:flex justify-center w-10 h-full rounded-l-lg overflow-hidden border-2 border-${borderColor}-500 border-r-0 group-hover:bg-sec/50   `}
+              >
+             
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 transform" fill="#fff" viewBox="0 0 256 256"><path d="M168.49,199.51a12,12,0,0,1-17,17l-80-80a12,12,0,0,1,0-17l80-80a12,12,0,0,1,17,17L97,128Z"></path></svg>
+                
+              </button>
+     
+              <button
+                onClick={handleNextImage}
+                className={`items-center hidden group-hover:flex justify-center w-10 h-full rounded-r-lg overflow-hidden border-2 border-${borderColor}-500 border-l-0 group-hover:bg-sec/50   `}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 transform" width="32" height="32" fill="#fff" viewBox="0 0 256 256"><path d="M184.49,136.49l-80,80a12,12,0,0,1-17-17L159,128,87.51,56.49a12,12,0,1,1,17-17l80,80A12,12,0,0,1,184.49,136.49Z"></path></svg>
+       
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+      {galleryImageUrls?.length > 1 && (
+        <div className="flex flex-row items-center justify-center gap-2 mt-4">
+          {galleryThumbnailUrls?.map((imageUrl, index) => (
+            <LazyLoadImage
+              key={index}
+              src={`https://www.trainjumper.com${imageUrl}`}
+              alt="Modpack Image"
+              width="81.3"
+              height="43.3"
+              className={`aspect-video max-h-20 place-self-center cursor-pointer overflow-hidden rounded-md border-2 object-fill object-center lg:max-h-60 ${
+                currentImageIndex === index
+                  ? `border-text/90 shadow-inner `
+                  : `border-text/50 hover:border-text/90 hover:shadow-inner`
+              }`}
+              onClick={() => handleImageClick(imageUrl, "modpack image")}
+            />
+          ))}
+        </div>
+      )}
+      <Modal
+        showModal={showModal}
+        setShowModal={setShowModal}
+        imageSrc={imageSrc}
+      />
+    </>
+  );
+};
+
+export const Modal = ({ showModal, setShowModal, imageSrc }) => {
+  const modalRef = useRef();
+
+  const closeModal = (e) => {
+    if (modalRef.current === e.target) {
+      setShowModal(false);
+    }
+  };
+console.log(imageSrc);
+
+  return (
+    <>
+      {showModal ? (
+        <div
+          ref={modalRef}
+          onClick={closeModal}
+          className="fixed inset-0 z-40 flex items-center justify-center w-full h-full bg-black bg-opacity-50"
+        >
+          <div className="relative z-40 flex flex-col items-center justify-center w-full h-full">
+            <button
+              onClick={() => setShowModal(false)}
+              className="absolute top-0 right-0 z-50 flex items-center justify-center w-10 h-10 rounded-full bg-sec text-text/50 hover:bg-sec/90 hover:text-text/80"
+            >
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 256 256"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path></svg>
+            </button>
+            <div className="relative z-40 w-full h-full">
+              <img
+                className="object-contain w-full h-full"
+                src={`https://www.trainjumper.com${imageSrc}`}
+                alt="Modpack Image"
+              />
+                 
+            </div>
+          </div>
+        </div>
+      ) : null}
+    </>
+  );
+}

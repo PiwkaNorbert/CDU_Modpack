@@ -1,4 +1,4 @@
-import { ICommentComponent, IPackDetails } from "../Utils/Interfaces";
+import { IComment, ICommentComponent, IPackDetails } from "../Utils/Interfaces";
 import relativeDate from "../Helper/relativeDate";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { useUser } from "../Context/useUser";
@@ -41,7 +41,11 @@ export function ReplyComponent({
         queryClient.setQueryData(["replies", replyParentId], (oldData) => {
           const oldReplies = oldData as ICommentComponent[];
           // filter the replies to remove the deleted comment
-          return [...oldReplies.filter((c: any) => c.uuid !== comment?.uuid)];
+          console.log(oldReplies);
+          return [...oldReplies.filter((c:any) => {
+            
+            c.uuid !== comment?.uuid
+          })];
         });
         return toast.success("Comment deleted! 👌");
       }
@@ -76,7 +80,7 @@ export function ReplyComponent({
 
   return (
     <>
-      <div className="  flex items-center gap-4 pt-[1em] text-base first:pt-0">
+      <div className="  flex items-center gap-4 pt-[1em] text-base ">
         <img
           className="h-10 w-10 rounded-full"
           src={comment?.avatar_url}
@@ -87,7 +91,7 @@ export function ReplyComponent({
             {comment?.username}
           </p>
           <p className=" text-justify text-xs text-text/60 xl:text-sm">
-            {relativeDate(comment!.timestamp)}
+            {comment && relativeDate(comment.timestamp)}
           </p>
 
           {/* If userProfile is super user / moderator show delete comment button underneith */}

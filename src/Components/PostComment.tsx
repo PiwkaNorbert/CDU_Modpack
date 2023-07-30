@@ -102,8 +102,8 @@ const PostComment = ({
   return (
     <form
       method="post"
-      className={`flex items-start justify-center gap-4  pb-2 pt-4 text-sm  text-text dark:text-text xl:text-base ${
-        replyingTo && "pl-10"
+      className={`flex items-start justify-center gap-4   pb-2 pt-4 text-sm  text-text  xl:text-base ${
+        replyingTo && "pl-10 "
       } `}
       onSubmit={async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -121,7 +121,7 @@ const PostComment = ({
       />
       <div className=" w-full">
         <textarea
-          className={` min-h-10 min-h-40  w-full resize-none rounded-md border   border-${borderColor}-300 px-3 py-1 `}
+          className={` min-h-10 min-h-40  w-full resize-none rounded-md border bg-bg   border-${borderColor}-500 px-3 py-1 `}
           placeholder="Add a comment..."
           value={comment}
           maxLength={360}
@@ -143,7 +143,7 @@ const PostComment = ({
       <button
         disabled={comment.length === 0 || commentMutation.isLoading}
         type="submit"
-        className={`h-10  rounded-md text-text  bg-${borderColor}-500 px-3 py-1 hover:opacity-80  disabled:bg-slate-400 disabled:text-bg disabled:hover:opacity-100 `}
+        className={`h-10  rounded-md text-text  bg-${borderColor}-500 px-3 py-1 hover:opacity-80  disabled:bg-slate-300 disabled:text-slate-500 dark:disabled:bg-slate-700 dark:disabled:text-slate-500 disabled:hover:opacity-100 `}
       >
         {replyingTo ? (commentMutation.isLoading ? "Replying.." : "Reply") : ""}
         {!replyingTo ? (commentMutation.isLoading ? "Posting.." : "Post") : ""}
