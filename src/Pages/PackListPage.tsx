@@ -52,7 +52,7 @@ const PackListPage = () => {
             {/* Show this button if you're logged in and a staff member */}
 
             <input
-              className={`z-10  h-9 w-80 rounded-full border-2  px-3 py-1 text-sm`}
+              className={`z-10  h-9 w-80 rounded-full border-2 bg-bg  px-3 py-1 text-sm`}
               placeholder="Search for modpacks"
               type="text"
               name="tagSearch"

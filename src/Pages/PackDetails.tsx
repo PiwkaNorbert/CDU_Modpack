@@ -102,16 +102,16 @@ const PackDetails = () => {
       <section
         id="modpack__details"
         key={modpackId}
-        className="z-10 grid h-full w-full  flex-1 justify-normal  text-text lg:mx-auto lg:min-w-[900px] lg:max-w-[900px] "
+        className="z-[11] grid h-full w-full  flex-1 justify-normal  text-text lg:mx-auto lg:min-w-[900px] lg:max-w-[900px] "
       >
         <div className="relative h-min overflow-hidden border-t-2 pb-4  dark:border-none dark:shadow  md:mb-4 md:rounded-b-md  md:border-none md:shadow-xl   ">
           <div
-            className={` z-10 grid h-full items-center  lg:rounded-md  `}
+            className={` z-[11] grid h-full items-center  lg:rounded-md  `}
           >
-            <div className=" z-10 flex justify-between gap-2  px-8 pt-4  max-[350px]:flex-col sm:gap-0 md:px-4 ">
+            <div className=" z-[11] flex justify-between gap-2  px-8 pt-4  max-[350px]:flex-col sm:gap-0 md:px-4 ">
               {/* backarrow to the root page */}
               <Link
-                className="flex min-w-fit cursor-pointer items-center gap-2 rounded-md px-3 py-1 text-text hover:bg-sec hover:bg-opacity-20 hover:text-text dark:hover:bg-hover-2"
+                className="flex min-w-fit z-[11] cursor-pointer items-center gap-2 rounded-md px-3 py-1 text-text hover:bg-sec hover:bg-opacity-20 hover:text-text dark:hover:bg-hover-2"
                 to={"/"}
               >
                 <svg
@@ -250,7 +250,7 @@ const PackDetails = () => {
                     return (
                       <div
                         key={index}
-                        className={`z-10 ml-2 flex items-center justify-start self-start rounded-full border-2 capitalize first:ml-4 border-${borderColor}-500 bg-bg px-2 py-0.5 text-sm text-text/80   `}
+                        className={`z-[10] ml-2 flex items-center justify-start self-start rounded-full border-2 capitalize first:ml-4 border-${borderColor}-500 bg-bg px-2 py-0.5 text-sm text-text/80   `}
                       >
                         {label}
                       </div>
@@ -457,18 +457,18 @@ console.log(imageSrc);
         <div
           ref={modalRef}
           onClick={closeModal}
-          className="fixed inset-0 z-40 flex items-center justify-center w-full h-full bg-black bg-opacity-50"
+          className="fixed inset-0 z-[13] flex items-center justify-center w-full h-full bg-black bg-opacity-70"
         >
-          <div className="relative z-40 flex flex-col items-center justify-center w-full h-full">
+          <div className="relative z-[13] flex flex-col items-center justify-center w-full h-full">
             <button
               onClick={() => setShowModal(false)}
               className="absolute top-0 right-0 z-50 flex items-center justify-center w-10 h-10 rounded-full bg-sec text-text/50 hover:bg-sec/90 hover:text-text/80"
             >
           <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 256 256"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path></svg>
             </button>
-            <div className="relative z-40 w-full h-full">
+            <div className="relative z-[13]  h-full w-full   text-text lg:mx-auto lg:min-w-[900px] lg:max-w-[900px]">
               <img
-                className="object-contain w-full h-full"
+                className="object-contain w-full h-full z-[13] absolute"
                 src={`https://www.trainjumper.com${imageSrc}`}
                 alt="Modpack Image"
               />
