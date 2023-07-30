@@ -1,4 +1,4 @@
-import { ICommentComponent } from "../Utils/Interfaces";
+import { IComment, ICommentComponent, ICommentReplies } from "../Utils/Interfaces";
 import { useQueryClient } from "@tanstack/react-query";
 import useCommentRepliesData, {
   fetchCommentReplies,
@@ -74,13 +74,13 @@ export function CommentsComponent({
         />
       )}
       {showReplies && (
-        <div className="ml-10">
+        <div className="ml-10 pt-[.5em]">
           {isLoading ? (
             <p>Loading...</p>
           ) : isError ? (
             <p>Error</p>
           ) : (
-            data?.map((reply: any) => (
+            data?.map((reply: IComment) => (
               <ReplyComponent
                 borderColor={borderColor && borderColor ? borderColor : "sky"}
                 comment={reply}
