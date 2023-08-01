@@ -74,7 +74,7 @@ export const UserProvider: React.FunctionComponent<UserProviderProps> = (
 
       // setUser(profileData);
     }
-  }, [user]);
+  }, []);
 
   const votesRemaining = (n: number) => {
     //  spread the old data and set the new value for votesRemaining

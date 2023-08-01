@@ -12,7 +12,7 @@ import { LoginButton } from "../Components/LoginButton";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useNavigate, Link } from "react-router-dom";
-import React, { useEffect, useRef, useState } from "react";
+import React, { SetStateAction, useEffect, useRef, useState } from "react";
 import { setupClickOutsideHandler } from "../Helper/setupClickOutsideHandler";
 import { errorHandling } from "../Helper/errorHandling";
 import { tagMap } from "../Helper/modifyModpack";
@@ -93,6 +93,14 @@ const PackDetails = () => {
     ? comments.length
     : Math.floor(Math.random() * 10);
 
+  function setShowReplies(value: SetStateAction<boolean>): void {
+    return console.log(value)
+  }
+
+  function setShowAddReply(value: SetStateAction<boolean>): void {
+    return console.log(value)
+  }
+
   return (
     <>
       <section
@@ -100,7 +108,7 @@ const PackDetails = () => {
         key={modpackId}
         className="z-[11] grid h-full w-full  flex-1 justify-normal  text-text lg:mx-auto lg:min-w-[900px] lg:max-w-[900px] "
       >
-        <div className="relative h-min overflow-hidden border-t-2 pb-4  dark:border-none dark:shadow  md:mb-4 md:rounded-b-md  md:border-none md:shadow-xl   ">
+        <div className="relative h-min overflow-hidden border-t-2 pb-4 bg-bg dark:border-none dark:shadow  md:mb-4 md:rounded-b-md  md:border-none md:shadow-xl   ">
           <div className={` z-[11] grid h-full items-center  lg:rounded-md  `}>
             <div className=" z-[11] flex justify-between gap-2  px-8 pt-4  max-[350px]:flex-col sm:gap-0 md:px-4 ">
               {/* backarrow to the root page */}
@@ -131,7 +139,7 @@ const PackDetails = () => {
                   user?.isLoggedIn && user?.inGuild && (
                     <Link
                       to={`/checkout/${modpackId}`}
-                      className={` flex items-center rounded-md  bg-${borderColor}-600 px-3 py-1 hover:bg-opacity-80`}
+                      className={` flex items-center rounded-md  bg-${borderColor}-500 dark:bg-${borderColor}-600 px-3 py-1 hover:bg-opacity-80`}
                     >
                       Sponsor Pack!
                     </Link>
@@ -209,12 +217,14 @@ const PackDetails = () => {
               </div>
             </div>
             <div className={`z-[5] grid items-center md:px-4 `}>
-              <div className=" my-4 grid px-4 sm:grid-cols-2  md:space-x-4 ">
+              <div className={`${galleryImages?.length > 0 ?  "sm:grid-cols-2  md:space-x-4": " sm:grid-cols-1"} my-4 grid px-4  `}>
                 {/* toggle images in production */}
-                <ImageCarousel
-                  galleryImages={galleryImages}
-                  borderColor={borderColor}
-                />
+                {galleryImages?.length > 0 && (
+                  <ImageCarousel
+                    galleryImages={galleryImages}
+                    borderColor={borderColor}
+                   />  
+                  )}
                 <div className="grid w-full content-center items-center md:mr-4 md:space-y-4">
                   <p className="text-content my-4 break-normal text-center text-4xl uppercase  md:my-0 ">
                     {name}
@@ -303,6 +313,8 @@ const PackDetails = () => {
                       borderColor={borderColor}
                       replyingTo={false}
                       replyParentId=""
+                      setShowAddReply={setShowAddReply}
+                      setShowReplies={setShowReplies}
                     />
                   )}
                   {user?.isLoggedIn && !user?.isLinked && (
@@ -351,6 +363,17 @@ export const ImageCarousel = ({
   const [showModal, setShowModal] = useState<boolean>(false);
   const [imageSrc, setImageSrc] = useState<string>("");
 
+
+  if (galleryImages === undefined) return null;
+
+  
+  
+  const initialIndex = galleryImages.indexOf(imageSrc);
+  
+  if (initialIndex !== -1) {
+    setCurrentImageIndex(initialIndex)
+  }
+
   const handleImageClick = (imageUrl: string) => {
     setImageSrc(imageUrl);
     setShowModal(true);
@@ -370,17 +393,16 @@ export const ImageCarousel = ({
       setCurrentImageIndex(currentImageIndex - 1);
     }
   };
-  // console.log(galleryImages);
 
   return (
     <div>
       <div className="relative mx-auto md:w-96 ">
-        <LazyLoadImage
+        <img
           src={`https://www.trainjumper.com${galleryImages[currentImageIndex].imageUrl}`}
           alt="Modpack Image"
           width="412"
           height="233"
-          className={`z-[5] mx-auto aspect-video max-h-52   place-self-center overflow-hidden rounded-md border-2 object-fill object-center lg:max-h-60 lg:w-full border-${borderColor}-500 bg-${borderColor}-500`}
+          className={`z-[5] aspect-video max-h-52 mx-auto  place-self-center overflow-hidden rounded-md border-2 object-fill object-center lg:max-h-60 lg:w-full border-${borderColor}-500 bg-${borderColor}-500`}
         />
         {galleryImages?.length > 1 && (
           <div className="absolute inset-0 mx-auto flex max-h-[233px]  max-w-[412px] lg:w-full">
@@ -472,7 +494,6 @@ export const Modal = ({
       setShowModal(false);
     }
   };
-  console.log(imageSrc);
 
   return (
     <>
