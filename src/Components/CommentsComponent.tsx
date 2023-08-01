@@ -1,4 +1,4 @@
-import { IComment, ICommentComponent, ICommentReplies } from "../Utils/Interfaces";
+import { IComment, ICommentComponent } from "../Utils/Interfaces";
 import { useQueryClient } from "@tanstack/react-query";
 import useCommentRepliesData, {
   fetchCommentReplies,

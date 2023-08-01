@@ -1,4 +1,4 @@
-import { IComment, ICommentComponent, IPackDetails } from "../Utils/Interfaces";
+import {  ICommentComponent, IPackDetails } from "../Utils/Interfaces";
 import relativeDate from "../Helper/relativeDate";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { useUser } from "../Context/useUser";

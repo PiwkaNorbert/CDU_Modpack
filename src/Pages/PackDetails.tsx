@@ -12,7 +12,7 @@ import { LoginButton } from "../Components/LoginButton";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useNavigate, Link } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { setupClickOutsideHandler } from "../Helper/setupClickOutsideHandler";
 import { errorHandling } from "../Helper/errorHandling";
 import { tagMap } from "../Helper/modifyModpack";
@@ -78,9 +78,8 @@ const PackDetails = () => {
     name,
     description,
     color: borderColor,
-    imageUrl,
-    galleryImageUrls,
-    galleryThumbnailUrls,
+    // imageUrl,
+    galleryImages,
     comments,
     voteCount,
     officialUrl,
@@ -88,30 +87,25 @@ const PackDetails = () => {
     suggestedBy,
     timesVoted,
   }: IPackDetails = data;
+  // console.log(data);
 
   const commentCount = comments
     ? comments.length
     : Math.floor(Math.random() * 10);
 
-
   return (
     <>
-
-
-
       <section
         id="modpack__details"
         key={modpackId}
         className="z-[11] grid h-full w-full  flex-1 justify-normal  text-text lg:mx-auto lg:min-w-[900px] lg:max-w-[900px] "
       >
         <div className="relative h-min overflow-hidden border-t-2 pb-4  dark:border-none dark:shadow  md:mb-4 md:rounded-b-md  md:border-none md:shadow-xl   ">
-          <div
-            className={` z-[11] grid h-full items-center  lg:rounded-md  `}
-          >
+          <div className={` z-[11] grid h-full items-center  lg:rounded-md  `}>
             <div className=" z-[11] flex justify-between gap-2  px-8 pt-4  max-[350px]:flex-col sm:gap-0 md:px-4 ">
               {/* backarrow to the root page */}
               <Link
-                className="flex min-w-fit z-[11] cursor-pointer items-center gap-2 rounded-md px-3 py-1 text-text hover:bg-sec hover:bg-opacity-20 hover:text-text dark:hover:bg-hover-2"
+                className="z-[11] flex min-w-fit cursor-pointer items-center gap-2 rounded-md px-3 py-1 text-text hover:bg-sec hover:bg-opacity-20 hover:text-text dark:hover:bg-hover-2"
                 to={"/"}
               >
                 <svg
@@ -217,9 +211,10 @@ const PackDetails = () => {
             <div className={`z-[5] grid items-center md:px-4 `}>
               <div className=" my-4 grid px-4 sm:grid-cols-2  md:space-x-4 ">
                 {/* toggle images in production */}
-                  <div>
-                    <ImageCarousel galleryImageUrls={galleryImageUrls} galleryThumbnailUrls={galleryThumbnailUrls} imageUrl={imageUrl}    borderColor={borderColor}/>
-                  </div>
+                <ImageCarousel
+                  galleryImages={galleryImages}
+                  borderColor={borderColor}
+                />
                 <div className="grid w-full content-center items-center md:mr-4 md:space-y-4">
                   <p className="text-content my-4 break-normal text-center text-4xl uppercase  md:my-0 ">
                     {name}
@@ -345,23 +340,23 @@ const PackDetails = () => {
 };
 export default PackDetails;
 
+export const ImageCarousel = ({
+  galleryImages,
+  borderColor,
+}: {
+  galleryImages: any;
+  borderColor: string;
+}) => {
+  const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [imageSrc, setImageSrc] = useState<string>("");
 
-export const ImageCarousel = ({ galleryImageUrls, galleryThumbnailUrls, borderColor }) => {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [showModal, setShowModal] = useState(false);
-  const [imageSrc, setImageSrc] = useState("");
-
-  let initialIndex  = galleryImageUrls.indexOf(imageSrc);
-  if (initialIndex === -1) {
-    initialIndex = 0
-  }
-
-  const handleImageClick = (imageUrl) => {
+  const handleImageClick = (imageUrl: string) => {
     setImageSrc(imageUrl);
     setShowModal(true);
   };
   const handleNextImage = () => {
-    if (currentImageIndex === galleryImageUrls.length - 1) {
+    if (currentImageIndex === galleryImages.length - 1) {
       setCurrentImageIndex(0);
     } else {
       setCurrentImageIndex(currentImageIndex + 1);
@@ -370,66 +365,83 @@ export const ImageCarousel = ({ galleryImageUrls, galleryThumbnailUrls, borderCo
 
   const handlePrevImage = () => {
     if (currentImageIndex === 0) {
-      setCurrentImageIndex(galleryImageUrls.length - 1);
+      setCurrentImageIndex(galleryImages.length - 1);
     } else {
       setCurrentImageIndex(currentImageIndex - 1);
     }
   };
-
-
-console.log(galleryImageUrls);
-console.log(galleryThumbnailUrls);
+  // console.log(galleryImages);
 
   return (
-    <>
-      <div className="relative  ">
+    <div>
+      <div className="relative mx-auto md:w-96 ">
         <LazyLoadImage
-          src={`https://www.trainjumper.com${galleryImageUrls[currentImageIndex]}`}
+          src={`https://www.trainjumper.com${galleryImages[currentImageIndex].imageUrl}`}
           alt="Modpack Image"
           width="412"
           height="233"
-          className={`mx-auto aspect-video max-h-52 place-self-center overflow-hidden rounded-md border-2 object-fill object-center lg:max-h-60 border-${borderColor}-500 bg-${borderColor}-500`}
+          className={`z-[5] mx-auto aspect-video max-h-52   place-self-center overflow-hidden rounded-md border-2 object-fill object-center lg:max-h-60 lg:w-full border-${borderColor}-500 bg-${borderColor}-500`}
         />
-        {galleryImageUrls?.length > 1 && (
-          <div className="absolute inset-0 flex ">
-            <div className="flex items-center justify-between group gap-2 flex-1">
+        {galleryImages?.length > 1 && (
+          <div className="absolute inset-0 mx-auto flex max-h-[233px]  max-w-[412px] lg:w-full">
+            <div className="group flex flex-1 items-center justify-between gap-2">
               <button
                 onClick={handlePrevImage}
-                className={`items-center hidden group-hover:flex justify-center w-10 h-full rounded-l-lg overflow-hidden border-2 border-${borderColor}-500 border-r-0 group-hover:bg-sec/50   `}
+                className={`hidden h-full w-10 items-center justify-center overflow-hidden rounded-l-lg border-2 group-hover:flex border-${borderColor}-500 border-r-0 group-hover:bg-sec/50   `}
               >
-             
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 transform" fill="#fff" viewBox="0 0 256 256"><path d="M168.49,199.51a12,12,0,0,1-17,17l-80-80a12,12,0,0,1,0-17l80-80a12,12,0,0,1,17,17L97,128Z"></path></svg>
-                
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-8 w-8 transform"
+                  fill="#fff"
+                  viewBox="0 0 256 256"
+                >
+                  <path d="M168.49,199.51a12,12,0,0,1-17,17l-80-80a12,12,0,0,1,0-17l80-80a12,12,0,0,1,17,17L97,128Z"></path>
+                </svg>
               </button>
-     
+
               <button
                 onClick={handleNextImage}
-                className={`items-center hidden group-hover:flex justify-center w-10 h-full rounded-r-lg overflow-hidden border-2 border-${borderColor}-500 border-l-0 group-hover:bg-sec/50   `}
+                className={`hidden h-full w-10 items-center justify-center overflow-hidden rounded-r-lg border-2 group-hover:flex border-${borderColor}-500 border-l-0 group-hover:bg-sec/50   `}
               >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 transform" width="32" height="32" fill="#fff" viewBox="0 0 256 256"><path d="M184.49,136.49l-80,80a12,12,0,0,1-17-17L159,128,87.51,56.49a12,12,0,1,1,17-17l80,80A12,12,0,0,1,184.49,136.49Z"></path></svg>
-       
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-8 w-8 transform"
+                  width="32"
+                  height="32"
+                  fill="#fff"
+                  viewBox="0 0 256 256"
+                >
+                  <path d="M184.49,136.49l-80,80a12,12,0,0,1-17-17L159,128,87.51,56.49a12,12,0,1,1,17-17l80,80A12,12,0,0,1,184.49,136.49Z"></path>
+                </svg>
               </button>
             </div>
           </div>
         )}
       </div>
-      {galleryImageUrls?.length > 1 && (
-        <div className="flex flex-row items-center justify-center gap-2 mt-4">
-          {galleryThumbnailUrls?.map((imageUrl, index) => (
-            <LazyLoadImage
-              key={index}
-              src={`https://www.trainjumper.com${imageUrl}`}
-              alt="Modpack Image"
-              width="81.3"
-              height="43.3"
-              className={`aspect-video max-h-20 place-self-center cursor-pointer overflow-hidden rounded-md border-2 object-fill object-center lg:max-h-60 ${
-                currentImageIndex === index
-                  ? `border-text/90 shadow-inner `
-                  : `border-text/50 hover:border-text/90 hover:shadow-inner`
-              }`}
-              onClick={() => handleImageClick(imageUrl, "modpack image")}
-            />
-          ))}
+      {galleryImages?.length > 1 && (
+        <div className="mt-4 flex flex-row items-center justify-center gap-2">
+          {galleryImages?.map(
+            (
+              gallery: { imageUrl: string; thumbnailUrl: string },
+              index: number
+            ) => {
+              return (
+                <LazyLoadImage
+                  key={index}
+                  src={`https://www.trainjumper.com${gallery.thumbnailUrl}`}
+                  alt="Modpack Image"
+                  width="81.3"
+                  height="43.3"
+                  className={`aspect-video max-h-20 cursor-pointer place-self-center overflow-hidden rounded-md border-2 object-fill object-center lg:max-h-60 ${
+                    currentImageIndex === index
+                      ? `border-text/90 shadow-inner `
+                      : `border-text/50 hover:border-text/90 hover:shadow-inner`
+                  }`}
+                  onClick={() => handleImageClick(gallery.imageUrl)}
+                />
+              );
+            }
+          )}
         </div>
       )}
       <Modal
@@ -437,19 +449,30 @@ console.log(galleryThumbnailUrls);
         setShowModal={setShowModal}
         imageSrc={imageSrc}
       />
-    </>
+    </div>
   );
 };
 
-export const Modal = ({ showModal, setShowModal, imageSrc }) => {
-  const modalRef = useRef();
+export const Modal = ({
+  showModal,
+  setShowModal,
+  imageSrc,
+}: {
+  showModal: boolean;
+  setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
+  imageSrc: string;
+}) => {
+  const modalRef = useRef<HTMLDivElement>(null);
 
-  const closeModal = (e) => {
+  const closeModal = (e: any) => {
     if (modalRef.current === e.target) {
       setShowModal(false);
     }
+    if (e.key === "Escape") {
+      setShowModal(false);
+    }
   };
-console.log(imageSrc);
+  console.log(imageSrc);
 
   return (
     <>
@@ -457,26 +480,33 @@ console.log(imageSrc);
         <div
           ref={modalRef}
           onClick={closeModal}
-          className="fixed inset-0 z-[13] flex items-center justify-center w-full h-full bg-black bg-opacity-70"
+          className="fixed inset-0 z-[990] flex h-full w-full items-center justify-center bg-black bg-opacity-70"
         >
-          <div className="relative z-[13] flex flex-col items-center justify-center w-full h-full">
+          <div className="relative z-[991] flex h-full w-full flex-col items-center justify-center">
             <button
               onClick={() => setShowModal(false)}
-              className="absolute top-0 right-0 z-50 flex items-center justify-center w-10 h-10 rounded-full bg-sec text-text/50 hover:bg-sec/90 hover:text-text/80"
+              className="absolute right-0 top-0 z-[991] flex h-10 w-10 items-center justify-center rounded-full bg-sec text-text/50 hover:bg-sec/90 hover:text-text/80"
             >
-          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 256 256"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path></svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="32"
+                height="32"
+                fill="currentColor"
+                viewBox="0 0 256 256"
+              >
+                <path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path>
+              </svg>
             </button>
-            <div className="relative z-[13]  h-full w-full   text-text lg:mx-auto lg:min-w-[900px] lg:max-w-[900px]">
+            <div className="relative z-[991]  h-full w-full   text-text lg:mx-auto lg:min-w-[900px] lg:max-w-[900px]">
               <img
-                className="object-contain w-full h-full z-[13] absolute"
+                className="absolute z-[992] h-full w-full object-contain"
                 src={`https://www.trainjumper.com${imageSrc}`}
                 alt="Modpack Image"
               />
-                 
             </div>
           </div>
         </div>
       ) : null}
     </>
   );
-}
+};

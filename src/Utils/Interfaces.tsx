@@ -13,17 +13,22 @@ export interface IPackDetails {
   color: string;
   comments: IComment[];
   description: string;
+  galleryImages: IGalleryImage[]; //
   imageUrl: string;
-  galleryImageUrls:  string[]; //
-  galleryThumbnailUrls: string[]; //
+  isSponsored: boolean;
   modpackId: string;
   name: string;
-  tags: string[];
   officialUrl: string;
   suggestedBy: string;
+  tags: string[];
   timesVoted: number;
   voteCount: number;
 }
+export interface IGalleryImage {
+  imageUrl: string;
+  thumbnailUrl: string;
+}
+
 export interface IComment {
   uuid: string;
   discord_id?: number;

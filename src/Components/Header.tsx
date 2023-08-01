@@ -58,9 +58,9 @@ const Header = () => {
       {menu ? null : (
         <header
           ref={ref}
-          className="relative z-0 hidden h-[140px] items-center justify-center  text-sm md:grid xl:h-[170px] xl:text-base"
+          className="relative z-[12] hidden h-[140px] items-center justify-center  text-sm md:grid xl:h-[170px] xl:text-base"
         >
-          <div className=" absolute inset-0 m-auto bg-gradient-to-tr from-acc to-pri dark:brightness-50 "></div>
+          <div className=" absolute inset-0 z-[12] m-auto bg-gradient-to-tr from-acc to-pri dark:brightness-50 "></div>
           <img
             alt="CDU"
             src="/logo.png"
@@ -73,7 +73,7 @@ const Header = () => {
         </header>
       )}
       <nav
-        className={` sticky top-0 z-[11] flex w-full items-center justify-stretch  gap-2 border-bg bg-bg px-8 py-2 text-text md:justify-center md:px-4 lg:mx-auto lg:min-w-[896px] lg:max-w-[896px] lg:border-x-4  ${
+        className={` sticky top-0 z-[12] flex w-full items-center justify-stretch  gap-2 border-bg bg-bg px-8 py-2 text-text md:justify-center md:px-4 lg:mx-auto lg:min-w-[896px] lg:max-w-[896px] lg:border-x-4  ${
           isIntersecting && " shadow-md"
         }`}
       >
@@ -81,7 +81,7 @@ const Header = () => {
 
         {/* If the window size is below 600px display a modal with the nav */}
         {menu ? (
-          <div className="fixed left-0 top-0 z-50 flex h-screen w-full flex-col  justify-center bg-bg dark:bg-sec md:hidden">
+          <div className="fixed left-0 top-0 z-[999] flex h-screen w-full flex-col  justify-center bg-bg dark:bg-sec md:hidden">
             {/* If the window size is below 600px display a button with "menu as the value and on click make a modal to display the nav */}
 
             {/* If the window size is below 600px display a modal with the nav */}
@@ -94,7 +94,7 @@ const Header = () => {
               onClick={() => navigate("/")}
             />
 
-            <div className="absolute left-0 top-0 z-10 flex h-screen w-full flex-col items-center justify-center bg-bg dark:bg-sec md:hidden">
+            <div className="absolute left-0 top-0 z-[14] flex h-screen w-full flex-col items-center justify-center bg-bg dark:bg-sec md:hidden">
               <button className="absolute right-2 top-2" onClick={toggleMenu}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -134,7 +134,7 @@ const Header = () => {
           </div>
         ) : null}
 
-        <button className="z-10 order-2 sm:hidden " onClick={toggleMenu}>
+        <button className="z-[14] order-2 sm:hidden " onClick={toggleMenu}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="32"
