@@ -27,7 +27,7 @@ function App() {
   const { user } = useUser();
   return (
     <ThemeProvider>
-      <div className="flex min-h-screen flex-col  text-text">
+      <div className="flex min-h-screen flex-col bg-oldBG dark:bg-oldBGDark text-text">
         <BrowserRouter>
           <Header />
           <Routes>

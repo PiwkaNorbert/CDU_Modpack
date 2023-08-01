@@ -65,7 +65,7 @@ function SuggestedByUserSearch() {
   return (
     <>
       <input
-        className={` h-8 rounded-md border-2   px-3 py-1 ${
+        className={` h-8 rounded-md border-2  bg-bg px-3 py-1 ${
           !isValid && isTouched ? " input-error " : ""
         } ${!exists ? " input-warning " : ""} ${
           exists && isValid && !loading ? " input-success " : ""

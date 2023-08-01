@@ -1,11 +1,11 @@
 import React, { useCallback } from "react";
-import { IModpack } from "../Utils/Interfaces";
 import useModpackData from "../API/useModpackData";
 import ModpackCard from "../Components/ModpackCard";
 import { useQueryClient } from "@tanstack/react-query";
 import { tagOptions } from "../Helper/modifyModpack";
 import { useUser } from "../Context/useUser";
 import AddPackCard from "./addPack/AddPackCard";
+import CaretUpSVG from "../Components/SVG/CaretUpSVG";
 
 const PackListPage = () => {
   const queryClient = useQueryClient();
@@ -31,9 +31,9 @@ const PackListPage = () => {
   });
 
   const changeViewByInput = useCallback(
-    (evt: any) => {
-      setModPackFilterByInput(evt);
-    },
+    (evt: React.ChangeEvent<HTMLInputElement>) => 
+      setModPackFilterByInput(evt.target.value)
+    ,
     [setModPackFilterByInput]
   );
 
@@ -41,11 +41,11 @@ const PackListPage = () => {
     <>
       <section
         id="modpack__gallery"
-        className="grid h-full   w-full justify-normal self-center text-text lg:mx-auto lg:min-w-[900px] lg:max-w-[900px] "
+        className="grid h-full  w-full justify-normal self-center text-text lg:mx-auto lg:min-w-[900px] lg:max-w-[900px] "
       >
         {/* set the width to ffit the content and assign them to sm md lg for the container  like lg:max-w-[1000px]
         below and assthese same things to the nav width*/}
-        <div className="relative h-min overflow-hidden border-t-2 bg-bg dark:border-none dark:bg-bg dark:shadow  md:mb-4 md:rounded-xl  md:border-none md:shadow-2xl  ">
+        <div className="relative h-min overflow-hidden border-t-2 bg-bg dark:border-none dark:bg-bg dark:shadow  md:mb-4 md:rounded-b-xl  md:border-none md:shadow-2xl  ">
           {/* map the data variable in a grad 4x2  */}
           <div className="md:space-x-none  flex items-center  justify-between   space-x-4 p-5 text-xl text-text xl:text-2xl ">
             <p className="z-10">Modpacks</p>
@@ -56,7 +56,7 @@ const PackListPage = () => {
               placeholder="Search for modpacks"
               type="text"
               name="tagSearch"
-              onChange={(e) => changeViewByInput(e.target.value)}
+              onChange={(e) => changeViewByInput(e)}
             />
             <button
               className="z-10 flex w-[96.81px] justify-end"
@@ -115,48 +115,48 @@ const PackListPage = () => {
               </div>
             </div>
           )}
-          <div className=" grid  grid-cols-2 gap-5 p-5 max-[400px]:grid-cols-1 sm:grid-cols-3  md:grid-cols-3   lg:grid-cols-4   ">
             {isLoading ? (
               <div className="col-span-full text-center">Loading...</div>
             ) : isError ? (
               <div className="col-span-full "> {error?.message}</div>
             ) : data?.length === 0 ? (
-              <div className="col-span-full text-center">No Modpacks</div>
+              <div className="col-span-full text-center my-8">No Modpacks</div>
             ) : (
               <>
-                {user?.isAdmin && <AddPackCard />}
-                {data?.map(
+               <div className=" grid  grid-cols-2 gap-5 p-5 max-[400px]:grid-cols-1 sm:grid-cols-3  md:grid-cols-3   lg:grid-cols-4   ">
+                {data?.filter((modpack)=> modpack.isSponsored)?.map(
                   (
-                    {
-                      modpackId,
-                      name,
-                      imageUrl,
-                      color,
-                      voteCount,
-                      tags,
-                      commentCount,
-                      timesVoted,
-                    }: IModpack,
-                    index: number
+                    modpack
                   ) => {
                     return (
-                      <ModpackCard
-                        key={index}
-                        modpackId={modpackId}
-                        name={name}
-                        imageUrl={imageUrl}
-                        color={color}
-                        tags={tags}
-                        voteCount={voteCount}
-                        commentCount={commentCount}
-                        timesVoted={timesVoted}
-                      />
-                    );
-                  }
+                      <ModpackCard {...modpack} />
+                      );
+                    }
                 )}
+                </div>
+                {data?.filter((modpack)=> modpack.isSponsored).length !== 0 && (
+                  <div className="flex flex-col mx-5 mb-4 w-full border-b-2 relative justify-center items-center ">
+                    <p className=" absolute bg-bg px-2 flex gap-2 items-center ">
+                      <CaretUpSVG />
+                        Sponsored Packs
+                      <CaretUpSVG />
+                    </p>
+                  </div>
+                )}
+              <div className=" grid  grid-cols-2 gap-5 p-5 max-[400px]:grid-cols-1 sm:grid-cols-3  md:grid-cols-3   lg:grid-cols-4   ">
+                {user?.isAdmin && <AddPackCard />}
+                {data?.filter((modpack)=>!modpack.isSponsored)?.map(
+                  (
+                    modpack
+                  ) => {
+                    return (
+                      <ModpackCard {...modpack} />
+                      );
+                    }
+                )}
+                </div>
               </>
             )}
-          </div>
           <div className="absolute inset-0 h-full w-full flex-1 bg-sec opacity-20"></div>
         </div>
         <div className="p-body-inner m-4  my-0 flex  h-10   items-center justify-end md:mr-0 lg:mr-0">

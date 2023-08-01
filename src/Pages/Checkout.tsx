@@ -52,7 +52,7 @@ export function Checkout() {
       id="modpack__payment"
       className="z-10 grid h-full w-full  flex-1 justify-normal text-text lg:mx-auto lg:min-w-[900px] lg:max-w-[900px] "
     >
-      <div className="relative h-min overflow-hidden border-t-2 pb-4  dark:border-none dark:shadow  md:mb-4 md:rounded-b-md  md:border-none md:shadow-xl  ">
+      <div className="relative h-min overflow-hidden border-t-2 pb-4  bg-bg dark:border-none dark:shadow  md:mb-4 md:rounded-b-md  md:border-none md:shadow-xl  ">
         <div className={` z-10 grid h-full items-center  lg:rounded-md   `}>
           <div className=" z-10 flex justify-between gap-2  px-8 pt-4  max-[350px]:flex-col sm:gap-0 md:px-4 ">
             <Link

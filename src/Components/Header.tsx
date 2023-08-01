@@ -73,7 +73,7 @@ const Header = () => {
         </header>
       )}
       <nav
-        className={` sticky top-0 z-[12] flex w-full items-center justify-stretch  gap-2 border-bg bg-bg px-8 py-2 text-text md:justify-center md:px-4 lg:mx-auto lg:min-w-[896px] lg:max-w-[896px] lg:border-x-4  ${
+        className={` sticky top-0 z-[12] flex w-full items-center justify-stretch  gap-2 border-bg bg-bg px-8 py-2 text-text md:justify-center md:px-4 lg:mx-auto lg:min-w-[900px] lg:max-w-[900px] lg:border-x-4  ${
           isIntersecting && " shadow-md"
         }`}
       >
@@ -232,8 +232,8 @@ const Header = () => {
                   }}
                 >
                   <img
-                    className="aspect-square w-12 cursor-pointer rounded-full   opacity-90 hover:opacity-100"
-                    src={`https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}`}
+                    className="aspect-square w-12 cursor-pointer  opacity-90 hover:opacity-100"
+                    src={user.isLinked ? user.playerData?.mc_head_url : `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}`}
                     alt={user.username ? `${user.username}'s avatar` : "avatar"}
                   />
                 </button>

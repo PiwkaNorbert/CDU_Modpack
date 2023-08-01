@@ -71,6 +71,7 @@ const Login = () => {
       tokenExpiry: data?.token_expiry,
       isLinked: data?.is_linked,
       inGuild: data?.in_guild,
+      playerData: data?.player_data, 
     };
 
     setUser(profileData);

@@ -6,21 +6,26 @@ import HeartSVG from "./SVG/HeartSVG";
 import HeartFillSVG from "./SVG/HeartFillSVG";
 import CommentBubbleSVG from "./SVG/CommentBubbleSVG";
 import { Link } from "react-router-dom";
-const ModpackCard = ({
-  modpackId,
-  name,
-  imageUrl,
-  color,
-  voteCount,
-  commentCount,
-  timesVoted,
-}: IModpack) => {
+const ModpackCard = (props: IModpack) => {
   const queryClient = useQueryClient();
+
+ const {
+  
+    modpackId,
+    name,
+    imageUrl,
+    color,
+    voteCount,
+    commentCount,
+    timesVoted,
+    // isSponsored,
+  } = props
+
 
   return (
     <div
       key={modpackId}
-      className={`relative z-10  mb-8 flex justify-center rounded-md border-[3.5px] text-text transition-transform hover:scale-105 hover:shadow-sm hover:shadow-white/50 lg:min-h-[109px] lg:min-w-[194px] border-${color}-300 `}
+      className={`relative z-10  mb-8 flex justify-center rounded-md border-[3.5px] text-text transition-transform hover:scale-105 hover:shadow-sm hover:shadow-white/50 lg:min-h-[109px] lg:min-w-[194px] border-${color}-400 `}
       onMouseEnter={() => {
         queryClient.prefetchQuery(["details", modpackId], () =>
           fetchPackDetail(modpackId as string)
@@ -43,7 +48,7 @@ const ModpackCard = ({
               width="275"
               height="155"
               placeholderSrc={`/src/assets/placeholderImg.png`}
-              className={`lazy-load-image-2 aspect-video text-right bg-${color}-300 w-full border-b-[3.5px] border-${color}-300  object-fill object-center`}
+              className={`lazy-load-image-2 aspect-video text-right bg-${color}-400 w-full border-b-[3.5px] border-${color}-400  object-fill object-center`}
             />
 
             <p className="text-content mb-4 flex h-[72px] min-h-max items-center justify-center hyphens-auto px-2 pt-[.3rem] pb-[.1rem] text-center uppercase">
@@ -52,7 +57,7 @@ const ModpackCard = ({
           </div>
 
           <div
-            className={`absolute flex h-9 divide-x   overflow-hidden rounded-full border-[3.5px] bg-bg px-2 py-1 text-text  border-${color}-300 -bottom-[22px]  items-center text-base `}
+            className={`absolute flex h-9 divide-x   overflow-hidden rounded-full border-[3.5px] bg-bg px-2 py-1 text-text  border-${color}-400 -bottom-[22px]  items-center text-base `}
           >
             <div className=" flex items-center gap-1 pr-2">
               <picture className={`flex`}>

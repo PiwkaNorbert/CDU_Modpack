@@ -36,7 +36,7 @@ export function CommentsComponent({
       <div className="flex ">
         {user?.isLoggedIn && (
           <button
-            className={`ml-[.5em] mr-1 w-fit rounded-md border border-${borderColor}-500  px-3 py-1 text-justify text-xs text-bg hover:border-opacity-80  dark:text-text bg-${borderColor}-500 hover:bg-opacity-80  dark:hover:bg-opacity-80 `}
+            className={`ml-[.5em] mr-1 w-fit rounded-md border border-${borderColor}-500 dark:border-${borderColor}-600  px-3 py-1 text-justify text-xs text-text hover:border-opacity-80  dark:text-text bg-${borderColor}-500 dark:bg-${borderColor}-600 hover:bg-opacity-80  dark:hover:bg-opacity-80 `}
             onClick={() => {
               setShowAddReply(!showAddReply);
             }}
@@ -71,6 +71,8 @@ export function CommentsComponent({
           modpackId={modpackId}
           replyingTo={true}
           replyParentId={comment?.uuid || ""}
+          setShowAddReply={setShowAddReply}
+          setShowReplies={setShowReplies}
         />
       )}
       {showReplies && (

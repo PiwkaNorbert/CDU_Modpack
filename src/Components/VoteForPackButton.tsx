@@ -109,7 +109,7 @@ export default function VoteForPackButton({
       {user?.isLinked && (
         <button
           disabled={isFetching !== 0 || timesVoted === 0}
-          className={`group h-10 rounded-md text-text hover:bg-opacity-80 dark:hover:bg-opacity-80 disabled:bg-slate-300 disabled:text-slate-500 dark:disabled:bg-slate-700 dark:disabled:text-slate-500  bg-${borderColor}-400 dark:bg-${borderColor}-600 px-3 py-1 text-sm xl:text-base`}
+          className={`group h-10 rounded-md text-text hover:bg-opacity-80 dark:hover:bg-opacity-80 disabled:bg-slate-300 disabled:text-slate-500 dark:disabled:bg-slate-700 dark:disabled:text-slate-500  bg-${borderColor}-500 dark:bg-${borderColor}-600 px-3 py-1 text-sm xl:text-base`}
           onClick={() => {
             if (removeVote.isLoading) return;
             return removeVote.mutate();
@@ -128,7 +128,7 @@ export default function VoteForPackButton({
       {user?.isLinked && (
         <button
           disabled={!(isFetching === 0) || user?.votesRemaining === 0}
-          className={` group h-10 rounded-md text-text hover:bg-opacity-80 dark:hover:bg-opacity-80 disabled:bg-slate-300 disabled:text-slate-500 dark:disabled:bg-slate-700 dark:disabled:text-slate-500  bg-${borderColor}-400 dark:bg-${borderColor}-600 px-3 py-1 text-sm xl:text-base`}
+          className={` group h-10 rounded-md text-text hover:bg-opacity-80 dark:hover:bg-opacity-80 disabled:bg-slate-300 disabled:text-slate-500 dark:disabled:bg-slate-700 dark:disabled:text-slate-500  bg-${borderColor}-500 dark:bg-${borderColor}-600 px-3 py-1 text-sm xl:text-base`}
           onClick={() => {
             if (addVote.isLoading || user?.votesRemaining === 0) return;
             return addVote.mutate();

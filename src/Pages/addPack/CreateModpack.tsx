@@ -157,7 +157,7 @@ export const CreateModpack = () => {
 
         {/*Color selection*/}
         <select
-          className={` h-8 cursor-pointer rounded-md border-2  dark:text-bg border-${borderColor}-500 bg-${borderColor}-300 px-3 py-1 font-Tilt `}
+          className={` h-8 cursor-pointer rounded-md border-2  dark:text-bg border-${borderColor}-500 bg-${borderColor}-400 px-3 py-1 font-Tilt `}
           name="color"
           defaultValue="Sky"
           onChange={(e) => {
@@ -197,7 +197,7 @@ export const CreateModpack = () => {
           disabled={addModpackMutation.isLoading}
           type="submit"
         >
-          d
+          
           {addModpackMutation.isLoading ? "Adding Modpack" : "Add Modpack"}
         </button>
       </form>

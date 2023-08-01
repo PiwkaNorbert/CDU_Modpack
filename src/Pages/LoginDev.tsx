@@ -29,6 +29,15 @@ const LoginDev = () => {
     tokenExpiry: Date.now() + 1209600000,
     isLinked: true,
     inGuild: true,
+    playerData: {
+      uuid: "910823491287319283712938123478124867",
+      username: "Iberius",
+      discord_id: "176079322140901376",
+      mc_avatar_url: "https://crafatar.com/avatars/c5ef334745934f398bb12eaa40dd986e?size=100&overlay",
+      mc_head_url: "https://crafatar.com/renders/head/c5ef334745934f398bb12eaa40dd986e?size=100&overlay",
+      mc_avatar_url_fallback: "https://mc-heads.net/avatar/c5ef334745934f398bb12eaa40dd986e/100",
+    }, 
+
   };
 
   setUser(profileData);

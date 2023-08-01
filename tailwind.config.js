@@ -54,9 +54,9 @@ export default {
         },
       },
       backgroundImage: {
-        heart: "url('/heart.svg')",
-        heartBreak: "url('/heartbreak.svg')",
-        comment: "url('/chat-circle-fill.svg')",
+        oldBG: "url('/back.jpg')",
+        oldBGDark: "url('/backDark.jpg')",
+
       },
       boxShadow: {
         header: "0 0 8px 3px rgba(0,0,0,0.3)",
@@ -106,7 +106,7 @@ export default {
   safelist: [
     {
       pattern:
-        /(bg|text|border|shadow|hover|min|steps|step|daisy|animate)-(red|orange|yellow|lime|green|teal|sky|blue|violet|fuchsia|black|h|gray|slate|gradient|dashed|dotted|grey|primary|bounce|steps|step|step-primary)/,
+        /(bg|text|border|shadow|hover|min|steps|step|daisy|animate)-(oldBGDark|oldBG|red|orange|yellow|lime|green|teal|sky|blue|violet|fuchsia|black|h|gray|slate|gradient|dashed|dotted|grey|primary|bounce|steps|step|step-primary)/,
       variants: ["dark", "hover", "responsive", "first", "last", "group-hover"],
     },
   ],

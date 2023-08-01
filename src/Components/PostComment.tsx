@@ -11,11 +11,15 @@ const PostComment = ({
   modpackId,
   replyParentId,
   replyingTo,
+  setShowAddReply,
+  setShowReplies,
 }: {
   borderColor: string;
   modpackId?: string;
   replyParentId: string;
   replyingTo: boolean;
+  setShowAddReply: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowReplies: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [comment, setComment] = React.useState<string>("");
 
@@ -65,6 +69,8 @@ const PostComment = ({
       };
 
       if (replyingTo) {
+        setShowAddReply(false)
+        setShowReplies(true)
         queryClient.setQueriesData(
           ["replies", replyParentId],
           (oldData: any) => {
@@ -143,7 +149,7 @@ const PostComment = ({
       <button
         disabled={comment.length === 0 || commentMutation.isLoading}
         type="submit"
-        className={`h-10  rounded-md text-text  bg-${borderColor}-500 px-3 py-1 hover:opacity-80  disabled:bg-slate-300 disabled:text-slate-500 dark:disabled:bg-slate-700 dark:disabled:text-slate-500 disabled:hover:opacity-100 `}
+        className={`h-10  rounded-md text-text dark:text-text  px-3 py-1 hover:opacity-80  disabled:bg-slate-300 disabled:text-slate-500 dark:disabled:bg-slate-700 dark:disabled:text-slate-500 disabled:hover:opacity-100 `}
       >
         {replyingTo ? (commentMutation.isLoading ? "Replying.." : "Reply") : ""}
         {!replyingTo ? (commentMutation.isLoading ? "Posting.." : "Post") : ""}

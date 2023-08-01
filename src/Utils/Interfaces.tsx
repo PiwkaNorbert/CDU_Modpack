@@ -1,12 +1,13 @@
 export interface IModpack {
+  color: string;
+  commentCount: number;
+  imageUrl: string;
+  isSponsored: boolean;
   modpackId: string;
   name: string;
-  imageUrl: string;
-  color: string;
   tags: string[];
-  voteCount: number;
-  commentCount: number;
   timesVoted: number;
+  voteCount: number;
 }
 
 export interface IPackDetails {
@@ -70,6 +71,16 @@ export interface DiscordProfileData {
   tokenExpiry?: number;
   isLinked?: boolean;
   inGuild?: boolean;
+  playerData?: IMCPlayerData;
+}
+export interface IMCPlayerData {
+  uuid: string;
+  username: string;
+  discord_id: string;
+  mc_avatar_url: string;
+  mc_head_url: string;
+  mc_avatar_url_fallback: string;
+ 
 }
 export interface VoteForPackButtonProps {
   modpackId: string;
