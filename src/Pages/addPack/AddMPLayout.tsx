@@ -32,15 +32,15 @@ const AddModpack = () => {
               <p className={` `}>Cancel</p>
             </Link>
 
-            <ul className="daisy-steps  ">
+            <ul className="progress__steps  ">
               {/* prettier-ignore */}
-              <li className="daisy-step daisy-step-primary  ">
+              <li className="progress__step--active  ">
             <Link to={"create"}>Create</Link>
           </li>
               <li
-                className={`daisy-step ${
+                className={` ${
                   location.pathname.includes("/add-modpack/photos")
-                    ? "daisy-step-primary"
+                    ? "progress__step--active"
                     : ""
                 }`}
               >
