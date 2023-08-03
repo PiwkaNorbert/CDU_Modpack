@@ -139,22 +139,26 @@ input[type="file"]::file-selector-button:hover {
   }
 }
 
-/*progressbar*/
 .progress__steps {
   overflow: hidden;
   /*CSS counters to number the steps*/
   counter-reset: step;
-  z-index: 20;
-  display: flex;
+  width: 60%;
   margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  justify-items: center;
 }
 .progress__steps li {
   list-style-type: none;
   color: hsl(var(--clr-text));
   text-transform: uppercase;
   font-size: 9px;
-  width: 33.33%;
+
+  float: left;
   position: relative;
+  /* display: flex; */
+  text-align: center;
 }
 .progress__steps li:before {
   content: counter(step);
@@ -165,17 +169,17 @@ input[type="file"]::file-selector-button:hover {
   font-size: 10px;
   color: hsl(var(--clr-bg));
   background: hsl(var(--clr-text));
-  border-radius: 3px;
-  margin: 5px auto 5px auto;
+  border-radius: 50%;
+  margin: 0 auto 5px auto;
 }
-/*progress__steps connectors*/
+/*progressbar connectors*/
 .progress__steps li:after {
   content: "";
-  width: 100%;
+  width: 130%;
   height: 2px;
   background: hsl(var(--clr-text));
   position: absolute;
-  left: -50%;
+  left: -90%;
   top: 9px;
   z-index: -1; /*put it behind the numbers*/
 }
@@ -187,6 +191,6 @@ input[type="file"]::file-selector-button:hover {
 /*The number of the step and the connector before it = green*/
 .progress__steps li.progress__step--active:before,
 .progress__steps li.progress__step--active:after {
-  background-color: hsl(var(--clr-acc));
+  background: rgb(255, 99, 71);
   color: hsl(var(--clr-bg));
 }

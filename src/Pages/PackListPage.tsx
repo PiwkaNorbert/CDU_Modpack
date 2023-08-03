@@ -31,9 +31,8 @@ const PackListPage = () => {
   });
 
   const changeViewByInput = useCallback(
-    (evt: React.ChangeEvent<HTMLInputElement>) => 
-      setModPackFilterByInput(evt.target.value)
-    ,
+    (evt: React.ChangeEvent<HTMLInputElement>) =>
+      setModPackFilterByInput(evt.target.value),
     [setModPackFilterByInput]
   );
 
@@ -115,48 +114,40 @@ const PackListPage = () => {
               </div>
             </div>
           )}
-            {isLoading ? (
-              <div className="col-span-full text-center">Loading...</div>
-            ) : isError ? (
-              <div className="col-span-full "> {error?.message}</div>
-            ) : data?.length === 0 ? (
-              <div className="col-span-full text-center my-8">No Modpacks</div>
-            ) : (
-              <>
-               <div className=" grid  grid-cols-2 gap-5 p-5 max-[400px]:grid-cols-1 sm:grid-cols-3  md:grid-cols-3   lg:grid-cols-4   ">
-                {data?.filter((modpack)=> modpack.isSponsored)?.map(
-                  (
-                    modpack
-                  ) => {
-                    return (
-                      <ModpackCard {...modpack} />
-                      );
-                    }
-                )}
+          {isLoading ? (
+            <div className="col-span-full text-center">Loading...</div>
+          ) : isError ? (
+            <div className="col-span-full "> {error?.message}</div>
+          ) : data?.length === 0 ? (
+            <div className="col-span-full my-8 text-center">No Modpacks</div>
+          ) : (
+            <>
+              <div className=" grid  grid-cols-2 gap-5 p-5 max-[400px]:grid-cols-1 sm:grid-cols-3  md:grid-cols-3   lg:grid-cols-4   ">
+                {data
+                  ?.filter((modpack) => modpack.isSponsored)
+                  ?.map((modpack) => {
+                    return <ModpackCard {...modpack} />;
+                  })}
+              </div>
+              {data?.filter((modpack) => modpack.isSponsored).length !== 0 && (
+                <div className="relative mx-5 mb-4 flex w-full flex-col items-center justify-center border-b-2 ">
+                  <p className=" absolute flex items-center gap-2 bg-bg px-2 ">
+                    <CaretUpSVG />
+                    Sponsored Packs
+                    <CaretUpSVG />
+                  </p>
                 </div>
-                {data?.filter((modpack)=> modpack.isSponsored).length !== 0 && (
-                  <div className="flex flex-col mx-5 mb-4 w-full border-b-2 relative justify-center items-center ">
-                    <p className=" absolute bg-bg px-2 flex gap-2 items-center ">
-                      <CaretUpSVG />
-                        Sponsored Packs
-                      <CaretUpSVG />
-                    </p>
-                  </div>
-                )}
+              )}
               <div className=" grid  grid-cols-2 gap-5 p-5 max-[400px]:grid-cols-1 sm:grid-cols-3  md:grid-cols-3   lg:grid-cols-4   ">
                 {user?.isAdmin && <AddPackCard />}
-                {data?.filter((modpack)=>!modpack.isSponsored)?.map(
-                  (
-                    modpack
-                  ) => {
-                    return (
-                      <ModpackCard {...modpack} />
-                      );
-                    }
-                )}
-                </div>
-              </>
-            )}
+                {data
+                  ?.filter((modpack) => !modpack.isSponsored)
+                  ?.map((modpack) => {
+                    return <ModpackCard {...modpack} />;
+                  })}
+              </div>
+            </>
+          )}
           <div className="absolute inset-0 h-full w-full flex-1 bg-sec opacity-20"></div>
         </div>
         <div className="p-body-inner m-4  my-0 flex  h-10   items-center justify-end md:mr-0 lg:mr-0">
