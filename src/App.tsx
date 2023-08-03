@@ -1,4 +1,5 @@
 import "./index.css";
+import { useEffect } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import FetchingIndicator from "./Components/FetchingIndicator";
@@ -10,7 +11,6 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ThemeProvider } from "./Context/ThemeContext";
 import { useUser } from "./Context/useUser";
 
-import { Checkout, CheckoutSuccess, CheckoutFail } from "./Pages/Checkout";
 import PackListPage from "./Pages/PackListPage";
 import PackDetails from "./Pages/PackDetails";
 import Login from "./Pages/Login";
@@ -22,12 +22,31 @@ import EditModpack from "./Pages/EditModpack";
 // import Subscriptions from "./Pages/Subscriptions";
 import LoginDev from "./Pages/LoginDev";
 import { CreateModpack } from "./Pages/addPack/CreateModpack";
+import ArchivedPackListPage from "./Pages/ArchivedPackListPage";
+import SuggestedPackListPage from "./Pages/SuggestedPackListPage";
+import SuggestedPackDetails from "./Pages/SuggestedPackDetails";
 
 function App() {
-  const { user } = useUser();
+  const { user, setUser } = useUser();
+  // check if the user in local storage is an admin or not and set the state accordingly to show the admin panel or not
+  useEffect(() => {
+    const localStorageProfileData = localStorage.getItem("profileData");
+    if (localStorageProfileData) {
+      // check if the token is expired or not and if it is then log the user out
+      const parsedData = JSON.parse(localStorageProfileData);
+      const tokenExpirationDate = new Date(parsedData?.tokenExpiry);
+      const currentDate = new Date();
+      if (tokenExpirationDate < currentDate) {
+        localStorage.removeItem("profileData");
+        setUser(undefined);
+      }
+      setUser(JSON.parse(localStorageProfileData));
+    }
+  }, []);
+
   return (
     <ThemeProvider>
-      <div className="flex min-h-screen flex-col bg-oldBG dark:bg-oldBGDark text-text">
+      <div className="flex min-h-screen flex-col text-text ">
         <BrowserRouter>
           <Header />
           <Routes>
@@ -36,30 +55,8 @@ function App() {
             <Route path="login" element={<Login />} />
             <Route path="loginDev" element={<LoginDev />} />
 
-            <Route path="*" element={<Navigate to="/404" replace />} />
-            <Route path="404" element={<NotFoundPage />} />
-            <Route
-              path="/payment-succeeded/:modpackId"
-              element={<CheckoutSuccess />}
-            />
-            <Route
-              path="/payment-failed/:modpackId"
-              element={<CheckoutFail />}
-            />
-
-            {user?.isLoggedIn && (
-              <>
-                <Route path="/checkout/:modpackId" element={<Checkout />} />
-              </>
-            )}
-            {/*
-            <Route path="/customers">
-              <Customers />
-            </Route>
-            <Route path="/subscriptions">
-              <Subscriptions />
-            </Route>
-            */}
+            {/* <Route path="*" element={<Navigate to="/404" replace />} />
+            <Route path="404" element={<NotFoundPage />} /> */}
 
             {user?.isAdmin && (
               <>
@@ -70,6 +67,19 @@ function App() {
                 <Route
                   path="edit-modpack/:modpackId"
                   element={<EditModpack />}
+                />
+                <Route
+                  path="archived-modpacks"
+                  element={<ArchivedPackListPage />}
+                />
+                <Route
+                  path="suggested-modpacks"
+                  element={<SuggestedPackListPage />}
+                />
+
+                <Route
+                  path="suggested-pack-details/:modpackId"
+                  element={<SuggestedPackDetails />}
                 />
               </>
             )}

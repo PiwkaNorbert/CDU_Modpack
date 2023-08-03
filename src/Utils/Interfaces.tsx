@@ -8,6 +8,8 @@ export interface IModpack {
   tags: string[];
   timesVoted: number;
   voteCount: number;
+  isPublished: boolean;
+  isArchived: boolean;
 }
 
 export interface IPackDetails {
@@ -24,6 +26,8 @@ export interface IPackDetails {
   tags: string[];
   timesVoted: number;
   voteCount: number;
+  isArchived: boolean;
+  isPublished: boolean;
 }
 export interface IGalleryImage {
   imageUrl: string;
@@ -80,7 +84,6 @@ export interface IMCPlayerData {
   mc_avatar_url: string;
   mc_head_url: string;
   mc_avatar_url_fallback: string;
- 
 }
 export interface VoteForPackButtonProps {
   modpackId: string;

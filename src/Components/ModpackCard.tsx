@@ -5,12 +5,31 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import HeartSVG from "./SVG/HeartSVG";
 import HeartFillSVG from "./SVG/HeartFillSVG";
 import CommentBubbleSVG from "./SVG/CommentBubbleSVG";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
+
 const ModpackCard = (props: IModpack) => {
   const queryClient = useQueryClient();
+  const location = useLocation();
 
- const {
-  
+  const [currentPlace, setCurrentPlace] = useState("/");
+
+  useEffect(() => {
+    switch (location.pathname) {
+      case "/":
+        setCurrentPlace("/");
+        break;
+      case "/archived-modpacks":
+        setCurrentPlace("/archived-");
+        break;
+      case "/suggested-modpacks":
+        setCurrentPlace("/suggested-");
+        break;
+      default:
+        break;
+    }
+  }, []);
+  const {
     modpackId,
     name,
     imageUrl,
@@ -18,9 +37,10 @@ const ModpackCard = (props: IModpack) => {
     voteCount,
     commentCount,
     timesVoted,
+    isPublished,
+    isArchived,
     // isSponsored,
-  } = props
-
+  } = props;
 
   return (
     <div
@@ -33,7 +53,7 @@ const ModpackCard = (props: IModpack) => {
       }}
     >
       <Link
-        to={`/pack-details/${modpackId}`}
+        to={`${currentPlace}pack-details/${modpackId}`}
         className={`w-full overflow-hidden rounded-sm bg-bg `}
       >
         <div className=" flex h-full justify-center rounded-md  hover:text-opacity-100  ">
@@ -51,27 +71,32 @@ const ModpackCard = (props: IModpack) => {
               className={`lazy-load-image-2 aspect-video text-right bg-${color}-400 w-full border-b-[3.5px] border-${color}-400  object-fill object-center`}
             />
 
-            <p className="text-content mb-4 flex h-[72px] min-h-max items-center justify-center hyphens-auto px-2 pt-[.3rem] pb-[.1rem] text-center uppercase">
+            <p
+              className={`text-content ${
+                !(isPublished || isArchived) ? "pb-[.3rem]" : " mb-4 pb-[.1rem]"
+              } flex h-[72px] min-h-max items-center justify-center hyphens-auto px-2 pt-[.3rem] text-center uppercase`}
+            >
               {name}
             </p>
           </div>
-
-          <div
-            className={`absolute flex h-9 divide-x   overflow-hidden rounded-full border-[3.5px] bg-bg px-2 py-1 text-text  border-${color}-400 -bottom-[22px]  items-center text-base `}
-          >
-            <div className=" flex items-center gap-1 pr-2">
-              <picture className={`flex`}>
-                {timesVoted > 0 ? <HeartFillSVG /> : <HeartSVG />}
-              </picture>
-              <p>{voteCount}</p>
+          {!(isPublished || isArchived) ? null : (
+            <div
+              className={`absolute flex h-9 divide-x   overflow-hidden rounded-full border-[3.5px] bg-bg px-2 py-1 text-text  border-${color}-400 -bottom-[22px]  items-center text-base `}
+            >
+              <div className=" flex items-center gap-1 pr-2">
+                <picture className={`flex`}>
+                  {timesVoted > 0 ? <HeartFillSVG /> : <HeartSVG />}
+                </picture>
+                <p>{voteCount}</p>
+              </div>
+              <div className="flex items-center gap-1 pl-2">
+                <picture className={`flex `}>
+                  <CommentBubbleSVG />
+                </picture>
+                <p>{commentCount}</p>
+              </div>
             </div>
-            <div className="flex items-center gap-1 pl-2">
-              <picture className={`flex `}>
-                <CommentBubbleSVG />
-              </picture>
-              <p>{commentCount}</p>
-            </div>
-          </div>
+          )}
         </div>
       </Link>
     </div>

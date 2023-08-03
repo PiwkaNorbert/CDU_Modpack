@@ -41,8 +41,8 @@ const Header = () => {
     }
 
     return () => {
-      if (observer && ref.current) {
-        observer.unobserve(ref.current);
+      if (observer) {
+        observer.disconnect();
       }
     };
   }, [ref]);
@@ -233,7 +233,11 @@ const Header = () => {
                 >
                   <img
                     className="aspect-square w-12 cursor-pointer  opacity-90 hover:opacity-100"
-                    src={user.isLinked ? user.playerData?.mc_head_url : `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}`}
+                    src={
+                      user.isLinked
+                        ? user.playerData?.mc_head_url
+                        : `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}`
+                    }
                     alt={user.username ? `${user.username}'s avatar` : "avatar"}
                   />
                 </button>
@@ -268,6 +272,52 @@ const Header = () => {
                           />
                         </a>
                       </li>
+                      {user?.isAdmin && (
+                        <>
+                          <li
+                            className={` active:bg-text/15  mb-1 flex w-full  cursor-pointer gap-1 rounded-lg  px-3 py-1 transition-all delay-0 duration-200 ease-in-out last:mb-0 hover:bg-text/10 `}
+                          >
+                            <a
+                              className={`flex items-center justify-center  gap-2 capitalize `}
+                              onClick={() => {
+                                navigate("/suggested-modpacks");
+                              }}
+                            >
+                              Suggested Packs
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="20"
+                                height="20"
+                                fill="currentColor"
+                                viewBox="0 0 256 256"
+                              >
+                                <path d="M32,72V56a8,8,0,0,1,8-8H216a8,8,0,0,1,8,8V72a8,8,0,0,1-8,8H40A8,8,0,0,1,32,72Zm8,72H216a8,8,0,0,0,8-8V120a8,8,0,0,0-8-8H40a8,8,0,0,0-8,8v16A8,8,0,0,0,40,144Zm112,32H40a8,8,0,0,0-8,8v16a8,8,0,0,0,8,8H152a8,8,0,0,0,8-8V184A8,8,0,0,0,152,176Zm80,8H216V168a8,8,0,0,0-16,0v16H184a8,8,0,0,0,0,16h16v16a8,8,0,0,0,16,0V200h16a8,8,0,0,0,0-16Z"></path>
+                              </svg>
+                            </a>
+                          </li>
+                          <li
+                            className={` active:bg-text/15  mb-1 flex w-full  cursor-pointer gap-1 rounded-lg  px-3 py-1 transition-all delay-0 duration-200 ease-in-out last:mb-0 hover:bg-text/10 `}
+                          >
+                            <a
+                              className={`flex items-center justify-center  gap-2 capitalize `}
+                              onClick={() => {
+                                navigate("/archived-modpacks");
+                              }}
+                            >
+                              Archived Packs
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="20"
+                                height="20"
+                                fill="currentColor"
+                                viewBox="0 0 256 256"
+                              >
+                                <path d="M224,48H32A16,16,0,0,0,16,64V88a16,16,0,0,0,16,16v88a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V104a16,16,0,0,0,16-16V64A16,16,0,0,0,224,48Zm-72,96H104a8,8,0,0,1,0-16h48a8,8,0,0,1,0,16Zm72-56H32V64H224V88Z"></path>
+                              </svg>
+                            </a>
+                          </li>
+                        </>
+                      )}
                       <li
                         className={` active:bg-text/15  mb-1 flex w-full  cursor-pointer gap-1 rounded-lg  px-3 py-1 transition-all delay-0 duration-200 ease-in-out last:mb-0 hover:bg-text/10 `}
                       >

@@ -1,12 +1,12 @@
-import useModpackData from "../API/useModpackData";
+import useArchivedModpackData from "../API/useArchivedModpackData";
 import { useQueryClient } from "@tanstack/react-query";
 import ModpackListView from "../Components/ModpackListView";
 
-const PackListPage = () => {
+const ArchivedPackListPage = () => {
   const queryClient = useQueryClient();
-  const packData = useModpackData(queryClient);
+  const packData = useArchivedModpackData(queryClient);
 
   return <ModpackListView packData={packData} />;
 };
 
-export default PackListPage;
+export default ArchivedPackListPage;

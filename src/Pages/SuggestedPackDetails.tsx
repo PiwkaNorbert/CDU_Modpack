@@ -1,23 +1,19 @@
 import { useParams } from "react-router-dom";
 import usePackDetailData from "../API/usePackDetailData";
-import { CommentsComponent } from "../Components/CommentsComponent";
 import { IModpack, IPackDetails } from "../Utils/Interfaces";
 import Loading from "../Components/Loading";
-import VoteForPackButton from "../Components/VoteForPackButton";
-import PostComment from "../Components/PostComment";
 import { useUser } from "../Context/useUser";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { LoginButton } from "../Components/LoginButton";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useNavigate, Link } from "react-router-dom";
-import React, { SetStateAction, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { setupClickOutsideHandler } from "../Helper/setupClickOutsideHandler";
 import { errorHandling } from "../Helper/errorHandling";
 import { tagMap } from "../Helper/modifyModpack";
 
-const PackDetails = () => {
+const SuggestedPackDetails = () => {
   const { modpackId: id } = useParams();
   const modpackId = id as string;
 
@@ -26,8 +22,7 @@ const PackDetails = () => {
   const menuRef = useRef<HTMLDivElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
 
-  const { data, isError, isLoading, fetchStatus, error } =
-    usePackDetailData(modpackId);
+  const { data, isError, isLoading, error } = usePackDetailData(modpackId);
 
   const { user } = useUser();
   const queryClient = useQueryClient();
@@ -111,38 +106,11 @@ const PackDetails = () => {
     description,
     color: borderColor,
     galleryImages,
-    comments,
-    voteCount,
     officialUrl,
     tags,
     suggestedBy,
-    timesVoted,
     isArchived,
-    isPublished,
-  } = data;
-  // console.log(data);
-
-  useEffect(() => {
-    if (!isPublished) {
-      navigate(`/suggested-pack-details/${modpackId}`);
-    } else if (isPublished || !isArchived) {
-      navigate(`/pack-details/${modpackId}`);
-    } else if (isArchived) {
-      navigate(`/archived-pack-details/${modpackId}`);
-    }
-  }, [isPublished, isArchived]);
-
-  const commentCount = comments
-    ? comments.length
-    : Math.floor(Math.random() * 10);
-
-  function setShowReplies(value: SetStateAction<boolean>): void {
-    return console.log(value);
-  }
-
-  function setShowAddReply(value: SetStateAction<boolean>): void {
-    return console.log(value);
-  }
+  }: IPackDetails = data;
 
   return (
     <>
@@ -157,7 +125,7 @@ const PackDetails = () => {
               {/* backarrow to the root page */}
               <Link
                 className="z-[11] flex min-w-fit cursor-pointer items-center gap-2 rounded-md px-3 py-1 text-text hover:bg-sec hover:bg-opacity-20 hover:text-text dark:hover:bg-hover-2"
-                to={"/"}
+                to={"/suggested-modpacks"}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -214,7 +182,7 @@ const PackDetails = () => {
                           <li>
                             <Link
                               to={`/edit-modpack/${modpackId}`}
-                              className="last:active:bg-text/15 flex w-full cursor-pointer items-center  gap-2 rounded-lg  px-4 py-2 transition-all delay-0 duration-200  ease-in-out hover:bg-text/10 "
+                              className="last:active:bg-text/15  mb-1 flex w-full cursor-pointer items-center  gap-2 rounded-lg  px-4 py-2 transition-all delay-0 duration-200  ease-in-out hover:bg-text/10 "
                             >
                               Edit
                               <svg
@@ -305,15 +273,7 @@ const PackDetails = () => {
                   <p className="text-content my-4 break-normal text-center text-4xl uppercase  md:my-0 ">
                     {name}
                   </p>
-                  <div className="flex items-center justify-center gap-2">
-                    <VoteForPackButton
-                      modpackId={modpackId}
-                      borderColor={borderColor}
-                      isLoading={isLoading}
-                      voteCount={voteCount}
-                      timesVoted={timesVoted}
-                    />
-                  </div>
+
                   <p className="text-content my-4 break-normal text-center text-xs uppercase  md:my-0 ">
                     Suggested By:
                     <br /> <span className="text-text/50">{suggestedBy}</span>
@@ -367,57 +327,6 @@ const PackDetails = () => {
                   <p className="text-content text-justify">{description}</p>
                 </div>
               </div>
-
-              <div className="xs:p-4 my-4 overflow-hidden px-2 py-4  ">
-                <h3 className="mb-4 flex items-center justify-start  gap-4 text-2xl capitalize xl:text-3xl ">
-                  comments ({commentCount}){" "}
-                  {fetchStatus === "fetching" && (
-                    <Loading
-                      size="la-sm"
-                      fullScreen={false}
-                      other="inline-block"
-                    />
-                  )}
-                </h3>
-                {/* input for posting comments by current user */}
-                {!user?.isLoggedIn && <LoginButton />}
-                <div className=" px-4">
-                  {/* if user is logged in, show comment input */}
-                  {user?.isLoggedIn && user?.isLinked && (
-                    <PostComment
-                      modpackId={modpackId}
-                      borderColor={borderColor}
-                      replyingTo={false}
-                      replyParentId=""
-                      setShowAddReply={setShowAddReply}
-                      setShowReplies={setShowReplies}
-                    />
-                  )}
-                  {user?.isLoggedIn && !user?.isLinked && (
-                    <div className="flex flex-col items-center justify-center gap-2">
-                      <p className="text-center  text-sm text-text/70">
-                        Link your account to post comments and vote for packs.
-                      </p>
-                      <a className="text-xs text-blue-500 underline" href="/#">
-                        More info here.
-                      </a>
-                    </div>
-                  )}
-
-                  {/* Map comments from api the the img, username, userId, and the comment from the user */}
-                  {comments?.map((comment, index) => (
-                    <div
-                      key={index}
-                      className="grid items-center justify-between  last:pb-0 "
-                    >
-                      <CommentsComponent
-                        borderColor={borderColor}
-                        comment={comment}
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
             </div>
           </div>
           <div className="absolute inset-0 z-0 h-full w-full flex-1 bg-sec opacity-20"></div>
@@ -426,7 +335,7 @@ const PackDetails = () => {
     </>
   );
 };
-export default PackDetails;
+export default SuggestedPackDetails;
 
 export const ImageCarousel = ({
   galleryImages,

@@ -1,12 +1,12 @@
-import useModpackData from "../API/useModpackData";
+import useSuggestedModpackData from "../API/useSuggestedModpackData";
 import { useQueryClient } from "@tanstack/react-query";
 import ModpackListView from "../Components/ModpackListView";
 
-const PackListPage = () => {
+const SuggestedPackListPage = () => {
   const queryClient = useQueryClient();
-  const packData = useModpackData(queryClient);
+  const packData = useSuggestedModpackData(queryClient);
 
   return <ModpackListView packData={packData} />;
 };
 
-export default PackListPage;
+export default SuggestedPackListPage;
