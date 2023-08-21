@@ -4,8 +4,8 @@ import { useUser } from "../Context/useUser";
 import { useTheme } from "../Context/useTheme";
 import { useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { setupClickOutsideHandler } from "../Helper/setupClickOutsideHandler";
 import SignOutSVG from "./SVG/SignOutSVG";
+import { DropDown } from "../Components/Dialog";
 
 const Header = () => {
   // set the state of voteRemaining to the value of the user's votesRemaining
@@ -15,28 +15,29 @@ const Header = () => {
 
   const [isIntersecting, setIntersecting] = useState(false);
   const [menu, setMenu] = useState(false);
-  const [profileMenuShow, setProfileMenuShow] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const ref = useRef<HTMLDivElement>(null);
-  const menuRef = useRef<HTMLDivElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
 
+  let observer: IntersectionObserver;
   useEffect(() => {
-    setupClickOutsideHandler(menuRef, menuButtonRef, setProfileMenuShow);
-  }, [menuRef, menuButtonRef, profileMenuShow]);
-
-  useEffect(() => {
-    let observer: IntersectionObserver;
-
     const handleObserver = (entries: IntersectionObserverEntry[]) => {
       const entry = entries[0];
+      console.log(entry);
+
       if (entry) {
+        console.log(entry.isIntersecting);
+
         setIntersecting(entry.isIntersecting);
       }
     };
 
     if (ref.current) {
+      console.log(ref.current);
+
       observer = new IntersectionObserver(handleObserver);
+      console.log(observer);
       observer.observe(ref.current);
     }
 
@@ -73,8 +74,8 @@ const Header = () => {
         </header>
       )}
       <nav
-        className={` sticky top-0 z-[12] flex w-full items-center justify-stretch  gap-2 border-bg bg-bg px-8 py-2 text-text md:justify-center md:px-4 lg:mx-auto lg:min-w-[900px] lg:max-w-[900px] lg:border-x-4  ${
-          isIntersecting && " shadow-md"
+        className={`  top-0 z-[12]  flex w-full items-center justify-stretch  gap-2 border-bg bg-bg px-8 py-2 text-text md:justify-center md:px-4 lg:mx-auto lg:min-w-[900px] lg:max-w-[900px] lg:border-x-4  ${
+          !isIntersecting ? " sticky shadow-md" : "relative"
         }`}
       >
         {/* If the window size is below 600px display a button with "menu as the value and on click make a modal to display the nav */}
@@ -228,7 +229,7 @@ const Header = () => {
                   type="button"
                   ref={menuButtonRef}
                   onClick={() => {
-                    setProfileMenuShow(!profileMenuShow);
+                    setShowModal((open) => !open);
                   }}
                 >
                   <img
@@ -241,100 +242,59 @@ const Header = () => {
                     alt={user.username ? `${user.username}'s avatar` : "avatar"}
                   />
                 </button>
-                {profileMenuShow && (
-                  <div
-                    id="dropdown"
-                    className="w-min-content absolute right-2 top-[67px] z-50 rounded-xl border border-text/20 bg-bg shadow"
-                    ref={menuRef}
-                  >
-                    <ul
-                      className="space-y-1 p-1 text-sm"
-                      aria-labelledby="dropdown-button"
-                    >
-                      <li
-                        data-tip="How to get Linked"
-                        className={` active:bg-text/15  mb-1 flex w-full  cursor-pointer gap-1 rounded-lg  px-3 py-1 transition-all delay-0 duration-200 ease-in-out last:mb-0 hover:bg-text/10 `}
-                      >
-                        <a
-                          type="button"
-                          href="https://forum.playcdu.co/threads/how-to-link-your-discord-and-minecraft-accounts.922/"
-                          target="_blank"
-                          className={`flex items-center justify-center  gap-2 capitalize `}
-                          onClick={() => {
-                            setProfileMenuShow(false);
-                          }}
-                        >
-                          {user?.isLinked ? "linked" : "unlinked"}
 
-                          <img
-                            src={user?.isLinked ? "/check.png" : "/cross.png"}
-                            className="aspect-square w-6"
-                          />
-                        </a>
-                      </li>
-                      {user?.isAdmin && (
-                        <>
-                          <li
-                            className={` active:bg-text/15  mb-1 flex w-full  cursor-pointer gap-1 rounded-lg  px-3 py-1 transition-all delay-0 duration-200 ease-in-out last:mb-0 hover:bg-text/10 `}
-                          >
-                            <a
-                              className={`flex items-center justify-center  gap-2 capitalize `}
-                              onClick={() => {
-                                navigate("/suggested-modpacks");
-                              }}
-                            >
-                              Suggested Packs
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="20"
-                                height="20"
-                                fill="currentColor"
-                                viewBox="0 0 256 256"
-                              >
-                                <path d="M32,72V56a8,8,0,0,1,8-8H216a8,8,0,0,1,8,8V72a8,8,0,0,1-8,8H40A8,8,0,0,1,32,72Zm8,72H216a8,8,0,0,0,8-8V120a8,8,0,0,0-8-8H40a8,8,0,0,0-8,8v16A8,8,0,0,0,40,144Zm112,32H40a8,8,0,0,0-8,8v16a8,8,0,0,0,8,8H152a8,8,0,0,0,8-8V184A8,8,0,0,0,152,176Zm80,8H216V168a8,8,0,0,0-16,0v16H184a8,8,0,0,0,0,16h16v16a8,8,0,0,0,16,0V200h16a8,8,0,0,0,0-16Z"></path>
-                              </svg>
-                            </a>
-                          </li>
-                          <li
-                            className={` active:bg-text/15  mb-1 flex w-full  cursor-pointer gap-1 rounded-lg  px-3 py-1 transition-all delay-0 duration-200 ease-in-out last:mb-0 hover:bg-text/10 `}
-                          >
-                            <a
-                              className={`flex items-center justify-center  gap-2 capitalize `}
-                              onClick={() => {
-                                navigate("/archived-modpacks");
-                              }}
-                            >
-                              Archived Packs
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="20"
-                                height="20"
-                                fill="currentColor"
-                                viewBox="0 0 256 256"
-                              >
-                                <path d="M224,48H32A16,16,0,0,0,16,64V88a16,16,0,0,0,16,16v88a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V104a16,16,0,0,0,16-16V64A16,16,0,0,0,224,48Zm-72,96H104a8,8,0,0,1,0-16h48a8,8,0,0,1,0,16Zm72-56H32V64H224V88Z"></path>
-                              </svg>
-                            </a>
-                          </li>
-                        </>
-                      )}
-                      <li
-                        className={` active:bg-text/15  mb-1 flex w-full  cursor-pointer gap-1 rounded-lg  px-3 py-1 transition-all delay-0 duration-200 ease-in-out last:mb-0 hover:bg-text/10 `}
+                <DropDown
+                  open={showModal}
+                  dropDownStateChange={(open: any) => setShowModal(open)}
+                  contents={
+                    <>
+                      <ul
+                        className="space-y-1 p-1 text-sm"
+                        aria-labelledby="dropdown-button"
                       >
-                        <a
-                          type="button"
-                          className={`flex items-center justify-center  gap-2 capitalize `}
+                        <li
+                          data-tip="How to get Linked"
+                          className={` active:bg-text/15  mb-1 flex w-full  cursor-pointer gap-1 rounded-lg  px-3 py-1 transition-all delay-0 duration-200 ease-in-out last:mb-0 hover:bg-text/10 `}
                           onClick={() => {
-                            setUser(undefined);
+                            setShowModal((open) => !open);
                           }}
                         >
-                          Logout
-                          <SignOutSVG />
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                )}
+                          <a
+                            type="button"
+                            href="https://forum.playcdu.co/threads/how-to-link-your-discord-and-minecraft-accounts.922/"
+                            target="_blank"
+                            className={`flex items-center justify-center  gap-2 capitalize `}
+                          >
+                            {user?.isLinked ? "linked" : "unlinked"}
+
+                            <img
+                              src={user?.isLinked ? "/check.png" : "/cross.png"}
+                              className="aspect-square w-6"
+                            />
+                          </a>
+                        </li>
+
+                        <li
+                          onClick={() => {
+                            setShowModal((open) => !open);
+                          }}
+                          className={` active:bg-text/15  mb-1 flex w-full  cursor-pointer gap-1 rounded-lg  px-3 py-1 transition-all delay-0 duration-200 ease-in-out last:mb-0 hover:bg-text/10 `}
+                        >
+                          <a
+                            type="button"
+                            className={`flex items-center justify-center  gap-2 capitalize `}
+                            onClick={() => {
+                              setUser(undefined);
+                            }}
+                          >
+                            Logout
+                            <SignOutSVG />
+                          </a>
+                        </li>
+                      </ul>
+                    </>
+                  }
+                />
               </div>
             </div>
           </>

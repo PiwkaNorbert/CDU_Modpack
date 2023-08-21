@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import usePackDetailData from "../API/usePackDetailData";
 import { CommentsComponent } from "../Components/CommentsComponent";
-import { IModpack, IPackDetails } from "../Utils/Interfaces";
+import { IModpack } from "../Utils/Interfaces";
 import Loading from "../Components/Loading";
 import VoteForPackButton from "../Components/VoteForPackButton";
 import PostComment from "../Components/PostComment";
@@ -12,10 +12,10 @@ import { LoginButton } from "../Components/LoginButton";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useNavigate, Link } from "react-router-dom";
-import React, { SetStateAction, useEffect, useRef, useState } from "react";
-import { setupClickOutsideHandler } from "../Helper/setupClickOutsideHandler";
+import { SetStateAction, useEffect, useRef, useState } from "react";
 import { errorHandling } from "../Helper/errorHandling";
 import { tagMap } from "../Helper/modifyModpack";
+import { Dialog, DropDown } from "../Components/Dialog";
 
 const PackDetails = () => {
   const { modpackId: id } = useParams();
@@ -23,7 +23,6 @@ const PackDetails = () => {
 
   const [packdetailMenuShow, setPackdetailMenuShow] = useState(false);
 
-  const menuRef = useRef<HTMLDivElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
 
   const { data, isError, isLoading, fetchStatus, error } =
@@ -35,10 +34,6 @@ const PackDetails = () => {
 
   const isDev = import.meta.env.VITE_NODE_ENV === "development";
   const apiBase = isDev ? "https://www.trainjumper.com" : "";
-
-  useEffect(() => {
-    setupClickOutsideHandler(menuRef, menuButtonRef, setPackdetailMenuShow);
-  }, [menuRef, menuButtonRef, packdetailMenuShow]);
 
   const delteModpack = async () =>
     await axios.delete(`${apiBase}/api/delete-modpack`, {
@@ -176,7 +171,7 @@ const PackDetails = () => {
                 <p className={` text-${borderColor}-500`}>Back</p>
               </Link>
 
-              <div className="flex  gap-2 text-sm text-text max-[350px]:mt-5 max-[350px]:flex-col xl:text-base ">
+              <div className="flex text-sm text-text max-[350px]:mt-5 max-[350px]:flex-col xl:text-base ">
                 {/* edit modpack button only is userProfile is superUser */}
 
                 {user?.isLoggedIn && user?.isAdmin && (
@@ -201,14 +196,14 @@ const PackDetails = () => {
                         <path d="M216,130.16q.06-2.16,0-4.32l14.92-18.64a8,8,0,0,0,1.48-7.06,107.6,107.6,0,0,0-10.88-26.25,8,8,0,0,0-6-3.93l-23.72-2.64q-1.48-1.56-3-3L186,40.54a8,8,0,0,0-3.94-6,107.29,107.29,0,0,0-26.25-10.86,8,8,0,0,0-7.06,1.48L130.16,40Q128,40,125.84,40L107.2,25.11a8,8,0,0,0-7.06-1.48A107.6,107.6,0,0,0,73.89,34.51a8,8,0,0,0-3.93,6L67.32,64.27q-1.56,1.49-3,3L40.54,70a8,8,0,0,0-6,3.94,107.71,107.71,0,0,0-10.87,26.25,8,8,0,0,0,1.49,7.06L40,125.84Q40,128,40,130.16L25.11,148.8a8,8,0,0,0-1.48,7.06,107.6,107.6,0,0,0,10.88,26.25,8,8,0,0,0,6,3.93l23.72,2.64q1.49,1.56,3,3L70,215.46a8,8,0,0,0,3.94,6,107.71,107.71,0,0,0,26.25,10.87,8,8,0,0,0,7.06-1.49L125.84,216q2.16.06,4.32,0l18.64,14.92a8,8,0,0,0,7.06,1.48,107.21,107.21,0,0,0,26.25-10.88,8,8,0,0,0,3.93-6l2.64-23.72q1.56-1.48,3-3L215.46,186a8,8,0,0,0,6-3.94,107.71,107.71,0,0,0,10.87-26.25,8,8,0,0,0-1.49-7.06ZM128,168a40,40,0,1,1,40-40A40,40,0,0,1,128,168Z"></path>
                       </svg>
                     </button>
-                    {packdetailMenuShow && (
-                      <div
-                        id="dropdown"
-                        className="w-min-content absolute right-2 top-[67px] z-20 rounded-xl border border-text/20 bg-bg shadow-sm shadow-text/20"
-                        ref={menuRef}
-                      >
+                    <DropDown
+                      open={packdetailMenuShow}
+                      dropDownStateChange={(open: any) =>
+                        setPackdetailMenuShow(open)
+                      }
+                      contents={
                         <ul
-                          className="gap-1 p-1 text-sm last:mb-0 "
+                          className=" p-1 text-sm last:mb-0 "
                           aria-labelledby="dropdown-button"
                         >
                           <li>
@@ -280,8 +275,8 @@ const PackDetails = () => {
                             </button>
                           </li>
                         </ul>
-                      </div>
-                    )}
+                      }
+                    />
                   </>
                 )}
               </div>
@@ -539,68 +534,20 @@ export const ImageCarousel = ({
           )}
         </div>
       )}
-      <Modal
-        showModal={showModal}
-        setShowModal={setShowModal}
-        imageSrc={imageSrc}
+      <Dialog
+        open={showModal}
+        dialogStateChange={(open: any) => setShowModal(open)}
+        contents={
+          <>
+            <img
+              src={`https://www.trainjumper.com${imageSrc}`}
+              alt="Modpack Image"
+              className="w-full md:w-[600px] lg:w-[896px]"
+            />
+            <button onClick={() => setShowModal(false)}>Close</button>
+          </>
+        }
       />
     </div>
-  );
-};
-
-export const Modal = ({
-  showModal,
-  setShowModal,
-  imageSrc,
-}: {
-  showModal: boolean;
-  setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
-  imageSrc: string;
-}) => {
-  const modalRef = useRef<HTMLDivElement>(null);
-
-  const closeModal = (e: any) => {
-    if (modalRef.current === e.target) {
-      setShowModal(false);
-    }
-    if (e.key === "Escape") {
-      setShowModal(false);
-    }
-  };
-
-  return (
-    <>
-      {showModal ? (
-        <div
-          ref={modalRef}
-          onClick={closeModal}
-          className="fixed inset-0 z-[990] flex h-full w-full items-center justify-center bg-black bg-opacity-70"
-        >
-          <div className="relative z-[991] flex h-full w-full flex-col items-center justify-center">
-            <button
-              onClick={() => setShowModal(false)}
-              className="absolute right-0 top-0 z-[991] flex h-10 w-10 items-center justify-center rounded-full bg-sec text-text/50 hover:bg-sec/90 hover:text-text/80"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="32"
-                height="32"
-                fill="currentColor"
-                viewBox="0 0 256 256"
-              >
-                <path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path>
-              </svg>
-            </button>
-            <div className="relative z-[991]  h-full w-full   text-text lg:mx-auto lg:min-w-[900px] lg:max-w-[900px]">
-              <img
-                className="absolute z-[992] h-full w-full object-contain"
-                src={`https://www.trainjumper.com${imageSrc}`}
-                alt="Modpack Image"
-              />
-            </div>
-          </div>
-        </div>
-      ) : null}
-    </>
   );
 };

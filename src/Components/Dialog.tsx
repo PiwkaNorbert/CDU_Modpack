@@ -89,29 +89,27 @@ export function DropDown({
   }
 
   return showDropDown ? (
-    <>
+    <div
+      onClick={({ target }) => {
+        if (!allowClose || dropdown.current?.contains(target as any)) {
+          return;
+        }
+        updateDropDownState(false);
+      }}
+      onKeyDown={({ key }) => {
+        if (!allowClose || key !== "Escape") {
+          return;
+        }
+        updateDropDownState(false);
+      }}
+      className="dialog-backdrop "
+    >
       <div
-        onClick={({ target }) => {
-          if (!allowClose || dropdown.current?.contains(target as any)) {
-            return;
-          }
-          updateDropDownState(false);
-        }}
-        onKeyDown={({ key }) => {
-          if (!allowClose || key !== "Escape") {
-            return;
-          }
-          updateDropDownState(false);
-        }}
-        className="dialog-backdrop z-40"
+        className="w-min-content  absolute  right-2 top-[67px] z-[9999]   rounded-xl border border-text/20 bg-bg text-text shadow"
+        ref={dropdown}
       >
-        <div
-          className="w-min-content absolute right-2 top-[67px]  rounded-xl border border-text/20 bg-bg text-text shadow"
-          ref={dropdown}
-        >
-          {contents}
-        </div>
+        {contents}
       </div>
-    </>
+    </div>
   ) : null;
 }

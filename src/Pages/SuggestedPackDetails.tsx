@@ -6,12 +6,11 @@ import { useUser } from "../Context/useUser";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useNavigate, Link } from "react-router-dom";
-import React, { useEffect, useRef, useState } from "react";
-import { setupClickOutsideHandler } from "../Helper/setupClickOutsideHandler";
+import { useRef, useState } from "react";
 import { errorHandling } from "../Helper/errorHandling";
 import { tagMap } from "../Helper/modifyModpack";
+import { ImageCarousel } from "./PackDetails";
 
 const SuggestedPackDetails = () => {
   const { modpackId: id } = useParams();
@@ -30,10 +29,6 @@ const SuggestedPackDetails = () => {
 
   const isDev = import.meta.env.VITE_NODE_ENV === "development";
   const apiBase = isDev ? "https://www.trainjumper.com" : "";
-
-  useEffect(() => {
-    setupClickOutsideHandler(menuRef, menuButtonRef, setPackdetailMenuShow);
-  }, [menuRef, menuButtonRef, packdetailMenuShow]);
 
   const delteModpack = async () =>
     await axios.delete(`${apiBase}/api/delete-modpack`, {
@@ -336,180 +331,3 @@ const SuggestedPackDetails = () => {
   );
 };
 export default SuggestedPackDetails;
-
-export const ImageCarousel = ({
-  galleryImages,
-  borderColor,
-}: {
-  galleryImages: any;
-  borderColor: string;
-}) => {
-  const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
-  const [showModal, setShowModal] = useState<boolean>(false);
-  const [imageSrc, setImageSrc] = useState<string>("");
-
-  if (galleryImages === undefined) return null;
-
-  const initialIndex = galleryImages.indexOf(imageSrc);
-
-  if (initialIndex !== -1) {
-    setCurrentImageIndex(initialIndex);
-  }
-
-  const handleImageClick = (imageUrl: string) => {
-    setImageSrc(imageUrl);
-    setShowModal(true);
-  };
-  const handleNextImage = () => {
-    if (currentImageIndex === galleryImages.length - 1) {
-      setCurrentImageIndex(0);
-    } else {
-      setCurrentImageIndex(currentImageIndex + 1);
-    }
-  };
-
-  const handlePrevImage = () => {
-    if (currentImageIndex === 0) {
-      setCurrentImageIndex(galleryImages.length - 1);
-    } else {
-      setCurrentImageIndex(currentImageIndex - 1);
-    }
-  };
-
-  return (
-    <div>
-      <div className="relative mx-auto md:w-96 ">
-        <img
-          src={`https://www.trainjumper.com${galleryImages[currentImageIndex].imageUrl}`}
-          alt="Modpack Image"
-          width="412"
-          height="233"
-          className={`z-[5] mx-auto aspect-video max-h-52  place-self-center overflow-hidden rounded-md border-2 object-fill object-center lg:max-h-60 lg:w-full border-${borderColor}-500 bg-${borderColor}-500`}
-        />
-        {galleryImages?.length > 1 && (
-          <div className="absolute inset-0 mx-auto flex max-h-[233px]  max-w-[412px] lg:w-full">
-            <div className="group flex flex-1 items-center justify-between gap-2">
-              <button
-                onClick={handlePrevImage}
-                className={`hidden h-full w-10 items-center justify-center overflow-hidden rounded-l-lg border-2 group-hover:flex border-${borderColor}-500 border-r-0 group-hover:bg-sec/50   `}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-8 w-8 transform"
-                  fill="#fff"
-                  viewBox="0 0 256 256"
-                >
-                  <path d="M168.49,199.51a12,12,0,0,1-17,17l-80-80a12,12,0,0,1,0-17l80-80a12,12,0,0,1,17,17L97,128Z"></path>
-                </svg>
-              </button>
-
-              <button
-                onClick={handleNextImage}
-                className={`hidden h-full w-10 items-center justify-center overflow-hidden rounded-r-lg border-2 group-hover:flex border-${borderColor}-500 border-l-0 group-hover:bg-sec/50   `}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-8 w-8 transform"
-                  width="32"
-                  height="32"
-                  fill="#fff"
-                  viewBox="0 0 256 256"
-                >
-                  <path d="M184.49,136.49l-80,80a12,12,0,0,1-17-17L159,128,87.51,56.49a12,12,0,1,1,17-17l80,80A12,12,0,0,1,184.49,136.49Z"></path>
-                </svg>
-              </button>
-            </div>
-          </div>
-        )}
-      </div>
-      {galleryImages?.length > 1 && (
-        <div className="mt-4 flex flex-row items-center justify-center gap-2">
-          {galleryImages?.map(
-            (
-              gallery: { imageUrl: string; thumbnailUrl: string },
-              index: number
-            ) => {
-              return (
-                <LazyLoadImage
-                  key={index}
-                  src={`https://www.trainjumper.com${gallery.thumbnailUrl}`}
-                  alt="Modpack Image"
-                  width="81.3"
-                  height="43.3"
-                  className={`aspect-video max-h-20 cursor-pointer place-self-center overflow-hidden rounded-md border-2 object-fill object-center lg:max-h-60 ${
-                    currentImageIndex === index
-                      ? `border-text/90 shadow-inner `
-                      : `border-text/50 hover:border-text/90 hover:shadow-inner`
-                  }`}
-                  onClick={() => handleImageClick(gallery.imageUrl)}
-                />
-              );
-            }
-          )}
-        </div>
-      )}
-      <Modal
-        showModal={showModal}
-        setShowModal={setShowModal}
-        imageSrc={imageSrc}
-      />
-    </div>
-  );
-};
-
-export const Modal = ({
-  showModal,
-  setShowModal,
-  imageSrc,
-}: {
-  showModal: boolean;
-  setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
-  imageSrc: string;
-}) => {
-  const modalRef = useRef<HTMLDivElement>(null);
-
-  const closeModal = (e: any) => {
-    if (modalRef.current === e.target) {
-      setShowModal(false);
-    }
-    if (e.key === "Escape") {
-      setShowModal(false);
-    }
-  };
-
-  return (
-    <>
-      {showModal ? (
-        <div
-          ref={modalRef}
-          onClick={closeModal}
-          className="fixed inset-0 z-[990] flex h-full w-full items-center justify-center bg-black bg-opacity-70"
-        >
-          <div className="relative z-[991] flex h-full w-full flex-col items-center justify-center">
-            <button
-              onClick={() => setShowModal(false)}
-              className="absolute right-0 top-0 z-[991] flex h-10 w-10 items-center justify-center rounded-full bg-sec text-text/50 hover:bg-sec/90 hover:text-text/80"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="32"
-                height="32"
-                fill="currentColor"
-                viewBox="0 0 256 256"
-              >
-                <path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path>
-              </svg>
-            </button>
-            <div className="relative z-[991]  h-full w-full   text-text lg:mx-auto lg:min-w-[900px] lg:max-w-[900px]">
-              <img
-                className="absolute z-[992] h-full w-full object-contain"
-                src={`https://www.trainjumper.com${imageSrc}`}
-                alt="Modpack Image"
-              />
-            </div>
-          </div>
-        </div>
-      ) : null}
-    </>
-  );
-};
