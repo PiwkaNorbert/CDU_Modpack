@@ -201,6 +201,7 @@ const PackDetails = () => {
                       dropDownStateChange={(open: any) =>
                         setPackdetailMenuShow(open)
                       }
+                      position="right-2 top-[67px]"
                       contents={
                         <ul
                           className=" p-1 text-sm last:mb-0 "

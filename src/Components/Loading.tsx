@@ -1,18 +1,19 @@
-export default  function Loading({ size, fullScreen, other } :LoadingProps ) {
+export default function Loading({ size, fullScreen, other }: LoadingProps) {
   return (
     <div
       className={`${
-        fullScreen &&
-        "flex h-screen flex-col items-center justify-center gap-4 text-gray-800 dark:text-gray-200"
+        fullScreen
+          ? "flex h-screen flex-col items-center justify-center gap-4 text-gray-800 dark:text-gray-200"
+          : ""
       } ${other}`}
     >
       <div
-        className={`la-ball-clip-rotate ${size} mx-auto 
-      ${
-        window.matchMedia("(prefers-color-scheme: dark)").matches
-          ? ""
-          : "la-dark"
-      }`}
+        className={`la-ball-clip-rotate mx-auto ${size} 
+        ${
+          !window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "la-dark"
+            : ""
+        }`}
       >
         <div></div>
       </div>

@@ -21,6 +21,7 @@ const Header = () => {
   const menuButtonRef = useRef<HTMLButtonElement>(null);
 
   let observer: IntersectionObserver;
+
   useEffect(() => {
     const handleObserver = (entries: IntersectionObserverEntry[]) => {
       const entry = entries[0];
@@ -246,6 +247,7 @@ const Header = () => {
                 <DropDown
                   open={showModal}
                   dropDownStateChange={(open: any) => setShowModal(open)}
+                  position="right-2 top-[67px]"
                   contents={
                     <>
                       <ul

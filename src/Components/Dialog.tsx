@@ -32,15 +32,12 @@ export function Dialog({
       <div className="fixed inset-0 z-40 bg-bg/70 "></div>
       <div
         onClick={({ target }) => {
-          if (!allowClose || dialog.current?.contains(target as any)) {
-            return;
-          }
+          if (!allowClose || dialog.current?.contains(target as any)) return;
           updateDialogState(false);
         }}
         onKeyDown={({ key }) => {
-          if (!allowClose || key !== "Escape") {
-            return;
-          }
+          if (!allowClose || key !== "Escape") return;
+
           updateDialogState(false);
         }}
         className="dialog-backdrop "
@@ -66,6 +63,7 @@ export interface DropDownProps {
   contents: React.ReactNode;
   open: boolean;
   dropDownStateChange?: (open: boolean) => void;
+  position: string;
 }
 
 export function DropDown({
@@ -73,6 +71,7 @@ export function DropDown({
   contents,
   open,
   dropDownStateChange = () => {},
+  position,
 }: DropDownProps) {
   const [showDropDown, setShowDropDown] = useState(open);
   const dropdown = useRef<HTMLDivElement>(null);
@@ -91,21 +90,19 @@ export function DropDown({
   return showDropDown ? (
     <div
       onClick={({ target }) => {
-        if (!allowClose || dropdown.current?.contains(target as any)) {
-          return;
-        }
+        if (!allowClose || dropdown.current?.contains(target as any)) return;
+
         updateDropDownState(false);
       }}
       onKeyDown={({ key }) => {
-        if (!allowClose || key !== "Escape") {
-          return;
-        }
+        if (!allowClose || key !== "Escape") return;
+
         updateDropDownState(false);
       }}
       className="dialog-backdrop "
     >
       <div
-        className="w-min-content  absolute  right-2 top-[67px] z-[9999]   rounded-xl border border-text/20 bg-bg text-text shadow"
+        className={`w-min-content absolute z-[9999] rounded-xl border border-text/20 bg-bg text-text shadow ${position}`}
         ref={dropdown}
       >
         {contents}
