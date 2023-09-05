@@ -125,6 +125,7 @@ const PackDetails = () => {
     } else if (isArchived) {
       navigate(`/archived-pack-details/${modpackId}`);
     }
+    console.log("MEM LEAK");
   }, [isPublished, isArchived]);
 
   const commentCount = comments

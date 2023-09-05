@@ -47,11 +47,14 @@ export const UserProvider: React.FunctionComponent<UserProviderProps> = (
     localStorage.setItem("profileData", JSON.stringify(profileData));
   };
 
+  const storedUser = localStorage.getItem("profileData");
   useEffect(() => {
-    const storedUser = localStorage.getItem("profileData");
+    console.log("user provider mounted");
+    console.log("MEM LEAK");
 
     if (storedUser) {
       const parsedUser = JSON.parse(storedUser);
+      console.log("user provider mounted 2");
 
       if (parsedUser?.tokenExpiry < Date.now() / 1000) {
         // check if the users token has expired
@@ -74,7 +77,7 @@ export const UserProvider: React.FunctionComponent<UserProviderProps> = (
 
       // setUser(profileData);
     }
-  }, []);
+  }, [storedUser]);
 
   const votesRemaining = (n: number) => {
     //  spread the old data and set the new value for votesRemaining
@@ -84,24 +87,26 @@ export const UserProvider: React.FunctionComponent<UserProviderProps> = (
     return setUser(userNew as DiscordProfileData);
   };
 
+  const checkTokenExpiry = () => {
+    console.log("MEM LEAK");
+
+    if (!user) return;
+
+    const tokenExpiry = user?.tokenExpiry;
+    if (!tokenExpiry) return;
+
+    const now = Math.floor(Date.now() / 1000);
+
+    if (tokenExpiry < now) {
+      // TODO: refresh token
+      toast.error("Your session has expired. Please log in again.");
+      setUser(undefined);
+    }
+  };
+
   useEffect(() => {
-    const checkTokenExpiry = () => {
-      if (!user) return;
-
-      const tokenExpiry = user?.tokenExpiry;
-      if (!tokenExpiry) return;
-
-      const now = Math.floor(Date.now() / 1000);
-
-      if (tokenExpiry < now) {
-        // TODO: refresh token
-        toast.error("Your session has expired. Please log in again.");
-        setUser(undefined);
-      }
-    };
-
     checkTokenExpiry();
-  }, [user]);
+  }, []);
 
   const value: AppState = { user, setUser, votesRemaining };
 

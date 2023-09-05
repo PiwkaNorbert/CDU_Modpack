@@ -18,6 +18,8 @@ function SuggestedByUserSearch() {
   };
 
   async function confirmUsername() {
+    console.log("MEM LEAK");
+
     if (!isValid) return;
 
     if (debounceTimer) {
@@ -53,6 +55,7 @@ function SuggestedByUserSearch() {
 
       setLoading(false);
     }, 1000);
+    console.log("MEM LEAK 3");
 
     setDebounceTimer(newDebounceTimer);
   }
@@ -85,13 +88,13 @@ function SuggestedByUserSearch() {
         )}
 
         {!isValid && isTouched && (
-          <div className="text-sm text-error">
+          <div className="text-error text-sm">
             must be 3-16 characters long, alphanumeric only
           </div>
         )}
 
         {isValid && !loading && !exists && (
-          <div className="text-sm text-warning">@{username} doesn't exist</div>
+          <div className="text-warning text-sm">@{username} doesn't exist</div>
         )}
 
         {isValid && isTouched && exists && (

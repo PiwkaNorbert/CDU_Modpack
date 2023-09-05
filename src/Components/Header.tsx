@@ -23,6 +23,8 @@ const Header = () => {
   let observer: IntersectionObserver;
 
   useEffect(() => {
+    console.log("MEM LEAK");
+
     const handleObserver = (entries: IntersectionObserverEntry[]) => {
       const entry = entries[0];
       console.log(entry);
@@ -33,6 +35,7 @@ const Header = () => {
         setIntersecting(entry.isIntersecting);
       }
     };
+    console.log("MEM LEAK 2");
 
     if (ref.current) {
       console.log(ref.current);
@@ -63,7 +66,7 @@ const Header = () => {
           className="relative z-[12] hidden h-[140px] items-center justify-center  text-sm md:grid xl:h-[170px] xl:text-base"
         >
           <div className=" absolute inset-0 z-[12] m-auto bg-gradient-to-tr from-acc to-pri dark:brightness-50 "></div>
-          <img
+          {/* <img
             alt="CDU"
             src="/logo.png"
             width="140"
@@ -71,7 +74,7 @@ const Header = () => {
             //loading="lazy"
             className=" lazy-load-image absolute top-0 z-30  cursor-pointer  justify-self-center p-2 hover:animate-bounce-slow "
             onClick={() => navigate("/")}
-          />
+          /> */}
         </header>
       )}
       <nav

@@ -15,20 +15,10 @@ const ModpackCard = (props: IModpack) => {
   const [currentPlace, setCurrentPlace] = useState("/");
 
   useEffect(() => {
-    switch (location.pathname) {
-      case "/":
-        setCurrentPlace("/");
-        break;
-      case "/archived-modpacks":
-        setCurrentPlace("/archived-");
-        break;
-      case "/suggested-modpacks":
-        setCurrentPlace("/suggested-");
-        break;
-      default:
-        break;
-    }
-  }, []);
+    setCurrentPlace(location.pathname);
+    console.log(location.pathname);
+  }, [location.pathname]);
+
   const {
     modpackId,
     name,

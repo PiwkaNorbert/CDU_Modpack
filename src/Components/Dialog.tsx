@@ -17,7 +17,11 @@ export function Dialog({
   const dialog = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    console.log("MEM LEAK");
+
     if (open !== showModal) {
+      console.log("open changed");
+
       setShowModal(open);
     }
   }, [open]);
@@ -77,7 +81,11 @@ export function DropDown({
   const dropdown = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    console.log("MEM LEAK");
+
     if (open !== showDropDown) {
+      console.log("open changed");
+
       setShowDropDown(open);
     }
   }, [open]);

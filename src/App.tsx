@@ -30,8 +30,12 @@ function App() {
   const { user, setUser } = useUser();
   // check if the user in local storage is an admin or not and set the state accordingly to show the admin panel or not
   useEffect(() => {
+    console.log("MEM LEAK");
+
     const localStorageProfileData = localStorage.getItem("profileData");
     if (localStorageProfileData) {
+      console.log("MEM LEAK 2");
+
       // check if the token is expired or not and if it is then log the user out
       const parsedData = JSON.parse(localStorageProfileData);
       const tokenExpirationDate = new Date(parsedData?.tokenExpiry);
@@ -42,6 +46,10 @@ function App() {
       }
       setUser(JSON.parse(localStorageProfileData));
     }
+    //  unmount component and remove the listener
+    return () => {
+      window.removeEventListener("storage", () => {});
+    };
   }, []);
 
   return (
@@ -69,11 +77,11 @@ function App() {
                   element={<EditModpack />}
                 />
                 <Route
-                  path="archived-modpacks"
+                  path="archived-pack-details"
                   element={<ArchivedPackListPage />}
                 />
                 <Route
-                  path="suggested-modpacks"
+                  path="suggested-pack-details"
                   element={<SuggestedPackListPage />}
                 />
 

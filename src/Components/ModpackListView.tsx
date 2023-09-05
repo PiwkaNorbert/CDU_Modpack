@@ -55,8 +55,8 @@ const ModpackListView = ({ packData }) => {
           <div className="md:space-x-none  flex items-center  justify-between   space-x-4 p-5 text-xl text-text xl:text-2xl ">
             {/* Show this button if you're logged in and a staff member */}
             <div className=" relative  z-10 w-96">
-              {location.pathname === "/archived-modpacks" && "Archived "}
-              {location.pathname === "/suggested-modpacks" && "Suggested "}
+              {location.pathname === "/archived-pack-details" && "Archived "}
+              {location.pathname === "/suggested-pack-details" && "Suggested "}
               Modpacks
               {user?.isAdmin && (
                 <>
