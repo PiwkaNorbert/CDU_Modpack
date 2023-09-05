@@ -57,10 +57,6 @@ const ModpackListView = ({ packData }) => {
             <div className=" relative  z-10 w-96">
               {location.pathname === "/archived-pack-details" && "Archived "}
               {location.pathname === "/suggested-pack-details" && "Suggested "}
-            {/* Show this button if you're logged in and a staff member */}
-            <div className=" relative  z-10 w-96">
-              {location.pathname === "/archived-modpacks" && "Archived "}
-              {location.pathname === "/suggested-modpacks" && "Suggested "}
               Modpacks
               {user?.isAdmin && (
                 <>
