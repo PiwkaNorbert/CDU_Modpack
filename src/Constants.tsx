@@ -95,12 +95,8 @@ export const staticLabels = [
 ];
 
 export const placeholderDetails = {
-  name: "Modpack",
-  imageUrl: "/src/assets/placeholderImg.png",
   color: "grey",
-  description: "This is a placeholder description",
-  timesVoted: 0,
-  voteCount: 0,
+  name: "Modpackss",
   comments: [
     {
       username: "Placeholder",
@@ -110,4 +106,20 @@ export const placeholderDetails = {
       avatar_url: "a",
     },
   ],
+  description: "This is a placeholder description",
+  galleryImages: [
+    {
+      imageUrl: "/placeholderImg.png",
+    },
+  ],
+  imageUrl: "/placeholderImg.png",
+  isSponsored: false,
+  modpackId: "placeholder",
+  officialUrl: "https://www.trainjumper.com",
+  suggestedBy: "Placeholder",
+  tags: ["placeholder", "placeholder"],
+  timesVoted: 0,
+  voteCount: 0,
+  isArchived: false,
+  isPublished: true,
 };

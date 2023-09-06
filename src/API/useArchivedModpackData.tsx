@@ -11,6 +11,8 @@ const useArchivedModpackData = (queryClient: QueryClient) => {
 
   const filterModpacks = useCallback(
     (modpacks: IModpack[]) => {
+      console.log("filtering modpacks");
+
       if (!(modPackFilterByInput || modPackFilterByTags)) return modpacks;
 
       let filteredModpacks = modpacks;

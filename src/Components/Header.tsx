@@ -55,7 +55,7 @@ const Header = () => {
   // if the size of the window is below 600px make a menu with to toggle
 
   const toggleMenu = () => {
-    setMenu(!menu);
+    setMenu((open) => !open);
   };
 
   return (
@@ -66,7 +66,7 @@ const Header = () => {
           className="relative z-[12] hidden h-[140px] items-center justify-center  text-sm md:grid xl:h-[170px] xl:text-base"
         >
           <div className=" absolute inset-0 z-[12] m-auto bg-gradient-to-tr from-acc to-pri dark:brightness-50 "></div>
-          {/* <img
+          <img
             alt="CDU"
             src="/logo.png"
             width="140"
@@ -74,7 +74,7 @@ const Header = () => {
             //loading="lazy"
             className=" lazy-load-image absolute top-0 z-30  cursor-pointer  justify-self-center p-2 hover:animate-bounce-slow "
             onClick={() => navigate("/")}
-          /> */}
+          />
         </header>
       )}
       <nav
@@ -290,6 +290,7 @@ const Header = () => {
                             className={`flex items-center justify-center  gap-2 capitalize `}
                             onClick={() => {
                               setUser(undefined);
+                              localStorage.removeItem("profileData");
                             }}
                           >
                             Logout

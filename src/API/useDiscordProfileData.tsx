@@ -4,7 +4,10 @@ import { toast } from "react-toastify";
 import { errorHandling } from "../Helper/errorHandling";
 
 export const fetchProfile = async () => {
-  const { data, status } = await axios.get(`/profile`, {
+  const isDev = import.meta.env.VITE_NODE_ENV === "development";
+  const apiBase = isDev ? "https://www.trainjumper.com" : "";
+
+  const { data, status } = await axios.get(`${apiBase}/profile`, {
     withCredentials: true,
   });
   if (status !== 200) throw new Error("No login data found");
@@ -13,7 +16,8 @@ export const fetchProfile = async () => {
 };
 
 const useDiscordProfileData = async () => {
-  return useQuery(["login"], fetchProfile, {
+  return;
+  useQuery(["login"], fetchProfile, {
     onError: (error) => {
       if (error instanceof Error) {
         return errorHandling(error);

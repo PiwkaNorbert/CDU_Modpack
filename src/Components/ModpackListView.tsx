@@ -17,6 +17,7 @@ const ModpackListView = ({ packData }) => {
     error,
     modPackFilterByTags,
     setModPackFilterByTags,
+    modPackFilterByInput,
     setModPackFilterByInput,
   } = packData;
 
@@ -39,7 +40,7 @@ const ModpackListView = ({ packData }) => {
   const changeViewByInput = useCallback(
     (evt: React.ChangeEvent<HTMLInputElement>) =>
       setModPackFilterByInput(evt.target.value),
-    [setModPackFilterByInput]
+    [modPackFilterByInput]
   );
 
   return (
@@ -91,7 +92,7 @@ const ModpackListView = ({ packData }) => {
                           <a
                             className={`flex items-center justify-center  gap-2 capitalize `}
                             onClick={() => {
-                              navigate("/suggested-modpacks");
+                              navigate("/suggested-pack-details");
                             }}
                           >
                             Suggested Packs
@@ -115,7 +116,7 @@ const ModpackListView = ({ packData }) => {
                           <a
                             className={`flex items-center justify-center  gap-2 capitalize `}
                             onClick={() => {
-                              navigate("/archived-modpacks");
+                              navigate("/archived-pack-details");
                             }}
                           >
                             Archived Packs
@@ -147,8 +148,12 @@ const ModpackListView = ({ packData }) => {
             <button
               className="z-10 flex w-[96.81px] justify-end"
               onClick={() => {
-                setShowFilterTags(!showFilterTags);
-                if (showFilterTags) setModPackFilterByTags("");
+                setShowFilterTags((open) => !open);
+                if (showFilterTags) {
+                  console.log("showFilterTags", showFilterTags);
+
+                  setModPackFilterByTags("");
+                }
               }}
             >
               <svg

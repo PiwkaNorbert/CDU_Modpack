@@ -120,7 +120,7 @@ const SuggestedPackDetails = () => {
               {/* backarrow to the root page */}
               <Link
                 className="z-[11] flex min-w-fit cursor-pointer items-center gap-2 rounded-md px-3 py-1 text-text hover:bg-sec hover:bg-opacity-20 hover:text-text dark:hover:bg-hover-2"
-                to={"/suggested-modpacks"}
+                to={"/suggested-pack-details"}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

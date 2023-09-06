@@ -1,5 +1,4 @@
 import "./index.css";
-import { useEffect } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import FetchingIndicator from "./Components/FetchingIndicator";
@@ -26,80 +25,74 @@ import ArchivedPackListPage from "./Pages/ArchivedPackListPage";
 import SuggestedPackListPage from "./Pages/SuggestedPackListPage";
 import SuggestedPackDetails from "./Pages/SuggestedPackDetails";
 
+import { UserProvider } from "./Context/UserContext.tsx";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
+
 function App() {
-  const { user, setUser } = useUser();
+  const { user } = useUser();
   // check if the user in local storage is an admin or not and set the state accordingly to show the admin panel or not
-  useEffect(() => {
-    console.log("MEM LEAK");
-
-    const localStorageProfileData = localStorage.getItem("profileData");
-    if (localStorageProfileData) {
-      console.log("MEM LEAK 2");
-
-      // check if the token is expired or not and if it is then log the user out
-      const parsedData = JSON.parse(localStorageProfileData);
-      const tokenExpirationDate = new Date(parsedData?.tokenExpiry);
-      const currentDate = new Date();
-      if (tokenExpirationDate < currentDate) {
-        localStorage.removeItem("profileData");
-        setUser(undefined);
-      }
-      setUser(JSON.parse(localStorageProfileData));
-    }
-    //  unmount component and remove the listener
-    return () => {
-      window.removeEventListener("storage", () => {});
-    };
-  }, []);
 
   return (
-    <ThemeProvider>
-      <div className="flex min-h-screen flex-col text-text ">
-        <BrowserRouter>
-          <Header />
-          <Routes>
-            <Route path="/" element={<PackListPage />} />
-            <Route path="pack-details/:modpackId" element={<PackDetails />} />
-            <Route path="login" element={<Login />} />
-            <Route path="loginDev" element={<LoginDev />} />
-
-            {/* <Route path="*" element={<Navigate to="/404" replace />} />
-            <Route path="404" element={<NotFoundPage />} /> */}
-
-            {user?.isAdmin && (
-              <>
-                <Route path="add-modpack" element={<AddMPLayout />}>
-                  <Route path="create" element={<CreateModpack />} />
-                  <Route path="photos/:modpackId" element={<AddImage />} />
-                </Route>
+    <QueryClientProvider client={queryClient}>
+      <UserProvider>
+        <ThemeProvider>
+          <div className="flex min-h-screen flex-col text-text ">
+            <BrowserRouter>
+              <Header />
+              <Routes>
+                <Route path="/" element={<PackListPage />} />
                 <Route
-                  path="edit-modpack/:modpackId"
-                  element={<EditModpack />}
+                  path="pack-details/:modpackId"
+                  element={<PackDetails />}
                 />
-                <Route
-                  path="archived-pack-details"
-                  element={<ArchivedPackListPage />}
-                />
-                <Route
-                  path="suggested-pack-details"
-                  element={<SuggestedPackListPage />}
-                />
+                <Route path="login" element={<Login />} />
+                <Route path="loginDev" element={<LoginDev />} />
 
-                <Route
-                  path="suggested-pack-details/:modpackId"
-                  element={<SuggestedPackDetails />}
-                />
-              </>
-            )}
-          </Routes>
-          <ToastContainer limit={2} pauseOnFocusLoss={false} autoClose={2000} />
-        </BrowserRouter>
+                <Route path="*" element={<Navigate to="/404" />} />
+                <Route path="404" element={<NotFoundPage />} />
 
-        <FetchingIndicator />
-        {window.location.pathname === "/404" ? null : <Footer />}
-      </div>
-      <ReactQueryDevtools />
-    </ThemeProvider>
+                {user?.isAdmin && (
+                  <>
+                    <Route path="add-modpack" element={<AddMPLayout />}>
+                      <Route path="create" element={<CreateModpack />} />
+                      <Route path="photos/:modpackId" element={<AddImage />} />
+                    </Route>
+                    <Route
+                      path="edit-modpack/:modpackId"
+                      element={<EditModpack />}
+                    />
+                    <Route
+                      path="archived-pack-details"
+                      element={<ArchivedPackListPage />}
+                    />
+                    <Route
+                      path="suggested-pack-details"
+                      element={<SuggestedPackListPage />}
+                    />
+
+                    <Route
+                      path="suggested-pack-details/:modpackId"
+                      element={<SuggestedPackDetails />}
+                    />
+                  </>
+                )}
+              </Routes>
+              <ToastContainer
+                limit={2}
+                pauseOnFocusLoss={false}
+                autoClose={2000}
+              />
+            </BrowserRouter>
+
+            <FetchingIndicator />
+            {window.location.pathname === "/404" ? null : <Footer />}
+          </div>
+          <ReactQueryDevtools />
+        </ThemeProvider>
+      </UserProvider>
+    </QueryClientProvider>
   );
 }
 

@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-// import { placeholderDetails } from '../Constants'
+import { placeholderDetails } from "../Constants";
 import { errorHandling } from "../Helper/errorHandling";
 
 export const fetchCommentReplies = async (commentId: string) => {
@@ -25,7 +25,7 @@ const useCommentRepliesData = (commentId: string, replyCount: number) => {
       keepPreviousData: true,
       staleTime: 1000 * 60 * 1,
       refetchOnWindowFocus: false,
-      // initialData: placeholderDetails,
+      initialData: placeholderDetails,
       onError: (error) => {
         if (error instanceof Error) {
           return errorHandling(error);

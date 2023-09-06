@@ -44,9 +44,7 @@ const useSuggestedModpackData = (queryClient: QueryClient) => {
     const isDev = import.meta.env.VITE_NODE_ENV === "development";
     const apiBase = isDev ? "https://www.trainjumper.com" : "";
 
-    const { data, status } = await axios.get(
-      `${apiBase}/api/list-suggested-packs`
-    );
+    const { data, status } = await axios(`${apiBase}/api/list-suggested-packs`);
 
     if (status !== 200) throw new Error("No Modpacks found");
 
@@ -64,7 +62,7 @@ const useSuggestedModpackData = (queryClient: QueryClient) => {
       staleTime: 1000 * 60 * 5, // 5 minutes
       keepPreviousData: true,
       retry: 2,
-      // placeholderData: staticLabels,
+      // initialData: staticLabels,
       select: filterModpacks,
 
       onError: (error) => {

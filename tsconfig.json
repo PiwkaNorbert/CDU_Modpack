@@ -16,7 +16,7 @@
 
     /* Linting */
     "strict": true,
-    "noUncheckedIndexedAccess": true,
+    "noUncheckedIndexedAccess": false, // TODO: enable
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true

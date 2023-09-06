@@ -115,7 +115,7 @@ const PackDetails = () => {
     isArchived,
     isPublished,
   } = data;
-  // console.log(data);
+  console.log(data);
 
   useEffect(() => {
     if (!isPublished) {
@@ -300,7 +300,7 @@ const PackDetails = () => {
                 )}
                 <div className="grid w-full content-center items-center md:mr-4 md:space-y-4">
                   <p className="text-content my-4 break-normal text-center text-4xl uppercase  md:my-0 ">
-                    {name}
+                    {name ?? "Modpack Name"}
                   </p>
                   <div className="flex items-center justify-center gap-2">
                     <VoteForPackButton

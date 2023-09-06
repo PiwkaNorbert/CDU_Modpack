@@ -15,7 +15,7 @@ export function CommentsComponent({
 }: Partial<ICommentComponent>) {
   const { user } = useUser();
   const { modpackId } = useParams();
-  const [showReplies, setShowReplies] = useState(false);
+  const [showReplies, setShowReplies] = useState<boolean>(false);
   const [showAddReply, setShowAddReply] = useState<boolean>(false);
   const { data, isLoading, isError } = useCommentRepliesData(
     comment?.uuid as string,

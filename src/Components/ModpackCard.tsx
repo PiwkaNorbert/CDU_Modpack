@@ -16,8 +16,7 @@ const ModpackCard = (props: IModpack) => {
 
   useEffect(() => {
     setCurrentPlace(location.pathname);
-    console.log(location.pathname);
-  }, [location.pathname]);
+  }, []);
 
   const {
     modpackId,
