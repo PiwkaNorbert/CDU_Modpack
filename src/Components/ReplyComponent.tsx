@@ -7,9 +7,10 @@ import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { errorHandling } from "../Helper/errorHandling";
+import { textColorVariants } from "../Constants";
 
 export function ReplyComponent({
-  borderColor,
+  color,
   comment,
   replyingTo,
   replyParentId,
@@ -87,7 +88,7 @@ export function ReplyComponent({
           alt="user"
         />
         <div className="flex items-center gap-2">
-          <p className={`  text-justify text-${borderColor}-600`}>
+          <p className={`  text-justify ${textColorVariants[color ?? "sky"]}`}>
             {comment?.username}
           </p>
           <p className=" text-justify text-xs text-text/60 xl:text-sm">

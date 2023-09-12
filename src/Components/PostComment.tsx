@@ -7,14 +7,14 @@ import { IPackDetails } from "../Utils/Interfaces";
 import { errorHandling } from "../Helper/errorHandling";
 
 const PostComment = ({
-  borderColor,
+  color,
   modpackId,
   replyParentId,
   replyingTo,
   setShowAddReply,
   setShowReplies,
 }: {
-  borderColor: string;
+  color: string;
   modpackId?: string;
   replyParentId: string;
   replyingTo: boolean;
@@ -127,7 +127,7 @@ const PostComment = ({
       />
       <div className=" w-full">
         <textarea
-          className={` min-h-10 min-h-40  w-full resize-none rounded-md border bg-bg   border-${borderColor}-500 px-3 py-1 `}
+          className={` min-h-10 min-h-40  w-full resize-none rounded-md border bg-bg ${borderColorVariants[color]} px-3 py-1 `}
           placeholder="Add a comment..."
           value={comment}
           maxLength={360}
@@ -159,3 +159,16 @@ const PostComment = ({
 };
 
 export default PostComment;
+
+const borderColorVariants: Record<string, string> = {
+  red: "border-red-500",
+  orange: "border-orange-500",
+  yellow: "border-yellow-500",
+  lime: "border-lime-500",
+  teal: "border-teal-500",
+  green: "border-green-500",
+  blue: "border-blue-500",
+  violet: "border-violet-500",
+  fuchsia: "border-fuchsia-500",
+  sky: "border-sky-500",
+};

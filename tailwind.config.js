@@ -6,6 +6,7 @@ const colors = require("tailwindcss/colors");
 
 export default {
   darkMode: "class",
+  mode: "jit",
   content: ["./index.html", "./src/*/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
@@ -56,7 +57,6 @@ export default {
       backgroundImage: {
         oldBG: "url('/back.jpg')",
         oldBGDark: "url('/backDark.jpg')",
-
       },
       boxShadow: {
         header: "0 0 8px 3px rgba(0,0,0,0.3)",
@@ -103,11 +103,11 @@ export default {
     require("@tailwindcss/typography"),
     require("@tailwindcss/container-queries"),
   ],
-  safelist: [
-    {
-      pattern:
-        /(bg|text|border|shadow|hover|min|steps|step|daisy|animate)-(oldBGDark|oldBG|red|orange|yellow|lime|green|teal|sky|blue|violet|fuchsia|black|h|gray|slate|gradient|dashed|dotted|grey|primary|bounce|steps|step|step-primary)/,
-      variants: ["dark", "hover", "responsive", "first", "last", "group-hover"],
-    },
-  ],
+  // safelist: [
+  //   {
+  //     pattern:
+  //       /(bg|text|border|shadow|hover|min|steps|step|daisy|animate)-(oldBGDark|oldBG|red|orange|yellow|lime|green|teal|sky|blue|violet|fuchsia|black|h|gray|slate|gradient|dashed|dotted|grey|primary|bounce|steps|step|step-primary)/,
+  //     variants: ["dark", "hover", "responsive", "first", "last", "group-hover"],
+  //   },
+  // ],
 };

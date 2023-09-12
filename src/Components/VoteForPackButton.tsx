@@ -11,7 +11,7 @@ import HeartCircleMinus from "./SVG/HeartCircleMinus";
 
 export default function VoteForPackButton({
   modpackId,
-  borderColor,
+  color,
   voteCount,
   timesVoted,
 }: VoteForPackButtonProps) {
@@ -109,7 +109,7 @@ export default function VoteForPackButton({
       {user?.isLinked && (
         <button
           disabled={isFetching !== 0 || timesVoted === 0}
-          className={`group h-10 rounded-md text-text hover:bg-opacity-80 dark:hover:bg-opacity-80 disabled:bg-slate-300 disabled:text-slate-500 dark:disabled:bg-slate-700 dark:disabled:text-slate-500  bg-${borderColor}-500 dark:bg-${borderColor}-600 px-3 py-1 text-sm xl:text-base`}
+          className={`group h-10 rounded-md text-text hover:bg-opacity-80 dark:hover:bg-opacity-80 disabled:bg-slate-300 disabled:text-slate-500 dark:disabled:bg-slate-700 dark:disabled:text-slate-500  ${bgColorVariants[color]} px-3 py-1 text-sm xl:text-base`}
           onClick={() => {
             if (removeVote.isLoading) return;
             return removeVote.mutate();
@@ -119,7 +119,7 @@ export default function VoteForPackButton({
         </button>
       )}
       <p
-        className={` min-w-24 max-w-28 flex h-10 items-center justify-center rounded-md border px-3 py-1 border-${borderColor}-500`}
+        className={` min-w-24 max-w-28 flex h-10 items-center justify-center rounded-md border px-3 py-1 ${borderColorVariants[color]}`}
       >
         {voteCount == 0
           ? "No votes"
@@ -128,7 +128,7 @@ export default function VoteForPackButton({
       {user?.isLinked && (
         <button
           disabled={!(isFetching === 0) || user?.votesRemaining === 0}
-          className={` group h-10 rounded-md text-text hover:bg-opacity-80 dark:hover:bg-opacity-80 disabled:bg-slate-300 disabled:text-slate-500 dark:disabled:bg-slate-700 dark:disabled:text-slate-500  bg-${borderColor}-500 dark:bg-${borderColor}-600 px-3 py-1 text-sm xl:text-base`}
+          className={` group h-10 rounded-md text-bg dark:text-bg hover:bg-opacity-80 dark:hover:bg-opacity-80 disabled:bg-slate-300 disabled:text-slate-500 dark:disabled:bg-slate-700 dark:disabled:text-slate-500  ${bgColorVariants[color]} px-3 py-1 text-sm xl:text-base`}
           onClick={() => {
             if (addVote.isLoading || user?.votesRemaining === 0) return;
             return addVote.mutate();
@@ -144,3 +144,29 @@ export default function VoteForPackButton({
     </>
   );
 }
+
+const bgColorVariants: Record<string, string> = {
+  red: "bg-red-400 dark:bg-red-400",
+  orange: "bg-orange-400 dark:bg-orange-400",
+  yellow: "bg-yellow-400 dark:bg-yellow-400",
+  lime: "bg-lime-400 dark:bg-lime-400",
+  teal: "bg-teal-400 dark:bg-teal-400",
+  green: "bg-green-400 dark:bg-green-400",
+  blue: "bg-blue-400 dark:bg-blue-400",
+  violet: "bg-violet-400 dark:bg-violet-400",
+  fuchsia: "bg-fuchsia-400 dark:bg-fuchsia-400",
+  sky: "bg-sky-400 dark:bg-sky-400",
+};
+
+const borderColorVariants: Record<string, string> = {
+  red: "border-red-400 dark:border-red-400",
+  orange: "border-orange-400 dark:border-orange-400",
+  yellow: "border-yellow-400 dark:border-yellow-400",
+  lime: "border-lime-400 dark:border-lime-400",
+  teal: "border-teal-400 dark:border-teal-400",
+  green: "border-green-400 dark:border-green-400",
+  blue: "border-blue-400 dark:border-blue-400",
+  violet: "border-violet-400 dark:border-violet-400",
+  fuchsia: "border-fuchsia-400 dark:border-fuchsia-400",
+  sky: "border-sky-400 dark:border-sky-400",
+};

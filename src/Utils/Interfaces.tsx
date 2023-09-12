@@ -59,7 +59,7 @@ export interface ICommentReplies {
 }
 
 export interface ICommentComponent {
-  borderColor: string;
+  color: string;
   comment?: IComment;
   replyingTo: boolean;
   replyParentId: string;
@@ -87,7 +87,7 @@ export interface IMCPlayerData {
 }
 export interface VoteForPackButtonProps {
   modpackId: string;
-  borderColor: string;
+  color: string;
   voteCount: number;
   timesVoted: number;
   isLoading: boolean;

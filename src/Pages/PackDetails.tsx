@@ -16,6 +16,7 @@ import { SetStateAction, useEffect, useRef, useState } from "react";
 import { errorHandling } from "../Helper/errorHandling";
 import { tagMap } from "../Helper/modifyModpack";
 import { Dialog, DropDown } from "../Components/Dialog";
+import { bgColorVariants, borderColorVariants, textColorVariants } from "../Constants";
 
 const PackDetails = () => {
   const { modpackId: id } = useParams();
@@ -34,6 +35,17 @@ const PackDetails = () => {
 
   const isDev = import.meta.env.VITE_NODE_ENV === "development";
   const apiBase = isDev ? "https://www.trainjumper.com" : "";
+
+
+  useEffect(() => {
+    if (!data?.isPublished) {
+      navigate(`/suggested-pack-details/${data?.modpackId}`);
+    } else if (data?.isPublished || !data?.isArchived) {
+      navigate(`/pack-details/${data?.modpackId}`);
+    } else if (data?.isArchived) {
+      navigate(`/archived-pack-details/${data?.modpackId}`);
+    }
+  }, [data?.isPublished, data?.isArchived]);
 
   const delteModpack = async () =>
     await axios.delete(`${apiBase}/api/delete-modpack`, {
@@ -104,7 +116,7 @@ const PackDetails = () => {
   const {
     name,
     description,
-    color: borderColor,
+    color,
     galleryImages,
     comments,
     voteCount,
@@ -115,18 +127,8 @@ const PackDetails = () => {
     isArchived,
     isPublished,
   } = data;
-  console.log(data);
 
-  useEffect(() => {
-    if (!isPublished) {
-      navigate(`/suggested-pack-details/${modpackId}`);
-    } else if (isPublished || !isArchived) {
-      navigate(`/pack-details/${modpackId}`);
-    } else if (isArchived) {
-      navigate(`/archived-pack-details/${modpackId}`);
-    }
-    console.log("MEM LEAK");
-  }, [isPublished, isArchived]);
+
 
   const commentCount = comments
     ? comments.length
@@ -157,7 +159,7 @@ const PackDetails = () => {
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className={`h-8 w-8 text-${borderColor}-500`}
+                  className={`h-8 w-8 ${textColorVariants[color]}`}
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -169,7 +171,7 @@ const PackDetails = () => {
                     d="M10 19l-7-7m0 0l7-7m-7 7h18"
                   />
                 </svg>
-                <p className={` text-${borderColor}-500`}>Back</p>
+                <p className={` ${textColorVariants[color]}`}>Back</p>
               </Link>
 
               <div className="flex text-sm text-text max-[350px]:mt-5 max-[350px]:flex-col xl:text-base ">
@@ -295,7 +297,7 @@ const PackDetails = () => {
                 {galleryImages?.length > 0 && (
                   <ImageCarousel
                     galleryImages={galleryImages}
-                    borderColor={borderColor}
+                    color={color}
                   />
                 )}
                 <div className="grid w-full content-center items-center md:mr-4 md:space-y-4">
@@ -305,7 +307,7 @@ const PackDetails = () => {
                   <div className="flex items-center justify-center gap-2">
                     <VoteForPackButton
                       modpackId={modpackId}
-                      borderColor={borderColor}
+                      color={color}
                       isLoading={isLoading}
                       voteCount={voteCount}
                       timesVoted={timesVoted}
@@ -322,13 +324,13 @@ const PackDetails = () => {
               <div className="  my-2 grid w-full  items-start justify-between gap-4 px-4 sm:grid-cols-2 sm:flex-row  md:gap-0 md:space-x-4">
                 {/* map the tags */}
                 <div className="flex flex-row">
-                  {tags?.map((tag, index) => {
+                  {tags?.map((tag:string, index:number) => {
                     const label = tagMap.get(tag);
 
                     return (
                       <div
                         key={index}
-                        className={`z-[10] ml-2 flex items-center justify-start self-start rounded-full border-2 capitalize first:ml-4 border-${borderColor}-500 bg-bg px-2 py-0.5 text-sm text-text/80   `}
+                        className={`z-[10] ml-2 flex items-center justify-start self-start rounded-full border-2 capitalize first:ml-4 ${borderColorVariants[color]} bg-bg px-2 py-0.5 text-sm text-text/80   `}
                       >
                         {label}
                       </div>
@@ -339,7 +341,7 @@ const PackDetails = () => {
                   Modpack official page:{" "}
                   <Link
                     to={officialUrl}
-                    className={`ml-2 flex items-center  gap-1 text-${borderColor}-500 hover:opacity-80`}
+                    className={`ml-2 flex items-center  gap-1 text-${color}-500 hover:opacity-80`}
                     target="_blank"
                   >
                     Here
@@ -383,7 +385,7 @@ const PackDetails = () => {
                   {user?.isLoggedIn && user?.isLinked && (
                     <PostComment
                       modpackId={modpackId}
-                      borderColor={borderColor}
+                      color={color}
                       replyingTo={false}
                       replyParentId=""
                       setShowAddReply={setShowAddReply}
@@ -408,7 +410,7 @@ const PackDetails = () => {
                       className="grid items-center justify-between  last:pb-0 "
                     >
                       <CommentsComponent
-                        borderColor={borderColor}
+                        color={color}
                         comment={comment}
                       />
                     </div>
@@ -427,10 +429,10 @@ export default PackDetails;
 
 export const ImageCarousel = ({
   galleryImages,
-  borderColor,
+  color,
 }: {
   galleryImages: any;
-  borderColor: string;
+  color: string;
 }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -472,14 +474,15 @@ export const ImageCarousel = ({
           alt="Modpack Image"
           width="412"
           height="233"
-          className={`z-[5] mx-auto aspect-video max-h-52  place-self-center overflow-hidden rounded-md border-2 object-fill object-center lg:max-h-60 lg:w-full border-${borderColor}-500 bg-${borderColor}-500`}
+          className={`z-[5] mx-auto aspect-video max-h-52  place-self-center overflow-hidden rounded-md border-2 object-fill object-center lg:max-h-60 lg:w-full ${borderColorVariants[color]} ${bgColorVariants[color]}`}
+
         />
         {galleryImages?.length > 1 && (
           <div className="absolute inset-0 mx-auto flex max-h-[233px]  max-w-[412px] lg:w-full">
             <div className="group flex flex-1 items-center justify-between gap-2">
               <button
                 onClick={handlePrevImage}
-                className={`hidden h-full w-10 items-center justify-center overflow-hidden rounded-l-lg border-2 group-hover:flex border-${borderColor}-500 border-r-0 group-hover:bg-sec/50   `}
+                className={`hidden h-full w-10 items-center justify-center overflow-hidden rounded-l-lg border-2 group-hover:flex ${borderColorVariants[color]} border-r-0 group-hover:bg-sec/50   `}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -490,10 +493,12 @@ export const ImageCarousel = ({
                   <path d="M168.49,199.51a12,12,0,0,1-17,17l-80-80a12,12,0,0,1,0-17l80-80a12,12,0,0,1,17,17L97,128Z"></path>
                 </svg>
               </button>
-
+              <div className="w-full h-full hidden group-hover:flex cursor-pointer"
+              onClick={() => handleImageClick(galleryImages[currentImageIndex].imageUrl)}
+              ></div>
               <button
                 onClick={handleNextImage}
-                className={`hidden h-full w-10 items-center justify-center overflow-hidden rounded-r-lg border-2 group-hover:flex border-${borderColor}-500 border-l-0 group-hover:bg-sec/50   `}
+                className={`hidden h-full w-10 items-center justify-center overflow-hidden rounded-r-lg border-2 group-hover:flex ${borderColorVariants[color]} border-l-0 group-hover:bg-sec/50   `}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -529,25 +534,26 @@ export const ImageCarousel = ({
                       ? `border-text/90 shadow-inner `
                       : `border-text/50 hover:border-text/90 hover:shadow-inner`
                   }`}
-                  onClick={() => handleImageClick(gallery.imageUrl)}
+                  onClick={() => setCurrentImageIndex(index)}
                 />
               );
             }
           )}
         </div>
       )}
+
       <Dialog
         open={showModal}
         dialogStateChange={(open: any) => setShowModal(open)}
         contents={
-          <>
+          <div className="fixed top-48 z-50 bg-black/50">
             <img
               src={`https://www.trainjumper.com${imageSrc}`}
               alt="Modpack Image"
               className="w-full md:w-[600px] lg:w-[896px]"
             />
             <button onClick={() => setShowModal(false)}>Close</button>
-          </>
+          </div>
         }
       />
     </div>

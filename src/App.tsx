@@ -86,8 +86,8 @@ function App() {
               />
             </BrowserRouter>
 
-            <FetchingIndicator />
-            {window.location.pathname === "/404" ? null : <Footer />}
+            {/* <FetchingIndicator /> */}
+            {window.location?.pathname === "/404" ? null : <Footer />}
           </div>
           <ReactQueryDevtools />
         </ThemeProvider>

@@ -261,7 +261,7 @@ const SuggestedPackDetails = () => {
                 {galleryImages?.length > 0 && (
                   <ImageCarousel
                     galleryImages={galleryImages}
-                    borderColor={borderColor}
+                    color={borderColor}
                   />
                 )}
                 <div className="grid w-full content-center items-center md:mr-4 md:space-y-4">

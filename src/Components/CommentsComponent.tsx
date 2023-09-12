@@ -10,7 +10,7 @@ import { useUser } from "../Context/useUser.tsx";
 import { useParams } from "react-router-dom";
 
 export function CommentsComponent({
-  borderColor,
+  color,
   comment,
 }: Partial<ICommentComponent>) {
   const { user } = useUser();
@@ -27,7 +27,7 @@ export function CommentsComponent({
   return (
     <>
       <ReplyComponent
-        borderColor={borderColor && borderColor ? borderColor : "sky"}
+        color={color ?? "sky"}
         comment={comment}
         replyingTo={false}
         replyParentId=""
@@ -36,7 +36,7 @@ export function CommentsComponent({
       <div className="flex ">
         {user?.isLoggedIn && (
           <button
-            className={`ml-[.5em] mr-1 w-fit rounded-md border border-${borderColor}-500 dark:border-${borderColor}-600  px-3 py-1 text-justify text-xs text-text hover:border-opacity-80  dark:text-text bg-${borderColor}-500 dark:bg-${borderColor}-600 hover:bg-opacity-80  dark:hover:bg-opacity-80 `}
+            className={`ml-[.5em] mr-1 w-fit rounded-md border ${borderColorVariants[color ?? "sky"]}  px-3 py-1 text-justify text-xs text-bg hover:border-opacity-80   ${bgColorVariants[color ?? "sky"]} hover:bg-opacity-80  dark:hover:bg-opacity-80 `}
             onClick={() => {
               setShowAddReply(!showAddReply);
             }}
@@ -67,7 +67,7 @@ export function CommentsComponent({
       </div>
       {showAddReply && (
         <PostComment
-          borderColor={borderColor && borderColor ? borderColor : "sky"}
+          color={color ?? "sky"}
           modpackId={modpackId}
           replyingTo={true}
           replyParentId={comment?.uuid || ""}
@@ -84,7 +84,7 @@ export function CommentsComponent({
           ) : (
             data?.map((reply: IComment) => (
               <ReplyComponent
-                borderColor={borderColor && borderColor ? borderColor : "sky"}
+                color={color ??"sky"}
                 comment={reply}
                 replyingTo={true}
                 replyParentId={comment?.uuid || ""}
@@ -96,3 +96,29 @@ export function CommentsComponent({
     </>
   );
 }
+
+const bgColorVariants: Record<string, string> = {
+  red: "bg-red-500 dark:bg-red-400",
+  orange: "bg-orange-500 dark:bg-orange-400",
+  yellow: "bg-yellow-500 dark:bg-yellow-400",
+  lime: "bg-lime-500 dark:bg-lime-400",
+  teal: "bg-teal-500 dark:bg-teal-400",
+  green: "bg-green-500 dark:bg-green-400",
+  blue: "bg-blue-500 dark:bg-blue-400",
+  violet: "bg-violet-500 dark:bg-violet-400",
+  fuchsia: "bg-fuchsia-500 dark:bg-fuchsia-400",
+  sky: "bg-sky-500 dark:bg-sky-400",
+};
+
+const borderColorVariants: Record<string, string> = {
+  red: "border-red-500 dark:border-red-400",
+  orange: "border-orange-500 dark:border-orange-400",
+  yellow: "border-yellow-500 dark:border-yellow-400",
+  lime: "border-lime-500 dark:border-lime-400",
+  teal: "border-teal-500 dark:border-teal-400",
+  green: "border-green-500 dark:border-green-400",
+  blue: "border-blue-500 dark:border-blue-400",
+  violet: "border-violet-500 dark:border-violet-400",
+  fuchsia: "border-fuchsia-500 dark:border-fuchsia-400",
+  sky: "border-sky-500 dark:border-sky-400",
+};

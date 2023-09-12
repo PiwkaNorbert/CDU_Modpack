@@ -16,8 +16,7 @@ export const fetchProfile = async () => {
 };
 
 const useDiscordProfileData = async () => {
-  return;
-  useQuery(["login"], fetchProfile, {
+  return useQuery(["login"], fetchProfile, {
     onError: (error) => {
       if (error instanceof Error) {
         return errorHandling(error);
