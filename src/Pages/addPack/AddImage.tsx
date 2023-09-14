@@ -58,7 +58,6 @@ const AddImage = () => {
           if (addImageMutation.isLoading) return;
 
           const target = e.target as HTMLFormElement;
-          console.log(target.image.files);
 
           addImageMutation.mutate({
             images: target.image.files,

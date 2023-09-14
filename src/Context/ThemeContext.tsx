@@ -22,9 +22,6 @@ export const ThemeProvider: React.FC<UserProviderProps> = ({ children }) => {
   const storedTheme = localStorage.getItem("theme");
 
   useEffect(() => {
-    console.log(storedTheme);
-    console.log("MEM LEAK");
-
     if (
       storedTheme === "dark" ||
       (!storedTheme &&
@@ -35,8 +32,6 @@ export const ThemeProvider: React.FC<UserProviderProps> = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    console.log(theme);
-    console.log("MEM LEAK");
 
     if (theme) {
       document.documentElement.setAttribute("data-theme", "dark");
@@ -46,7 +41,6 @@ export const ThemeProvider: React.FC<UserProviderProps> = ({ children }) => {
 
       localStorage.setItem("theme", "dark");
     } else {
-      console.log(theme);
 
       document.documentElement.classList.remove("dark");
       document.documentElement.classList.add("light");

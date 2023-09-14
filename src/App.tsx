@@ -50,8 +50,8 @@ function App() {
                 <Route path="login" element={<Login />} />
                 <Route path="loginDev" element={<LoginDev />} />
 
-                <Route path="*" element={<Navigate to="/404" />} />
-                <Route path="404" element={<NotFoundPage />} />
+                {/* <Route path="*" element={<Navigate to="/404" />} />
+                <Route path="404" element={<NotFoundPage />} /> */}
 
                 {user?.isAdmin && (
                   <>

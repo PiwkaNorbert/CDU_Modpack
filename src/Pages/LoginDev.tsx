@@ -50,7 +50,6 @@ const LoginDev = () => {
 
   useEffect(() => {
     if (user) return;
-    console.log("setting user");
 
     setDevUser(profileData);
   }, []);

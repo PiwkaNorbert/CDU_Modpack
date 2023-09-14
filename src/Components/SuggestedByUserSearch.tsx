@@ -18,8 +18,6 @@ function SuggestedByUserSearch() {
   };
 
   async function confirmUsername() {
-    console.log("MEM LEAK");
-
     if (!isValid) return;
 
     if (debounceTimer) {
@@ -28,8 +26,6 @@ function SuggestedByUserSearch() {
     setLoading(true);
 
     const newDebounceTimer = setTimeout(async () => {
-      console.log("checking availability of", username);
-
       // axios fetch with no cors
       const res = await fetch(
         `https://api.playcdu.co/search?partial_name=${username}&max_results=1`,
@@ -55,7 +51,6 @@ function SuggestedByUserSearch() {
 
       setLoading(false);
     }, 1000);
-    console.log("MEM LEAK 3");
 
     setDebounceTimer(newDebounceTimer);
   }

@@ -30,8 +30,6 @@ export const UserProvider: React.FunctionComponent<UserProviderProps> = (
   const storedUser = localStorage.getItem("profileData");
 
   const CheckUserExpiriedLogin = () => {
-    console.log("fetching profile data");
-
     if (!storedUser) return;
 
     const parsedUser = JSON.parse(storedUser);

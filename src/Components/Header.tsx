@@ -24,11 +24,8 @@ const Header = () => {
   useEffect(() => {
     const handleObserver = (entries: IntersectionObserverEntry[]) => {
       const entry = entries[0];
-      console.log(entry);
 
       if (entry) {
-        console.log(entry.isIntersecting);
-
         setIntersecting(entry.isIntersecting);
       }
     };
@@ -56,23 +53,23 @@ const Header = () => {
       {menu ? null : (
         <header
           ref={ref}
-          className="relative z-[12] hidden h-[140px] items-center justify-center  text-sm md:grid xl:h-[170px] xl:text-base"
+          className="relative  hidden h-[140px] items-center justify-center  text-sm md:grid xl:h-[170px] xl:text-base"
         >
-          <div className=" absolute inset-0 z-[12] m-auto bg-gradient-to-tr from-acc to-pri dark:brightness-50 "></div>
+          <div className=" absolute inset-0  m-auto bg-gradient-to-tr from-acc to-pri dark:brightness-50 "></div>
           <img
             alt="CDU"
             src="/logo.png"
             width="140"
             height="128"
             //loading="lazy"
-            className=" lazy-load-image absolute top-0 z-30  cursor-pointer  justify-self-center p-2 hover:animate-bounce-slow "
+            className=" lazy-load-image absolute top-0   cursor-pointer  justify-self-center p-2 hover:animate-bounce-slow "
             onClick={() => navigate("/")}
           />
         </header>
       )}
       <nav
-        className={`top-0 z-[12]  flex w-full items-center justify-stretch  gap-2 border-bg bg-bg px-8 py-1 text-text md:justify-center md:px-4 lg:mx-auto lg:min-w-[900px] lg:max-w-[900px] lg:border-x-4  ${
-          !isIntersecting ? " sticky shadow-md" : "relative"
+        className={`top-0 z-[10]  flex w-full items-center justify-stretch  gap-2 border-bg bg-bg px-8 py-1 text-text md:justify-center md:px-4 lg:mx-auto lg:min-w-[900px] lg:max-w-[900px] lg:border-x-4  ${
+          !isIntersecting ? " sticky  shadow-md" : "relative"
         }`}
       >
         {/* If the window size is below 600px display a button with "menu as the value and on click make a modal to display the nav */}
@@ -164,7 +161,7 @@ const Header = () => {
             <span
               className={`${
                 theme ? "translate-x-4" : "-translate-x-4"
-              } z-20 inline-block h-6 w-6 transform rounded-full bg-white shadow-lg transition-all duration-300 ease-in-out group-hover:bg-pri`}
+              } z-[5] inline-block h-6 w-6 transform rounded-full bg-white shadow-lg transition-all duration-300 ease-in-out group-hover:bg-pri`}
             ></span>
             {/* the icons 1 is sun the 2 is the moon */}
             {theme ? (

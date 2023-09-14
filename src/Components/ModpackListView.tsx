@@ -46,18 +46,19 @@ const ModpackListView = ({ packData }) => {
     <>
       <section
         id="modpack__gallery"
-        className="grid h-full  w-full justify-normal self-center text-text lg:mx-auto lg:min-w-[900px] lg:max-w-[900px] "
+        className="grid h-full w-full justify-normal self-center text-text lg:mx-auto lg:min-w-[900px] lg:max-w-[900px] "
       >
         {/* set the width to ffit the content and assign them to sm md lg for the container  like lg:max-w-[1000px]
         below and assthese same things to the nav width*/}
-        <div className=" h-min overflow-hidden border-t-2 bg-bg dark:border-none dark:bg-bg dark:shadow  md:mb-4 md:rounded-b-xl  md:border-none md:shadow-2xl  ">
+        <div className=" h-min overflow-hidden border-t-2 bg-sec/20 dark:border-none dark:bg-bg dark:shadow  md:mb-4 md:rounded-b-xl  md:border-none md:shadow-2xl  ">
           {/* map the data variable in a grad 4x2  */}
           <div className="md:space-x-none  flex items-center  justify-between   space-x-4 p-5 text-xl text-text xl:text-2xl ">
             {/* Show this button if you're logged in and a staff member */}
             <div
               className={`relative z-10 flex items-center justify-center gap-2 text-text ${
-                user?.isAdmin &&
-                "cursor-pointer select-none rounded-lg px-2 py-1  hover:bg-text/10"
+                user?.isAdmin
+                  ? "cursor-pointer select-none rounded-lg px-2 py-1 hover:bg-text/10"
+                  : ""
               }`}
               onClick={toggleDropdown}
             >
@@ -72,80 +73,78 @@ const ModpackListView = ({ packData }) => {
                     height="20"
                     fill="currentColor"
                     viewBox="0 0 256 256"
-                    className={`icon  ${showModal && "open"}`}
+                    className={`transition-transform   ${
+                      showModal ? "rotate-90" : "rotate-0"
+                    }`}
                   >
                     <path d="M181.66,133.66l-80,80A8,8,0,0,1,88,208V48a8,8,0,0,1,13.66-5.66l80,80A8,8,0,0,1,181.66,133.66Z"></path>
                   </svg>
 
-                  <div className=" absolute top-10 rounded-lg bg-bg shadow-md">
-                    <div className={`dropdown-body  ${showModal && "open"}`}>
-                      <ul
-                        className="z-50 space-y-1 p-1 text-sm  "
-                        id="dropdown-menu"
+                  <ul
+                    className={` absolute top-9 z-[15] space-y-1 rounded-lg  bg-bg p-1 text-sm shadow-md   after:fixed after:inset-0 after:z-[10] after:bg-black/20 dark:border-2 dark:border-text/10 dark:shadow-text/20 ${
+                      showModal ? " block" : "hidden"
+                    }`}
+                    id="dropdown-menu"
+                  >
+                    <li
+                      className={` active:bg-text/15  mb-1 flex w-full  cursor-pointer gap-1 rounded-lg  px-3 py-1 transition-all delay-0 duration-200 ease-in-out last:mb-0 hover:bg-text/10 `}
+                    >
+                      <a
+                        className={`flex items-center justify-center gap-2 capitalize `}
+                        onClick={() => {
+                          navigate("/suggested-pack-details");
+                        }}
                       >
-                        <li
-                          className={` active:bg-text/15  mb-1 flex w-full  cursor-pointer gap-1 rounded-lg  px-3 py-1 transition-all delay-0 duration-200 ease-in-out last:mb-0 hover:bg-text/10 `}
+                        Suggested Packs
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="20"
+                          height="20"
+                          fill="currentColor"
+                          viewBox="0 0 256 256"
                         >
-                          <a
-                            className={`flex items-center justify-center  gap-2 capitalize `}
-                            onClick={() => {
-                              navigate("/suggested-pack-details");
-                            }}
-                          >
-                            Suggested Packs
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="20"
-                              height="20"
-                              fill="currentColor"
-                              viewBox="0 0 256 256"
-                            >
-                              <path d="M32,72V56a8,8,0,0,1,8-8H216a8,8,0,0,1,8,8V72a8,8,0,0,1-8,8H40A8,8,0,0,1,32,72Zm8,72H216a8,8,0,0,0,8-8V120a8,8,0,0,0-8-8H40a8,8,0,0,0-8,8v16A8,8,0,0,0,40,144Zm112,32H40a8,8,0,0,0-8,8v16a8,8,0,0,0,8,8H152a8,8,0,0,0,8-8V184A8,8,0,0,0,152,176Zm80,8H216V168a8,8,0,0,0-16,0v16H184a8,8,0,0,0,0,16h16v16a8,8,0,0,0,16,0V200h16a8,8,0,0,0,0-16Z"></path>
-                            </svg>
-                          </a>
-                        </li>
-                        <li
-                          className={` active:bg-text/15  mb-1 flex w-full  cursor-pointer gap-1 rounded-lg  px-3 py-1 transition-all delay-0 duration-200 ease-in-out last:mb-0 hover:bg-text/10 `}
+                          <path d="M32,72V56a8,8,0,0,1,8-8H216a8,8,0,0,1,8,8V72a8,8,0,0,1-8,8H40A8,8,0,0,1,32,72Zm8,72H216a8,8,0,0,0,8-8V120a8,8,0,0,0-8-8H40a8,8,0,0,0-8,8v16A8,8,0,0,0,40,144Zm112,32H40a8,8,0,0,0-8,8v16a8,8,0,0,0,8,8H152a8,8,0,0,0,8-8V184A8,8,0,0,0,152,176Zm80,8H216V168a8,8,0,0,0-16,0v16H184a8,8,0,0,0,0,16h16v16a8,8,0,0,0,16,0V200h16a8,8,0,0,0,0-16Z"></path>
+                        </svg>
+                      </a>
+                    </li>
+                    <li
+                      className={` active:bg-text/15  mb-1 flex w-full  cursor-pointer gap-1 rounded-lg  px-3 py-1 transition-all delay-0 duration-200 ease-in-out last:mb-0 hover:bg-text/10 `}
+                    >
+                      <a
+                        className={`flex items-center justify-center  gap-2 capitalize `}
+                        onClick={() => {
+                          navigate("/archived-pack-details");
+                        }}
+                      >
+                        Archived Packs
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="20"
+                          height="20"
+                          fill="currentColor"
+                          viewBox="0 0 256 256"
                         >
-                          <a
-                            className={`flex items-center justify-center  gap-2 capitalize `}
-                            onClick={() => {
-                              navigate("/archived-pack-details");
-                            }}
-                          >
-                            Archived Packs
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="20"
-                              height="20"
-                              fill="currentColor"
-                              viewBox="0 0 256 256"
-                            >
-                              <path d="M224,48H32A16,16,0,0,0,16,64V88a16,16,0,0,0,16,16v88a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V104a16,16,0,0,0,16-16V64A16,16,0,0,0,224,48Zm-72,96H104a8,8,0,0,1,0-16h48a8,8,0,0,1,0,16Zm72-56H32V64H224V88Z"></path>
-                            </svg>
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
+                          <path d="M224,48H32A16,16,0,0,0,16,64V88a16,16,0,0,0,16,16v88a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V104a16,16,0,0,0,16-16V64A16,16,0,0,0,224,48Zm-72,96H104a8,8,0,0,1,0-16h48a8,8,0,0,1,0,16Zm72-56H32V64H224V88Z"></path>
+                        </svg>
+                      </a>
+                    </li>
+                  </ul>
                 </>
               )}
             </div>
 
             <input
-              className={`z-10  h-9 w-80 rounded-full border-2 bg-bg  px-3 py-1 text-sm`}
+              className={`z-[5]  h-9 w-80 rounded-full border-2 bg-bg  px-3 py-1 text-sm`}
               placeholder="Search for modpacks"
               type="text"
               name="tagSearch"
               onChange={(e) => changeViewByInput(e)}
             />
             <button
-              className="z-10 flex w-[96.81px] justify-end"
+              className="z-[5] flex w-[96.81px] justify-end"
               onClick={() => {
                 setShowFilterTags((open) => !open);
                 if (showFilterTags) {
-                  console.log("showFilterTags", showFilterTags);
-
                   setModPackFilterByTags("");
                 }
               }}
@@ -230,7 +229,6 @@ const ModpackListView = ({ packData }) => {
               </div>
             </>
           )}
-          <div className="absolute inset-0 h-full w-full flex-1 bg-sec opacity-20"></div>
         </div>
         <div className="p-body-inner m-4  my-0 flex  h-10   items-center justify-end md:mr-0 lg:mr-0">
           {/* button to scroll to the top of the page */}

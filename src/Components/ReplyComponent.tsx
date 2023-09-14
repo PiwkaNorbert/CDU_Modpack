@@ -1,4 +1,4 @@
-import {  ICommentComponent, IPackDetails } from "../Utils/Interfaces";
+import { ICommentComponent, IPackDetails } from "../Utils/Interfaces";
 import relativeDate from "../Helper/relativeDate";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { useUser } from "../Context/useUser";
@@ -42,11 +42,11 @@ export function ReplyComponent({
         queryClient.setQueryData(["replies", replyParentId], (oldData) => {
           const oldReplies = oldData as ICommentComponent[];
           // filter the replies to remove the deleted comment
-          console.log(oldReplies);
-          return [...oldReplies.filter((c:any) => {
-            
-            c.uuid !== comment?.uuid
-          })];
+          return [
+            ...oldReplies.filter((c: any) => {
+              c.uuid !== comment?.uuid;
+            }),
+          ];
         });
         return toast.success("Comment deleted! 👌");
       }

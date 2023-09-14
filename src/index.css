@@ -241,7 +241,6 @@ input[type="file"]::file-selector-button:hover {
 /* DROPDOWN COMP */
 
 .dropdown-body {
-  border-top: 1px solid #e5e8ec;
   display: none;
   top: 20px;
   height: 100%;
@@ -266,13 +265,4 @@ input[type="file"]::file-selector-button:hover {
 
 .dropdown-item-dot.selected {
   opacity: 1;
-}
-
-.icon {
-  transform: rotate(0deg);
-  transition: all 0.2s ease-in-out;
-}
-
-.icon.open {
-  transform: rotate(90deg);
 }

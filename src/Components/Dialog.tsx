@@ -17,11 +17,7 @@ export function Dialog({
   const dialog = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    console.log("MEM LEAK");
-
     if (open !== showModal) {
-      console.log("open changed");
-
       setShowModal(open);
     }
   }, [open]);
@@ -33,7 +29,7 @@ export function Dialog({
 
   return showModal ? (
     <>
-      <div className="fixed inset-0 z-40 bg-bg/70 "></div>
+      <div className="fixed inset-0 z-40  bg-black/70 "></div>
       <div
         onClick={({ target }) => {
           if (!allowClose || dialog.current?.contains(target as any)) return;
@@ -51,7 +47,7 @@ export function Dialog({
             <div className="dialog-accent-border group-hover:duration-2000 group-hover:opacity-100"></div>
             <div
               ref={dialog}
-              className="dialog-content-container bg-white/70  text-bg dark:bg-black/70 dark:text-text"
+              className="dialog-content-container place-items-center text-bg dark:text-text"
             >
               {contents}
             </div>
@@ -81,11 +77,7 @@ export function DropDown({
   const dropdown = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    console.log("MEM LEAK");
-
     if (open !== showDropDown) {
-      console.log("open changed");
-
       setShowDropDown(open);
     }
   }, [open]);

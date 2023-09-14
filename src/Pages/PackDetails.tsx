@@ -148,9 +148,9 @@ const PackDetails = () => {
       <section
         id="modpack__details"
         key={modpackId}
-        className="z-[11] grid h-full w-full  flex-1 justify-normal  text-text lg:mx-auto lg:min-w-[900px] lg:max-w-[900px] "
+        className=" grid h-full w-full  flex-1 justify-normal  text-text lg:mx-auto lg:min-w-[900px] lg:max-w-[900px] "
       >
-        <div className="relative h-min overflow-hidden border-t-2 bg-bg pb-4 dark:border-none dark:shadow  md:mb-4 md:rounded-b-md  md:border-none md:shadow-xl   ">
+        <div className="relative h-min overflow-hidden border-t-2 bg-sec/20 pb-4 dark:border-none dark:shadow  md:mb-4 md:rounded-b-md  md:border-none md:shadow-xl   ">
           <div className={`  grid h-full items-center  lg:rounded-md  `}>
             <div className="  flex justify-between gap-2  px-8 pt-4  max-[350px]:flex-col sm:gap-0 md:px-4 ">
               {/* backarrow to the root page */}
@@ -175,7 +175,7 @@ const PackDetails = () => {
                 <p className={` ${textColorVariants[color]}`}>Back</p>
               </Link>
 
-              <div className="flex text-sm text-text max-[350px]:mt-5 max-[350px]:flex-col xl:text-base ">
+              <div className="z-[5] flex text-sm text-text max-[350px]:mt-5 max-[350px]:flex-col xl:text-base ">
                 {/* edit modpack button only is userProfile is superUser */}
 
                 {user?.isLoggedIn && user?.isAdmin && (
@@ -205,7 +205,7 @@ const PackDetails = () => {
                       dropDownStateChange={(open: any) =>
                         setPackdetailMenuShow(open)
                       }
-                      position="right-2 top-[67px]"
+                      position="right-2 z-[10] top-[67px]"
                       contents={
                         <ul
                           className=" p-1 text-sm last:mb-0 "
@@ -286,7 +286,7 @@ const PackDetails = () => {
                 )}
               </div>
             </div>
-            <div className={`z-[5] grid items-center md:px-4 `}>
+            <div className={`grid items-center md:px-4 `}>
               <div
                 className={`${
                   galleryImages?.length > 0
@@ -414,7 +414,6 @@ const PackDetails = () => {
               </div>
             </div>
           </div>
-          <div className="absolute inset-0 z-0 h-full w-full flex-1 bg-sec opacity-20"></div>
         </div>
       </section>
     </>
@@ -543,13 +542,18 @@ export const ImageCarousel = ({
         open={showModal}
         dialogStateChange={(open: any) => setShowModal(open)}
         contents={
-          <div className="fixed top-48 z-50 bg-black/50">
+          <div className="fixed top-48 z-50 grid items-center  bg-black/80">
             <img
               src={`https://www.trainjumper.com${imageSrc}`}
               alt="Modpack Image"
               className="w-full md:w-[600px] lg:w-[896px]"
             />
-            <button onClick={() => setShowModal(false)}>Close</button>
+            <button
+              className="py-2 hover:bg-sec/20"
+              onClick={() => setShowModal(false)}
+            >
+              Close
+            </button>
           </div>
         }
       />
