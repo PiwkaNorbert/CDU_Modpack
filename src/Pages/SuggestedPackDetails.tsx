@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import usePackDetailData from "../API/usePackDetailData";
 import { IModpack, IPackDetails } from "../Utils/Interfaces";
 import Loading from "../Components/Loading";
-import { useUser } from "../Context/useUser";
+import useUser from "../Context/useUser";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useMutation, useQueryClient } from "@tanstack/react-query";

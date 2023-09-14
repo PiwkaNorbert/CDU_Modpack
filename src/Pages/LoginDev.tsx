@@ -10,7 +10,7 @@ export interface LoginProps {
 }
 import { useSearchParams, Navigate } from "react-router-dom";
 import { DiscordProfileData } from "../Utils/Interfaces";
-import { useUser } from "../Context/useUser";
+import useUser from "../Context/useUser";
 import { useEffect } from "react";
 
 const LoginDev = () => {
@@ -52,6 +52,7 @@ const LoginDev = () => {
     if (user) return;
 
     setDevUser(profileData);
+    localStorage.setItem("profileData", JSON.stringify(profileData));
   }, []);
 
   if (!returnUrl) return <Navigate to="/" />;

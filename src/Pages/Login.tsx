@@ -11,7 +11,7 @@ export interface LoginProps {
 import useDiscordProfileData from "../API/useDiscordProfileData";
 import { useSearchParams, Navigate } from "react-router-dom";
 import { DiscordProfileData } from "../Utils/Interfaces";
-import { useUser } from "../Context/useUser";
+import useUser from "../Context/useUser";
 
 const Login = () => {
   const [searchParams] = useSearchParams();

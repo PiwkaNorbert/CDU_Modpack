@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react";
-import { useUser } from "../Context/useUser";
+import  useUser  from "../Context/useUser";
 import AddPackCard from "../Pages/addPack/AddPackCard";
 import ModpackCard from "./ModpackCard";
 import { tagOptions } from "../Helper/modifyModpack";
@@ -41,6 +41,7 @@ const ModpackListView = ({ packData }: {packData: any}) => {
   );
 
   const toggleDropdown = () => setShowModal(!showModal);
+
 
   return (
     <>
@@ -92,7 +93,7 @@ const ModpackListView = ({ packData }: {packData: any}) => {
                       <a
                         className={`flex items-center justify-center gap-2 capitalize `}
                         onClick={() => {
-                          navigate("/suggested-pack-list");
+                          navigate("/list-suggested-packs");
                         }}
                       >
                         Suggested Packs
@@ -113,7 +114,7 @@ const ModpackListView = ({ packData }: {packData: any}) => {
                       <a
                         className={`flex items-center justify-center  gap-2 capitalize `}
                         onClick={() => {
-                          navigate("/archived-pack-list");
+                          navigate("/list-archived-packs");
                         }}
                       >
                         Archived Packs
@@ -211,8 +212,8 @@ const ModpackListView = ({ packData }: {packData: any}) => {
           ) : data?.length === 0 ? (
             <div className=" my-10 text-center">
               No
-              {location.pathname === "/archived-modpacks" && " archived "}
-              {location.pathname === "/suggested-modpacks" && " suggested "}
+              {location.pathname === "/list-archived-packs" && " archived "}
+              {location.pathname === "/list-suggested-packs" && " suggested "}
               Modpacks
             </div>
           ) : (
@@ -220,8 +221,8 @@ const ModpackListView = ({ packData }: {packData: any}) => {
               <div className=" z-20  grid grid-cols-2 gap-5 p-5 max-[400px]:grid-cols-1 sm:grid-cols-3  md:grid-cols-3   lg:grid-cols-4   ">
                 {user?.isLinked &&
                   !(
-                    location.pathname === "/suggested-modpacks" ||
-                    location.pathname === "/archived-modpacks"
+                    location.pathname === "/list-archived-packs" ||
+                    location.pathname === "/list-suggested-packs"
                   ) && <AddPackCard />}
                 {data?.map((modpack: IModpack) => {
                   return <ModpackCard {...modpack} />;

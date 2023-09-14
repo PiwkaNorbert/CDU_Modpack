@@ -63,7 +63,6 @@ const useArchivedModpackData = (queryClient: QueryClient) => {
     fetchArchivedModpacks,
     {
       staleTime: 1000 * 60 * 5, // 5 minutes
-      keepPreviousData: true,
       retry: 2,
       // placeholderData: staticLabels,
       select: filterModpacks,

@@ -1,5 +1,5 @@
 import "./index.css";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Header from "./Components/Header";
@@ -7,7 +7,6 @@ import Header from "./Components/Header";
 import Footer from "./Components/Footer";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ThemeProvider } from "./Context/ThemeContext";
-import { useUser } from "./Context/useUser";
 
 import PackListPage from "./Pages/PackListPage";
 import PackDetails from "./Pages/PackDetails";
@@ -25,14 +24,27 @@ import ArchivedPackListPage from "./Pages/ArchivedPackListPage";
 import SuggestedPackListPage from "./Pages/SuggestedPackListPage";
 import SuggestedPackDetails from "./Pages/SuggestedPackDetails";
 
-import { UserProvider } from "./Context/UserContext.tsx";
+import {  UserProvider } from "./Context/UserContext.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import NotFoundPage from "./Pages/NotFoundPage.tsx";
 
 const queryClient = new QueryClient();
 
 function App() {
-  const { user } = useUser();
-  // check if the user in local storage is an admin or not and set the state accordingly to show the admin panel or not
+
+const useAuth=()=>{
+  const user = JSON.parse(localStorage.getItem('profileData') || '{}');
+  if(!user) return false;
+  if(user.isAdmin){
+    
+    return true;
+  } else {
+    return false;
+  }
+}
+
+const isAdmin = useAuth()
+
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -52,8 +64,8 @@ function App() {
 
                 {/* <Route path="*" element={<Navigate to="/404" />} />
                 <Route path="404" element={<NotFoundPage />} /> */}
-
-                {user?.isAdmin && (
+          
+                {isAdmin && (
                   <>
                     <Route path="add-modpack" element={<AddMPLayout />}>
                       <Route path="create" element={<CreateModpack />} />
@@ -63,18 +75,19 @@ function App() {
                       path="edit-modpack/:modpackId"
                       element={<EditModpack />}
                     />
-                    <Route
-                      path="archived-pack-list"
+                      <Route
+                      path="list-archived-packs"
                       element={<ArchivedPackListPage />}
                     />
+                      <Route
+                        path="list-suggested-packs"
+                        element={<SuggestedPackListPage />}
+                      />
+                 
                     {/* <Route
                       path="archived-pack-list/:modpackId"
                       element={<ArchivedPackListPage />}
                     /> */}
-                    <Route
-                      path="suggested-pack-details"
-                      element={<SuggestedPackListPage />}
-                    />
 
                     <Route
                       path="suggested-pack-details/:modpackId"

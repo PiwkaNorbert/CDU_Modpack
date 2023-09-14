@@ -2,7 +2,7 @@ import axios from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { VoteForPackButtonProps } from "../Utils/Interfaces";
 import { toast } from "react-toastify";
-import { useUser } from "../Context/useUser";
+import useUser from "../Context/useUser";
 import { useIsFetching } from "@tanstack/react-query";
 import { IModpack } from "../Utils/Interfaces";
 import { errorHandling } from "../Helper/errorHandling";

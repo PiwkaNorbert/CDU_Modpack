@@ -6,7 +6,7 @@ import useCommentRepliesData, {
 import { useState } from "react";
 import PostComment from "./PostComment";
 import { ReplyComponent } from "./ReplyComponent";
-import { useUser } from "../Context/useUser.tsx";
+import  useUser  from "../Context/useUser";
 import { useParams } from "react-router-dom";
 
 export function CommentsComponent({

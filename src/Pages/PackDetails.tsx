@@ -5,7 +5,7 @@ import { IModpack } from "../Utils/Interfaces";
 import Loading from "../Components/Loading";
 import VoteForPackButton from "../Components/VoteForPackButton";
 import PostComment from "../Components/PostComment";
-import { useUser } from "../Context/useUser";
+import useUser from "../Context/useUser";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { LoginButton } from "../Components/LoginButton";

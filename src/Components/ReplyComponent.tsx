@@ -1,7 +1,7 @@
 import { ICommentComponent, IPackDetails } from "../Utils/Interfaces";
 import relativeDate from "../Helper/relativeDate";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
-import { useUser } from "../Context/useUser";
+import useUser from "../Context/useUser";
 import { toast } from "react-toastify";
 
 import { useParams } from "react-router-dom";
