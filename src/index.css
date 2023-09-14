@@ -237,3 +237,42 @@ input[type="file"]::file-selector-button:hover {
   --tw-bg-opacity: 1;
   padding: 1.5rem;
 }
+
+/* DROPDOWN COMP */
+
+.dropdown-body {
+  border-top: 1px solid #e5e8ec;
+  display: none;
+  top: 20px;
+  height: 100%;
+}
+
+.dropdown-body.open {
+  display: block;
+}
+
+.dropdown-item {
+  padding: 10px;
+}
+
+.dropdown-item:hover {
+  cursor: pointer;
+}
+
+.dropdown-item-dot {
+  opacity: 0;
+  transition: all 0.2s ease-in-out;
+}
+
+.dropdown-item-dot.selected {
+  opacity: 1;
+}
+
+.icon {
+  transform: rotate(0deg);
+  transition: all 0.2s ease-in-out;
+}
+
+.icon.open {
+  transform: rotate(90deg);
+}

@@ -18,13 +18,10 @@ const Header = () => {
   const [showModal, setShowModal] = useState(false);
 
   const ref = useRef<HTMLDivElement>(null);
-  const menuButtonRef = useRef<HTMLButtonElement>(null);
 
   let observer: IntersectionObserver;
 
   useEffect(() => {
-    console.log("MEM LEAK");
-
     const handleObserver = (entries: IntersectionObserverEntry[]) => {
       const entry = entries[0];
       console.log(entry);
@@ -35,13 +32,9 @@ const Header = () => {
         setIntersecting(entry.isIntersecting);
       }
     };
-    console.log("MEM LEAK 2");
 
     if (ref.current) {
-      console.log(ref.current);
-
       observer = new IntersectionObserver(handleObserver);
-      console.log(observer);
       observer.observe(ref.current);
     }
 
@@ -78,7 +71,7 @@ const Header = () => {
         </header>
       )}
       <nav
-        className={`  top-0 z-[12]  flex w-full items-center justify-stretch  gap-2 border-bg bg-bg px-8 py-2 text-text md:justify-center md:px-4 lg:mx-auto lg:min-w-[900px] lg:max-w-[900px] lg:border-x-4  ${
+        className={`top-0 z-[12]  flex w-full items-center justify-stretch  gap-2 border-bg bg-bg px-8 py-1 text-text md:justify-center md:px-4 lg:mx-auto lg:min-w-[900px] lg:max-w-[900px] lg:border-x-4  ${
           !isIntersecting ? " sticky shadow-md" : "relative"
         }`}
       >
@@ -219,88 +212,71 @@ const Header = () => {
               } remaining this month.`}</p>
             </div>
 
-            <div className="z-10 order-4 flex w-full items-center justify-end ">
+            <div className=" z-10 order-4 flex w-full items-center justify-end ">
               <p className=" mr-5 flex max-w-[180px] justify-center text-center text-sm uppercase max-[500px]:hidden">
                 Logged in as
                 <br />
                 {user.globalName}
               </p>
-              <div className=" border-bkg/10 focus:ring-bkg/90 z-10 flex items-center rounded-full border font-medium focus:outline-none focus:ring-4">
-                <button
-                  className="w-12"
-                  id="dropdown-button"
-                  data-dropdown-toggle="dropdown"
-                  type="button"
-                  ref={menuButtonRef}
-                  onClick={() => {
-                    setShowModal((open) => !open);
-                  }}
-                >
-                  <img
-                    className="aspect-square w-12 cursor-pointer  opacity-90 hover:opacity-100"
-                    src={
-                      user.isLinked
-                        ? user.playerData?.mc_head_url
-                        : `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}`
-                    }
-                    alt={user.username ? `${user.username}'s avatar` : "avatar"}
-                  />
-                </button>
-
-                <DropDown
-                  open={showModal}
-                  dropDownStateChange={(open: any) => setShowModal(open)}
-                  position="right-2 top-[67px]"
-                  contents={
-                    <>
-                      <ul
-                        className="space-y-1 p-1 text-sm"
-                        aria-labelledby="dropdown-button"
-                      >
-                        <li
-                          data-tip="How to get Linked"
-                          className={` active:bg-text/15  mb-1 flex w-full  cursor-pointer gap-1 rounded-lg  px-3 py-1 transition-all delay-0 duration-200 ease-in-out last:mb-0 hover:bg-text/10 `}
-                          onClick={() => {
-                            setShowModal((open) => !open);
-                          }}
-                        >
-                          <a
-                            type="button"
-                            href="https://forum.playcdu.co/threads/how-to-link-your-discord-and-minecraft-accounts.922/"
-                            target="_blank"
-                            className={`flex items-center justify-center  gap-2 capitalize `}
-                          >
-                            {user?.isLinked ? "linked" : "unlinked"}
-
-                            <img
-                              src={user?.isLinked ? "/check.png" : "/cross.png"}
-                              className="aspect-square w-6"
-                            />
-                          </a>
-                        </li>
-
-                        <li
-                          onClick={() => {
-                            setShowModal((open) => !open);
-                          }}
-                          className={` active:bg-text/15  mb-1 flex w-full  cursor-pointer gap-1 rounded-lg  px-3 py-1 transition-all delay-0 duration-200 ease-in-out last:mb-0 hover:bg-text/10 `}
-                        >
-                          <a
-                            type="button"
-                            className={`flex items-center justify-center  gap-2 capitalize `}
-                            onClick={() => {
-                              setUser(undefined);
-                              localStorage.removeItem("profileData");
-                            }}
-                          >
-                            Logout
-                            <SignOutSVG />
-                          </a>
-                        </li>
-                      </ul>
-                    </>
+              <div className=" focus:ring-bkg/90 group relative z-10 flex aspect-square w-12 items-center rounded-full p-1 font-medium focus:outline-none focus:ring-4">
+                <img
+                  className="h-full w-full cursor-pointer   opacity-90 hover:opacity-100"
+                  src={
+                    user.isLinked
+                      ? user.playerData?.mc_head_url
+                      : `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}`
                   }
+                  alt={user.username ? `${user.username}'s avatar` : "avatar"}
                 />
+                <div className="absolute -left-9 top-12 rounded-lg  bg-bg   shadow-md ">
+                  <div className={`dropdown-body  group-hover:block`}>
+                    <ul
+                      className="space-y-1 p-1 text-sm"
+                      aria-labelledby="dropdown-button"
+                    >
+                      <li
+                        data-tip="How to get Linked"
+                        className={` active:bg-text/15  mb-1 flex w-full  cursor-pointer gap-1 rounded-lg  px-3 py-1 transition-all delay-0 duration-200 ease-in-out last:mb-0 hover:bg-text/10 `}
+                        onClick={() => {
+                          setShowModal((open) => !open);
+                        }}
+                      >
+                        <a
+                          type="button"
+                          href="https://forum.playcdu.co/threads/how-to-link-your-discord-and-minecraft-accounts.922/"
+                          target="_blank"
+                          className={`flex items-center justify-center  gap-2 capitalize `}
+                        >
+                          {user?.isLinked ? "linked" : "unlinked"}
+
+                          <img
+                            src={user?.isLinked ? "/check.png" : "/cross.png"}
+                            className="aspect-square w-6"
+                          />
+                        </a>
+                      </li>
+
+                      <li
+                        onClick={() => {
+                          setShowModal((open) => !open);
+                        }}
+                        className={` active:bg-text/15  mb-1 flex w-full  cursor-pointer gap-1 rounded-lg  px-3 py-1 transition-all delay-0 duration-200 ease-in-out last:mb-0 hover:bg-text/10 `}
+                      >
+                        <a
+                          type="button"
+                          className={`flex items-center justify-center  gap-2 capitalize `}
+                          onClick={() => {
+                            setUser(undefined);
+                            localStorage.removeItem("profileData");
+                          }}
+                        >
+                          Logout
+                          <SignOutSVG />
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
               </div>
             </div>
           </>

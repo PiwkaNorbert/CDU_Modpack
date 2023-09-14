@@ -5,7 +5,6 @@ import ModpackCard from "./ModpackCard";
 import { tagOptions } from "../Helper/modifyModpack";
 import { IModpack } from "../Utils/Interfaces";
 import { useLocation, useNavigate } from "react-router-dom";
-import { DropDown } from "./Dialog";
 
 const ModpackListView = ({ packData }) => {
   const { user } = useUser();
@@ -26,8 +25,6 @@ const ModpackListView = ({ packData }) => {
   const [showFilterTags, setShowFilterTags] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
-  const menuButtonRef = useRef<HTMLButtonElement>(null);
-
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -43,6 +40,8 @@ const ModpackListView = ({ packData }) => {
     [modPackFilterByInput]
   );
 
+  const toggleDropdown = () => setShowModal(!showModal);
+
   return (
     <>
       <section
@@ -55,38 +54,36 @@ const ModpackListView = ({ packData }) => {
           {/* map the data variable in a grad 4x2  */}
           <div className="md:space-x-none  flex items-center  justify-between   space-x-4 p-5 text-xl text-text xl:text-2xl ">
             {/* Show this button if you're logged in and a staff member */}
-            <div className=" relative  z-10 w-96">
+            <div
+              className={`relative z-10 flex items-center justify-center gap-2 text-text ${
+                user?.isAdmin &&
+                "cursor-pointer select-none rounded-lg px-2 py-1  hover:bg-text/10"
+              }`}
+              onClick={toggleDropdown}
+            >
               {location.pathname === "/archived-pack-details" && "Archived "}
               {location.pathname === "/suggested-pack-details" && "Suggested "}
               Modpacks
               {user?.isAdmin && (
                 <>
-                  <button
-                    className="w-12"
-                    id="dropdown-button"
-                    data-dropdown-toggle="dropdown"
-                    type="button"
-                    ref={menuButtonRef}
-                    onClick={() => {
-                      setShowModal((open) => !open);
-                    }}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    fill="currentColor"
+                    viewBox="0 0 256 256"
+                    className={`icon  ${showModal && "open"}`}
                   >
-                    {showModal ? "X" : "V"}
-                  </button>
+                    <path d="M181.66,133.66l-80,80A8,8,0,0,1,88,208V48a8,8,0,0,1,13.66-5.66l80,80A8,8,0,0,1,181.66,133.66Z"></path>
+                  </svg>
 
-                  <DropDown
-                    open={showModal}
-                    dropDownStateChange={(open: any) => setShowModal(open)}
-                    position="left-2 top-10 "
-                    contents={
+                  <div className=" absolute top-10 rounded-lg bg-bg shadow-md">
+                    <div className={`dropdown-body  ${showModal && "open"}`}>
                       <ul
-                        className="space-y-1 p-1 text-sm"
-                        aria-labelledby="dropdown-button"
+                        className="z-50 space-y-1 p-1 text-sm  "
+                        id="dropdown-menu"
                       >
                         <li
-                          onClick={() => {
-                            setShowModal((open) => !open);
-                          }}
                           className={` active:bg-text/15  mb-1 flex w-full  cursor-pointer gap-1 rounded-lg  px-3 py-1 transition-all delay-0 duration-200 ease-in-out last:mb-0 hover:bg-text/10 `}
                         >
                           <a
@@ -108,9 +105,6 @@ const ModpackListView = ({ packData }) => {
                           </a>
                         </li>
                         <li
-                          onClick={() => {
-                            setShowModal((open) => !open);
-                          }}
                           className={` active:bg-text/15  mb-1 flex w-full  cursor-pointer gap-1 rounded-lg  px-3 py-1 transition-all delay-0 duration-200 ease-in-out last:mb-0 hover:bg-text/10 `}
                         >
                           <a
@@ -132,8 +126,8 @@ const ModpackListView = ({ packData }) => {
                           </a>
                         </li>
                       </ul>
-                    }
-                  />
+                    </div>
+                  </div>
                 </>
               )}
             </div>
@@ -172,7 +166,7 @@ const ModpackListView = ({ packData }) => {
             </button>
           </div>
           {showFilterTags && (
-            <div className=" mb-4 px-4">
+            <div className=" relative z-[5] mb-4 px-4">
               <div className=" flex flex-wrap justify-center gap-2">
                 {tagOptions.map((tagOption, index) => (
                   <button

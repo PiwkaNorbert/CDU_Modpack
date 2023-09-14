@@ -32,10 +32,6 @@ const ModpackCard = (props: IModpack) => {
     // isSponsored,
   } = props;
 
-
-
-
-
   return (
     <div
       key={modpackId}

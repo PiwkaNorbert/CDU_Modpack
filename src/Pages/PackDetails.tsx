@@ -16,7 +16,11 @@ import { SetStateAction, useEffect, useRef, useState } from "react";
 import { errorHandling } from "../Helper/errorHandling";
 import { tagMap } from "../Helper/modifyModpack";
 import { Dialog, DropDown } from "../Components/Dialog";
-import { bgColorVariants, borderColorVariants, textColorVariants } from "../Constants";
+import {
+  bgColorVariants,
+  borderColorVariants,
+  textColorVariants,
+} from "../Constants";
 
 const PackDetails = () => {
   const { modpackId: id } = useParams();
@@ -35,7 +39,6 @@ const PackDetails = () => {
 
   const isDev = import.meta.env.VITE_NODE_ENV === "development";
   const apiBase = isDev ? "https://www.trainjumper.com" : "";
-
 
   useEffect(() => {
     if (!data?.isPublished) {
@@ -128,8 +131,6 @@ const PackDetails = () => {
     isPublished,
   } = data;
 
-
-
   const commentCount = comments
     ? comments.length
     : Math.floor(Math.random() * 10);
@@ -150,11 +151,11 @@ const PackDetails = () => {
         className="z-[11] grid h-full w-full  flex-1 justify-normal  text-text lg:mx-auto lg:min-w-[900px] lg:max-w-[900px] "
       >
         <div className="relative h-min overflow-hidden border-t-2 bg-bg pb-4 dark:border-none dark:shadow  md:mb-4 md:rounded-b-md  md:border-none md:shadow-xl   ">
-          <div className={` z-[11] grid h-full items-center  lg:rounded-md  `}>
-            <div className=" z-[11] flex justify-between gap-2  px-8 pt-4  max-[350px]:flex-col sm:gap-0 md:px-4 ">
+          <div className={`  grid h-full items-center  lg:rounded-md  `}>
+            <div className="  flex justify-between gap-2  px-8 pt-4  max-[350px]:flex-col sm:gap-0 md:px-4 ">
               {/* backarrow to the root page */}
               <Link
-                className="z-[11] flex min-w-fit cursor-pointer items-center gap-2 rounded-md px-3 py-1 text-text hover:bg-sec hover:bg-opacity-20 hover:text-text dark:hover:bg-hover-2"
+                className=" flex min-w-fit cursor-pointer items-center gap-2 rounded-md px-3 py-1 text-text hover:bg-sec hover:bg-opacity-20 hover:text-text dark:hover:bg-hover-2"
                 to={"/"}
               >
                 <svg
@@ -295,10 +296,7 @@ const PackDetails = () => {
               >
                 {/* toggle images in production */}
                 {galleryImages?.length > 0 && (
-                  <ImageCarousel
-                    galleryImages={galleryImages}
-                    color={color}
-                  />
+                  <ImageCarousel galleryImages={galleryImages} color={color} />
                 )}
                 <div className="grid w-full content-center items-center md:mr-4 md:space-y-4">
                   <p className="text-content my-4 break-normal text-center text-4xl uppercase  md:my-0 ">
@@ -324,7 +322,7 @@ const PackDetails = () => {
               <div className="  my-2 grid w-full  items-start justify-between gap-4 px-4 sm:grid-cols-2 sm:flex-row  md:gap-0 md:space-x-4">
                 {/* map the tags */}
                 <div className="flex flex-row">
-                  {tags?.map((tag:string, index:number) => {
+                  {tags?.map((tag: string, index: number) => {
                     const label = tagMap.get(tag);
 
                     return (
@@ -409,10 +407,7 @@ const PackDetails = () => {
                       key={index}
                       className="grid items-center justify-between  last:pb-0 "
                     >
-                      <CommentsComponent
-                        color={color}
-                        comment={comment}
-                      />
+                      <CommentsComponent color={color} comment={comment} />
                     </div>
                   ))}
                 </div>
@@ -475,7 +470,6 @@ export const ImageCarousel = ({
           width="412"
           height="233"
           className={`z-[5] mx-auto aspect-video max-h-52  place-self-center overflow-hidden rounded-md border-2 object-fill object-center lg:max-h-60 lg:w-full ${borderColorVariants[color]} ${bgColorVariants[color]}`}
-
         />
         {galleryImages?.length > 1 && (
           <div className="absolute inset-0 mx-auto flex max-h-[233px]  max-w-[412px] lg:w-full">
@@ -493,8 +487,11 @@ export const ImageCarousel = ({
                   <path d="M168.49,199.51a12,12,0,0,1-17,17l-80-80a12,12,0,0,1,0-17l80-80a12,12,0,0,1,17,17L97,128Z"></path>
                 </svg>
               </button>
-              <div className="w-full h-full hidden group-hover:flex cursor-pointer"
-              onClick={() => handleImageClick(galleryImages[currentImageIndex].imageUrl)}
+              <div
+                className="hidden h-full w-full cursor-pointer group-hover:flex"
+                onClick={() =>
+                  handleImageClick(galleryImages[currentImageIndex].imageUrl)
+                }
               ></div>
               <button
                 onClick={handleNextImage}

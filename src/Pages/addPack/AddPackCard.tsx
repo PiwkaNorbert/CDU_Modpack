@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 const AddPackCard = () => {
   return (
     <div
-      className={`relative z-10  mb-8 flex justify-center overflow-hidden  rounded-md border-[3.5px] border-dashed border-gray-300  text-text transition-transform hover:scale-105 lg:min-h-[109px] lg:min-w-[194px] `}
+      className={`relative z-[5]  mb-8 flex justify-center overflow-hidden  rounded-md border-[3.5px] border-dashed border-gray-300  text-text transition-transform hover:scale-105 lg:min-h-[109px] lg:min-w-[194px] `}
     >
       <Link
         to="/add-modpack/create"
