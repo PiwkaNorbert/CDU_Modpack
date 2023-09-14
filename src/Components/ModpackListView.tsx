@@ -92,7 +92,7 @@ const ModpackListView = ({ packData }: {packData: any}) => {
                       <a
                         className={`flex items-center justify-center gap-2 capitalize `}
                         onClick={() => {
-                          navigate("/suggested-pack-details");
+                          navigate("/suggested-pack-list");
                         }}
                       >
                         Suggested Packs
@@ -113,7 +113,7 @@ const ModpackListView = ({ packData }: {packData: any}) => {
                       <a
                         className={`flex items-center justify-center  gap-2 capitalize `}
                         onClick={() => {
-                          navigate("/archived-pack-details");
+                          navigate("/archived-pack-list");
                         }}
                       >
                         Archived Packs
