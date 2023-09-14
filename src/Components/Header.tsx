@@ -14,6 +14,7 @@ const Header = () => {
 
   const [isIntersecting, setIntersecting] = useState(false);
   const [menu, setMenu] = useState(false);
+  const isDev = import.meta.env.VITE_NODE_ENV === "development";
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -272,7 +273,8 @@ const Header = () => {
         ) : (
           // Decide whether to display user's discord avatar (logged in) or "log in with discord" button (not logged in)
           <div className="z-10 order-2 ml-auto max-[350px]:text-xs">
-            <Link to="loginDev">Login Dev</Link>
+            {isDev && <Link to="loginDev">Login Dev</Link>}
+            
 
             <LoginButton />
           </div>
