@@ -62,8 +62,8 @@ const ModpackListView = ({ packData }: {packData: any}) => {
               }`}
               onClick={toggleDropdown}
             >
-              {location.pathname === "/archived-pack-details" && "Archived "}
-              {location.pathname === "/suggested-pack-details" && "Suggested "}
+              {location.pathname === "/archived-pack-list" && "Archived "}
+              {location.pathname === "/suggested-pack-list" && "Suggested "}
               Modpacks
               {user?.isAdmin && (
                 <>
@@ -81,7 +81,7 @@ const ModpackListView = ({ packData }: {packData: any}) => {
                   </svg>
 
                   <ul
-                    className={` absolute top-9 z-[15] space-y-1 rounded-lg  bg-bg p-1 text-sm shadow-md   after:fixed after:inset-0 after:z-[10] after:bg-black/20 dark:border-2 dark:border-text/10 dark:shadow-text/20 ${
+                    className={` absolute top-9 z-[15] space-y-1 rounded-lg  bg-bg p-1 text-sm shadow-md   dark:border-2 dark:border-sec/10  ${
                       showModal ? " block" : "hidden"
                     }`}
                     id="dropdown-menu"
