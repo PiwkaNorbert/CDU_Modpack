@@ -1,7 +1,6 @@
 import "./index.css";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import FetchingIndicator from "./Components/FetchingIndicator";
 import "react-toastify/dist/ReactToastify.css";
 import Header from "./Components/Header";
 // here we specify the routes for our app
@@ -13,7 +12,8 @@ import { useUser } from "./Context/useUser";
 import PackListPage from "./Pages/PackListPage";
 import PackDetails from "./Pages/PackDetails";
 import Login from "./Pages/Login";
-import NotFoundPage from "./Pages/NotFoundPage";
+// import FetchingIndicator from "./Components/FetchingIndicator";
+// import NotFoundPage from "./Pages/NotFoundPage";
 import AddMPLayout from "./Pages/addPack/AddMPLayout";
 import AddImage from "./Pages/addPack/AddImage";
 import EditModpack from "./Pages/EditModpack";

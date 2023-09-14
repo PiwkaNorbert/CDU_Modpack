@@ -133,7 +133,7 @@ const EditModpack = () => {
             {data?.galleryImages?.length && (
               <ImageCarousel
                 galleryImages={data?.galleryImages ?? []}
-                borderColor={data?.color ?? "sky"}
+                color={data?.color ?? "sky"}
               />
             )}
           </div>

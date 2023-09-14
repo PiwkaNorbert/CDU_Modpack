@@ -5,7 +5,6 @@ import { useTheme } from "../Context/useTheme";
 import { useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import SignOutSVG from "./SVG/SignOutSVG";
-import { DropDown } from "../Components/Dialog";
 
 const Header = () => {
   // set the state of voteRemaining to the value of the user's votesRemaining
@@ -15,7 +14,6 @@ const Header = () => {
 
   const [isIntersecting, setIntersecting] = useState(false);
   const [menu, setMenu] = useState(false);
-  const [showModal, setShowModal] = useState(false);
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -234,9 +232,6 @@ const Header = () => {
                       <li
                         data-tip="How to get Linked"
                         className={` active:bg-text/15  mb-1 flex w-full  cursor-pointer gap-1 rounded-lg  px-3 py-1 transition-all delay-0 duration-200 ease-in-out last:mb-0 hover:bg-text/10 `}
-                        onClick={() => {
-                          setShowModal((open) => !open);
-                        }}
                       >
                         <a
                           type="button"
@@ -254,9 +249,6 @@ const Header = () => {
                       </li>
 
                       <li
-                        onClick={() => {
-                          setShowModal((open) => !open);
-                        }}
                         className={` active:bg-text/15  mb-1 flex w-full  cursor-pointer gap-1 rounded-lg  px-3 py-1 transition-all delay-0 duration-200 ease-in-out last:mb-0 hover:bg-text/10 `}
                       >
                         <a

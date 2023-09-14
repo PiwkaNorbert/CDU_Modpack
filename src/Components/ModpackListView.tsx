@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useRef } from "react";
+import React, { useCallback, useState } from "react";
 import { useUser } from "../Context/useUser";
 import AddPackCard from "../Pages/addPack/AddPackCard";
 import ModpackCard from "./ModpackCard";
@@ -6,7 +6,7 @@ import { tagOptions } from "../Helper/modifyModpack";
 import { IModpack } from "../Utils/Interfaces";
 import { useLocation, useNavigate } from "react-router-dom";
 
-const ModpackListView = ({ packData }) => {
+const ModpackListView = ({ packData }: {packData: any}) => {
   const { user } = useUser();
 
   const {

@@ -128,7 +128,7 @@ const PackDetails = () => {
     suggestedBy,
     timesVoted,
     isArchived,
-    isPublished,
+    // isPublished,
   } = data;
 
   const commentCount = comments
