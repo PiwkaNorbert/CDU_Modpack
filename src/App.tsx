@@ -64,9 +64,13 @@ function App() {
                       element={<EditModpack />}
                     />
                     <Route
-                      path="archived-pack-details"
+                      path="archived-pack-list"
                       element={<ArchivedPackListPage />}
                     />
+                    {/* <Route
+                      path="archived-pack-list/:modpackId"
+                      element={<ArchivedPackListPage />}
+                    /> */}
                     <Route
                       path="suggested-pack-details"
                       element={<SuggestedPackListPage />}
