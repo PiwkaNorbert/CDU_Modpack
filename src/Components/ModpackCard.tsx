@@ -15,9 +15,32 @@ const ModpackCard = (props: IModpack) => {
 
   const [currentPlace, setCurrentPlace] = useState("/");
 
+  const packLocation = {
+    main: {
+      parent: {
+        pathname: "/",
+        childPathname: "/pack-details",
+      },
+    },
+    archived: {
+      parent: {
+        pathname: "/list-archived-packs",
+        childPathname: "/archived-pack-details",
+      },
+    
+    },
+    suggested: {
+      parent: {
+        pathname: "/list-suggested-packs",
+        childPathname: "/suggested-pack-details",
+      },
+    }
+  }
+
   useEffect(() => {
     setCurrentPlace(location.pathname);
   }, []);
+
 
   const {
     modpackId,
@@ -43,7 +66,7 @@ const ModpackCard = (props: IModpack) => {
       }}
     >
       <Link
-        to={`${currentPlace}pack-details/${modpackId}`}
+        to={`${currentPlace}/${modpackId}`}
         className={`w-full overflow-hidden rounded-sm bg-bg `}
       >
         <div className=" flex h-full justify-center rounded-md  hover:text-opacity-100  ">
