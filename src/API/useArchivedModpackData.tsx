@@ -52,7 +52,7 @@ const useArchivedModpackData = (queryClient: QueryClient) => {
     if (status !== 200) throw new Error("No Modpacks found");
 
     data.forEach((modpack: IModpack) => {
-      queryClient.setQueryData(["details", modpack.modpackId], modpack);
+      queryClient.setQueryData(["archived-details", modpack.modpackId], modpack);
     });
 
     return data;

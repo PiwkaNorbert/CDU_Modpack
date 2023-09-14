@@ -222,7 +222,7 @@ const Header = () => {
                       ? user?.playerData?.mc_head_url
                       : `https://cdn.discordapp.com/avatars/${user?.id}/${user?.avatar}`
                   }
-                  alt={user.username ? `${user.username}'s avatar` : "avatar"}
+                  alt={user?.username ? `${user?.username}'s avatar` : "avatar"}
                 />
                 <div className="absolute -left-9 top-12 rounded-lg  bg-bg   shadow-md ">
                   <div className={`dropdown-body  group-hover:block`}>

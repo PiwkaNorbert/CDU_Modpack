@@ -62,14 +62,12 @@ const PackDetails = () => {
     });
 
   const archiveModpack = async () =>
-    await axios.post(`${apiBase}/api/archive-modpack`, {
+    await axios.post(`${apiBase}/api/archive-modpack`,{modpackId}, {
       withCredentials: true,
       headers: {
         "Content-Type": "application/json",
       },
-      data: {
-        modpackId,
-      },
+     
     });
 
   const archiveModpackMutation = useMutation(archiveModpack, {
