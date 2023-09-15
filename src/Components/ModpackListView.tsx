@@ -1,12 +1,13 @@
 import React, { useCallback, useState } from "react";
-import  useUser  from "../Context/useUser";
+import useUser from "../Context/useUser";
 import AddPackCard from "../Pages/addPack/AddPackCard";
 import ModpackCard from "./ModpackCard";
 import { tagOptions } from "../Helper/modifyModpack";
 import { IModpack } from "../Utils/Interfaces";
 import { useLocation, useNavigate } from "react-router-dom";
+import { packLocation } from "../Constants";
 
-const ModpackListView = ({ packData }: {packData: any}) => {
+const ModpackListView = ({ packData }: { packData: any }) => {
   const { user } = useUser();
 
   const {
@@ -42,7 +43,6 @@ const ModpackListView = ({ packData }: {packData: any}) => {
 
   const toggleDropdown = () => setShowModal(!showModal);
 
-
   return (
     <>
       <section
@@ -63,8 +63,8 @@ const ModpackListView = ({ packData }: {packData: any}) => {
               }`}
               onClick={toggleDropdown}
             >
-              {location.pathname === "/archived-pack-list" && "Archived "}
-              {location.pathname === "/suggested-pack-list" && "Suggested "}
+              {location.pathname === "/list-archived-packs" && "Archived "}
+              {location.pathname === "/list-suggested-packs" && "Suggested "}
               Modpacks
               {user?.isAdmin && (
                 <>
@@ -87,48 +87,36 @@ const ModpackListView = ({ packData }: {packData: any}) => {
                     }`}
                     id="dropdown-menu"
                   >
-                    <li
-                      className={` active:bg-text/15  mb-1 flex w-full  cursor-pointer gap-1 rounded-lg  px-3 py-1 transition-all delay-0 duration-200 ease-in-out last:mb-0 hover:bg-text/10 `}
-                    >
-                      <a
-                        className={`flex items-center justify-center gap-2 capitalize `}
-                        onClick={() => {
-                          navigate("/list-suggested-packs");
-                        }}
-                      >
-                        Suggested Packs
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="20"
-                          height="20"
-                          fill="currentColor"
-                          viewBox="0 0 256 256"
-                        >
-                          <path d="M32,72V56a8,8,0,0,1,8-8H216a8,8,0,0,1,8,8V72a8,8,0,0,1-8,8H40A8,8,0,0,1,32,72Zm8,72H216a8,8,0,0,0,8-8V120a8,8,0,0,0-8-8H40a8,8,0,0,0-8,8v16A8,8,0,0,0,40,144Zm112,32H40a8,8,0,0,0-8,8v16a8,8,0,0,0,8,8H152a8,8,0,0,0,8-8V184A8,8,0,0,0,152,176Zm80,8H216V168a8,8,0,0,0-16,0v16H184a8,8,0,0,0,0,16h16v16a8,8,0,0,0,16,0V200h16a8,8,0,0,0,0-16Z"></path>
-                        </svg>
-                      </a>
-                    </li>
-                    <li
-                      className={` active:bg-text/15  mb-1 flex w-full  cursor-pointer gap-1 rounded-lg  px-3 py-1 transition-all delay-0 duration-200 ease-in-out last:mb-0 hover:bg-text/10 `}
-                    >
-                      <a
-                        className={`flex items-center justify-center  gap-2 capitalize `}
-                        onClick={() => {
-                          navigate("/list-archived-packs");
-                        }}
-                      >
-                        Archived Packs
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="20"
-                          height="20"
-                          fill="currentColor"
-                          viewBox="0 0 256 256"
-                        >
-                          <path d="M224,48H32A16,16,0,0,0,16,64V88a16,16,0,0,0,16,16v88a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V104a16,16,0,0,0,16-16V64A16,16,0,0,0,224,48Zm-72,96H104a8,8,0,0,1,0-16h48a8,8,0,0,1,0,16Zm72-56H32V64H224V88Z"></path>
-                        </svg>
-                      </a>
-                    </li>
+                    {packLocation
+                      .filter(
+                        (packLocation) =>
+                          packLocation.pathname !== location.pathname
+                      )
+                      .map((packLocation) => {
+                        return (
+                          <li
+                            className={` active:bg-text/15  mb-1 flex w-full  cursor-pointer gap-1 rounded-lg  px-3 py-1 transition-all delay-0 duration-200 ease-in-out last:mb-0 hover:bg-text/10 `}
+                          >
+                            <a
+                              className={`flex items-center justify-center gap-2 capitalize `}
+                              onClick={() => {
+                                navigate(packLocation.pathname);
+                              }}
+                            >
+                              {packLocation.name}
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="20"
+                                height="20"
+                                fill="currentColor"
+                                viewBox="0 0 256 256"
+                              >
+                                <path d={packLocation.svgPath}></path>
+                              </svg>
+                            </a>
+                          </li>
+                        );
+                      })}
                   </ul>
                 </>
               )}

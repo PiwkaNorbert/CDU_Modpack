@@ -15,32 +15,22 @@ const ModpackCard = (props: IModpack) => {
 
   const [currentPlace, setCurrentPlace] = useState("/");
 
-  const packLocation = {
-    main: {
-      parent: {
-        pathname: "/",
-        childPathname: "/pack-details",
-      },
-    },
-    archived: {
-      parent: {
-        pathname: "/list-archived-packs",
-        childPathname: "/archived-pack-details",
-      },
-    
-    },
-    suggested: {
-      parent: {
-        pathname: "/list-suggested-packs",
-        childPathname: "/suggested-pack-details",
-      },
-    }
-  }
-
   useEffect(() => {
-    setCurrentPlace(location.pathname);
+    switch (location.pathname) {
+      case "/":
+        setCurrentPlace("/pack-details");
+        break;
+      case "/list-suggested-packs":
+        setCurrentPlace("/suggested-pack-details");
+        break;
+      case "/list-archived-packs":
+        setCurrentPlace("/archived-pack-details");
+        break;
+      default:
+        setCurrentPlace("/pack-details");
+        break;
+    }
   }, []);
-
 
   const {
     modpackId,

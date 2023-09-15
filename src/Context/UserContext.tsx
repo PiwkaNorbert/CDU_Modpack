@@ -37,7 +37,7 @@ export const UserProvider: React.FunctionComponent<UserProviderProps> = (
     const currentDate = Date.now() / 1000;
 
     if (tokenExpirationDate < currentDate) {
-      localStorage.remove("profileData");
+      localStorage.removeItem("profileData");
       setUser(undefined);
 
       toast.error("Your session has expired. Please log in again.", {

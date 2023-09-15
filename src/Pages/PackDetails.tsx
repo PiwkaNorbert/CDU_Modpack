@@ -62,13 +62,16 @@ const PackDetails = () => {
     });
 
   const archiveModpack = async () =>
-    await axios.post(`${apiBase}/api/archive-modpack`,{modpackId}, {
-      withCredentials: true,
-      headers: {
-        "Content-Type": "application/json",
-      },
-     
-    });
+    await axios.post(
+      `${apiBase}/api/archive-modpack`,
+      { modpackId },
+      {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
   const archiveModpackMutation = useMutation(archiveModpack, {
     onSuccess: () => {
@@ -457,10 +460,71 @@ export const ImageCarousel = ({
       setCurrentImageIndex(currentImageIndex - 1);
     }
   };
+  const { modpackId } = useParams();
+  const queryClient = useQueryClient();
+  const isDev = import.meta.env.VITE_NODE_ENV === "development";
+  const apiBase = isDev ? "https://www.trainjumper.com" : "";
+
+  const primaryImageMutation = useMutation(
+    async () =>
+      await axios.post(
+        `${apiBase}/api/update_pack_primary_image`,
+        { imageUrl: galleryImages[currentImageIndex].imageUrl, modpackId },
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      ),
+    {
+      onSuccess: () => {
+        toast.success("Primary Image Updated");
+      },
+      onError: (error) => {
+        if (error instanceof Error) {
+          return errorHandling(error);
+        }
+        throw error;
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries(["modpacks", "details", modpackId]);
+      },
+    }
+  );
+  const deleteImageMutation = useMutation(
+    async () =>
+      await axios.post(
+        `${apiBase}/api/delete_pack_image`,
+        { imageUrl: galleryImages[currentImageIndex].imageUrl, modpackId },
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      ),
+    {
+      onSuccess: () => {
+        toast.success("Image Deleted");
+      },
+      onError: (error) => {
+        if (error instanceof Error) {
+          return errorHandling(error);
+        }
+        throw error;
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries(["modpacks", "details", modpackId]);
+      },
+    }
+  );
 
   return (
     <div>
-      <div className="relative mx-auto md:w-96 ">
+      {/* make primary image button */}
+
+      <div className="group relative mx-auto md:w-96 ">
         <img
           src={`https://www.trainjumper.com${galleryImages[currentImageIndex].imageUrl}`}
           alt="Modpack Image"
@@ -470,10 +534,10 @@ export const ImageCarousel = ({
         />
         {galleryImages?.length > 1 && (
           <div className="absolute inset-0 mx-auto flex max-h-[233px]  max-w-[412px] lg:w-full">
-            <div className="group flex flex-1 items-center justify-between gap-2">
+            <div className="group flex flex-1 items-center justify-between gap-2 ">
               <button
                 onClick={handlePrevImage}
-                className={`hidden h-full w-10 items-center justify-center overflow-hidden rounded-l-lg border-2 group-hover:flex ${borderColorVariants[color]} border-r-0 group-hover:bg-sec/50   `}
+                className={`hidden h-full  w-20 items-center justify-center overflow-hidden rounded-l-lg border-2  group-hover:flex ${borderColorVariants[color]} border-r-0 bg-text bg-opacity-50 hover:bg-opacity-60  `}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -484,15 +548,42 @@ export const ImageCarousel = ({
                   <path d="M168.49,199.51a12,12,0,0,1-17,17l-80-80a12,12,0,0,1,0-17l80-80a12,12,0,0,1,17,17L97,128Z"></path>
                 </svg>
               </button>
+              {/* <div className="absolute z-10 hidden h-full w-full items-center justify-center gap-1 rounded-lg bg-sec/80 group-hover:flex"></div> */}
               <div
-                className="hidden h-full w-full cursor-pointer group-hover:flex"
-                onClick={() =>
+                className="group/buttons flex h-full w-full cursor-pointer flex-col items-center justify-center gap-1 "
+                onClick={(e) =>
+                  e.currentTarget === e.target &&
                   handleImageClick(galleryImages[currentImageIndex].imageUrl)
                 }
-              ></div>
+              >
+                {location.pathname.includes("edit-modpack") && (
+                  <>
+                    <button
+                      // disabled={}
+                      className="last:active:bg-text/15 hidden cursor-pointer items-center gap-2 rounded-lg bg-text bg-opacity-70 px-4 py-2  text-blue-500 transition-all  delay-0 duration-200  ease-in-out hover:bg-opacity-80  disabled:bg-slate-300 disabled:text-slate-500 group-hover/buttons:flex dark:disabled:bg-slate-700  dark:disabled:text-slate-500 "
+                      onClick={() => {
+                        if (primaryImageMutation.isLoading) return;
+                        primaryImageMutation.mutate();
+                      }}
+                    >
+                      Make Primary
+                    </button>
+                    <button
+                      // disabled={}
+                      className="last:active:bg-text/15  hidden cursor-pointer items-center  gap-2 rounded-lg  bg-text bg-opacity-70 px-4 py-2 text-red-500 transition-all  delay-0 duration-200 ease-in-out  hover:bg-opacity-80 disabled:bg-slate-300 disabled:text-slate-500 group-hover/buttons:flex dark:disabled:bg-slate-700   dark:disabled:text-slate-500  "
+                      onClick={() => {
+                        if (deleteImageMutation.isLoading) return;
+                        deleteImageMutation.mutate();
+                      }}
+                    >
+                      Delete
+                    </button>
+                  </>
+                )}
+              </div>
               <button
                 onClick={handleNextImage}
-                className={`hidden h-full w-10 items-center justify-center overflow-hidden rounded-r-lg border-2 group-hover:flex ${borderColorVariants[color]} border-l-0 group-hover:bg-sec/50   `}
+                className={`hidden h-full w-20 items-center justify-center overflow-hidden rounded-r-lg border-2  group-hover:flex ${borderColorVariants[color]} border-l-0 bg-text bg-opacity-50 hover:bg-opacity-60  `}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

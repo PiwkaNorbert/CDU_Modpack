@@ -324,7 +324,6 @@ const SuggestedPackDetails = () => {
               </div>
             </div>
           </div>
-          <div className="absolute inset-0 z-0 h-full w-full flex-1 bg-sec opacity-20"></div>
         </div>
       </section>
     </>
