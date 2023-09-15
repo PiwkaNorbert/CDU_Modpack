@@ -534,15 +534,15 @@ export const ImageCarousel = ({
         />
         {galleryImages?.length > 1 && (
           <div className="absolute inset-0 mx-auto flex max-h-[233px]  max-w-[412px] lg:w-full">
-            <div className="group flex flex-1 items-center justify-between gap-2 ">
+            <div className="group flex flex-1 items-center justify-between  ">
               <button
                 onClick={handlePrevImage}
-                className={`hidden h-full  w-20 items-center justify-center overflow-hidden rounded-l-lg border-2  group-hover:flex ${borderColorVariants[color]} border-r-0 bg-text bg-opacity-50 hover:bg-opacity-60  `}
+                className={`hidden h-full  w-20 items-center justify-center  overflow-hidden rounded-l-lg border-2 text-bg transition-all delay-0 duration-200 ease-in-out group-hover:flex dark:bg-bg  dark:text-text ${borderColorVariants[color]} border-r-0 bg-text bg-opacity-50 hover:bg-opacity-60 dark:bg-bg dark:bg-opacity-50 dark:text-text dark:hover:bg-opacity-60 `}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-8 w-8 transform"
-                  fill="#fff"
+                  fill="currentColor"
                   viewBox="0 0 256 256"
                 >
                   <path d="M168.49,199.51a12,12,0,0,1-17,17l-80-80a12,12,0,0,1,0-17l80-80a12,12,0,0,1,17,17L97,128Z"></path>
@@ -550,7 +550,7 @@ export const ImageCarousel = ({
               </button>
               {/* <div className="absolute z-10 hidden h-full w-full items-center justify-center gap-1 rounded-lg bg-sec/80 group-hover:flex"></div> */}
               <div
-                className="group/buttons flex h-full w-full cursor-pointer flex-col items-center justify-center gap-1 "
+                className="group/buttons flex h-full w-full  cursor-pointer flex-col items-center justify-center gap-1 "
                 onClick={(e) =>
                   e.currentTarget === e.target &&
                   handleImageClick(galleryImages[currentImageIndex].imageUrl)
@@ -560,7 +560,7 @@ export const ImageCarousel = ({
                   <>
                     <button
                       // disabled={}
-                      className="last:active:bg-text/15 hidden cursor-pointer items-center gap-2 rounded-lg bg-text bg-opacity-70 px-4 py-2  text-blue-500 transition-all  delay-0 duration-200  ease-in-out hover:bg-opacity-80  disabled:bg-slate-300 disabled:text-slate-500 group-hover/buttons:flex dark:disabled:bg-slate-700  dark:disabled:text-slate-500 "
+                      className="last:active:bg-text/15 flex cursor-pointer items-center gap-2 rounded-lg bg-text bg-opacity-70 px-4 py-2  text-blue-500 opacity-0 transition-all delay-0 duration-200  ease-in-out hover:bg-opacity-80 disabled:bg-slate-300   disabled:text-slate-500  group-hover/buttons:opacity-100  dark:bg-bg dark:bg-opacity-90  dark:hover:bg-opacity-100 dark:disabled:bg-slate-700  dark:disabled:text-slate-500 "
                       onClick={() => {
                         if (primaryImageMutation.isLoading) return;
                         primaryImageMutation.mutate();
@@ -570,7 +570,7 @@ export const ImageCarousel = ({
                     </button>
                     <button
                       // disabled={}
-                      className="last:active:bg-text/15  hidden cursor-pointer items-center  gap-2 rounded-lg  bg-text bg-opacity-70 px-4 py-2 text-red-500 transition-all  delay-0 duration-200 ease-in-out  hover:bg-opacity-80 disabled:bg-slate-300 disabled:text-slate-500 group-hover/buttons:flex dark:disabled:bg-slate-700   dark:disabled:text-slate-500  "
+                      className="last:active:bg-text/15  flex cursor-pointer items-center gap-2 rounded-lg bg-text  bg-opacity-70 px-4 py-2 text-red-500 opacity-0 transition-all delay-0 duration-200 ease-in-out hover:bg-opacity-80  disabled:bg-slate-300 disabled:text-slate-500 group-hover/buttons:opacity-100  dark:bg-bg  dark:bg-opacity-90   dark:hover:bg-opacity-100 dark:disabled:bg-slate-700  dark:disabled:text-slate-500  "
                       onClick={() => {
                         if (deleteImageMutation.isLoading) return;
                         deleteImageMutation.mutate();
@@ -583,14 +583,14 @@ export const ImageCarousel = ({
               </div>
               <button
                 onClick={handleNextImage}
-                className={`hidden h-full w-20 items-center justify-center overflow-hidden rounded-r-lg border-2  group-hover:flex ${borderColorVariants[color]} border-l-0 bg-text bg-opacity-50 hover:bg-opacity-60  `}
+                className={`hidden h-full w-20 items-center justify-center overflow-hidden rounded-r-lg border-2 text-bg transition-all delay-0 duration-200 ease-in-out group-hover:flex dark:bg-bg  dark:text-text ${borderColorVariants[color]} border-l-0 bg-text bg-opacity-50 hover:bg-opacity-60 dark:bg-opacity-50 dark:text-text dark:hover:bg-opacity-60 `}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-8 w-8 transform"
                   width="32"
                   height="32"
-                  fill="#fff"
+                  fill="currentColor"
                   viewBox="0 0 256 256"
                 >
                   <path d="M184.49,136.49l-80,80a12,12,0,0,1-17-17L159,128,87.51,56.49a12,12,0,1,1,17-17l80,80A12,12,0,0,1,184.49,136.49Z"></path>
