@@ -1,5 +1,5 @@
 import "./index.css";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Header from "./Components/Header";
@@ -24,27 +24,24 @@ import ArchivedPackListPage from "./Pages/ArchivedPackListPage";
 import SuggestedPackListPage from "./Pages/SuggestedPackListPage";
 import SuggestedPackDetails from "./Pages/SuggestedPackDetails";
 
-import {  UserProvider } from "./Context/UserContext.tsx";
+import { UserProvider } from "./Context/UserContext.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import NotFoundPage from "./Pages/NotFoundPage.tsx";
+// import NotFoundPage from "./Pages/NotFoundPage.tsx";
 
 const queryClient = new QueryClient();
 
 function App() {
+  const useAuth = () => {
+    const user = JSON.parse(localStorage.getItem("profileData") || "{}");
+    if (!user) return false;
+    if (user.isAdmin) {
+      return true;
+    } else {
+      return false;
+    }
+  };
 
-const useAuth=()=>{
-  const user = JSON.parse(localStorage.getItem('profileData') || '{}');
-  if(!user) return false;
-  if(user.isAdmin){
-    
-    return true;
-  } else {
-    return false;
-  }
-}
-
-const isAdmin = useAuth()
-
+  const isAdmin = useAuth();
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -64,7 +61,7 @@ const isAdmin = useAuth()
 
                 {/* <Route path="*" element={<Navigate to="/404" />} />
                 <Route path="404" element={<NotFoundPage />} /> */}
-          
+
                 {isAdmin && (
                   <>
                     <Route path="add-modpack" element={<AddMPLayout />}>
@@ -75,15 +72,15 @@ const isAdmin = useAuth()
                       path="edit-modpack/:modpackId"
                       element={<EditModpack />}
                     />
-                      <Route
+                    <Route
                       path="list-archived-packs"
                       element={<ArchivedPackListPage />}
                     />
-                      <Route
-                        path="list-suggested-packs"
-                        element={<SuggestedPackListPage />}
-                      />
-                 
+                    <Route
+                      path="list-suggested-packs"
+                      element={<SuggestedPackListPage />}
+                    />
+
                     {/* <Route
                       path="archived-pack-list/:modpackId"
                       element={<ArchivedPackListPage />}
