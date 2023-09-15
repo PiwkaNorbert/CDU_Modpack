@@ -469,7 +469,7 @@ export const ImageCarousel = ({
     async () =>
       await axios.post(
         `${apiBase}/api/update_pack_primary_image`,
-        { imageUrl: galleryImages[currentImageIndex].imageUrl, modpackId },
+        { imageId: galleryImages[currentImageIndex].imageUrl, modpackId },
         {
           withCredentials: true,
           headers: {
@@ -496,7 +496,7 @@ export const ImageCarousel = ({
     async () =>
       await axios.post(
         `${apiBase}/api/delete_pack_image`,
-        { imageUrl: galleryImages[currentImageIndex].imageUrl, modpackId },
+        { imageId: galleryImages[currentImageIndex].imageUrl, modpackId },
         {
           withCredentials: true,
           headers: {
