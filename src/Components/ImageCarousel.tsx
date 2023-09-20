@@ -3,11 +3,12 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import { useState } from "react";
+import {  useState } from "react";
 import { errorHandling } from "../Helper/errorHandling";
 import { Dialog } from "../Components/Dialog";
 import { twMerge } from "tailwind-merge";
 import { bgColorVariants, borderColorVariants } from "../Constants";
+
 
 export const ImageCarousel = ({
   galleryImages,
@@ -20,43 +21,17 @@ export const ImageCarousel = ({
   const [showModal, setShowModal] = useState<boolean>(false);
   const [imageSrc, setImageSrc] = useState<string>("");
 
-  if (galleryImages === undefined) return null;
-
-  const initialIndex = galleryImages.indexOf(imageSrc);
-
-  if (initialIndex !== -1) {
-    setCurrentImageIndex(initialIndex);
-  }
-
-  const handleImageClick = (imageUrl: string) => {
-    setImageSrc(imageUrl);
-    setShowModal(true);
-  };
-  const handleNextImage = () => {
-    if (currentImageIndex === galleryImages.length - 1) {
-      setCurrentImageIndex(0);
-    } else {
-      setCurrentImageIndex(currentImageIndex + 1);
-    }
-  };
-
-  const handlePrevImage = () => {
-    if (currentImageIndex === 0) {
-      setCurrentImageIndex(galleryImages.length - 1);
-    } else {
-      setCurrentImageIndex(currentImageIndex - 1);
-    }
-  };
   const { modpackId } = useParams();
   const queryClient = useQueryClient();
   const isDev = import.meta.env.VITE_NODE_ENV === "development";
   const apiBase = isDev ? "https://www.trainjumper.com" : "";
 
+
   const primaryImageMutation = useMutation(
     async () =>
       await axios.post(
         `${apiBase}/api/update_pack_primary_image`,
-        { imageId: galleryImages[currentImageIndex].imageUrl, modpackId },
+        { imageId: match[0] , modpackId },
         {
           withCredentials: true,
           headers: {
@@ -85,7 +60,7 @@ export const ImageCarousel = ({
     async () =>
       await axios.post(
         `${apiBase}/api/delete_pack_image`,
-        { imageId: galleryImages[currentImageIndex].imageUrl, modpackId },
+        { imageId: match[0], modpackId },
         {
           withCredentials: true,
           headers: {
@@ -111,6 +86,37 @@ export const ImageCarousel = ({
       },
     }
   );
+
+  const imagePath = galleryImages[currentImageIndex].imageUrl;
+  const imageIdPattern = /\b[0-9A-Fa-f]+(?=\.\w+$)/;
+  const match = imagePath.match(imageIdPattern);
+
+  const initialIndex = galleryImages.indexOf(imageSrc);
+
+  if (initialIndex !== -1) {
+    setCurrentImageIndex(initialIndex);
+  }
+
+  const handleImageClick = (imageUrl: string) => {
+    setImageSrc(imageUrl);
+    setShowModal(true);
+  };
+  const handleNextImage = () => {
+    if (currentImageIndex === galleryImages.length - 1) {
+      setCurrentImageIndex(0);
+    } else {
+      setCurrentImageIndex(currentImageIndex + 1);
+    }
+  };
+
+  const handlePrevImage = () => {
+    if (currentImageIndex === 0) {
+      setCurrentImageIndex(galleryImages.length - 1);
+    } else {
+      setCurrentImageIndex(currentImageIndex - 1);
+    }
+  };
+
 
   return (
     <div>
