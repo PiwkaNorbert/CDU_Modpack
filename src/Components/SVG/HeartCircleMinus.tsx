@@ -1,12 +1,15 @@
 import { IRemoveVoteButtonProps } from "../../Utils/Interfaces";
-
+import { twMerge } from "tailwind-merge";
 const HeartCircleMinus = ({ timesVoted }: IRemoveVoteButtonProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className={`aspect-square h-6  ${
-        timesVoted && timesVoted !== 0 ? "group-hover:animate-bounce" : ""
-      }`}
+      className={twMerge(
+        "aspect-square h-6",
+        timesVoted && timesVoted !== 0
+          ? "text-red-500 group-hover:animate-bounce"
+          : ""
+      )}
       fill="currentColor"
       viewBox="0 0 576 512"
     >

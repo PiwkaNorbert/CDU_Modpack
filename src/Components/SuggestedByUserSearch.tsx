@@ -1,4 +1,6 @@
+import axios from "axios";
 import { useEffect, useState } from "react";
+import { twMerge } from "tailwind-merge";
 
 function SuggestedByUserSearch() {
   const [loading, setLoading] = useState(false);
@@ -27,19 +29,15 @@ function SuggestedByUserSearch() {
 
     const newDebounceTimer = setTimeout(async () => {
       // axios fetch with no cors
-      const res = await fetch(
-        `https://api.playcdu.co/search?partial_name=${username}&max_results=1`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            mode: "no-cors",
-          },
-        }
-      ).then((res) => res.json());
+      const { data, status } = await axios(
+        `https://api.playcdu.co/search?partial_name=${username}&max_results=1`
+      );
+      console.log(status);
 
-      if (res.status !== 200) throw new Error("Error searching for username");
+      if (status !== 200) throw new Error("Error searching for username");
+      console.log(data);
 
-      if (res.data.users.some((user: any) => user.username === username)) {
+      if (data.users.some((user: any) => user.username === username)) {
         console.log("Username exists");
         setUsername("");
         setExists(true);
@@ -63,11 +61,12 @@ function SuggestedByUserSearch() {
   return (
     <>
       <input
-        className={` h-8 rounded-md border-2  bg-bg px-3 py-1 ${
-          !isValid && isTouched ? " input-error " : ""
-        } ${!exists ? " input-warning " : ""} ${
+        className={twMerge(
+          "h-8 rounded-md border-2  bg-bg px-3 py-1",
+          !isValid && isTouched && " input-error ",
+          !exists && " input-warning ",
           exists && isValid && !loading ? " input-success " : ""
-        } `}
+        )}
         placeholder="Suggested By"
         name="suggestor"
         type="text"
@@ -76,24 +75,20 @@ function SuggestedByUserSearch() {
       />
 
       <div className="mt-4 min-h-[2.2rem] w-full px-8">
-        {loading && isValid && (
+        {loading ? (
           <div className="text-secondary">
             Checking if user @{username} exists
           </div>
-        )}
-
-        {!isValid && isTouched && (
+        ) : exists ? (
+          <div className="text-success">Valid username @{username} </div>
+        ) : !isValid && isTouched ? (
           <div className="text-error text-sm">
             must be 3-16 characters long, alphanumeric only
           </div>
-        )}
-
-        {isValid && !loading && !exists && (
-          <div className="text-warning text-sm">@{username} doesn't exist</div>
-        )}
-
-        {isValid && isTouched && exists && (
+        ) : isValid && isTouched && exists ? (
           <div className=" text-success">Confirmed username @{username} </div>
+        ) : (
+          <div className="text-warning text-sm">@{username} doesn't exist</div>
         )}
       </div>
     </>

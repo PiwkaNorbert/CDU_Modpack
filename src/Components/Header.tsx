@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { LoginButton } from "./LoginButton";
-import  useUser  from "../Context/useUser";
+import useUser from "../Context/useUser";
 import { useTheme } from "../Context/useTheme";
 import { useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import SignOutSVG from "./SVG/SignOutSVG";
+import { twMerge } from "tailwind-merge";
 
 const Header = () => {
   // set the state of voteRemaining to the value of the user's votesRemaining
@@ -52,30 +53,31 @@ const Header = () => {
       {menu ? null : (
         <header
           ref={ref}
-          className="relative  hidden h-[140px] items-center justify-center  text-sm md:grid xl:h-[170px] xl:text-base"
+          className="relative hidden h-[140px] items-center justify-center text-sm md:grid xl:h-[170px] xl:text-base"
         >
-          <div className=" absolute inset-0  m-auto bg-gradient-to-tr from-acc to-pri dark:brightness-50 "></div>
+          <div className="absolute inset-0 m-auto bg-gradient-to-tr from-acc to-pri dark:brightness-50"></div>
           <img
             alt="CDU"
             src="/logo.png"
             width="140"
             height="128"
             //loading="lazy"
-            className=" lazy-load-image absolute top-0   cursor-pointer  justify-self-center p-2 hover:animate-bounce-slow "
+            className=" lazy-load-image absolute top-0 cursor-pointer justify-self-center p-2 hover:animate-bounce-slow "
             onClick={() => navigate("/")}
           />
         </header>
       )}
       <nav
-        className={`top-0 z-[10]  flex w-full items-center justify-stretch  gap-2 border-bg bg-bg px-8 py-1 text-text md:justify-center md:px-4 lg:mx-auto lg:min-w-[900px] lg:max-w-[900px] lg:border-x-4  ${
-          !isIntersecting ? " sticky  shadow-md" : "relative"
-        }`}
+        className={twMerge(
+          "top-0 z-[10] flex w-full items-center justify-stretch gap-2 border-bg bg-bg px-8 py-1 text-text md:justify-center md:px-4 lg:mx-auto lg:min-w-[900px] lg:max-w-[900px] lg:border-x-4",
+          isIntersecting ? "relative" : "sticky shadow-md"
+        )}
       >
         {/* If the window size is below 600px display a button with "menu as the value and on click make a modal to display the nav */}
 
         {/* If the window size is below 600px display a modal with the nav */}
         {menu ? (
-          <div className="fixed left-0 top-0 z-[999] flex h-screen w-full flex-col  justify-center bg-bg dark:bg-sec md:hidden">
+          <div className="fixed left-0 top-0 z-[999] flex h-screen w-full flex-col justify-center bg-bg dark:bg-sec md:hidden">
             {/* If the window size is below 600px display a button with "menu as the value and on click make a modal to display the nav */}
 
             {/* If the window size is below 600px display a modal with the nav */}
@@ -84,7 +86,7 @@ const Header = () => {
               src="/logo.png"
               width="100"
               //loading="lazy"
-              className="  absolute top-0 z-30  cursor-pointer  justify-self-center p-2 hover:animate-bounce-slow "
+              className="absolute top-0 z-30 cursor-pointer justify-self-center p-2 hover:animate-bounce-slow "
               onClick={() => navigate("/")}
             />
 
@@ -128,7 +130,7 @@ const Header = () => {
           </div>
         ) : null}
 
-        <button className="z-[14] order-2 sm:hidden " onClick={toggleMenu}>
+        <button className="z-[14] order-2 sm:hidden" onClick={toggleMenu}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="32"
@@ -153,14 +155,15 @@ const Header = () => {
           {/* the track for the toggle */}
           <label
             htmlFor="theme"
-            className="flex h-8 w-16 cursor-pointer items-center justify-center rounded-full bg-text/20 p-1 transition-all duration-300 ease-in-out"
+            className="flex h-8 w-16 cursor-pointer items-center justify-center rounded-full bg-text/20 p-1 transition-all "
           >
             <span className="sr-only">Toggle Theme</span>
             {/* this is the white ball inside track */}
             <span
-              className={`${
+              className={twMerge(
+                "z-[5] inline-block h-6 w-6 transform rounded-full bg-white shadow-lg transition-all  group-hover:bg-pri",
                 theme ? "translate-x-4" : "-translate-x-4"
-              } z-[5] inline-block h-6 w-6 transform rounded-full bg-white shadow-lg transition-all duration-300 ease-in-out group-hover:bg-pri`}
+              )}
             ></span>
             {/* the icons 1 is sun the 2 is the moon */}
             {theme ? (
@@ -193,11 +196,10 @@ const Header = () => {
           alt="CDU"
           src="/logo.png"
           loading="lazy"
-          className={`${
+          className={twMerge(
+            "top-0 z-10 order-1 block aspect-square h-10 cursor-pointer justify-self-center hover:animate-bounce-slow md:hidden ",
             !isIntersecting || menu ? "block md:block" : ""
-          } top-0 z-10 order-1 block aspect-square h-10 cursor-pointer justify-self-center hover:animate-bounce-slow md:hidden 
-           
-            `}
+          )}
           onClick={() => navigate("/")}
         />
         {user?.isLoggedIn ? (
@@ -216,7 +218,7 @@ const Header = () => {
               </p>
               <div className=" focus:ring-bkg/90 group relative z-10 flex aspect-square w-12 items-center rounded-full p-1 font-medium focus:outline-none focus:ring-4">
                 <img
-                  className="h-full w-full cursor-pointer   opacity-90 hover:opacity-100"
+                  className="h-full w-full cursor-pointer opacity-90 hover:opacity-100"
                   src={
                     user?.isLinked
                       ? user?.playerData?.mc_head_url
@@ -224,21 +226,21 @@ const Header = () => {
                   }
                   alt={user?.username ? `${user?.username}'s avatar` : "avatar"}
                 />
-                <div className="absolute -left-9 top-12 rounded-lg  bg-bg   shadow-md ">
-                  <div className={`dropdown-body  group-hover:block`}>
+                <div className="absolute -left-9 top-12 rounded-lg bg-bg shadow-md ">
+                  <div className={`dropdown-body group-hover:block`}>
                     <ul
                       className="space-y-1 p-1 text-sm"
                       aria-labelledby="dropdown-button"
                     >
                       <li
                         data-tip="How to get Linked"
-                        className={` active:bg-text/15  mb-1 flex w-full  cursor-pointer gap-1 rounded-lg  px-3 py-1 transition-all delay-0 duration-200 ease-in-out last:mb-0 hover:bg-text/10 `}
+                        className="active:bg-text/15 mb-1 flex w-full cursor-pointer gap-1 rounded-lg px-3 py-1 transition-all  last:mb-0 hover:bg-text/10"
                       >
                         <a
                           type="button"
                           href="https://forum.playcdu.co/threads/how-to-link-your-discord-and-minecraft-accounts.922/"
                           target="_blank"
-                          className={`flex items-center justify-center  gap-2 capitalize `}
+                          className={`flex items-center justify-center gap-2 capitalize `}
                         >
                           {user?.isLinked ? "linked" : "unlinked"}
 
@@ -248,13 +250,10 @@ const Header = () => {
                           />
                         </a>
                       </li>
-
-                      <li
-                        className={` active:bg-text/15  mb-1 flex w-full  cursor-pointer gap-1 rounded-lg  px-3 py-1 transition-all delay-0 duration-200 ease-in-out last:mb-0 hover:bg-text/10 `}
-                      >
+                      <li className="active:bg-text/15 mb-1 flex w-full cursor-pointer gap-1 rounded-lg px-3 py-1 transition-all  last:mb-0 hover:bg-text/10">
                         <a
                           type="button"
-                          className={`flex items-center justify-center  gap-2 capitalize `}
+                          className={`flex items-center justify-center gap-2 capitalize `}
                           onClick={() => {
                             setUser(undefined);
                             localStorage.removeItem("profileData");
@@ -274,7 +273,6 @@ const Header = () => {
           // Decide whether to display user's discord avatar (logged in) or "log in with discord" button (not logged in)
           <div className="z-10 order-2 ml-auto max-[350px]:text-xs">
             {isDev && <Link to="loginDev">Login Dev</Link>}
-            
 
             <LoginButton />
           </div>

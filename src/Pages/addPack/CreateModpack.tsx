@@ -5,8 +5,10 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { AddModpackProps } from "../../Utils/Interfaces";
 import { tagOptions, colorOptions } from "../../Helper/modifyModpack";
-import SuggestedByUserSearch from "../../Components/SuggestedByUserSearch";
+// import SuggestedByUserSearch from "../../Components/SuggestedByUserSearch";
 import { errorHandling } from "../../Helper/errorHandling";
+import { twMerge } from "tailwind-merge";
+
 export const CreateModpack = () => {
   const [modpackDescription, setModpackDescription] =
     React.useState<string>("");
@@ -134,11 +136,12 @@ export const CreateModpack = () => {
               <button
                 type="button"
                 key={index}
-                className={`  ${
+                className={twMerge(
+                  " flex items-center justify-center rounded-full px-3 py-1 text-sm transition-all hover:bg-opacity-80",
                   modpackTags.includes(tagOption.value)
-                    ? `bg-${borderColor}-500  text-bg dark:text-bg `
+                    ? `bg-${borderColor}-500 text-bg dark:text-bg `
                     : `bg-slate-300 text-text dark:bg-slate-700`
-                }  flex items-center justify-center rounded-full px-3 py-1 text-sm transition-colors duration-200 ease-in-out hover:bg-opacity-80 `}
+                )}
                 onClick={() => {
                   if (modpackTags.includes(tagOption.value)) {
                     setModpackTags(
@@ -184,7 +187,14 @@ export const CreateModpack = () => {
         />
 
         {/* Modpack suggestor field, single line. */}
-        <SuggestedByUserSearch />
+        {/* <SuggestedByUserSearch /> */}
+
+        <input
+          className="h-8 rounded-md border-2  bg-bg px-3 py-1"
+          placeholder="Suggested By"
+          name="suggestor"
+          type="text"
+        />
         <Link
           to={"/add-modpack/photos/12312"}
           className="ml-4  flex min-w-min cursor-pointer items-center gap-2 rounded-md px-3 py-1  hover:bg-sec hover:bg-opacity-20  dark:hover:bg-hover-2"

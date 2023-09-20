@@ -8,6 +8,7 @@ import { IModpack } from "../Utils/Interfaces";
 import { errorHandling } from "../Helper/errorHandling";
 import HeartCirclePlus from "./SVG/HeartCirclePlus";
 import HeartCircleMinus from "./SVG/HeartCircleMinus";
+import { twMerge } from "tailwind-merge";
 
 export default function VoteForPackButton({
   modpackId,
@@ -109,7 +110,10 @@ export default function VoteForPackButton({
       {user?.isLinked && (
         <button
           disabled={isFetching !== 0 || timesVoted === 0}
-          className={`group h-10 rounded-md text-bg hover:bg-opacity-80  disabled:bg-slate-300 disabled:text-slate-500 dark:text-bg dark:hover:bg-opacity-80 dark:disabled:bg-slate-700 dark:disabled:text-slate-500  ${bgColorVariants[color]} px-3 py-1 text-sm xl:text-base`}
+          className={twMerge(
+            `${bgColorVariants[color]} group h-10 rounded-md px-3 py-1 text-sm text-bg transition-all hover:bg-opacity-80 hover:text-bg  disabled:bg-slate-300 disabled:text-slate-500 dark:text-bg dark:hover:bg-opacity-80 dark:hover:text-bg dark:disabled:bg-slate-700 dark:disabled:text-slate-500 xl:text-base`,
+            timesVoted == 0 && " text-red-600  dark:text-red-600"
+          )}
           onClick={() => {
             if (removeVote.isLoading) return;
             return removeVote.mutate();
@@ -128,7 +132,10 @@ export default function VoteForPackButton({
       {user?.isLinked && (
         <button
           disabled={!(isFetching === 0) || user?.votesRemaining === 0}
-          className={` group h-10 rounded-md text-bg hover:bg-opacity-80 disabled:bg-slate-300 disabled:text-slate-500 dark:text-bg dark:hover:bg-opacity-80 dark:disabled:bg-slate-700 dark:disabled:text-slate-500  ${bgColorVariants[color]} px-3 py-1 text-sm xl:text-base`}
+          className={twMerge(
+            `${bgColorVariants[color]} group h-10 rounded-md px-3 py-1 text-sm text-bg transition-all hover:bg-opacity-80 hover:text-bg  disabled:bg-slate-300 disabled:text-slate-500 dark:text-bg dark:hover:bg-opacity-80 dark:hover:text-bg dark:disabled:bg-slate-700 dark:disabled:text-slate-500 xl:text-base`,
+            timesVoted == 0 && " text-red-600  dark:text-red-600"
+          )}
           onClick={() => {
             if (addVote.isLoading || user?.votesRemaining === 0) return;
             return addVote.mutate();

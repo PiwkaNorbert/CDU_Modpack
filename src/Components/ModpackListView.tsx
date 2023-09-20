@@ -6,6 +6,7 @@ import { tagOptions } from "../Helper/modifyModpack";
 import { IModpack } from "../Utils/Interfaces";
 import { useLocation, useNavigate } from "react-router-dom";
 import { packLocation } from "../Constants";
+import { twMerge } from "tailwind-merge";
 
 const ModpackListView = ({ packData }: { packData: any }) => {
   const { user } = useUser();
@@ -56,11 +57,11 @@ const ModpackListView = ({ packData }: { packData: any }) => {
           <div className="md:space-x-none  flex items-center  justify-between   space-x-4 p-5 text-xl text-text xl:text-2xl ">
             {/* Show this button if you're logged in and a staff member */}
             <div
-              className={`relative z-10 flex items-center justify-center gap-2 text-text ${
-                user?.isAdmin
-                  ? "cursor-pointer select-none rounded-lg px-2 py-1 hover:bg-text/10"
-                  : ""
-              }`}
+              className={twMerge(
+                "relative z-[5] flex items-center justify-center gap-2 text-text",
+                user?.isAdmin &&
+                  "cursor-pointer select-none rounded-lg px-2 py-1 hover:bg-text/10"
+              )}
               onClick={toggleDropdown}
             >
               {location.pathname === "/list-archived-packs" && "Archived "}
@@ -95,7 +96,7 @@ const ModpackListView = ({ packData }: { packData: any }) => {
                       .map((packLocation) => {
                         return (
                           <li
-                            className={` active:bg-text/15  mb-1 flex w-full  cursor-pointer gap-1 rounded-lg  px-3 py-1 transition-all delay-0 duration-200 ease-in-out last:mb-0 hover:bg-text/10 `}
+                            className={` active:bg-text/15  mb-1 flex w-full  cursor-pointer gap-1 rounded-lg  px-3 py-1 transition-all  last:mb-0 hover:bg-text/10 `}
                           >
                             <a
                               className={`flex items-center justify-center gap-2 capitalize `}
@@ -160,11 +161,12 @@ const ModpackListView = ({ packData }: { packData: any }) => {
                   <button
                     type="button"
                     key={index}
-                    className={`${
+                    className={twMerge(
+                      "z-10 flex items-center justify-center rounded-full px-3 py-1 text-sm transition-all hover:bg-opacity-80",
                       modPackFilterByTags.includes(tagOption.value)
                         ? `bg-slate-700 text-bg dark:bg-slate-300 dark:text-bg `
                         : `bg-slate-300 text-text dark:bg-slate-700`
-                    }  z-10 flex items-center justify-center rounded-full px-3 py-1 text-sm transition-colors duration-200 ease-in-out hover:bg-opacity-80 `}
+                    )}
                     onClick={() => {
                       if (modPackFilterByTags.includes(tagOption.value)) {
                         setModPackFilterByTags(

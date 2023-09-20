@@ -3,13 +3,13 @@ import React, { useEffect, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import usePackDetailData from "../API/usePackDetailData";
-import { Link } from "react-router-dom";
 import { AddModpackProps } from "../Utils/Interfaces";
 import { tagOptions, colorOptions } from "../Helper/modifyModpack";
 import { errorHandling } from "../Helper/errorHandling";
-import { ImageCarousel } from "./PackDetails";
+import { ImageCarousel } from "../Components/ImageCarousel";
+import { twMerge } from "tailwind-merge";
 
 const EditModpack = () => {
   //    edit the modpack data from packDetails using a mutation and queryClient to invalidate the cache and update the data on the page without a refresh
@@ -24,7 +24,7 @@ const EditModpack = () => {
   const apiBase = isDev ? "https://www.trainjumper.com" : "";
 
   const queryClient = useQueryClient();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const editModpackMutation = useMutation(
     ({
@@ -80,9 +80,6 @@ const EditModpack = () => {
   );
   useEffect(() => {
     if (data?.tags) {
-      console.log(data?.tags);
-      console.log("MEM LEAK");
-
       setModpackTags(data?.tags);
     }
   }, [data?.tags]);
@@ -97,14 +94,16 @@ const EditModpack = () => {
   return (
     <section
       id="modpack__addpack"
-      className="z-10 grid h-full w-full  flex-1 justify-normal  text-text lg:mx-auto lg:min-w-[900px] lg:max-w-[900px] "
+      className="z-[5] grid h-full w-full  flex-1 justify-normal  text-text lg:mx-auto lg:min-w-[900px] lg:max-w-[900px] "
     >
       <div className="relative h-min overflow-hidden border-t-2 bg-bg  pb-4 dark:border-none dark:shadow  md:mb-4 md:rounded-b-md  md:border-none md:shadow-xl  ">
         <div className={` z-10 grid h-full items-center  lg:rounded-md   `}>
           <div className=" z-10 mb-6 flex flex-col justify-between gap-2 px-8 pt-4  max-[350px]:mb-0 sm:gap-0  md:grid md:grid-cols-3 md:px-4 ">
-            <Link
-              to={`/pack-details/${modpackId}`}
-              className={`"ml-4 mr-auto flex min-w-min cursor-pointer items-center gap-2 rounded-md px-3 py-1  hover:bg-sec hover:bg-opacity-20  dark:hover:bg-hover-2 text-${data?.color}-500 dark:text-${data?.color}-600`}
+            <div
+              className={`ml-4 mr-auto flex min-w-min cursor-pointer items-center gap-2 rounded-md px-3 py-1  hover:bg-sec hover:bg-opacity-20  dark:hover:bg-hover-2 text-${data?.color}-500 dark:text-${data?.color}-600`}
+              onClick={() => {
+                navigate(-1);
+              }}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -121,7 +120,7 @@ const EditModpack = () => {
                 />
               </svg>
               <p>Cancel</p>
-            </Link>
+            </div>
           </div>
 
           {/* Title of the form, centered */}
@@ -188,14 +187,14 @@ const EditModpack = () => {
                   <button
                     type="button"
                     key={index}
-                    className={` ${
+                    className={twMerge(
+                      "flex items-center justify-center rounded-full px-3 py-1 text-sm transition-all hover:bg-opacity-80",
                       (data?.tags?.includes(tagOption.value) ||
                         modpackTags.includes(tagOption.value)) &&
-                      modpackTags.includes(tagOption.value)
+                        modpackTags.includes(tagOption.value)
                         ? `bg-${data?.color}-500 dark:bg-${data?.color}-600 text-bg`
                         : `bg-slate-300  dark:bg-slate-700 `
-                    } 
-                flex items-center justify-center rounded-full px-3 py-1 text-sm transition-colors duration-200 ease-in-out hover:bg-opacity-80 `}
+                    )}
                     onClick={() => {
                       if (modpackTags.includes(tagOption.value)) {
                         setModpackTags(

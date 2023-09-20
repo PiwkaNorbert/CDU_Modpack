@@ -110,7 +110,7 @@ export interface IAddVoteButtonProps {
   votesRemaining?: number;
 }
 export interface IRemoveVoteButtonProps {
-  timesVoted?: number;
+  timesVoted: number;
 }
 
 export interface IAddImageProps {

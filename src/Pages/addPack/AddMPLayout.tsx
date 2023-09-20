@@ -6,9 +6,9 @@ const AddModpack = () => {
   return (
     <section
       id="modpack__addpack"
-      className="z-10 grid h-full w-full  flex-1 justify-normal  text-text lg:mx-auto lg:min-w-[900px] lg:max-w-[900px] "
+      className="z-[5] grid h-full w-full  flex-1 justify-normal  text-text lg:mx-auto lg:min-w-[900px] lg:max-w-[900px] "
     >
-      <div className="relative h-min overflow-hidden border-t-2 pb-4 bg-bg dark:border-none dark:shadow  md:mb-4 md:rounded-b-md  md:border-none md:shadow-xl  ">
+      <div className="relative h-min overflow-hidden border-t-2 bg-bg pb-4 dark:border-none dark:shadow  md:mb-4 md:rounded-b-md  md:border-none md:shadow-xl  ">
         <div className={` z-10 grid h-full items-center  lg:rounded-md   `}>
           <div className=" z-10 mb-6 flex flex-col justify-between gap-2 px-8 pt-4  max-[350px]:mb-0 sm:gap-0  md:grid md:grid-cols-3 md:px-4 ">
             <Link
@@ -32,15 +32,15 @@ const AddModpack = () => {
               <p className={` `}>Cancel</p>
             </Link>
 
-            <ul className="progress__steps  ">
+            <ul className="progress__steps text-text dark:text-text ">
               {/* prettier-ignore */}
-              <li className="progress__step--active  ">
+              <li className="progress__step--active before:bg-acc bg-acc  border-bg after:bg-acc   ">
             <Link to={"create"}>Create</Link>
           </li>
               <li
                 className={` ${
                   location.pathname.includes("/add-modpack/photos")
-                    ? "progress__step--active"
+                    ? "progress__step--active  border-bg  before:bg-acc after:bg-acc"
                     : ""
                 }`}
               >

@@ -10,7 +10,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { useRef, useState } from "react";
 import { errorHandling } from "../Helper/errorHandling";
 import { tagMap } from "../Helper/modifyModpack";
-import { ImageCarousel } from "./PackDetails";
+import { ImageCarousel } from "../Components/ImageCarousel";
 
 const SuggestedPackDetails = () => {
   const { modpackId: id } = useParams();
@@ -118,9 +118,11 @@ const SuggestedPackDetails = () => {
           <div className={`  grid h-full items-center  lg:rounded-md  `}>
             <div className="  flex justify-between gap-2  px-8 pt-4  max-[350px]:flex-col sm:gap-0 md:px-4 ">
               {/* backarrow to the root page */}
-              <Link
+              <div
                 className=" flex min-w-fit cursor-pointer items-center gap-2 rounded-md px-3 py-1 text-text hover:bg-sec hover:bg-opacity-20 hover:text-text dark:hover:bg-hover-2"
-                to={"/suggested-pack-details"}
+                onClick={() => {
+                  navigate(-1);
+                }}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -137,7 +139,7 @@ const SuggestedPackDetails = () => {
                   />
                 </svg>
                 <p className={` text-${borderColor}-500`}>Back</p>
-              </Link>
+              </div>
 
               <div className="flex  gap-2 text-sm text-text max-[350px]:mt-5 max-[350px]:flex-col xl:text-base ">
                 {/* edit modpack button only is userProfile is superUser */}
@@ -177,7 +179,7 @@ const SuggestedPackDetails = () => {
                           <li>
                             <Link
                               to={`/edit-modpack/${modpackId}`}
-                              className="last:active:bg-text/15  mb-1 flex w-full cursor-pointer items-center  gap-2 rounded-lg  px-4 py-2 transition-all delay-0 duration-200  ease-in-out hover:bg-text/10 "
+                              className="last:active:bg-text/15  mb-1 flex w-full cursor-pointer items-center  gap-2 rounded-lg  px-4 py-2 transition-all  hover:bg-text/10 "
                             >
                               Edit
                               <svg
@@ -195,7 +197,7 @@ const SuggestedPackDetails = () => {
                             {/* delete modpack button only is userProfile is superUser */}
                             <button
                               disabled={archiveModpackMutation.isLoading}
-                              className="last:active:bg-text/15  flex w-full cursor-pointer items-center  gap-2 rounded-lg  px-4 py-2 text-orange-500 transition-all delay-0 duration-200 ease-in-out hover:bg-text/10 "
+                              className="last:active:bg-text/15  flex w-full cursor-pointer items-center  gap-2 rounded-lg  px-4 py-2 text-orange-500 transition-all  hover:bg-text/10 "
                               onClick={async () => {
                                 if (archiveModpackMutation.isLoading) return;
                                 archiveModpackMutation.mutate();
@@ -217,7 +219,7 @@ const SuggestedPackDetails = () => {
                             {/* delete modpack button only is userProfile is superUser */}
                             <button
                               disabled={deleteModpackMutation.isLoading}
-                              className="last:active:bg-text/15  flex w-full cursor-pointer items-center  gap-2 rounded-lg  px-4 py-2 text-red-500 transition-all delay-0 duration-200 ease-in-out hover:bg-text/10 "
+                              className="last:active:bg-text/15  flex w-full cursor-pointer items-center  gap-2 rounded-lg  px-4 py-2 text-red-500 transition-all  hover:bg-text/10 "
                               onClick={async () => {
                                 if (
                                   prompt(
