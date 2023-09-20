@@ -122,13 +122,13 @@ export const ImageCarousel = ({
     <div>
       {/* make primary image button */}
 
-      <div className="group relative mx-auto md:w-96 ">
+      <div className="group relative mx-auto ">
         <img
           src={`https://www.trainjumper.com${galleryImages[currentImageIndex].imageUrl}`}
           alt="Modpack Image"
           width="412"
           height="233"
-          className={`z-[5] mx-auto aspect-video max-h-52  place-self-center overflow-hidden rounded-md border-2 object-fill object-center lg:max-h-60 lg:w-full ${borderColorVariants[color]} ${bgColorVariants[color]}`}
+          className={`z-[5] mx-auto aspect-video   place-self-center overflow-hidden rounded-md border-2 object-fill object-center lg:max-h-60  ${borderColorVariants[color]} ${bgColorVariants[color]}`}
         />
         {galleryImages?.length > 0 && (
           <div className="absolute inset-0 mx-auto flex max-h-[233px]  max-w-[412px] lg:w-full">

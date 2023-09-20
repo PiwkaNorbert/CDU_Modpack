@@ -299,8 +299,8 @@ const PackDetails = () => {
                 {galleryImages?.length > 0 && (
                   <ImageCarousel galleryImages={galleryImages} color={color} />
                 )}
-                <div className="grid w-full content-center items-center md:mr-4 md:space-y-4">
-                  <p className="text-content my-4 break-normal text-center text-4xl uppercase  md:my-0 ">
+                <div className="grid  content-center items-center md:mr-4 space-y-4">
+                  <p className="text-content mt-4 break-normal text-center text-4xl uppercase  md:my-0 ">
                     {name ?? "Modpack Name"}
                   </p>
                   <div className="flex items-center justify-center gap-2">
@@ -312,6 +312,9 @@ const PackDetails = () => {
                       timesVoted={timesVoted}
                     />
                   </div>
+                    <p className="text-text/75   break-normal text-center text-xs uppercase  md:my-0 ">
+                      {voteCount > 0 ? "You've yet to vote!" : "You've Voted"}
+                    </p>
                   <p className="text-content my-4 break-normal text-center text-xs uppercase  md:my-0 ">
                     Suggested By:
                     <br /> <span className="text-text/50">{suggestedBy}</span>
