@@ -10,9 +10,14 @@ import { tagOptions, colorOptions } from "../Helper/modifyModpack";
 import { errorHandling } from "../Helper/errorHandling";
 import { ImageCarousel } from "../Components/ImageCarousel";
 import { twMerge } from "tailwind-merge";
+import {
+  bgColorVariants,
+  borderColorVariants,
+  textColorVariants,
+} from "../Constants";
+import AddImage from "./SuggestPack/AddImage";
 
-const EditModpack = () => {
-  //    edit the modpack data from packDetails using a mutation and queryClient to invalidate the cache and update the data on the page without a refresh
+const EditModpack = ({ category }: { category: string }) => {
   // fetch the data from the server using the modpackName from the url
   const { modpackId: id } = useParams();
   const modpackId = id as string;
@@ -90,6 +95,12 @@ const EditModpack = () => {
         <h1 className="m-3 mt-5 text-2xl xl:text-3xl">Loading...</h1>
       </div>
     );
+  if (!data)
+    return (
+      <div className="flex h-full items-center justify-center">
+        <h1 className="m-3 mt-5 text-2xl xl:text-3xl">Modpack not found</h1>
+      </div>
+    );
 
   return (
     <section
@@ -100,7 +111,9 @@ const EditModpack = () => {
         <div className={` z-10 grid h-full items-center  lg:rounded-md   `}>
           <div className=" z-10 mb-6 flex flex-col justify-between gap-2 px-8 pt-4  max-[350px]:mb-0 sm:gap-0  md:grid md:grid-cols-3 md:px-4 ">
             <div
-              className={`ml-4 mr-auto flex min-w-min cursor-pointer items-center gap-2 rounded-md px-3 py-1  hover:bg-sec hover:bg-opacity-20  dark:hover:bg-hover-2 text-${data?.color}-500 dark:text-${data?.color}-600`}
+              className={`ml-4 mr-auto flex min-w-min cursor-pointer items-center gap-2 rounded-md px-3 py-1  hover:bg-sec hover:bg-opacity-20  dark:hover:bg-hover-2 ${
+                textColorVariants[data?.color]
+              } `}
               onClick={() => {
                 navigate(-1);
               }}
@@ -128,14 +141,16 @@ const EditModpack = () => {
             <h1 className="m-3 mt-5 text-2xl xl:text-3xl">Edit</h1>
           </div>
 
-          <div className=" py-[1em] ">
-            {data?.galleryImages?.length && (
+          <div className=" flex py-[1em]  ">
+            {data.galleryImages.length > 0 && (
               <ImageCarousel
                 galleryImages={data?.galleryImages ?? []}
                 color={data?.color ?? "sky"}
               />
             )}
+            <AddImage color={data?.color} path="edit" />
           </div>
+          <div className=" py-[1em]  "></div>
 
           <form
             className="grid items-center justify-center gap-4 pt-[.5em] text-sm text-text  placeholder:text-slate-400 xl:text-base"
@@ -163,7 +178,9 @@ const EditModpack = () => {
           >
             {/* Modpack name field, single line. */}
             <input
-              className={` h-8 rounded-md border-2 bg-bg  border-${data?.color}-500 dark:border-${data?.color}-600 px-3 py-1`}
+              className={` h-8 rounded-md border-2 bg-bg px-3 py-1 ${
+                borderColorVariants[data?.color]
+              } `}
               type="text"
               placeholder="Name"
               name="name"
@@ -173,7 +190,9 @@ const EditModpack = () => {
             {/* Modpack description field, multi line. */}
             {/* In order to make the modpack field multi line, we need to use a textarea instead of an input. */}
             <textarea
-              className={` h-40 min-h-[100px] rounded-md border-2 bg-bg  border-${data?.color}-500 dark:border-${data?.color}-600 w-96 px-3 py-1 out-of-range:border-red-500 `}
+              className={` h-40 min-h-[100px] w-96 rounded-md border-2 bg-bg px-3 py-1 out-of-range:border-red-500 ${
+                borderColorVariants[data?.color]
+              }  `}
               placeholder="Modpack Description"
               defaultValue={data?.description}
               name="description"
@@ -192,7 +211,7 @@ const EditModpack = () => {
                       (data?.tags?.includes(tagOption.value) ||
                         modpackTags.includes(tagOption.value)) &&
                         modpackTags.includes(tagOption.value)
-                        ? `bg-${data?.color}-500 dark:bg-${data?.color}-600 text-bg`
+                        ? `${bgColorVariants[data?.color]} text-bg`
                         : `bg-slate-300  dark:bg-slate-700 `
                     )}
                     onClick={() => {
@@ -213,7 +232,9 @@ const EditModpack = () => {
 
             {/*Color selection*/}
             <select
-              className={` h-8 rounded-md border-2  dark:text-bg border-${data?.color}-500 dark:border-${data?.color}-600 dark:border-${data?.color}-600 bg-${data?.color}-500 dark:bg-${data?.color}-600 px-3 py-1 font-Tilt `}
+              className={`h-8 rounded-md border-2 px-3 py-1 font-Tilt dark:text-bg
+              ${borderColorVariants[data?.color]} 
+              ${bgColorVariants[data?.color]} `}
               name="color"
               defaultValue={data?.color}
             >
@@ -221,7 +242,7 @@ const EditModpack = () => {
                 <option
                   key={index}
                   value={colorOption.value}
-                  className={`hover:bg-${colorOption?.value}-500`}
+                  className={`hover:${bgColorVariants[data?.color]}`}
                 >
                   {colorOption.label}
                 </option>
@@ -241,7 +262,9 @@ const EditModpack = () => {
             </label>
             <input
               required
-              className={` h-8 rounded-md border-2 bg-bg  border-${data?.color}-500 dark:border-${data?.color}-600 px-3 py-1`}
+              className={` h-8 rounded-md border-2 bg-bg px-3 py-1 ${
+                borderColorVariants[data?.color]
+              } `}
               type="text"
               placeholder="Official URL"
               name="officialUrl"
@@ -249,7 +272,9 @@ const EditModpack = () => {
             />
             {/* Modpack suggestor field, single line. */}
             <input
-              className={`h-8 rounded-md border-2  bg-bg  border-${data?.color}-500 dark:border-${data?.color}-600 px-3 py-1 `}
+              className={`h-8 rounded-md border-2 bg-bg px-3 py-1 ${
+                borderColorVariants[data?.color]
+              } `}
               type="text"
               placeholder="Modpack Suggestor"
               name="suggestor"
@@ -259,15 +284,24 @@ const EditModpack = () => {
             <br />
 
             <button
-              className={`group h-16  rounded-md border-2 text-base border-${data?.color}-500 dark:border-${data?.color}-600 hover:bg-opacity-90 disabled:bg-slate-600  dark:text-bg dark:hover:bg-opacity-90 bg-${data?.color}-500 dark:bg-${data?.color}-600 px-3 py-1 `}
+              className={`group h-16  rounded-md border-2 px-3 py-1 text-base  hover:bg-opacity-90 disabled:bg-slate-600 dark:text-bg dark:hover:bg-opacity-90  ${
+                borderColorVariants[data?.color]
+              }  ${bgColorVariants[data?.color]}
+              `}
               disabled={editModpackMutation.isLoading}
             >
               <span className="flex items-center justify-center gap-2 group-hover:scale-105">
                 {editModpackMutation.isLoading ? (
-                  "Editing Modpack..."
+                  category === "suggested" ? (
+                    "Publishing..."
+                  ) : (
+                    "Editing Modpack..."
+                  )
                 ) : (
                   <>
-                    <span>Edit Modpack!</span>
+                    <span>
+                      {category === "suggested" ? "Publish" : "Edit Modpack!"}
+                    </span>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="w-4 "

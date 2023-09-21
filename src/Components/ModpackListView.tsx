@@ -1,14 +1,20 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import useUser from "../Context/useUser";
-import AddPackCard from "../Pages/addPack/AddPackCard";
+import SuggestPackCard from "../Pages/SuggestPack/SuggestPackCard";
 import ModpackCard from "./ModpackCard";
 import { tagOptions } from "../Helper/modifyModpack";
-import { IModpack } from "../Utils/Interfaces";
+import { IModpack, iPackData } from "../Utils/Interfaces";
 import { useLocation, useNavigate } from "react-router-dom";
 import { packLocation } from "../Constants";
 import { twMerge } from "tailwind-merge";
 
-const ModpackListView = ({ packData }: { packData: any }) => {
+const ModpackListView = ({
+  packData,
+  category,
+}: {
+  packData: iPackData;
+  category: string;
+}) => {
   const { user } = useUser();
 
   const {
@@ -44,6 +50,17 @@ const ModpackListView = ({ packData }: { packData: any }) => {
 
   const toggleDropdown = () => setShowModal(!showModal);
 
+  // check what the category is and set the title accordingly and set the data to the correct data for that category and set the path to the correct path for that category
+  useEffect(() => {
+    if (category === "suggested") {
+      document.title = "Suggested Modpacks";
+    } else if (category === "archived") {
+      document.title = "Archived Modpacks";
+    } else {
+      document.title = "Modpacks";
+    }
+  }, [category]);
+
   return (
     <>
       <section
@@ -52,7 +69,7 @@ const ModpackListView = ({ packData }: { packData: any }) => {
       >
         {/* set the width to ffit the content and assign them to sm md lg for the container  like lg:max-w-[1000px]
         below and assthese same things to the nav width*/}
-        <div className=" h-min overflow-hidden border-t-2 bg-sec/20 dark:border-none dark:bg-bg dark:shadow  md:mb-4 md:rounded-b-xl  md:border-none md:shadow-2xl  ">
+        <div className="overflow-hidden border-t-2 bg-sec/20 dark:border-none dark:bg-bg dark:shadow  md:mb-4 md:rounded-b-xl  md:border-none md:shadow-2xl  ">
           {/* map the data variable in a grad 4x2  */}
           <div className="md:space-x-none  flex items-center  justify-between   space-x-4 p-5 text-xl text-text xl:text-2xl ">
             {/* Show this button if you're logged in and a staff member */}
@@ -96,6 +113,7 @@ const ModpackListView = ({ packData }: { packData: any }) => {
                       .map((packLocation) => {
                         return (
                           <li
+                            key={packLocation.name}
                             className={` active:bg-text/15  mb-1 flex w-full  cursor-pointer gap-1 rounded-lg  px-3 py-1 transition-all  last:mb-0 hover:bg-text/10 `}
                           >
                             <a
@@ -155,14 +173,14 @@ const ModpackListView = ({ packData }: { packData: any }) => {
             </button>
           </div>
           {showFilterTags && (
-            <div className=" relative z-[5] mb-4 px-4">
+            <div className=" relative z-[4] mb-4 px-4">
               <div className=" flex flex-wrap justify-center gap-2">
-                {tagOptions.map((tagOption, index) => (
+                {tagOptions.map((tagOption) => (
                   <button
                     type="button"
-                    key={index}
+                    key={tagOption.value}
                     className={twMerge(
-                      "z-10 flex items-center justify-center rounded-full px-3 py-1 text-sm transition-all hover:bg-opacity-80",
+                      "z-[5] flex items-center justify-center rounded-full px-3 py-1 text-sm transition-all hover:bg-opacity-80",
                       modPackFilterByTags.includes(tagOption.value)
                         ? `bg-slate-700 text-bg dark:bg-slate-300 dark:text-bg `
                         : `bg-slate-300 text-text dark:bg-slate-700`
@@ -199,11 +217,11 @@ const ModpackListView = ({ packData }: { packData: any }) => {
                 <p>{error?.response?.data?.error ?? ""}</p>
               </div>
             </div>
-          ) : data?.length === 0 ? (
-            <div className=" my-10 text-center">
-              No
-              {location.pathname === "/list-archived-packs" && " archived "}
-              {location.pathname === "/list-suggested-packs" && " suggested "}
+          ) : // check if data.length is 0 or if the array is empty with
+          data?.length === 0 || !Array.isArray(data) ? (
+            <div className=" my-10 flex-1 text-center capitalize">
+              No {location.pathname.includes("archived") && " archived "}
+              {location.pathname.includes("suggested") && " suggested "}
               Modpacks
             </div>
           ) : (
@@ -211,11 +229,11 @@ const ModpackListView = ({ packData }: { packData: any }) => {
               <div className=" z-20  grid grid-cols-2 gap-5 p-5 max-[400px]:grid-cols-1 sm:grid-cols-3  md:grid-cols-3   lg:grid-cols-4   ">
                 {user?.isLinked &&
                   !(
-                    location.pathname === "/list-archived-packs" ||
-                    location.pathname === "/list-suggested-packs"
-                  ) && <AddPackCard />}
-                {data?.map((modpack: IModpack) => {
-                  return <ModpackCard {...modpack} />;
+                    location.pathname.includes("archived") ||
+                    location.pathname.includes("suggested")
+                  ) && <SuggestPackCard />}
+                {data?.map((modpack: IModpack, index: number) => {
+                  return <ModpackCard {...modpack} key={index} />;
                 })}
               </div>
             </>

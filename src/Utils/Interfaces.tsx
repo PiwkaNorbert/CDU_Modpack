@@ -1,3 +1,5 @@
+import { AxiosError } from "axios";
+
 export interface IModpack {
   color: string;
   commentCount: number;
@@ -64,6 +66,9 @@ export interface ICommentComponent {
   replyingTo: boolean;
   replyParentId: string;
 }
+export interface ICommentComponentChildren extends ICommentComponent {
+  children: React.ReactNode;
+}
 export interface DiscordProfileData {
   isLoggedIn: boolean;
   avatar: string;
@@ -116,4 +121,15 @@ export interface IRemoveVoteButtonProps {
 export interface IAddImageProps {
   images: FileList;
   modpackId?: string;
+}
+
+export interface iPackData {
+  data: IModpack[] | undefined;
+  isLoading: boolean;
+  isError: boolean;
+  error: AxiosError<unknown, any> | null;
+  modPackFilterByTags: string;
+  modPackFilterByInput: string;
+  setModPackFilterByInput: React.Dispatch<React.SetStateAction<string>>;
+  setModPackFilterByTags: React.Dispatch<React.SetStateAction<string>>;
 }

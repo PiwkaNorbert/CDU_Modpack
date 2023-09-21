@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 
-const AddPackCard = () => {
+const SuggestPackCard = () => {
   return (
-    <div className="relative z-[1]  mb-8 flex justify-center overflow-hidden  rounded-md border-[3.5px] border-dashed border-gray-300  transition-transform hover:scale-105 lg:min-h-[109px] lg:min-w-[194px]">
+    <div className="relative z-[1]  mb-8 flex justify-center overflow-hidden  rounded-md border-[3.5px] border-dashed border-gray-300  transition-transform hover:scale-[102%] lg:min-h-[109px] lg:min-w-[194px]">
       <Link
         to="/add-modpack/create"
         className={`flex  h-full flex-1 flex-col items-center justify-center  bg-bg  text-base/[1.25rem]`}
@@ -10,7 +10,7 @@ const AddPackCard = () => {
         {/* toggle images in production */}
 
         <p className="text-content mb-4 flex justify-center   text-center uppercase">
-          Add a modpack
+          Suggest a modpack
         </p>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -26,4 +26,4 @@ const AddPackCard = () => {
   );
 };
 
-export default AddPackCard;
+export default SuggestPackCard;

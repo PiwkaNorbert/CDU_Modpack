@@ -6,7 +6,7 @@ import useCommentRepliesData, {
 import { useState } from "react";
 import PostComment from "./PostComment";
 import { ReplyComponent } from "./ReplyComponent";
-import  useUser  from "../Context/useUser";
+import useUser from "../Context/useUser";
 import { useParams } from "react-router-dom";
 
 export function CommentsComponent({
@@ -31,40 +31,45 @@ export function CommentsComponent({
         comment={comment}
         replyingTo={false}
         replyParentId=""
-      />
-
-      <div className="flex ">
-        {user?.isLoggedIn && (
-          <button
-            className={`ml-[.5em] mr-1 w-fit rounded-md border ${borderColorVariants[color ?? "sky"]}  px-3 py-1 text-justify text-xs text-bg hover:border-opacity-80   ${bgColorVariants[color ?? "sky"]} hover:bg-opacity-80  dark:hover:bg-opacity-80 `}
-            onClick={() => {
-              setShowAddReply(!showAddReply);
-            }}
-          >
-            Reply
-          </button>
-        )}
-        {comment?.reply_count !== 0 && (
-          <>
+      >
+        <>
+          {user?.isLoggedIn && (
             <button
-              className={` ml-1 w-fit rounded-md border border-sec  px-3 py-1 text-justify text-xs text-blue-500  hover:border-opacity-20 hover:bg-sec hover:bg-opacity-20  dark:hover:bg-hover-2 `}
-              disabled={comment?.reply_count === 0}
-              onMouseEnter={() => {
-                if (comment?.reply_count === 0 || showReplies) return;
-                queryClient.prefetchQuery(["replies", comment?.uuid], () =>
-                  fetchCommentReplies(comment?.uuid as string)
-                );
-              }}
+              className={` w-fit rounded-md border ${
+                borderColorVariants[color ?? "sky"]
+              }  px-3 py-1 text-justify text-xs text-bg hover:border-opacity-80   ${
+                bgColorVariants[color ?? "sky"]
+              } hover:bg-opacity-80  dark:hover:bg-opacity-80 `}
               onClick={() => {
-                if (comment?.reply_count === 0) return;
-                setShowReplies(!showReplies);
+                setShowAddReply(!showAddReply);
               }}
             >
-              {comment?.reply_count} reply
+              Reply
             </button>
-          </>
-        )}
-      </div>
+          )}
+          {comment?.reply_count !== 0 && (
+            <>
+              <button
+                className={` ml-1 w-fit rounded-md border border-sec  px-3 py-1 text-justify text-xs text-blue-500  hover:border-opacity-20 hover:bg-sec hover:bg-opacity-20  dark:hover:bg-hover-2 `}
+                disabled={comment?.reply_count === 0}
+                onMouseEnter={() => {
+                  if (comment?.reply_count === 0 || showReplies) return;
+                  queryClient.prefetchQuery(["replies", comment?.uuid], () =>
+                    fetchCommentReplies(comment?.uuid as string)
+                  );
+                }}
+                onClick={() => {
+                  if (comment?.reply_count === 0) return;
+                  setShowReplies(!showReplies);
+                }}
+              >
+                {comment?.reply_count} reply
+              </button>
+            </>
+          )}
+        </>
+      </ReplyComponent>
+
       {showAddReply && (
         <PostComment
           color={color ?? "sky"}
@@ -84,11 +89,13 @@ export function CommentsComponent({
           ) : (
             data?.map((reply: IComment) => (
               <ReplyComponent
-                color={color ??"sky"}
+                color={color ?? "sky"}
                 comment={reply}
                 replyingTo={true}
                 replyParentId={comment?.uuid || ""}
-              />
+              >
+                <></>
+              </ReplyComponent>
             ))
           )}
         </div>

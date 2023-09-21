@@ -79,6 +79,7 @@ export const CreateModpack = () => {
         onSubmit={async (e: React.FormEvent<HTMLFormElement>) => {
           e.preventDefault();
           if (addModpackMutation.isLoading) return;
+          confirm("Are you sure you want to submit this modpack?");
 
           const target = e.target as HTMLFormElement & {
             name: { value: string };

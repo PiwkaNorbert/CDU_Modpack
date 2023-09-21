@@ -34,17 +34,19 @@ const AddModpack = () => {
 
             <ul className="progress__steps text-text dark:text-text ">
               {/* prettier-ignore */}
-              <li className="progress__step--active before:bg-acc bg-acc  border-bg after:bg-acc   ">
-            <Link to={"create"}>Create</Link>
+              <li>
+            <Link  className="progress__step--active before:bg-acc bg-acc  border-bg after:bg-acc   " to={"create"}>Create</Link>
           </li>
-              <li
-                className={` ${
-                  location.pathname.includes("/add-modpack/photos")
-                    ? "progress__step--active  border-bg  before:bg-acc after:bg-acc"
-                    : ""
-                }`}
-              >
-                Add Photos
+              <li>
+                <a
+                  className={` ${
+                    location.pathname.includes("/add-modpack/photos")
+                      ? "progress__step--active  border-bg  before:bg-acc after:bg-acc"
+                      : ""
+                  }`}
+                >
+                  Add Photos
+                </a>
               </li>
             </ul>
           </div>

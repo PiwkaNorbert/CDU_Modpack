@@ -96,6 +96,9 @@ export default {
       fontFamily: {
         Tilt: ["Tilt Warp", "cursive"],
       },
+      fontSize: {
+        xxs: '0.65rem',
+      },
     },
   },
 

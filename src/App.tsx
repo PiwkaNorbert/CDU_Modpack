@@ -13,16 +13,15 @@ import PackDetails from "./Pages/PackDetails";
 import Login from "./Pages/Login";
 // import FetchingIndicator from "./Components/FetchingIndicator";
 // import NotFoundPage from "./Pages/NotFoundPage";
-import AddMPLayout from "./Pages/addPack/AddMPLayout";
-import AddImage from "./Pages/addPack/AddImage";
+import AddMPLayout from "./Pages/SuggestPack/SuggestMPLayout.tsx";
+import AddImage from "./Pages/SuggestPack/AddImage.tsx";
 import EditModpack from "./Pages/EditModpack";
 // import Customers from "./Pages/Customers";
 // import Subscriptions from "./Pages/Subscriptions";
 import LoginDev from "./Pages/LoginDev";
-import { CreateModpack } from "./Pages/addPack/CreateModpack";
+import { CreateModpack } from "./Pages/SuggestPack/CreateModpack.tsx";
 import ArchivedPackListPage from "./Pages/ArchivedPackListPage";
 import SuggestedPackListPage from "./Pages/SuggestedPackListPage";
-import SuggestedPackDetails from "./Pages/SuggestedPackDetails";
 
 import { UserProvider } from "./Context/UserContext.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -54,7 +53,7 @@ function App() {
                 <Route path="/" element={<PackListPage />} />
                 <Route
                   path="pack-details/:modpackId"
-                  element={<PackDetails />}
+                  element={<PackDetails category="main" />}
                 />
                 <Route path="login" element={<Login />} />
                 <Route path="loginDev" element={<LoginDev />} />
@@ -68,10 +67,21 @@ function App() {
                       <Route path="create" element={<CreateModpack />} />
                       <Route path="photos/:modpackId" element={<AddImage />} />
                     </Route>
+                    {/* ------------EDIT MODPACKS------------- */}
                     <Route
                       path="edit-modpack/:modpackId"
-                      element={<EditModpack />}
+                      element={<EditModpack category="main" />}
                     />
+                    <Route
+                      path="edit-suggested-modpack/:modpackId"
+                      element={<EditModpack category="suggested" />}
+                    />
+                    <Route
+                      path="edit-archived-modpack/:modpackId"
+                      element={<EditModpack category="archived" />}
+                    />
+
+                    {/* ------------LIST MODPACKS------------- */}
                     <Route
                       path="list-archived-packs"
                       element={<ArchivedPackListPage />}
@@ -81,14 +91,14 @@ function App() {
                       element={<SuggestedPackListPage />}
                     />
 
-                    {/* <Route
-                      path="archived-pack-list/:modpackId"
-                      element={<ArchivedPackListPage />}
-                    /> */}
-
+                    {/* ------------MODPACK DETAILS------------- */}
                     <Route
                       path="suggested-pack-details/:modpackId"
-                      element={<SuggestedPackDetails />}
+                      element={<PackDetails category="suggested" />}
+                    />
+                    <Route
+                      path="archived-pack-details/:modpackId"
+                      element={<PackDetails category="archived" />}
                     />
                   </>
                 )}

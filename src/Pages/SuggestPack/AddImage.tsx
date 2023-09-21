@@ -4,8 +4,9 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { errorHandling } from "../../Helper/errorHandling";
 import { IAddImageProps } from "../../Utils/Interfaces";
+import { bgColorVariants, borderColorVariants } from "../../Constants";
 
-const AddImage = () => {
+const AddImage = ({ path, color }: { path: string; color: string }) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const isDev = import.meta.env.VITE_NODE_ENV === "development";
@@ -38,15 +39,16 @@ const AddImage = () => {
         throw error;
       },
       onSuccess: () => {
+        if (path === "edit") return navigate(`/edit-modpack/${modpackId}`);
         return navigate("/");
       },
     }
   );
 
   return (
-    <>
+    <div>
       {/* Title of the form, centered */}
-      <div className="flex items-center  justify-center">
+      <div className="text-center ">
         <h1 className="m-3 mt-5 text-2xl xl:text-3xl">
           Add Image/s to your Modpack
         </h1>
@@ -69,7 +71,7 @@ const AddImage = () => {
         <input
           required
           name="image"
-          className={`h-8 w-full cursor-pointer rounded-md border-2 border-red-500 px-3 py-1 file:placeholder:text-slate-400 dark:text-text`}
+          className={`h-8 w-full cursor-pointer rounded-md border-2 px-3 py-1 file:placeholder:text-slate-400 dark:text-text ${borderColorVariants[color]}`}
           type="file"
           multiple
         />
@@ -83,14 +85,14 @@ const AddImage = () => {
         </label>
 
         <button
-          className={`  rounded-md border-2 border-black bg-red-500 px-3 py-1 text-sm hover:bg-opacity-80 disabled:bg-slate-600 dark:text-bg xl:text-base `}
+          className={`  rounded-md border-2 border-black  px-3 py-1 text-sm hover:bg-opacity-80 disabled:bg-slate-600 dark:text-bg xl:text-base ${bgColorVariants[color]}`}
           disabled={addImageMutation.isLoading}
           type="submit"
         >
-          {addImageMutation.isLoading ? "Adding Modpack" : "Add Modpack"}
+          {addImageMutation.isLoading ? "Adding Image..." : "Add Image"}
         </button>
       </form>
-    </>
+    </div>
   );
 };
 

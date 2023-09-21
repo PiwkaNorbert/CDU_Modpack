@@ -48,7 +48,7 @@ const ModpackCard = (props: IModpack) => {
   return (
     <div
       key={modpackId}
-      className={`relative z-[1]  mb-8 flex justify-center rounded-md border-[3.5px] text-text transition-transform hover:scale-105 hover:shadow-sm hover:shadow-white/50 lg:min-h-[109px] lg:min-w-[194px] ${borderColorVariants[color]} `}
+      className={`relative z-[1]  mb-8 flex justify-center rounded-md border-[3.5px] text-text transition-transform hover:scale-[102%] hover:shadow-sm hover:shadow-white/50 lg:min-h-[109px] lg:min-w-[194px] ${borderColorVariants[color]} `}
       onMouseEnter={() => {
         queryClient.prefetchQuery(["details", modpackId], () =>
           fetchPackDetail(modpackId as string)

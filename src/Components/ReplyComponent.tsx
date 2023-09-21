@@ -1,4 +1,8 @@
-import { ICommentComponent, IPackDetails } from "../Utils/Interfaces";
+import {
+  ICommentComponent,
+  ICommentComponentChildren,
+  IPackDetails,
+} from "../Utils/Interfaces";
 import relativeDate from "../Helper/relativeDate";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import useUser from "../Context/useUser";
@@ -10,11 +14,12 @@ import { errorHandling } from "../Helper/errorHandling";
 import { textColorVariants } from "../Constants";
 
 export function ReplyComponent({
+  children,
   color,
   comment,
   replyingTo,
   replyParentId,
-}: ICommentComponent) {
+}: ICommentComponentChildren) {
   const { modpackId } = useParams<{ modpackId: string }>();
   const { user } = useUser();
 
@@ -80,13 +85,13 @@ export function ReplyComponent({
   });
 
   return (
-    <>
-      <div className="  flex items-center gap-4 pt-[1em] text-base ">
-        <img
-          className="h-10 w-10 rounded-full"
-          src={comment?.avatar_url}
-          alt="user"
-        />
+    <div className="flex gap-2 pt-[1em] md:gap-4">
+      <img
+        className="h-10 w-10 rounded-full"
+        src={comment?.avatar_url}
+        alt="user"
+      />
+      <div className="  grid items-center gap-2 pt-1 text-base ">
         <div className="flex items-center gap-2">
           <p className={`  text-justify ${textColorVariants[color ?? "sky"]}`}>
             {comment?.username}
@@ -121,10 +126,11 @@ export function ReplyComponent({
             </div>
           )}
         </div>
+        <p className="break-word  text-justify text-sm xl:text-base ">
+          {comment?.comment}
+        </p>
+        {children}
       </div>
-      <p className=" break-word p-[.5em] text-justify text-sm xl:text-base ">
-        {comment?.comment}
-      </p>
-    </>
+    </div>
   );
 }

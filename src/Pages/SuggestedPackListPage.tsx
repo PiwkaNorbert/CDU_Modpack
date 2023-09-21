@@ -6,7 +6,7 @@ const SuggestedPackListPage = () => {
   const queryClient = useQueryClient();
   const packData = useSuggestedModpackData(queryClient);
 
-  return <ModpackListView packData={packData} />;
+  return <ModpackListView packData={packData} category="suggested" />;
 };
 
 export default SuggestedPackListPage;

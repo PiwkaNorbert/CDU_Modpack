@@ -6,7 +6,7 @@ const PackListPage = () => {
   const queryClient = useQueryClient();
   const packData = useModpackData(queryClient);
 
-  return <ModpackListView packData={packData} />;
+  return <ModpackListView packData={packData} category="main" />;
 };
 
 export default PackListPage;

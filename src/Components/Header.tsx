@@ -4,12 +4,12 @@ import useUser from "../Context/useUser";
 import { useTheme } from "../Context/useTheme";
 import { useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import SignOutSVG from "./SVG/SignOutSVG";
 import { twMerge } from "tailwind-merge";
+import { LogoutButton } from "./LogoutButton";
 
 const Header = () => {
   // set the state of voteRemaining to the value of the user's votesRemaining
-  const { user, setUser } = useUser();
+  const { user } = useUser();
   const { theme, setTheme } = useTheme();
   const navigate = useNavigate();
 
@@ -123,7 +123,7 @@ const Header = () => {
                 onClick={() => {
                   setTheme(!theme);
                 }}
-                checked={theme}
+                defaultChecked={theme}
               />
             </div>
           </div>
@@ -149,7 +149,7 @@ const Header = () => {
             onClick={() => {
               setTheme(!theme);
             }}
-            checked={theme}
+            defaultChecked={theme}
           />
           {/* the track for the toggle */}
           <label
@@ -203,8 +203,8 @@ const Header = () => {
         />
         {user?.isLoggedIn ? (
           <>
-            <div className=" z-10 order-4 hidden w-full justify-self-start sm:flex min-[900px]:justify-self-center  ">
-              <p className="text-center uppercase ">{`${user?.votesRemaining} ${
+            <div className=" z-10 order-4 hidden w-full justify-self-start text-center text-sm uppercase sm:flex min-[900px]:justify-self-center  ">
+              <p>{`${user?.votesRemaining} ${
                 user?.votesRemaining == 1 ? "vote" : "votes"
               } remaining this month.`}</p>
             </div>
@@ -250,17 +250,7 @@ const Header = () => {
                         </a>
                       </li>
                       <li className="active:bg-text/15 mb-1 flex w-full cursor-pointer gap-1 rounded-lg px-3 py-1 transition-all  last:mb-0 hover:bg-text/10">
-                        <a
-                          type="button"
-                          className={`flex items-center justify-center gap-2 capitalize `}
-                          onClick={() => {
-                            setUser(undefined);
-                            localStorage.removeItem("profileData");
-                          }}
-                        >
-                          Logout
-                          <SignOutSVG />
-                        </a>
+                        <LogoutButton />
                       </li>
                     </ul>
                   </div>

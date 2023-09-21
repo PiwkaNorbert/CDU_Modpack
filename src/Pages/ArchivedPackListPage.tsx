@@ -6,7 +6,7 @@ const ArchivedPackListPage = () => {
   const queryClient = useQueryClient();
   const packData = useArchivedModpackData(queryClient);
 
-  return <ModpackListView packData={packData} />;
+  return <ModpackListView packData={packData} category={"archived"} />;
 };
 
 export default ArchivedPackListPage;

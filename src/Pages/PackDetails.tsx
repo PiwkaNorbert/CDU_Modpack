@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import usePackDetailData from "../API/usePackDetailData";
 import { CommentsComponent } from "../Components/CommentsComponent";
-import { IModpack } from "../Utils/Interfaces";
+import { IModpack, IPackDetails } from "../Utils/Interfaces";
 import Loading from "../Components/Loading";
 import VoteForPackButton from "../Components/VoteForPackButton";
 import PostComment from "../Components/PostComment";
@@ -18,8 +18,9 @@ import { DropDown } from "../Components/Dialog";
 
 import { borderColorVariants, textColorVariants } from "../Constants";
 import { ImageCarousel } from "../Components/ImageCarousel";
+import { twMerge } from "tailwind-merge";
 
-const PackDetails = () => {
+const PackDetails = ({ category }: { category: string }) => {
   const { modpackId: id } = useParams();
   const modpackId = id as string;
 
@@ -36,6 +37,11 @@ const PackDetails = () => {
 
   const isDev = import.meta.env.VITE_NODE_ENV === "development";
   const apiBase = isDev ? "https://www.trainjumper.com" : "";
+
+  const editPackButton = `/edit-${
+    category === "main" ? "" : category + "-"
+  }modpack/${modpackId}`;
+  const returnToButton = category === "main" ? "/" : `/list-${category}-packs`;
 
   useEffect(() => {
     if (data === undefined) return;
@@ -129,8 +135,8 @@ const PackDetails = () => {
     suggestedBy,
     timesVoted,
     isArchived,
-    // isPublished,
-  } = data;
+  }: // isPublished,
+  IPackDetails = data;
 
   const commentCount = comments
     ? comments.length
@@ -149,19 +155,19 @@ const PackDetails = () => {
       <section
         id="modpack__details"
         key={modpackId}
-        className=" grid h-full w-full  flex-1 justify-normal  text-text lg:mx-auto lg:min-w-[900px] lg:max-w-[900px] "
+        className="grid h-full w-full flex-1 justify-normal text-text lg:mx-auto lg:min-w-[900px] lg:max-w-[900px] "
       >
-        <div className="relative h-min overflow-hidden border-t-2 bg-sec/20 pb-4 dark:border-none dark:shadow  md:mb-4 md:rounded-b-md  md:border-none md:shadow-xl   ">
-          <div className={`  grid h-full items-center  lg:rounded-md  `}>
-            <div className="  flex justify-between gap-2  px-8 pt-4  max-[350px]:flex-col sm:gap-0 md:px-4 ">
+        <div className="relative h-min overflow-hidden border-t-2 bg-sec/20 pb-4 dark:border-none dark:shadow md:mb-4 md:rounded-b-md md:border-none md:shadow-xl">
+          <div className="grid h-full items-center lg:rounded-md">
+            <div className="flex justify-between gap-2 px-8 pt-4 max-[350px]:flex-col sm:gap-0 md:px-4">
               {/* backarrow to the root page */}
               <Link
                 className=" flex min-w-fit cursor-pointer items-center gap-2 rounded-md px-3 py-1 text-text hover:bg-sec hover:bg-opacity-20 hover:text-text dark:hover:bg-hover-2"
-                to={"/"}
+                to={returnToButton}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className={`h-8 w-8 ${textColorVariants[color]}`}
+                  className={`pointer-events-none h-8 w-8 ${textColorVariants[color]}`}
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -173,7 +179,11 @@ const PackDetails = () => {
                     d="M10 19l-7-7m0 0l7-7m-7 7h18"
                   />
                 </svg>
-                <p className={` ${textColorVariants[color]}`}>Back</p>
+                <p
+                  className={`pointer-events-none ${textColorVariants[color]}`}
+                >
+                  Back
+                </p>
               </Link>
 
               <div className="z-[5] flex text-sm text-text max-[350px]:mt-5 max-[350px]:flex-col xl:text-base ">
@@ -182,7 +192,7 @@ const PackDetails = () => {
                 {user?.isLoggedIn && user?.isAdmin && (
                   <>
                     <button
-                      className="flex  w-12 items-center justify-center rounded-md  hover:opacity-60"
+                      className="flex w-12 items-center justify-center rounded-md hover:opacity-60"
                       id="dropdown-button-packdetails"
                       data-dropdown-toggle="dropdown"
                       type="button"
@@ -209,13 +219,13 @@ const PackDetails = () => {
                       position="right-2 z-[10] top-[67px]"
                       contents={
                         <ul
-                          className=" p-1 text-sm last:mb-0 "
+                          className="p-1 text-sm last:mb-0 "
                           aria-labelledby="dropdown-button"
                         >
                           <li>
                             <Link
-                              to={`/edit-modpack/${modpackId}`}
-                              className="last:active:bg-text/15 flex w-full cursor-pointer items-center  gap-2 rounded-lg  px-4 py-2 transition-all  hover:bg-text/10 "
+                              to={editPackButton}
+                              className="last:active:bg-text/15 flex w-full cursor-pointer items-center gap-2 rounded-lg px-4 py-2 transition-all hover:bg-text/10 "
                             >
                               Edit
                               <svg
@@ -233,7 +243,7 @@ const PackDetails = () => {
                             {/* delete modpack button only is userProfile is superUser */}
                             <button
                               disabled={archiveModpackMutation.isLoading}
-                              className="last:active:bg-text/15  flex w-full cursor-pointer items-center  gap-2 rounded-lg  px-4 py-2 text-orange-500 transition-all  hover:bg-text/10 "
+                              className="last:active:bg-text/15 flex w-full cursor-pointer items-center gap-2 rounded-lg px-4 py-2 text-orange-500 transition-all hover:bg-text/10 "
                               onClick={async () => {
                                 if (archiveModpackMutation.isLoading) return;
                                 archiveModpackMutation.mutate();
@@ -255,7 +265,7 @@ const PackDetails = () => {
                             {/* delete modpack button only is userProfile is superUser */}
                             <button
                               disabled={deleteModpackMutation.isLoading}
-                              className="last:active:bg-text/15  flex w-full cursor-pointer items-center  gap-2 rounded-lg  px-4 py-2 text-red-500 transition-all  hover:bg-text/10 "
+                              className="last:active:bg-text/15 flex w-full cursor-pointer items-center gap-2 rounded-lg px-4 py-2 text-red-500 transition-all hover:bg-text/10 "
                               onClick={async () => {
                                 if (
                                   prompt(
@@ -287,63 +297,67 @@ const PackDetails = () => {
                 )}
               </div>
             </div>
-            <div className={`grid items-center md:px-4 `}>
+            <div className={`grid items-center md:px-4`}>
               <div
-                className={`${
+                className={twMerge(
+                  " grid p-4",
                   galleryImages?.length > 0
-                    ? "sm:grid-cols-2  md:space-x-4"
+                    ? "sm:grid-cols-2 md:space-x-4"
                     : " sm:grid-cols-1"
-                } my-4 grid px-4  `}
+                )}
               >
                 {/* toggle images in production */}
                 {galleryImages?.length > 0 && (
                   <ImageCarousel galleryImages={galleryImages} color={color} />
                 )}
-                <div className="grid  content-center items-center md:mr-4 space-y-4">
+                <div className="grid  content-center items-center space-y-4 md:mr-4">
                   <p className="text-content mt-4 break-normal text-center text-4xl uppercase  md:my-0 ">
                     {name ?? "Modpack Name"}
                   </p>
                   <div className="flex items-center justify-center gap-2">
-                    <VoteForPackButton
-                      modpackId={modpackId}
-                      color={color}
-                      isLoading={isLoading}
-                      voteCount={voteCount}
-                      timesVoted={timesVoted}
-                    />
+                    {category === "main" && (
+                      <div className="flex items-center justify-center gap-2">
+                        <VoteForPackButton
+                          modpackId={modpackId}
+                          color={color}
+                          isLoading={isLoading}
+                          voteCount={voteCount}
+                          timesVoted={timesVoted}
+                        />
+                      </div>
+                    )}
                   </div>
-                    <p className="text-text/75   break-normal text-center text-xs uppercase  md:my-0 ">
-                      {voteCount > 0 ? "You've yet to vote!" : "You've Voted"}
-                    </p>
+                  <p className="break-normal   text-center text-xs uppercase text-text/75  md:my-0 ">
+                    {voteCount > 0 ? "You've yet to vote!" : "You've Voted"}
+                  </p>
                   <p className="text-content my-4 break-normal text-center text-xs uppercase  md:my-0 ">
                     Suggested By:
-                    <br /> <span className="text-text/50">{suggestedBy}</span>
+                    <br />{" "}
+                    <span className="text-text/50">
+                      {suggestedBy ?? "Someone"}
+                    </span>
                   </p>
                 </div>
               </div>
 
               {/* style the descripion to scroll on overflow and a max height of 364px */}
-              <div className="  my-2 grid w-full  items-start justify-between gap-4 px-4 sm:grid-cols-2 sm:flex-row  md:gap-0 md:space-x-4">
+              <div className="grid w-full items-start justify-between gap-4 p-4 sm:grid-cols-2 sm:flex-row md:gap-0 md:space-x-4">
                 {/* map the tags */}
-                <div className="flex flex-row">
-                  {tags?.map((tag: string, index: number) => {
-                    const label = tagMap.get(tag);
-
-                    return (
-                      <div
-                        key={index}
-                        className={`z-[10] ml-2 flex items-center justify-start self-start rounded-full border-2 capitalize first:ml-4 ${borderColorVariants[color]} bg-bg px-2 py-0.5 text-sm text-text/80   `}
-                      >
-                        {label}
-                      </div>
-                    );
-                  })}
+                <div className=" flex flex-row ">
+                  {tags?.map((tag: string, index: number) => (
+                    <div
+                      key={index}
+                      className={`z-[5] ml-2 flex items-center justify-start self-start rounded-full border-2 bg-bg px-2 py-0.5 text-sm capitalize text-text/80 first:ml-4 ${borderColorVariants[color]} `}
+                    >
+                      {tagMap.get(tag)}
+                    </div>
+                  ))}
                 </div>
-                <div className="flex justify-center ">
+                <div className="flex flex-wrap justify-center ">
                   Modpack official page:{" "}
                   <Link
                     to={officialUrl}
-                    className={`ml-2 flex items-center  gap-1 text-${color}-500 hover:opacity-80`}
+                    className={`ml-2 flex items-center gap-1 hover:opacity-80 ${textColorVariants[color]} `}
                     target="_blank"
                   >
                     Here
@@ -360,62 +374,67 @@ const PackDetails = () => {
                   </Link>
                 </div>
               </div>
-              <div className="my-4 px-4  ">
-                <h3 className="text-2xl capitalize xl:text-3xl ">
+              <div className=" bg-bg p-4 md:rounded-lg ">
+                <h3 className=" pt-4 text-2xl capitalize  xl:text-3xl ">
                   description
                 </h3>
-                <div className=" max-h-64 overflow-y-auto p-4 shadow-inner  ">
-                  <p className="text-content text-justify">{description}</p>
+                <div className="p-4">
+                  <p className=" text-justify">{description}</p>
                 </div>
               </div>
 
-              <div className="xs:p-4 my-4 overflow-hidden px-2 py-4  ">
-                <h3 className="mb-4 flex items-center justify-start  gap-4 text-2xl capitalize xl:text-3xl ">
-                  comments ({commentCount}){" "}
-                  {fetchStatus === "fetching" && (
-                    <Loading
-                      size="la-sm"
-                      fullScreen={false}
-                      other="inline-block"
-                    />
-                  )}
-                </h3>
-                {/* input for posting comments by current user */}
-                {!user?.isLoggedIn && <LoginButton />}
-                <div className=" px-4">
-                  {/* if user is logged in, show comment input */}
-                  {user?.isLoggedIn && user?.isLinked && (
-                    <PostComment
-                      modpackId={modpackId}
-                      color={color}
-                      replyingTo={false}
-                      replyParentId=""
-                      setShowAddReply={setShowAddReply}
-                      setShowReplies={setShowReplies}
-                    />
-                  )}
-                  {user?.isLoggedIn && !user?.isLinked && (
-                    <div className="flex flex-col items-center justify-center gap-2">
-                      <p className="text-center  text-sm text-text/70">
-                        Link your account to post comments and vote for packs.
-                      </p>
-                      <a className="text-xs text-blue-500 underline" href="/#">
-                        More info here.
-                      </a>
-                    </div>
-                  )}
+              {category !== "suggested" && (
+                <div className="xs:p-4 my-4 overflow-hidden px-2 py-4  ">
+                  <h3 className="mb-4 flex items-center justify-start  gap-4 text-2xl capitalize xl:text-3xl ">
+                    comments ({commentCount}){" "}
+                    {fetchStatus === "fetching" && (
+                      <Loading
+                        size="la-sm"
+                        fullScreen={false}
+                        other="inline-block"
+                      />
+                    )}
+                  </h3>
+                  {/* input for posting comments by current user */}
+                  {!user?.isLoggedIn && <LoginButton />}
+                  <div className=" px-4">
+                    {/* if user is logged in, show comment input */}
+                    {user?.isLoggedIn && user?.isLinked && (
+                      <PostComment
+                        modpackId={modpackId}
+                        color={color}
+                        replyingTo={false}
+                        replyParentId=""
+                        setShowAddReply={setShowAddReply}
+                        setShowReplies={setShowReplies}
+                      />
+                    )}
+                    {user?.isLoggedIn && !user?.isLinked && (
+                      <div className="flex flex-col items-center justify-center gap-2">
+                        <p className="text-center  text-sm text-text/70">
+                          Link your account to post comments and vote for packs.
+                        </p>
+                        <a
+                          className="text-xs text-blue-500 underline"
+                          href="/#"
+                        >
+                          More info here.
+                        </a>
+                      </div>
+                    )}
 
-                  {/* Map comments from api the the img, username, userId, and the comment from the user */}
-                  {comments?.map((comment, index) => (
-                    <div
-                      key={index}
-                      className="grid items-center justify-between  last:pb-0 "
-                    >
-                      <CommentsComponent color={color} comment={comment} />
-                    </div>
-                  ))}
+                    {/* Map comments from api the the img, username, userId, and the comment from the user */}
+                    {comments?.map((comment, index) => (
+                      <div
+                        key={index}
+                        className="grid items-center justify-between  last:pb-0 "
+                      >
+                        <CommentsComponent color={color} comment={comment} />
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </div>

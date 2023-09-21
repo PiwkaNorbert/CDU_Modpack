@@ -3,12 +3,11 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import {  useState } from "react";
+import { useState } from "react";
 import { errorHandling } from "../Helper/errorHandling";
 import { Dialog } from "../Components/Dialog";
 import { twMerge } from "tailwind-merge";
 import { bgColorVariants, borderColorVariants } from "../Constants";
-
 
 export const ImageCarousel = ({
   galleryImages,
@@ -26,12 +25,11 @@ export const ImageCarousel = ({
   const isDev = import.meta.env.VITE_NODE_ENV === "development";
   const apiBase = isDev ? "https://www.trainjumper.com" : "";
 
-
   const primaryImageMutation = useMutation(
     async () =>
       await axios.post(
         `${apiBase}/api/update_pack_primary_image`,
-        { imageId: match[0] , modpackId },
+        { imageId: match[0], modpackId },
         {
           withCredentials: true,
           headers: {
@@ -101,10 +99,12 @@ export const ImageCarousel = ({
     setImageSrc(imageUrl);
     setShowModal(true);
   };
+
   const handleNextImage = () => {
     if (currentImageIndex === galleryImages.length - 1) {
       setCurrentImageIndex(0);
-    } else {
+    }
+    if (currentImageIndex < galleryImages.length - 1) {
       setCurrentImageIndex(currentImageIndex + 1);
     }
   };
@@ -116,7 +116,6 @@ export const ImageCarousel = ({
       setCurrentImageIndex(currentImageIndex - 1);
     }
   };
-
 
   return (
     <div>
@@ -231,7 +230,6 @@ export const ImageCarousel = ({
           )}
         </div>
       )}
-
       <Dialog
         open={showModal}
         dialogStateChange={(open: any) => setShowModal(open)}

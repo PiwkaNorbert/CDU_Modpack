@@ -70,8 +70,8 @@ const PostComment = ({
       };
 
       if (replyingTo) {
-        setShowAddReply(false)
-        setShowReplies(true)
+        setShowAddReply(false);
+        setShowReplies(true);
         queryClient.setQueriesData(
           ["replies", replyParentId],
           (oldData: any) => {
@@ -109,7 +109,7 @@ const PostComment = ({
   return (
     <form
       method="post"
-      className={`flex items-start justify-center gap-4   pb-2 pt-4 text-sm  text-text  xl:text-base ${
+      className={`flex items-start justify-center gap-2 pb-2 pt-4 text-sm text-text md:gap-4 xl:text-base ${
         replyingTo && "pl-10 "
       } `}
       onSubmit={async (e: React.FormEvent<HTMLFormElement>) => {
@@ -128,7 +128,9 @@ const PostComment = ({
       />
       <div className=" w-full">
         <textarea
-          className={` min-h-10 min-h-40  w-full resize-none rounded-md border bg-bg ${borderColorVariants[color]} px-3 py-1 `}
+          className={`min-h-10 min-h-40 w-full resize-none rounded-md border bg-bg px-3 py-1 ${
+            borderColorVariants[color] + "-500"
+          }`}
           placeholder="Add a comment..."
           value={comment}
           maxLength={360}
@@ -150,10 +152,10 @@ const PostComment = ({
       <button
         disabled={comment.length === 0 || commentMutation.isLoading}
         type="submit"
-        className={`h-10  rounded-md text-text dark:text-text  px-3 py-1 hover:opacity-80  disabled:bg-slate-300 disabled:text-slate-500 dark:disabled:bg-slate-700 dark:disabled:text-slate-500 disabled:hover:opacity-100 `}
+        className={`h-10 rounded-md px-3 py-1 text-bg hover:opacity-80 disabled:bg-slate-300 disabled:text-slate-500  disabled:hover:opacity-100 dark:disabled:bg-slate-700 dark:disabled:text-slate-500 ${bgColorVariants[color]}`}
       >
-        {replyingTo ? (commentMutation.isLoading ? "Replying.." : "Reply") : ""}
-        {!replyingTo ? (commentMutation.isLoading ? "Posting.." : "Post") : ""}
+        {replyingTo && (commentMutation.isLoading ? "Replying.." : "Reply")}
+        {!replyingTo && (commentMutation.isLoading ? "Posting.." : "Post")}
       </button>
     </form>
   );
@@ -161,15 +163,28 @@ const PostComment = ({
 
 export default PostComment;
 
+const bgColorVariants: Record<string, string> = {
+  red: "bg-red-500 dark:bg-red-400",
+  orange: "bg-orange-500 dark:bg-orange-400",
+  yellow: "bg-yellow-500 dark:bg-yellow-400",
+  lime: "bg-lime-500 dark:bg-lime-400",
+  teal: "bg-teal-500 dark:bg-teal-400",
+  green: "bg-green-500 dark:bg-green-400",
+  blue: "bg-blue-500 dark:bg-blue-400",
+  violet: "bg-violet-500 dark:bg-violet-400",
+  fuchsia: "bg-fuchsia-500 dark:bg-fuchsia-400",
+  sky: "bg-sky-500 dark:bg-sky-400",
+};
+
 const borderColorVariants: Record<string, string> = {
-  red: "border-red-500",
-  orange: "border-orange-500",
-  yellow: "border-yellow-500",
-  lime: "border-lime-500",
-  teal: "border-teal-500",
-  green: "border-green-500",
-  blue: "border-blue-500",
-  violet: "border-violet-500",
-  fuchsia: "border-fuchsia-500",
-  sky: "border-sky-500",
+  red: "border-red-500 dark:border-red-400",
+  orange: "border-orange-500 dark:border-orange-400",
+  yellow: "border-yellow-500 dark:border-yellow-400",
+  lime: "border-lime-500 dark:border-lime-400",
+  teal: "border-teal-500 dark:border-teal-400",
+  green: "border-green-500 dark:border-green-400",
+  blue: "border-blue-500 dark:border-blue-400",
+  violet: "border-violet-500 dark:border-violet-400",
+  fuchsia: "border-fuchsia-500 dark:border-fuchsia-400",
+  sky: "border-sky-500 dark:border-sky-400",
 };

@@ -154,7 +154,7 @@ input[type="file"]::file-selector-button:hover {
   justify-content: center;
   align-items: center;
 }
-.progress__steps li:before {
+.progress__steps a:before {
   content: counter(step);
   counter-increment: step;
   width: 32px;
@@ -168,7 +168,7 @@ input[type="file"]::file-selector-button:hover {
   border: 1px solid hsl(var(--clr-text));
 }
 /*progress__steps connectors*/
-.progress__steps li:after {
+.progress__steps a:after {
   content: "";
   width: 102%;
   height: 3px;
@@ -178,14 +178,14 @@ input[type="file"]::file-selector-button:hover {
   left: -50%;
   z-index: -1; /*put it behind the numbers*/
 }
-.progress__steps li:first-child:after {
+.progress__steps a:first-child:after {
   /*connector not needed before the first step*/
   content: none;
 }
 /*marking active/completed steps green*/
 /*The number of the step and the connector before it = green*/
-.progress__steps li.progress__step--active:before,
-.progress__steps li.progress__step--active:after {
+.progress__steps a.progress__step--active:before,
+.progress__steps a.progress__step--active:after {
   background-color: hsl(var(--clr-sec));
   border: 1px solid hsl(var(--clr-text));
 }
