@@ -65,7 +65,10 @@ function App() {
                   <>
                     <Route path="add-modpack" element={<AddMPLayout />}>
                       <Route path="create" element={<CreateModpack />} />
-                      <Route path="photos/:modpackId" element={<AddImage />} />
+                      <Route
+                        path="photos/:modpackId"
+                        element={<AddImage path="suggest" color="sky" />}
+                      />
                     </Route>
                     {/* ------------EDIT MODPACKS------------- */}
                     <Route

@@ -214,7 +214,9 @@ const ModpackListView = ({
             <div className=" my-10 text-center">
               <div>
                 <h3 className="prose-2xl">{error?.message}</h3>
-                <p>{error?.response?.data?.error ?? ""}</p>
+                <p>
+                  {(error?.response?.data as { error?: string })?.error ?? ""}
+                </p>
               </div>
             </div>
           ) : // check if data.length is 0 or if the array is empty with
