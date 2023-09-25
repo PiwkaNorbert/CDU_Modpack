@@ -114,7 +114,7 @@ export default function VoteForPackButton({
             return removeVote.mutate();
           }}
         >
-          {isFetching ? "..." : <HeartCircleMinus timesVoted={timesVoted} />}
+          {isFetching ? "..." : <HeartCircleMinus />}
         </button>
       )}
       <p
