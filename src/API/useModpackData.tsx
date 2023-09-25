@@ -4,6 +4,7 @@ import { IModpack } from "../Utils/Interfaces";
 // import { staticLabels } from "../Constants";
 import { useCallback, useState } from "react";
 import { errorHandling } from "../Helper/errorHandling";
+import { apiBase } from "../Constants";
 
 const useModpackData = (queryClient: QueryClient) => {
   const [modPackFilterByInput, setModPackFilterByInput] = useState("");
@@ -41,8 +42,6 @@ const useModpackData = (queryClient: QueryClient) => {
   );
 
   const fetchModpacks = async () => {
-    const isDev = import.meta.env.VITE_NODE_ENV === "development";
-    const apiBase = isDev ? "https://www.trainjumper.com" : "";
     const { data, status } = await axios.get(`${apiBase}/api/list-packs`);
 
     if (status !== 200) throw new Error("No Modpacks found");

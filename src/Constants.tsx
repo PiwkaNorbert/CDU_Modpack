@@ -1,3 +1,6 @@
+export const isDev = import.meta.env.VITE_NODE_ENV === "development";
+export const apiBase = isDev ? "https://www.trainjumper.com" : "";
+
 export const colorOptions = [
   { value: "red", label: "Red" },
   { value: "orange", label: "Orange" },

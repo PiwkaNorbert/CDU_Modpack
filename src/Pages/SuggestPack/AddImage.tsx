@@ -4,13 +4,12 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { errorHandling } from "../../Helper/errorHandling";
 import { IAddImageProps } from "../../Utils/Interfaces";
-import { bgColorVariants, borderColorVariants } from "../../Constants";
+import { apiBase, bgColorVariants, borderColorVariants } from "../../Constants";
 
 const AddImage = ({ path, color }: { path: string; color: string }) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const isDev = import.meta.env.VITE_NODE_ENV === "development";
-  const apiBase = isDev ? "https://www.trainjumper.com" : "";
+
   const { modpackId } = useParams();
 
   const addImageMutation = useMutation(
@@ -46,15 +45,13 @@ const AddImage = ({ path, color }: { path: string; color: string }) => {
   );
 
   return (
-    <div>
+    <div className="mx-auto">
       {/* Title of the form, centered */}
-      <div className="text-center ">
-        <h1 className="m-3 mt-5 text-2xl xl:text-3xl">
-          Add Image/s to your Modpack
-        </h1>
-      </div>
+      <h1 className="m-3 mt-5 text-2xl xl:text-3xl">
+        Add Image/s to your Modpack
+      </h1>
       <form
-        className="mb-8 grid items-center justify-center gap-4 pt-[.5em] text-sm placeholder:text-slate-400  dark:text-bg xl:text-base"
+        className="mb-8 grid gap-4 pt-[.5em] text-sm placeholder:text-slate-400  dark:text-bg xl:text-base"
         onSubmit={async (e: React.FormEvent<HTMLFormElement>) => {
           e.preventDefault();
           if (addImageMutation.isLoading) return;
@@ -67,7 +64,6 @@ const AddImage = ({ path, color }: { path: string; color: string }) => {
           });
         }}
       >
-        <p className="-mb-2 dark:text-text">Image</p>
         <input
           required
           name="image"

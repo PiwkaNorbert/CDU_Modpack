@@ -1,12 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { placeholderDetails } from "../Constants";
+import { apiBase, placeholderDetails } from "../Constants";
 import { errorHandling } from "../Helper/errorHandling";
 
 export const fetchCommentReplies = async (commentId: string) => {
-  const isDev = import.meta.env.VITE_NODE_ENV === "development";
-  const apiBase = isDev ? "https://www.trainjumper.com" : "";
-
   const { data, status } = await axios.get(
     `${apiBase}/api/fetch-comment-replies/${commentId}`
   );

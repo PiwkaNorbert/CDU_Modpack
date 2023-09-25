@@ -3,11 +3,9 @@ import axios, { AxiosError } from "axios";
 // import { placeholderDetails } from "../Constants";
 import { errorHandling } from "../Helper/errorHandling";
 import { IPackDetails } from "../Utils/Interfaces";
+import { apiBase } from "../Constants";
 
 export const fetchPackDetail = async (modpackId: string) => {
-  const isDev = import.meta.env.VITE_NODE_ENV === "development";
-  const apiBase = isDev ? "https://www.trainjumper.com" : "";
-
   const { data, status } = await axios.get(
     `${apiBase}/api/pack-details/${modpackId}`
   );

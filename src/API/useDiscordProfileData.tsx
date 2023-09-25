@@ -2,11 +2,9 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { errorHandling } from "../Helper/errorHandling";
+import { apiBase } from "../Constants";
 
 export const fetchProfile = async () => {
-  const isDev = import.meta.env.VITE_NODE_ENV === "development";
-  const apiBase = isDev ? "https://www.trainjumper.com" : "";
-
   const { data, status } = await axios.get(`${apiBase}/profile`, {
     withCredentials: true,
   });

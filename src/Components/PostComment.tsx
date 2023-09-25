@@ -6,6 +6,7 @@ import axios from "axios";
 import { IPackDetails } from "../Utils/Interfaces";
 import { errorHandling } from "../Helper/errorHandling";
 import useUser from "../Context/useUser";
+import { apiBase } from "../Constants";
 
 const PostComment = ({
   color,
@@ -26,9 +27,6 @@ const PostComment = ({
 
   const { user } = useUser();
   const queryClient = useQueryClient();
-
-  const isDev = import.meta.env.VITE_NODE_ENV === "development";
-  const apiBase = isDev ? "https://www.trainjumper.com" : "";
 
   const fetchComment = async (comment: string) => {
     const { data } = await axios.post(

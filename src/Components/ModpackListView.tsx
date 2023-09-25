@@ -75,9 +75,11 @@ const ModpackListView = ({
             {/* Show this button if you're logged in and a staff member */}
             <div
               className={twMerge(
-                "relative z-[5] flex items-center justify-center gap-2 text-text",
+                "relative z-[5] flex items-center justify-center gap-2 text-text ",
                 user?.isAdmin &&
-                  "cursor-pointer select-none rounded-lg px-2 py-1 hover:bg-text/10"
+                  "cursor-pointer select-none rounded-lg px-2 py-1 capitalize hover:bg-text/10",
+                showModal &&
+                  "before:fixed before:inset-0 before:z-[10] before:bg-black/20"
               )}
               onClick={toggleDropdown}
             >
@@ -100,9 +102,10 @@ const ModpackListView = ({
                   </svg>
 
                   <ul
-                    className={` absolute top-9 z-[15] space-y-1 rounded-lg  bg-bg p-1 text-sm shadow-md   dark:border-2 dark:border-sec/10  ${
-                      showModal ? " block" : "hidden"
-                    }`}
+                    className={` absolute top-9 z-[200] space-y-1 rounded-lg bg-bg p-1
+                  text-sm shadow-md      dark:border-2 dark:border-sec/10  ${
+                    showModal ? " block" : "hidden"
+                  }`}
                     id="dropdown-menu"
                   >
                     {packLocation
@@ -142,14 +145,14 @@ const ModpackListView = ({
             </div>
 
             <input
-              className={`z-[5]  h-9 w-80 rounded-full border-2 bg-bg  px-3 py-1 text-sm`}
+              className={` h-9 w-80 rounded-full border-2 bg-bg  px-3 py-1 text-sm`}
               placeholder="Search for modpacks"
               type="text"
               name="tagSearch"
               onChange={(e) => changeViewByInput(e)}
             />
             <button
-              className="z-[5] flex w-[96.81px] justify-end"
+              className=" flex w-[96.81px] justify-end"
               onClick={() => {
                 setShowFilterTags((open) => !open);
                 if (showFilterTags) {

@@ -16,7 +16,7 @@ import { errorHandling } from "../Helper/errorHandling";
 import { tagMap } from "../Helper/modifyModpack";
 import { DropDown } from "../Components/Dialog";
 
-import { borderColorVariants, textColorVariants } from "../Constants";
+import { apiBase, borderColorVariants, textColorVariants } from "../Constants";
 import { ImageCarousel } from "../Components/ImageCarousel";
 import { twMerge } from "tailwind-merge";
 
@@ -35,26 +35,23 @@ const PackDetails = ({ category }: { category: string }) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
-  const isDev = import.meta.env.VITE_NODE_ENV === "development";
-  const apiBase = isDev ? "https://www.trainjumper.com" : "";
-
   const editPackButton = `/edit-${
     category === "main" ? "" : category + "-"
   }modpack/${modpackId}`;
   const returnToButton = category === "main" ? "/" : `/list-${category}-packs`;
 
   useEffect(() => {
-    if (data === undefined) return;
-    if (!data?.isPublished) {
-      console.log(data);
+    if (isLoading) return;
 
-      navigate(`/suggested-pack-details/${data?.modpackId}`);
-    } else if (data?.isPublished || !data?.isArchived) {
-      navigate(`/pack-details/${data?.modpackId}`);
-    } else if (data?.isArchived) {
-      navigate(`/archived-pack-details/${data?.modpackId}`);
+    if (data?.isPublished && !data?.isArchived) {
+      console.log(data);
+      return navigate(`/pack-details/${data?.modpackId}`);
+    } else if (data?.isArchived === true) {
+      return navigate(`/archived-pack-details/${data?.modpackId}`);
+    } else if (!data?.isPublished) {
+      return navigate(`/suggested-pack-details/${data?.modpackId}`);
     }
-  }, [data?.isPublished, data?.isArchived]);
+  }, []);
 
   const delteModpack = async () =>
     await axios.delete(`${apiBase}/api/delete-modpack`, {
@@ -133,9 +130,10 @@ const PackDetails = ({ category }: { category: string }) => {
     officialUrl,
     tags,
     suggestedBy,
+    publishedBy,
     timesVoted,
-    isArchived,
-  }: // isPublished,
+  }: // isArchived,
+  // isPublished,
   IPackDetails = data;
 
   const commentCount = comments
@@ -249,7 +247,9 @@ const PackDetails = ({ category }: { category: string }) => {
                                 archiveModpackMutation.mutate();
                               }}
                             >
-                              {isArchived ? "Unarchive" : "Archive"}
+                              {window.location.pathname.includes("archived")
+                                ? "Unarchive"
+                                : "Archive"}
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="20"
@@ -327,27 +327,38 @@ const PackDetails = ({ category }: { category: string }) => {
                       </div>
                     )}
                   </div>
-                  <p className="break-normal   text-center text-xs uppercase text-text/75  md:my-0 ">
-                    {voteCount > 0 ? "You've yet to vote!" : "You've Voted"}
-                  </p>
+                  {category === "main" && (
+                    <p className="mx-auto  break-normal border-b border-text/75 px-3 py-1 text-center text-xs uppercase text-text/75  md:my-0 ">
+                      {timesVoted === 0
+                        ? "You've yet to vote!"
+                        : "You've Voted"}
+                    </p>
+                  )}
                   <p className="text-content my-4 break-normal text-center text-xs uppercase  md:my-0 ">
-                    Suggested By:
+                    Suggested By
                     <br />{" "}
                     <span className="text-text/50">
                       {suggestedBy ?? "Someone"}
+                    </span>
+                  </p>
+                  <p className="text-content my-4 break-normal text-center text-xs uppercase  md:my-0 ">
+                    Published By
+                    <br />{" "}
+                    <span className="text-text/50">
+                      {publishedBy ?? "Admin"}
                     </span>
                   </p>
                 </div>
               </div>
 
               {/* style the descripion to scroll on overflow and a max height of 364px */}
-              <div className="grid w-full items-start justify-between gap-4 p-4 sm:grid-cols-2 sm:flex-row md:gap-0 md:space-x-4">
+              <div className="mx-auto grid  max-w-[412px] items-start justify-between gap-4 p-4 sm:mx-0 sm:max-w-full sm:grid-cols-2 sm:flex-row md:gap-0 md:space-x-4">
                 {/* map the tags */}
-                <div className=" flex flex-row ">
+                <div className=" flex  flex-wrap items-center justify-center gap-[0.333rem] md:w-full ">
                   {tags?.map((tag: string, index: number) => (
                     <div
                       key={index}
-                      className={`z-[5] ml-2 flex items-center justify-start self-start rounded-full border-2 bg-bg px-2 py-0.5 text-sm capitalize text-text/80 first:ml-4 ${borderColorVariants[color]} `}
+                      className={`z-[5]  flex min-w-fit items-center justify-start self-start rounded-full border-2 bg-bg px-2 py-0.5 text-sm capitalize text-text/80 ${borderColorVariants[color]} `}
                     >
                       {tagMap.get(tag)}
                     </div>

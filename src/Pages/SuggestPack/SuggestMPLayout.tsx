@@ -1,7 +1,8 @@
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 
 const AddModpack = () => {
   const location = useLocation();
+  const navigate = useNavigate();
 
   return (
     <section
@@ -35,7 +36,12 @@ const AddModpack = () => {
             <ul className="progress__steps text-text dark:text-text ">
               {/* prettier-ignore */}
               <li>
-            <Link  className="progress__step--active before:bg-acc bg-acc  border-bg after:bg-acc   " to={"create"}>Create</Link>
+            <a  className="progress__step--active before:bg-acc bg-acc  border-bg after:bg-acc"  onClick={()=>{
+              // check if the confirmation is true and then navigate
+              if( window.location.pathname.includes("photos") && confirm("Are you sure? You will lose all progress.")){
+                navigate("create")
+              }
+            }} >Create</a>
           </li>
               <li>
                 <a

@@ -8,15 +8,14 @@ import { tagOptions, colorOptions } from "../../Helper/modifyModpack";
 // import SuggestedByUserSearch from "../../Components/SuggestedByUserSearch";
 import { errorHandling } from "../../Helper/errorHandling";
 import { twMerge } from "tailwind-merge";
+import { apiBase, borderColorVariants, isDev } from "../../Constants";
 
 export const CreateModpack = () => {
   const [modpackDescription, setModpackDescription] =
     React.useState<string>("");
   const [modpackColor, setModpackColor] = React.useState<string>("sky");
   const [modpackTags, setModpackTags] = React.useState<string[]>([]);
-
-  const isDev = import.meta.env.VITE_NODE_ENV === "development";
-  const apiBase = isDev ? "https://www.trainjumper.com" : "";
+  const { username } = JSON.parse(localStorage.getItem("profileData") || "{}");
 
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -181,7 +180,7 @@ export const CreateModpack = () => {
 
         <input
           required
-          className={` h-8 rounded-md border-2 bg-bg  border-${borderColor}-500 px-3 py-1`}
+          className={` h-8 rounded-md border-2 bg-bg  ${borderColorVariants[borderColor]} px-3 py-1`}
           type="text"
           placeholder="Official URL"
           name="officialUrl"
@@ -189,19 +188,27 @@ export const CreateModpack = () => {
 
         {/* Modpack suggestor field, single line. */}
         {/* <SuggestedByUserSearch /> */}
-
-        <input
-          className="h-8 rounded-md border-2  bg-bg px-3 py-1"
-          placeholder="Suggested By"
-          name="suggestor"
-          type="text"
-        />
-        <Link
-          to={"/add-modpack/photos/12312"}
-          className="ml-4  flex min-w-min cursor-pointer items-center gap-2 rounded-md px-3 py-1  hover:bg-sec hover:bg-opacity-20  dark:hover:bg-hover-2"
-        >
-          liunk
-        </Link>
+        <div className="grid">
+          <label htmlFor="suggestor" className="text-text/50 dark:text-text/70">
+            Suggested By
+          </label>
+          <input
+            className="h-8 select-none rounded-md  bg-bg px-3 py-1 disabled:bg-slate-300  dark:text-bg"
+            placeholder="Suggested By"
+            name="suggestor"
+            type="text"
+            value={username}
+            disabled
+          />
+        </div>
+        {isDev && (
+          <Link
+            to={"/add-modpack/photos/12312"}
+            className="ml-4 flex min-w-min cursor-pointer items-center gap-2 rounded-md px-3 py-1  hover:bg-sec hover:bg-opacity-20  dark:hover:bg-hover-2"
+          >
+            Test link to photos
+          </Link>
+        )}
 
         <button
           className={` h-10 rounded-md border-2 border-black hover:bg-opacity-80 disabled:bg-slate-600 bg-${borderColor}-500 px-3 py-1  text-sm  xl:text-base`}

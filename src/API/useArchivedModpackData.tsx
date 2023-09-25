@@ -4,6 +4,7 @@ import { IModpack } from "../Utils/Interfaces";
 // import { staticLabels } from "../Constants";
 import { useCallback, useState } from "react";
 import { errorHandling } from "../Helper/errorHandling";
+import { apiBase } from "../Constants";
 
 const useArchivedModpackData = (queryClient: QueryClient) => {
   const [modPackFilterByInput, setModPackFilterByInput] = useState("");
@@ -11,7 +12,6 @@ const useArchivedModpackData = (queryClient: QueryClient) => {
 
   const filterModpacks = useCallback(
     (modpacks: IModpack[]) => {
-
       if (!(modPackFilterByInput || modPackFilterByTags)) return modpacks;
 
       let filteredModpacks = modpacks;
@@ -42,9 +42,6 @@ const useArchivedModpackData = (queryClient: QueryClient) => {
   );
 
   const fetchArchivedModpacks = async () => {
-    const isDev = import.meta.env.VITE_NODE_ENV === "development";
-    const apiBase = isDev ? "https://www.trainjumper.com" : "";
-
     const { data, status } = await axios.get(
       `${apiBase}/api/list-archived-packs`
     );
@@ -52,7 +49,10 @@ const useArchivedModpackData = (queryClient: QueryClient) => {
     if (status !== 200) throw new Error("No Modpacks found");
 
     data.forEach((modpack: IModpack) => {
-      queryClient.setQueryData(["archived-details", modpack.modpackId], modpack);
+      queryClient.setQueryData(
+        ["archived-details", modpack.modpackId],
+        modpack
+      );
     });
 
     return data;

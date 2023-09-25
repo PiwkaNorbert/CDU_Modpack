@@ -9,6 +9,7 @@ import { errorHandling } from "../Helper/errorHandling";
 import HeartCirclePlus from "./SVG/HeartCirclePlus";
 import HeartCircleMinus from "./SVG/HeartCircleMinus";
 import { twMerge } from "tailwind-merge";
+import { apiBase } from "../Constants";
 
 export default function VoteForPackButton({
   modpackId,
@@ -20,9 +21,6 @@ export default function VoteForPackButton({
   const isFetching = useIsFetching();
 
   const { user, votesRemaining } = useUser();
-
-  const isDev = import.meta.env.VITE_NODE_ENV === "development";
-  const apiBase = isDev ? "https://www.trainjumper.com" : "";
 
   function changeVoteCount(response: any) {
     if (response.status !== 200) throw new Error(response.data.error);

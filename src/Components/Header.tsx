@@ -6,6 +6,7 @@ import { useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
 import { LogoutButton } from "./LogoutButton";
+import { isDev } from "../Constants";
 
 const Header = () => {
   // set the state of voteRemaining to the value of the user's votesRemaining
@@ -15,11 +16,9 @@ const Header = () => {
 
   const [isIntersecting, setIntersecting] = useState(false);
   const [menu, setMenu] = useState(false);
-  const isDev = import.meta.env.VITE_NODE_ENV === "development";
 
   const ref = useRef<HTMLDivElement>(null);
 
-  
   useEffect(() => {
     let observer: IntersectionObserver;
     const handleObserver = (entries: IntersectionObserverEntry[]) => {
@@ -69,8 +68,12 @@ const Header = () => {
       )}
       <nav
         className={twMerge(
-          "top-0 z-[10] flex w-full items-center justify-stretch gap-2 border-bg bg-bg px-8 py-1 text-text md:justify-center md:px-4 lg:mx-auto lg:min-w-[900px] lg:max-w-[900px] lg:border-x-4",
-          isIntersecting ? "relative" : "sticky shadow-md "
+          "top-0  flex w-full items-center justify-stretch gap-2 border-bg bg-bg px-8 py-1 text-text md:justify-center md:px-4 lg:mx-auto lg:min-w-[900px] lg:max-w-[900px] lg:border-x-4",
+          isIntersecting ? "relative" : "sticky z-[10]  shadow-md ",
+          window.location.pathname !== "/" ||
+            window.location.pathname.includes("list")
+            ? "z-[10]"
+            : ""
         )}
       >
         {/* If the window size is below 600px display a button with "menu as the value and on click make a modal to display the nav */}
@@ -103,16 +106,26 @@ const Header = () => {
                   <path d="M208,32H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM181.66,170.34a8,8,0,0,1-11.32,11.32L128,139.31,85.66,181.66a8,8,0,0,1-11.32-11.32L116.69,128,74.34,85.66A8,8,0,0,1,85.66,74.34L128,116.69l42.34-42.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path>
                 </svg>
               </button>
-              {links.map(({href, name, target}: {href: string, name: string, target:string}) => (
-                <a
-                  key={href}
-                  className="rounded-sm p-5 hover:bg-hover-2"
-                  href={href}
-                  target={target}
-                >
-                  {name}
-                </a>
-              ))}
+              {links.map(
+                ({
+                  href,
+                  name,
+                  target,
+                }: {
+                  href: string;
+                  name: string;
+                  target: string;
+                }) => (
+                  <a
+                    key={href}
+                    className="rounded-sm p-5 hover:bg-hover-2"
+                    href={href}
+                    target={target}
+                  >
+                    {name}
+                  </a>
+                )
+              )}
             </div>
 
             <div className="group relative order-3 flex items-center justify-center">

@@ -10,6 +10,15 @@ const Footer = () => {
             <ul className="flex flex-wrap items-center justify-end gap-4 px-8 py-2 pb-4 md:px-4 lg:px-1 ">
               <li>
                 <a
+                  href={"/found-issue"}
+                  className="rounded-sm px-3 py-1 hover:bg-hover-2"
+                >
+                  Found Issue?
+                </a>
+              </li>
+
+              <li>
+                <a
                   className="rounded-sm px-3 py-1 hover:bg-hover-2"
                   href="https://forum.playcdu.co"
                   target="_blank"

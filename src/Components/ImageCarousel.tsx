@@ -7,7 +7,7 @@ import { useState } from "react";
 import { errorHandling } from "../Helper/errorHandling";
 import { Dialog } from "../Components/Dialog";
 import { twMerge } from "tailwind-merge";
-import { bgColorVariants, borderColorVariants } from "../Constants";
+import { apiBase, bgColorVariants, borderColorVariants } from "../Constants";
 
 export const ImageCarousel = ({
   galleryImages,
@@ -22,8 +22,6 @@ export const ImageCarousel = ({
 
   const { modpackId } = useParams();
   const queryClient = useQueryClient();
-  const isDev = import.meta.env.VITE_NODE_ENV === "development";
-  const apiBase = isDev ? "https://www.trainjumper.com" : "";
 
   const primaryImageMutation = useMutation(
     async () =>
@@ -156,7 +154,7 @@ export const ImageCarousel = ({
                   handleImageClick(galleryImages[currentImageIndex].imageUrl)
                 }
               >
-                {location.pathname.includes("edit-modpack") && (
+                {location.pathname.includes("edit-") && (
                   <>
                     <button
                       // disabled={}
