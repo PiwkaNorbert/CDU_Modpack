@@ -45,14 +45,7 @@ export const ImageCarousel = ({
 
         if (data.message.status === false)
           return toast.error(data.message.message);
-          queryClient.setQueryData(["details", modpackId], (oldData) => {
-            const oldPackDetails = oldData as IPackDetails;
-            // inject the new gallery images into the cached data
-            return {
-              ...oldPackDetails,
-              galleryImages: data.modpack.galleryImages,
-            };  
-          });  
+          
           return toast.success("Image Updated!");
 
       },    

@@ -360,7 +360,7 @@ const PackDetails = ({ category }: { category: string }) => {
               </div>
 
               {/* style the descripion to scroll on overflow and a max height of 364px */}
-              <div className="mx-auto grid  max-w-[412px] items-start justify-between gap-4 p-4 sm:mx-0 sm:max-w-full sm:grid-cols-2 sm:flex-row md:gap-0 md:space-x-4">
+              <div className="mx-auto grid sm:mb-0 mb-4  max-w-[412px] items-start justify-between gap-4 p-4 sm:mx-0 sm:max-w-full sm:grid-cols-2 sm:flex-row md:gap-0 md:space-x-4">
                 {/* map the tags */}
                 <div className=" flex  flex-wrap items-center justify-center gap-[0.333rem] md:w-full ">
                   {tags?.map((tag: string, index: number) => (

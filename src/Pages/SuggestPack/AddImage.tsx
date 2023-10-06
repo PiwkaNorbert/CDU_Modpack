@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { errorHandling } from "../../Helper/errorHandling";
-import { IAddImageProps } from "../../Utils/Interfaces";
+import { IAddImageProps, IPackDetails } from "../../Utils/Interfaces";
 import { apiBase, bgColorVariants, borderColorVariants } from "../../Constants";
 
 const AddImage = ({ path, color }: { path: string; color: string }) => {
@@ -29,7 +29,8 @@ const AddImage = ({ path, color }: { path: string; color: string }) => {
       ),
     {
       onSettled: () => {
-        queryClient.invalidateQueries(["modpacks"]);
+        queryClient.invalidateQueries(["modpacks, details", modpackId]);
+
       },
       onError: (error) => {
         if (error instanceof Error) {
@@ -37,7 +38,15 @@ const AddImage = ({ path, color }: { path: string; color: string }) => {
         }
         throw error;
       },
-      onSuccess: () => {
+      onSuccess: ({data}) => {
+        queryClient.setQueryData(["details", modpackId], (oldData) => {
+          const oldPackDetails = oldData as IPackDetails;
+          // inject the new gallery images into the cached data
+          return {
+            ...oldPackDetails,
+            galleryImages: data.modpack.galleryImages,
+          };  
+        });  
         if (path === "edit") return navigate(`/edit-modpack/${modpackId}`);
         return navigate("/");
       },

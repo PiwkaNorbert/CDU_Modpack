@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { isError, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
@@ -24,7 +24,7 @@ const EditModpack = ({ category }: { category: string }) => {
   const modpackId = id as string;
   const [modpackTags, setModpackTags] = useState<string[]>([]);
 
-  const { data, isLoading } = usePackDetailData(modpackId);
+  const { data, isLoading, isError,error } = usePackDetailData(modpackId);
 
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -87,6 +87,12 @@ const EditModpack = ({ category }: { category: string }) => {
     return (
       <div className="flex h-full items-center justify-center">
         <h1 className="m-3 mt-5 text-2xl xl:text-3xl">Loading...</h1>
+      </div>
+    );
+    if (isError)
+    return (
+      <div className="flex h-full items-center justify-center">
+        <h1 className="m-3 mt-5 text-2xl xl:text-3xl">{error.message}</h1>
       </div>
     );
   if (!data)
