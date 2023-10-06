@@ -21,7 +21,7 @@ const usePackDetailData = (modpackId: string) => {
     () => fetchPackDetail(modpackId),
     {
       enabled: modpackId.length > 0,
-      staleTime: 1000 * 60 * 2,
+      staleTime: 1000 * 60 * 1,
       refetchOnWindowFocus: false,
       retry: 2,
 

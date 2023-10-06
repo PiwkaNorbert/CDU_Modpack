@@ -60,7 +60,7 @@ const ModpackCard = (props: IModpack) => {
         className={`w-full overflow-hidden rounded-sm bg-bg `}
       >
         <div className=" flex h-full justify-center rounded-md  hover:text-opacity-100  ">
-          <div className="  flex h-full  flex-1 flex-col overflow-hidden text-base/[1.25rem]">
+          <div className="  flex h-full w-full    flex-1 flex-col overflow-hidden text-base/[1.25rem]">
             {/* toggle images in production */}
             <LazyLoadImage
               src={`https://www.trainjumper.com${
@@ -71,7 +71,7 @@ const ModpackCard = (props: IModpack) => {
               width="275"
               height="155"
               placeholderSrc={`/src/assets/placeholderImg.png`}
-              className={`lazy-load-image-2 aspect-video text-right ${bgColorVariants[color]} w-full border-b-[3.5px] ${borderColorVariants[color]}  object-fill object-center`}
+              className={`lazy-load-image-2 shrink-0 grow-0 block object-cover w-full border-b-[3.5px] text-right ${bgColorVariants[color]}  ${borderColorVariants[color]}  `}
             />
 
             <p

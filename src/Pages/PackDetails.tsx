@@ -16,7 +16,7 @@ import { errorHandling } from "../Helper/errorHandling";
 import { tagMap } from "../Helper/modifyModpack";
 import { DropDown } from "../Components/Dialog";
 
-import { apiBase, borderColorVariants, textColorVariants } from "../Constants";
+import { apiBase, bgColorVariants, borderColorVariants, textColorVariants } from "../Constants";
 import { ImageCarousel } from "../Components/ImageCarousel";
 import { twMerge } from "tailwind-merge";
 
@@ -147,6 +147,7 @@ const PackDetails = ({ category }: { category: string }) => {
   function setShowAddReply(value: SetStateAction<boolean>): void {
     return console.log(value);
   }
+  
 
   return (
     <>
@@ -311,7 +312,9 @@ const PackDetails = ({ category }: { category: string }) => {
                   <ImageCarousel galleryImages={galleryImages} color={color} />
                 )}
                 <div className="grid  content-center items-center space-y-4 md:mr-4">
-                  <p className="text-content mt-4 break-normal text-center text-4xl uppercase  md:my-0 ">
+                  <p className="text-content mt-4 break-normal text-center text-4xl uppercase  md:my-0 "
+                   aria-label={`Modpack name: ${name}`}
+                   >
                     {name ?? "Modpack Name"}
                   </p>
                   <div className="flex items-center justify-center gap-2">
@@ -334,19 +337,24 @@ const PackDetails = ({ category }: { category: string }) => {
                         : "You've Voted"}
                     </p>
                   )}
-                  <p className="text-content my-4 break-normal text-center text-xs uppercase  md:my-0 ">
+                  <p data-tooltip={`Discord ID ${suggestedBy}`} className="text-content my-4 break-normal w-fit mx-auto text-center text-xs uppercase flex flex-col cursor-pointer justify-center items-center  md:my-0 group/suggestedBy relative "
+                   aria-label={`Suggested by ${suggestedBy}`}
+                   >
                     Suggested By
                     <br />{" "}
                     <span className="text-text/50">
-                      {suggestedBy ?? "Someone"}
+                      {suggestedBy ?? "Suggestor"}
                     </span>
                   </p>
-                  <p className="text-content my-4 break-normal text-center text-xs uppercase  md:my-0 ">
+                  <p data-tooltip={`Discord ID ${publishedBy}`} className="text-content  my-4 break-normal w-fit mx-auto text-center text-xs uppercase flex flex-col cursor-pointer justify-center items-center  md:my-0 group/publishedBy relative"
+                   aria-label={`Published by ${publishedBy}`}
+                   >
                     Published By
                     <br />{" "}
                     <span className="text-text/50">
-                      {publishedBy ?? "Admin"}
+                      {publishedBy ?? "Publisher"}
                     </span>
+                    
                   </p>
                 </div>
               </div>

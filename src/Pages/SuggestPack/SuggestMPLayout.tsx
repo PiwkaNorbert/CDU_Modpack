@@ -36,7 +36,7 @@ const AddModpack = () => {
             <ul className="progress__steps text-text dark:text-text ">
               {/* prettier-ignore */}
               <li>
-            <a  className="progress__step--active before:bg-acc bg-acc  border-bg after:bg-acc"  onClick={()=>{
+            <a  className="progress__step--active before:bg-acc bg-acc cursor-pointer border-bg after:bg-acc"  onClick={()=>{
               // check if the confirmation is true and then navigate
               if( window.location.pathname.includes("photos") && confirm("Are you sure? You will lose all progress.")){
                 navigate("create")

@@ -2,14 +2,14 @@ import { Link } from "react-router-dom";
 
 const SuggestPackCard = () => {
   return (
-    <div className="relative z-[1]  mb-8 flex justify-center overflow-hidden  rounded-md border-[3.5px] border-dashed border-gray-300  transition-transform hover:scale-[102%] lg:min-h-[109px] lg:min-w-[194px]">
+    <div className="relative z-[1] px-2  mb-8 flex justify-center overflow-hidden  rounded-md border-[3.5px] border-dashed border-gray-300  transition-transform hover:scale-[102%] lg:min-h-[109px] lg:min-w-[194px]">
       <Link
         to="/add-modpack/create"
-        className={`flex  h-full flex-1 flex-col items-center justify-center  bg-bg  text-base/[1.25rem]`}
+        className={`  h-full flex flex-col flex-1  items-center justify-center   bg-bg  text-base/[1.25rem]`}
       >
         {/* toggle images in production */}
 
-        <p className="text-content mb-4 flex justify-center   text-center uppercase">
+        <p className="text-content mb-4 flex justify-center  py-10  text-center uppercase">
           Suggest a modpack
         </p>
         <svg
