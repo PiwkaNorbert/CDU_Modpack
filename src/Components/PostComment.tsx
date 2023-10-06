@@ -97,8 +97,7 @@ const PostComment = ({
       throw error;
     },
     onSettled: () => {
-      queryClient.invalidateQueries(["details", modpackId]);
-      queryClient.invalidateQueries(["replies", replyParentId]);
+      queryClient.invalidateQueries(["details", modpackId, "replies", replyParentId]);
 
       setComment("");
     },

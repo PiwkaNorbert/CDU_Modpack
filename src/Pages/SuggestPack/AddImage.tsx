@@ -29,7 +29,7 @@ const AddImage = ({ path, color }: { path: string; color: string }) => {
       ),
     {
       onSettled: () => {
-        queryClient.invalidateQueries(["modpacks, details", modpackId]);
+        queryClient.invalidateQueries(["modpacks", "details", modpackId]);
 
       },
       onError: (error) => {
@@ -39,7 +39,7 @@ const AddImage = ({ path, color }: { path: string; color: string }) => {
         throw error;
       },
       onSuccess: ({data}) => {
-        queryClient.setQueryData(["details", modpackId], (oldData) => {
+        queryClient.setQueryData(["modpacks", "details", modpackId], (oldData) => {
           const oldPackDetails = oldData as IPackDetails;
           // inject the new gallery images into the cached data
           return {
