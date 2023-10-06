@@ -25,7 +25,7 @@ export default function VoteForPackButton({
   function changeVoteCount(response: any) {
     if (response.status !== 200) throw new Error(response.data.error);
 
-    queryClient.setQueryData(["details", modpackId], response?.data.modpack);
+    queryClient.setQueryData(["pack-details", modpackId], response?.data.modpack);
     queryClient.setQueryData(["modpacks"], (oldData) => {
       const modpacks = oldData as IModpack[];
       if (!modpacks) return;
@@ -64,7 +64,7 @@ export default function VoteForPackButton({
         toast.success(response?.data.message, { toastId: "add-vote" });
       },
       onSettled: () => {
-        queryClient.invalidateQueries(["modpacks", "details", modpackId]);
+        queryClient.invalidateQueries(["modpacks", "pack-details", modpackId]);
       },
     }
   );
@@ -98,7 +98,7 @@ export default function VoteForPackButton({
         toast.success(response?.data.message, { toastId: "remove-vote" });
       },
       onSettled: () => {
-        queryClient.invalidateQueries(["modpacks", "details", modpackId]);
+        queryClient.invalidateQueries(["modpacks", "pack-details", modpackId]);
       },
     }
   );

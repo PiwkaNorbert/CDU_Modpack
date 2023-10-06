@@ -57,7 +57,7 @@ export function ReplyComponent({
       }
 
       if (!replyingTo) {
-        queryClient.setQueryData(["details", modpackId], (oldData) => {
+        queryClient.setQueryData(["pack-details", modpackId], (oldData) => {
           const oldPackDetails = oldData as IPackDetails;
 
           return {
@@ -79,7 +79,7 @@ export function ReplyComponent({
       throw error;
     },
     onSettled: () => {
-      queryClient.invalidateQueries(["modpacks", "details", modpackId]);
+      queryClient.invalidateQueries(["modpacks", "pack-details", modpackId]);
       // queryClient.invalidateQueries(["replies", replyTo]);
     },
   });

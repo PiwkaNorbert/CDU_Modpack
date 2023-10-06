@@ -81,7 +81,7 @@ const PostComment = ({
         );
       }
       if (!replyingTo) {
-        queryClient.setQueriesData(["details", modpackId], (oldData) => {
+        queryClient.setQueriesData(["pack-details", modpackId], (oldData) => {
           const oldPackDetails = oldData as IPackDetails;
           return {
             ...oldPackDetails,
@@ -97,7 +97,7 @@ const PostComment = ({
       throw error;
     },
     onSettled: () => {
-      queryClient.invalidateQueries(["details", modpackId, "replies", replyParentId]);
+      queryClient.invalidateQueries(["pack-details", modpackId, "replies", replyParentId]);
 
       setComment("");
     },

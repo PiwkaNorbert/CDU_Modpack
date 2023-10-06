@@ -16,7 +16,7 @@ export const fetchPackDetail = async (modpackId: string) => {
 
 const usePackDetailData = (modpackId: string) => {
   return useQuery<IPackDetails, AxiosError>(
-    ["details", modpackId],
+    ["pack-details", modpackId],
     () => fetchPackDetail(modpackId),
     {
       enabled: modpackId.length > 0,

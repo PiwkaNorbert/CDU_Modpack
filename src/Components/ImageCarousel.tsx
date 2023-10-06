@@ -55,7 +55,7 @@ export const ImageCarousel = ({
         throw error;
       },  
       onSettled: () => {
-        queryClient.invalidateQueries(["modpacks", "details", modpackId]);
+        queryClient.invalidateQueries(["modpacks", "pack-details", modpackId]);
       },  
     }  
   );  
@@ -85,7 +85,7 @@ export const ImageCarousel = ({
         throw error;
       },  
       onSettled: () => {
-        queryClient.invalidateQueries(["modpacks", "details", modpackId]);
+        queryClient.invalidateQueries(["modpacks", "pack-details", modpackId]);
       },  
     }  
   );  

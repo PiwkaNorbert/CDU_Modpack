@@ -29,22 +29,24 @@ const AddImage = ({ path, color }: { path: string; color: string }) => {
       ),
     {
       onSettled: () => {
-        queryClient.invalidateQueries(["modpacks", "details", modpackId]);
+        queryClient.invalidateQueries(["modpacks", "pack-details", modpackId]);
 
       },
       onError: (error) => {
+        
         if (error instanceof Error) {
           return errorHandling(error);
         }
         throw error;
       },
       onSuccess: ({data}) => {
-        queryClient.setQueryData(["modpacks", "details", modpackId], (oldData) => {
+        
+        queryClient.setQueryData(["modpacks", "pack-details", modpackId], (oldData) => {
           const oldPackDetails = oldData as IPackDetails;
           // inject the new gallery images into the cached data
           return {
             ...oldPackDetails,
-            galleryImages: data.modpack.galleryImages,
+            galleryImages: data.galleryImages,
           };  
         });  
         if (path === "edit") return navigate(`/edit-modpack/${modpackId}`);

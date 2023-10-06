@@ -59,7 +59,7 @@ const EditModpack = ({ category }: { category: string }) => {
     {
       onSuccess: ({ data }) => {
         queryClient.setQueryData(
-          ["modpacks", "details", modpackId],
+          ["modpacks", "pack-details", modpackId],
           data.modpack
         );
         toast.success(data.message);
@@ -73,7 +73,7 @@ const EditModpack = ({ category }: { category: string }) => {
         throw error;
       },
       onSettled: () => {
-        queryClient.invalidateQueries(["modpacks", "details", modpackId]);
+        queryClient.invalidateQueries(["modpacks", "pack-details", modpackId]);
       },
     }
   );

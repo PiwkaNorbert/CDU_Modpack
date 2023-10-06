@@ -48,7 +48,7 @@ const useSuggestedModpackData = (queryClient: QueryClient) => {
 
     data.forEach((modpack: IModpack) => {
       queryClient.setQueryData(
-        ["suggested-details", modpack.modpackId],
+        ["pack-details", modpack.modpackId],
         modpack
       );
     });

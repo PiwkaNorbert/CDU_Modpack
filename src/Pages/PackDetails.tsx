@@ -30,6 +30,8 @@ const PackDetails = ({ category }: { category: string }) => {
 
   const { data, isError, isLoading, fetchStatus, error } =
     usePackDetailData(modpackId);
+  
+    
 
   const { user } = useUser();
   const queryClient = useQueryClient();
@@ -93,13 +95,13 @@ const PackDetails = ({ category }: { category: string }) => {
       throw error;
     },
     onSettled: () => {
-      queryClient.invalidateQueries(["modpacks", "details", modpackId]);
+      queryClient.invalidateQueries(["modpacks", "pack-details", modpackId]);
     },
   });
 
   const deleteModpackMutation = useMutation(delteModpack, {
     onSuccess: () => {
-      queryClient.setQueryData(["modpacks"], (oldData: IModpack[] | undefined) => {
+      queryClient.setQueryData(["modpacks"], (oldData) => {
         const newData = oldData as IModpack[];
         const filteredData = newData.filter( (modpack: IModpack) => modpack.modpackId !== modpackId);
         return filteredData
@@ -114,7 +116,7 @@ const PackDetails = ({ category }: { category: string }) => {
       throw error;
     },
     onSettled: () => {
-      queryClient.invalidateQueries(["modpacks", "details", modpackId]);
+      queryClient.invalidateQueries(["modpacks", "pack-details", modpackId]);
     },
   });
   if (isLoading) return <Loading size="la-lx" fullScreen={true} other="" />;
