@@ -8,7 +8,6 @@ import { errorHandling } from "../Helper/errorHandling";
 import { Dialog } from "../Components/Dialog";
 import { twMerge } from "tailwind-merge";
 import { apiBase, bgColorVariants, borderColorVariants } from "../Constants";
-import { IPackDetails } from "../Utils/Interfaces";
 
 export const ImageCarousel = ({
   galleryImages,
