@@ -8,13 +8,13 @@ import { errorHandling } from "../Helper/errorHandling";
 import { Dialog } from "../Components/Dialog";
 import { twMerge } from "tailwind-merge";
 import { apiBase, bgColorVariants, borderColorVariants } from "../Constants";
-import { IPackDetails, iPackData } from "../Utils/Interfaces";
+import { IPackDetails } from "../Utils/Interfaces";
 
 export const ImageCarousel = ({
   galleryImages,
   color,
 }: {
-  galleryImages: any;
+  galleryImages: { imageUrl: string; thumbnailUrl: string }[];
   color: string;
 }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
@@ -23,19 +23,23 @@ export const ImageCarousel = ({
 
   const { modpackId } = useParams();
   const queryClient = useQueryClient();
+  
+  const imagePath = galleryImages[currentImageIndex].imageUrl;
+  const imageIdPattern = /\b[0-9A-Fa-f]+(?=\.\w+$)/;
+  const match = imagePath.match(imageIdPattern);
 
   const primaryImageMutation = useMutation(
     async () =>
       await axios.post(
         `${apiBase}/api/update_pack_primary_image`,
-        { imageId: match[0], modpackId },
+        { imageId: match && match[0], modpackId },
         {
           withCredentials: true,
           headers: {
             "Content-Type": "application/json",
-          },
-        }
-      ),
+          },  
+        }  
+      ),  
     {
       onSuccess: ({data}) => {
 
@@ -47,62 +51,53 @@ export const ImageCarousel = ({
             return {
               ...oldPackDetails,
               galleryImages: data.modpack.galleryImages,
-            };
-          });
+            };  
+          });  
           return toast.success("Image Updated!");
 
-      },
+      },    
       onError: (error) => {
         if (error instanceof Error) {
           return errorHandling(error);
-        }
+        }  
         throw error;
-      },
+      },  
       onSettled: () => {
         queryClient.invalidateQueries(["modpacks", "details", modpackId]);
-      },
-    }
-  );
+      },  
+    }  
+  );  
   const deleteImageMutation = useMutation(
     async () =>
       await axios.post(
         `${apiBase}/api/delete_pack_image`,
-        { imageId: match[0], modpackId },
+        { imageId: match && match[0], modpackId },
         {
           withCredentials: true,
           headers: {
             "Content-Type": "application/json",
-          },
-        }
-      ),
+          },  
+        }  
+      ),  
     {
       onSuccess: (res) => {
         if (res.data.message.status === false)
           return toast.error(res.data.message.message);
 
         toast.success("Image Deleted");
-      },
+      },  
       onError: (error) => {
         if (error instanceof Error) {
           return errorHandling(error);
-        }
+        }  
         throw error;
-      },
+      },  
       onSettled: () => {
         queryClient.invalidateQueries(["modpacks", "details", modpackId]);
-      },
-    }
-  );
+      },  
+    }  
+  );  
 
-  const imagePath = galleryImages[currentImageIndex].imageUrl;
-  const imageIdPattern = /\b[0-9A-Fa-f]+(?=\.\w+$)/;
-  const match = imagePath.match(imageIdPattern);
-
-  const initialIndex = galleryImages.indexOf(imageSrc);
-
-  if (initialIndex !== -1) {
-    setCurrentImageIndex(initialIndex);
-  }
 
   const handleImageClick = (imageUrl: string) => {
     setImageSrc(imageUrl);
@@ -125,7 +120,6 @@ export const ImageCarousel = ({
       setCurrentImageIndex(currentImageIndex - 1);
     }
   };
-  console.log(galleryImages);
   
 
   return (

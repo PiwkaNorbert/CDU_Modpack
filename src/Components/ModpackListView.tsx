@@ -2,11 +2,11 @@ import React, { useCallback, useState, useEffect } from "react";
 import useUser from "../Context/useUser";
 import SuggestPackCard from "../Pages/SuggestPack/SuggestPackCard";
 import ModpackCard from "./ModpackCard";
-import { tagOptions } from "../Helper/modifyModpack";
 import { IModpack, iPackData } from "../Utils/Interfaces";
 import { useLocation, useNavigate } from "react-router-dom";
 import { packLocation } from "../Constants";
 import { twMerge } from "tailwind-merge";
+import { ModpackTags } from "./ModpackTags";
 
 const ModpackListView = ({
   packData,
@@ -24,7 +24,7 @@ const ModpackListView = ({
     error,
     modPackFilterByTags,
     setModPackFilterByTags,
-    modPackFilterByInput,
+    // modPackFilterByInput,
     setModPackFilterByInput,
   } = packData;
 
@@ -45,12 +45,23 @@ const ModpackListView = ({
   const changeViewByInput = useCallback(
     (evt: React.ChangeEvent<HTMLInputElement>) =>
       setModPackFilterByInput(evt.target.value),
-    [modPackFilterByInput]
+    [setModPackFilterByInput]
   );
 
   const toggleDropdown = () => setShowModal(!showModal);
 
- 
+  const handleTagClick = (tag:string) =>
+  modPackFilterByTags.includes(tag)
+    ? setModPackFilterByTags(
+    modPackFilterByTags
+      .split(" ")
+      .filter((tag: string) => tag !== tag)
+      .join(" ")
+  ) : setModPackFilterByTags(
+    modPackFilterByTags
+      ? `${modPackFilterByTags} ${tag}`
+      : tag
+  )
 
   // check what the category is and set the title accordingly and set the data to the correct data for that category and set the path to the correct path for that category
   useEffect(() => {
@@ -63,27 +74,7 @@ const ModpackListView = ({
     }
   }, [category]);
 
-  if( isLoading ) return <div className=" my-10 text-center">Loading...</div>
 
-  const handleTagClick = (tag) => {
-
-    if (modPackFilterByTags.includes(tag)) {
-      setModPackFilterByTags(
-        modPackFilterByTags
-          .split(" ")
-          .filter((tag: any) => tag !== tag)
-          .join(" ")
-      );
-    } else {
-      setModPackFilterByTags(
-        modPackFilterByTags
-          ? `${modPackFilterByTags} ${tag}`
-          : tag
-      );
-    }
-
-
-  };
 
   return (
     <>
@@ -287,57 +278,6 @@ const ModpackListView = ({
 
 export default ModpackListView;
 
-interface TagCount {
-  name: string;
-  count: number;
-}
 
 
-function ModpackTags({ modpacks, onTagClick, modPackFilterByTags }: {
-  modpacks?: IModpack[];
-  onTagClick: (tag: string) => void;
-  modPackFilterByTags: string;
-}) {
-  // Initialize a state variable to store tag counts
-  
-  const [tagCounts, setTagCounts] = useState<TagCount[]>([]);
-
-  useEffect(() => {
-    // Calculate tag counts when modpacks change
-    const newTagCounts: TagCount[] = [];
-
-    modpacks?.forEach((modpack: IModpack) => {
-      modpack.tags.forEach((tag) => {
-        const tagIndex = newTagCounts.findIndex((t) => t.name === tag);
-        if (tagIndex !== -1) {
-          newTagCounts[tagIndex].count += 1; // Increment tag count if it exists
-        } else {
-          newTagCounts.push({ name: tag, count: 1 }); // Initialize tag count to 1 if it doesn't exist
-        }
-      });
-    });
-
-    // Update state with the new tag counts
-    setTagCounts(newTagCounts);
-  }, [modpacks]);
-  return  tagCounts.map(({name, count}, index:number) => 
-            <button
-              key={index}
-              type="button"
-              className={twMerge(
-                "z-[5] flex gap-1 items-center justify-center capitalize rounded-full px-3 py-1 text-sm transition-all hover:bg-opacity-80",
-                modPackFilterByTags.includes(name)
-                  ? `bg-slate-700 text-bg dark:bg-slate-300 dark:text-bg `
-                  : `bg-slate-300 text-text dark:bg-slate-700`
-              )}
-              onClick={() => onTagClick(name)}
-            >
-              {name} <span className={twMerge(`text-text/50`,
-               modPackFilterByTags.includes(name) && `text-bg/50 dark:text-bg/50`
-              )}>
-                ({count})
-                </span> 
-            </button>
-          ) 
-}   
 

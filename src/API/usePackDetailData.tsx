@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
-// import { placeholderDetails } from "../Constants";
 import { errorHandling } from "../Helper/errorHandling";
 import { IPackDetails } from "../Utils/Interfaces";
 import { apiBase } from "../Constants";

@@ -128,9 +128,14 @@ export interface iPackData {
   data: IModpack[] | undefined;
   isLoading: boolean;
   isError: boolean;
-  error: AxiosError<unknown, any> | null;
+  error: AxiosError<unknown> | null;
   modPackFilterByTags: string;
   modPackFilterByInput: string;
   setModPackFilterByInput: React.Dispatch<React.SetStateAction<string>>;
   setModPackFilterByTags: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export interface TagCount {
+  name: string;
+  count: number;
 }

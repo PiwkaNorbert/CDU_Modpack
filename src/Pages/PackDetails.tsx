@@ -16,7 +16,7 @@ import { errorHandling } from "../Helper/errorHandling";
 import { tagMap } from "../Helper/modifyModpack";
 import { DropDown } from "../Components/Dialog";
 
-import { apiBase, bgColorVariants, borderColorVariants, textColorVariants } from "../Constants";
+import { apiBase, borderColorVariants, textColorVariants } from "../Constants";
 import { ImageCarousel } from "../Components/ImageCarousel";
 import { twMerge } from "tailwind-merge";
 
@@ -44,14 +44,13 @@ const PackDetails = ({ category }: { category: string }) => {
     if (isLoading) return;
 
     if (data?.isPublished && !data?.isArchived) {
-      console.log(data);
       return navigate(`/pack-details/${data?.modpackId}`);
     } else if (data?.isArchived === true) {
       return navigate(`/archived-pack-details/${data?.modpackId}`);
     } else if (!data?.isPublished) {
       return navigate(`/suggested-pack-details/${data?.modpackId}`);
     }
-  }, []);
+  }, [data, isLoading, navigate]);
 
   const delteModpack = async () =>
     await axios.delete(`${apiBase}/api/delete-modpack`, {
@@ -78,8 +77,9 @@ const PackDetails = ({ category }: { category: string }) => {
 
   const archiveModpackMutation = useMutation(archiveModpack, {
     onSuccess: () => {
-      queryClient.setQueryData(["modpacks"], (oldData: any) => {
-        return oldData.filter(
+      queryClient.setQueryData(["modpacks"], (oldData) => {
+        const newData = oldData as IModpack[];
+        return newData.filter(
           (modpack: IModpack) => modpack.modpackId !== modpackId
         );
       });
@@ -99,10 +99,10 @@ const PackDetails = ({ category }: { category: string }) => {
 
   const deleteModpackMutation = useMutation(delteModpack, {
     onSuccess: () => {
-      queryClient.setQueryData(["modpacks"], (oldData: any) => {
-        return oldData.filter(
-          (modpack: IModpack) => modpack.modpackId !== modpackId
-        );
+      queryClient.setQueryData(["modpacks"], (oldData: IModpack[] | undefined) => {
+        const newData = oldData as IModpack[];
+        const filteredData = newData.filter( (modpack: IModpack) => modpack.modpackId !== modpackId);
+        return filteredData
       });
 
       return navigate("/");
@@ -212,7 +212,7 @@ const PackDetails = ({ category }: { category: string }) => {
                     </button>
                     <DropDown
                       open={packdetailMenuShow}
-                      dropDownStateChange={(open: any) =>
+                      dropDownStateChange={(open) =>
                         setPackdetailMenuShow(open)
                       }
                       position="right-2 z-[10] top-[67px]"
