@@ -91,12 +91,12 @@ export function ReplyComponent({
         src={comment?.avatar_url}
         alt="user"
       />
-      <div className="  grid items-center gap-2 pt-1 text-base ">
-        <div className="flex items-center gap-2">
+      <div className="grid items-center gap-2 pt-1 text-base">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:gap-2">
           <p className={`  text-justify ${textColorVariants[color ?? "sky"]}`}>
             {comment?.username}
           </p>
-          <p className=" text-justify text-xs text-text/60 xl:text-sm">
+          <p className=" text-justify text-xs  text-text/60 xl:text-sm">
             {comment && relativeDate(comment.timestamp)}
           </p>
 
@@ -126,7 +126,7 @@ export function ReplyComponent({
             </div>
           )}
         </div>
-        <p className="break-word  text-justify text-sm xl:text-base ">
+        <p className="break-word sm:ml-0 -ml-10 text-justify text-sm xl:text-base ">
           {comment?.comment}
         </p>
         {children}

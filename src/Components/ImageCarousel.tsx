@@ -252,7 +252,7 @@ export const ImageCarousel = ({
       )}
       <Dialog
         open={showModal}
-        dialogStateChange={(open: any) => setShowModal(open)}
+        dialogStateChange={(open) => setShowModal(open)}
         contents={
           <div className="fixed inset-0 h-full w-full z-50 grid items-center justify-center "
           onClick={() => setShowModal(false)}
