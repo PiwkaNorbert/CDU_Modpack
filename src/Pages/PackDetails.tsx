@@ -80,18 +80,20 @@ const PackDetails = ({ category }: { category: string }) => {
       }
     );
 
-  const archiveModpackMutation = useMutation(archiveModpack, {
-    onSuccess: () => {
-      queryClient.setQueryData(["modpacks"], (oldData) => {
+    const updateModpackInList = (listName: string) => {
+      queryClient.setQueryData([listName], (oldData) => {
         const newData = oldData as IModpack[];
         return newData.filter(
-          (modpack: IModpack) => {
-            console.log(modpack);
-            
-            return modpack.modpackId !== modpackId}
+          (modpack: IModpack) => modpack.modpackId !== modpackId
         );
       });
+    }
 
+  const archiveModpackMutation = useMutation(archiveModpack, {
+    onSuccess: ({data}) => {
+      updateModpackInList("modpacks");
+      
+      toast.success(`${data.message}! 👌`);
       return navigate("/");
     },
     onError: (error) => {
@@ -107,60 +109,15 @@ const PackDetails = ({ category }: { category: string }) => {
 
   const deleteModpackMutation = useMutation(delteModpack, {
     onSuccess: ({data}) => {
-      console.log(data);
-    
-        
-      // check if the modpack is archived, or suggested, if so, remove it from the archived modpacks list in the cache 
-      if  (pathname.includes("archived")) {
-        console.log("archived");
-        
-        queryClient.setQueryData(["archived-modpacks"], (oldData) => {
-          console.log(oldData);
 
-          const newData = oldData as IModpack[];
-          //return the every modpack that is not the one that was deleted
-          return newData.filter(
-            (modpack: IModpack) => {
-              console.log(modpack);
-              
-              return modpack.modpackId !== modpackId}
-          );
-
-        
-        });
-      } else  if (pathname.includes("suggested")) {
-        console.log("suggested");
-        
-        queryClient.setQueryData(["suggested-modpacks"], (oldData) => {
-          console.log(oldData);
-
-          const newData = oldData as IModpack[];
-          return newData.filter(
-            (modpack: IModpack) => {
-              console.log(modpack);
-              
-              return modpack.modpackId !== modpackId}
-          );
-        });
+      if (pathname.includes("archived")) {
+        updateModpackInList("archived-modpacks");
+      } else if (pathname.includes("suggested")) {
+        updateModpackInList("suggested-modpacks");
+      } else {
+        updateModpackInList("modpacks");
       }
-      else {
-        console.log("main");
-          
-         // remove the modpack from the main modpacks list in the cache
-         queryClient.setQueryData(["modpacks"], (oldData) => {
-          console.log(oldData);
-          
-          const newData = oldData as IModpack[];
-          return newData.filter(
-            (modpack: IModpack) => {
-              console.log(modpack);
-              
-              return modpack.modpackId !== modpackId}
-          );
-        }
-        );
-      }
-      
+
       toast.success(`${data.message}! 👌`);
 
       return navigate("/");
