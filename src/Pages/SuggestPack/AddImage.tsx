@@ -43,6 +43,13 @@ const AddImage = ({ path, color }: { path: string; color: string }) => {
         
         queryClient.setQueryData(["modpacks", "pack-details", modpackId], (oldData) => {
           const oldPackDetails = oldData as IPackDetails;
+          console.log(oldData);
+          console.log(data);
+          console.log( {
+            ...oldPackDetails,
+            galleryImages: data.galleryImages,
+          });
+          
           // inject the new gallery images into the cached data
           return {
             ...oldPackDetails,
