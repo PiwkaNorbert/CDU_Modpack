@@ -327,12 +327,12 @@ const PackDetails = ({ category }: { category: string }) => {
                               disabled={deleteModpackMutation.isLoading}
                               className="last:active:bg-text/15 flex w-full cursor-pointer items-center gap-2 rounded-lg px-4 py-2 text-red-500 transition-all hover:bg-text/10 "
                               onClick={async () => {
-                                if (confirm("Are you sure you want to delete this modpack?\n'yes' to confirm") === false) {
-                                  return toast.error("Modpack not deleted");
+                                if (deleteModpackMutation.isLoading) return;
+                                if (confirm("Are you sure you want to delete this modpack?\n'OK' to confirm")) {
+                                  deleteModpackMutation.mutate();
                                 }
                                 else {
-                                  if (deleteModpackMutation.isLoading) return;
-                                  deleteModpackMutation.mutate();
+                                  return toast.error("Unable to delete modpack");
                                 }
                               }}
                             >
