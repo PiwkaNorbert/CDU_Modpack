@@ -8,6 +8,7 @@ import PostComment from "./PostComment";
 import { ReplyComponent } from "./ReplyComponent";
 import useUser from "../Context/useUser";
 import { useParams } from "react-router-dom";
+import { twJoin } from "tailwind-merge";
 
 export function CommentsComponent({
   color,
@@ -35,11 +36,10 @@ export function CommentsComponent({
         <>
           {user?.isLoggedIn && (
             <button
-              className={` w-fit rounded-md border ${
-                borderColorVariants[color ?? "sky"]
-              }  px-3 py-1 text-justify text-xs text-bg hover:border-opacity-80   ${
-                bgColorVariants[color ?? "sky"]
-              } hover:bg-opacity-80  dark:hover:bg-opacity-80 `}
+              className={twJoin(` w-fit rounded-md -ml-10 sm:ml-0 border px-3 py-1 text-justify text-xs text-bg hover:border-opacity-80 hover:bg-opacity-80 dark:hover:bg-opacity-80 `,
+              borderColorVariants[color ?? "sky"],
+              bgColorVariants[color ?? "sky"]
+              )}
               onClick={() => {
                 setShowAddReply(!showAddReply);
               }}

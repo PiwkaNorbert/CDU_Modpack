@@ -3,7 +3,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { errorHandling } from "../Helper/errorHandling";
 import { Dialog } from "../Components/Dialog";
 import { twMerge } from "tailwind-merge";
@@ -113,6 +113,7 @@ export const ImageCarousel = ({
     }
   };
   
+  const carouselRef = useRef<HTMLDivElement>(null);
 
   return (
     <div>
@@ -215,33 +216,66 @@ export const ImageCarousel = ({
         )}
       </div>
       {galleryImages?.length > 1 && (
-        <div className="mt-4 flex flex-row items-center justify-center gap-2">
-          {galleryImages?.map(
-            (
-              gallery: { imageUrl: string; thumbnailUrl: string },
-              index: number
-            ) => {
-              return (
-                <LazyLoadImage
-                  key={index}
-                  src={`https://www.trainjumper.com${gallery.thumbnailUrl}`}
-                  alt={`Image ${index + 1}`}
-                  width="81.3"
-                  height="43.3"
-                  className={twMerge(
-                    "aspect-video max-h-20 cursor-pointer place-self-center overflow-hidden rounded-md border-2 bg-text/50 object-fill object-center dark:bg-bg lg:max-h-60 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-800 focus-visible:ring-white   ",
-                    currentImageIndex === index
-                      ? `border-text/90 shadow-inner `
-                      : `border-text/50 hover:border-text/90 hover:shadow-inner`
-                  )}
-                  onClick={() => setCurrentImageIndex(index)}
-                  aria-label={`Image Thumbnail ${index + 1}`}
-                />
-              );
-            }
-          )}
+
+        // declare carouselRef using useRef hook
+
+        <div className="grid grid-cols-4 overflow-x-hidden px-1 scroll-smooth relative" 
+        ref={carouselRef}
+        >
+          <div className="mt-4 flex w-full gap-1 pb-1">
+            {galleryImages?.map(
+              (
+                gallery: { imageUrl: string; thumbnailUrl: string },
+                index: number
+              ) => {
+                return (
+                  <LazyLoadImage
+                    key={index}
+                    src={`https://www.trainjumper.com${gallery.thumbnailUrl}`}
+                    alt={`Image ${index + 1}`}
+                    width="81.3"
+                    height="43.3"
+                    className={twMerge(
+                      "  cursor-pointer grow-0 shrink-0  w-full h-full transition-all  rounded-md border-2 bg-text/50 object-cover  dark:bg-bg  focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-800 focus-visible:ring-white   ",
+                      currentImageIndex === index
+                        ? `border-bg/90 outline outline-2 shadow-inner `
+                        : `border-text/50 hover:border-text/90 hover:shadow-inner`
+                    )}
+                    onClick={() => {
+                      setCurrentImageIndex(index);
+                      // check if im scrolling to the right or left
+                      // if the index is greater than the current index, scroll to the right
+                      // if the index is less than the current index, scroll to the left
+
+                      if (index > currentImageIndex) {
+                        console.log("scrolling right");
+                        
+                        carouselRef.current?.scrollBy({
+                          left: 200,
+                          behavior: "smooth",
+                        });
+                      } else if (index < currentImageIndex) {
+                        console.log("scrolling left");
+                        
+                        carouselRef.current?.scrollBy({
+                          left: -200 ,
+                          behavior: "smooth",
+                        });
+                      }
+                    }}
+                      
+                    aria-label={`Image Thumbnail ${index + 1}`}
+                  />
+                );
+              }
+            )}
+          </div>
+          make hover buttons on the left and right side of the carousel
+          
         </div>
       )}
+      
+
       <Dialog
         open={showModal}
         dialogStateChange={(open) => setShowModal(open)}
