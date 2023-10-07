@@ -85,7 +85,7 @@ const PackDetails = ({ category }: { category: string }) => {
       queryClient.setQueryData(["modpacks"], (oldData) => {
         const newData = oldData as IModpack[];
         return newData.filter(
-          () => modpack.modpackId !== modpackId
+          (modpack: IModpack) => modpack.modpackId !== modpackId
         );
       });
 
@@ -104,14 +104,8 @@ const PackDetails = ({ category }: { category: string }) => {
 
   const deleteModpackMutation = useMutation(delteModpack, {
     onSuccess: ({data}) => {
-         // remove the modpack from the main modpacks list in the cache
-         queryClient.setQueryData(["modpacks"], (oldData) => {
-          console.log(oldData);
-          
-          const newData = oldData as IModpack[];
-          return newData.filter(
-            () => data.modpackId !== modpackId);
-        });
+      console.log(data);
+    
         
       // check if the modpack is archived, or suggested, if so, remove it from the archived modpacks list in the cache 
       if  (pathname.includes("archived")) {
@@ -133,6 +127,17 @@ const PackDetails = ({ category }: { category: string }) => {
           );
         });
       }
+      else {
+          
+         // remove the modpack from the main modpacks list in the cache
+         queryClient.setQueryData(["modpacks"], (oldData) => {
+          console.log(oldData);
+          
+          const newData = oldData as IModpack[];
+          return newData.filter(
+            () => data.modpackId !== modpackId);
+        });
+      }
    
 
       return navigate("/");
@@ -144,7 +149,8 @@ const PackDetails = ({ category }: { category: string }) => {
       throw error;
     },
     onSettled: () => {
-      queryClient.invalidateQueries(["modpacks", "pack-details", modpackId]);
+      queryClient.invalidateQueries(["pack-details", modpackId], {exact: true});
+      queryClient.invalidateQueries(["modpacks","suggested-modpacks", "archived-modpacks"]);
     },
   });
   if (isLoading) return <Loading size="la-lx" fullScreen={true} other="" />;
