@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import usePackDetailData from "../API/usePackDetailData";
 import { CommentsComponent } from "../Components/CommentsComponent";
 import { IModpack, IPackDetails } from "../Utils/Interfaces";
@@ -22,6 +22,7 @@ import { twMerge } from "tailwind-merge";
 
 const PackDetails = ({ category }: { category: string }) => {
   const { modpackId: id } = useParams();
+  const { pathname } = useLocation();
   const modpackId = id as string;
 
   const [packdetailMenuShow, setPackdetailMenuShow] = useState(false);
@@ -101,11 +102,30 @@ const PackDetails = ({ category }: { category: string }) => {
 
   const deleteModpackMutation = useMutation(delteModpack, {
     onSuccess: () => {
+      // check if the modpack is archived, or suggested, if so, remove it from the archived modpacks list in the cache 
+      if (pathname.includes("archived")) {
+        queryClient.setQueryData(["archived-modpacks"], (oldData) => {
+          const newData = oldData as IModpack[];
+          return newData.filter(
+            (modpack: IModpack) => modpack.modpackId !== modpackId
+          );
+        });
+      }
+      if (pathname.includes("suggested")) {
+        queryClient.setQueryData(["suggested-modpacks"], (oldData) => {
+          const newData = oldData as IModpack[];
+          return newData.filter(
+            (modpack: IModpack) => modpack.modpackId !== modpackId
+          );
+        });
+      }
+      // remove the modpack from the main modpacks list in the cache
       queryClient.setQueryData(["modpacks"], (oldData) => {
         const newData = oldData as IModpack[];
         const filteredData = newData.filter( (modpack: IModpack) => modpack.modpackId !== modpackId);
         return filteredData
       });
+      
 
       return navigate("/");
     },

@@ -60,10 +60,7 @@ export const CreateModpack = () => {
       onSuccess: ({data}) => {
         queryClient.setQueryData(["suggested-modpacks"], (oldData) => {
           const oldSuggestedModpacks = oldData as AddModpackProps[];
-          console.log(oldSuggestedModpacks);
-          console.log(data.modpack);
-          
-          
+
           return [
             ...oldSuggestedModpacks,
             data.modpack,
