@@ -41,10 +41,10 @@ export function ModpackTags({ modpacks, onTagClick, modPackFilterByTags }: {
     type="button"
     disabled={count === 0}
     className={twMerge(
-      "z-[5] flex gap-1 items-center justify-center capitalize rounded-full px-3 py-1 text-sm transition-all hover:bg-opacity-80 disabled:opacity-50 dark:hover:bg-hover-2 dark:hover:text-bg dark:text-text dark:bg-slate-700 ",
+      "z-[5] flex gap-1 items-center justify-center capitalize rounded-full px-3 py-1 text-sm transition-all hover:bg-opacity-80 dark:hover:bg-opacity-80 dark:disabled:hover:bg-opacity-100 disabled:opacity-50 ",
       modPackFilterByTags.includes(name)
         ? `bg-slate-700 text-bg dark:bg-slate-300 dark:text-bg `
-        : `bg-slate-300 text-text dark:bg-slate-700`
+        : `bg-slate-300 text-text dark:bg-slate-700 dark:text-text`
     )}
     onClick={() => onTagClick(name)}
   >

@@ -228,13 +228,13 @@ const Header = () => {
                 <br />
                 {user?.globalName}
               </p>
-              <div className=" focus:ring-bkg/90 group relative z-10 flex aspect-square w-12 items-center rounded-full p-1 font-medium focus:outline-none focus:ring-4">
+              <div className=" focus:ring-bkg/90 group relative z-10 flex aspect-square w-12 items-center rounded-full  font-medium focus:outline-none focus:ring-4">
                 <img
                   className="h-full w-full cursor-pointer opacity-90 hover:opacity-100"
-                  src={
-                    user?.isLinked
-                      ? user?.playerData?.mc_head_url
-                      : `https://cdn.discordapp.com/avatars/${user?.id}/${user?.avatar}`
+                  src={ 
+                    !user?.isLinked && user?.playerData?.mc_head_url.includes("NOT LINKED")
+                     ? `https://cdn.discordapp.com/avatars/${user?.id}/${user?.avatar}`
+                     : user?.playerData?.mc_head_url
                   }
                   alt={user?.username ? `${user?.username}'s avatar` : "avatar"}
                 />

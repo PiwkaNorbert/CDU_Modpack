@@ -1,9 +1,8 @@
 import "./index.css";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Header from "./Components/Header";
-import { useEffect } from "react";
 // here we specify the routes for our app
 import Footer from "./Components/Footer";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
@@ -13,7 +12,7 @@ import PackListPage from "./Pages/PackListPage";
 import PackDetails from "./Pages/PackDetails";
 import Login from "./Pages/Login";
 // import FetchingIndicator from "./Components/FetchingIndicator";
-// import NotFoundPage from "./Pages/NotFoundPage";
+import NotFoundPage from "./Pages/NotFoundPage";
 import AddMPLayout from "./Pages/SuggestPack/SuggestMPLayout.tsx";
 import AddImage from "./Pages/SuggestPack/AddImage.tsx";
 import EditModpack from "./Pages/EditModpack";
@@ -28,7 +27,6 @@ import { UserProvider } from "./Context/UserContext.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import FoundBugs from "./Pages/FoundIssue.tsx";
 import { isDev } from "./Constants.tsx";
-// import NotFoundPage from "./Pages/NotFoundPage.tsx";
 
 const queryClient = new QueryClient();
 
@@ -48,7 +46,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <UserProvider>
         <ThemeProvider>
-          <div className="flex min-h-screen flex-col text-text ">
+          <div className="flex min-h-screen  flex-col text-text ">
             <BrowserRouter>
               <Header />
               <Routes>
@@ -61,8 +59,8 @@ function App() {
                 {isDev && <Route path="loginDev" element={<LoginDev />} />}
                 <Route path="found-issue" element={<FoundBugs />} />
 
-                {/* <Route path="*" element={<Navigate to="/404" />} />
-                <Route path="404" element={<NotFoundPage />} /> */}
+                <Route path="*" element={<Navigate to="/404" />} />
+                <Route path="404" element={<NotFoundPage />} />
 
                 {isAdmin && (
                   <>

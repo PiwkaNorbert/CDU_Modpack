@@ -121,11 +121,11 @@ export const ImageCarousel = ({
 
       <div className="group relative mx-auto ">
         <div className="w-full h-full flex overflow-hidden z-[5]  rounded-md ">
-          {galleryImages.map(({imageUrl}: {imageUrl:string}, index: number )=>
+          {galleryImages.map(({thumbnailUrl}: {thumbnailUrl:string}, index: number )=>
             
               <img
                     key={index}
-                    src={`https://www.trainjumper.com${imageUrl}`}
+                    src={`https://www.trainjumper.com${thumbnailUrl}`}
                     alt={`Modpack Image ${index + 1}`}
                     style={{translate: `${-100 * currentImageIndex}%`}}
                     // width="412"
