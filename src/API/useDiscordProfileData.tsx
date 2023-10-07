@@ -8,7 +8,10 @@ export const fetchProfile = async () => {
   const { data, status } = await axios.get(`${apiBase}/profile`, {
     withCredentials: true,
   });
-  if (status !== 200) throw new Error("No login data found");
+  if (status !== 200) {
+    toast.error("No login data found");
+    throw new Error("No login data found");
+}
 
   return data;
 };

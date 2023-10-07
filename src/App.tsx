@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Header from "./Components/Header";
+import { useEffect } from "react";
 // here we specify the routes for our app
 import Footer from "./Components/Footer";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
@@ -41,7 +42,6 @@ function App() {
       return false;
     }
   };
-
   const isAdmin = useAuth();
 
   return (

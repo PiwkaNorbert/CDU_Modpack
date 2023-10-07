@@ -9,7 +9,7 @@ import useUser from "../Context/useUser";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { LoginButton } from "../Components/LoginButton";
-import { QueryClient, QueryKey, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, Link } from "react-router-dom";
 import { SetStateAction, useEffect, useRef, useState } from "react";
 import { errorHandling } from "../Helper/errorHandling";
@@ -43,16 +43,6 @@ const PackDetails = ({ category }: { category: string }) => {
   }modpack/${modpackId}`;
   const returnToButton = category === "main" ? "/" : `/list-${category}-packs`;
 
-  function removeModpackFromQueryData(
-    queryClient: QueryClient,
-    modpackId: string,
-    queryKey: QueryKey
-  ) {
-    queryClient.setQueryData(queryKey, (oldData) => {
-      const newData = oldData as IModpack[];
-      return newData.filter((modpack: IModpack) => modpack.modpackId !== modpackId);
-    });
-  }
   
 
   useEffect(() => {
@@ -114,14 +104,30 @@ const PackDetails = ({ category }: { category: string }) => {
 
   const deleteModpackMutation = useMutation(delteModpack, {
     onSuccess: () => {
-
-      if(!(pathname.includes("suggested") && pathname.includes("archived"))) {
-        removeModpackFromQueryData(queryClient, modpackId, ["modpacks"]);
-      } else if (pathname.includes("archived")) {
-        removeModpackFromQueryData(queryClient, modpackId, ["archived-modpacks"]);
-      } else if (pathname.includes("suggested")) {
-        removeModpackFromQueryData(queryClient, modpackId, ["suggested-modpacks"]);
+         // remove the modpack from the main modpacks list in the cache
+         queryClient.setQueryData(["modpacks"], (oldData) => {
+          const newData = oldData as IModpack[];
+          return newData.filter(
+            (modpack: IModpack) => modpack.modpackId !== modpackId);
+        });
+        
+      // check if the modpack is archived, or suggested, if so, remove it from the archived modpacks list in the cache 
+      if  (pathname.includes("archived")) {
+        queryClient.setQueryData(["archived-modpacks"], (oldData) => {
+          const newData = oldData as IModpack[];
+          return newData.filter(
+            (modpack: IModpack) => modpack.modpackId !== modpackId
+          );
+        });
+      } else  if (pathname.includes("suggested")) {
+        queryClient.setQueryData(["suggested-modpacks"], (oldData) => {
+          const newData = oldData as IModpack[];
+          return newData.filter(
+            (modpack: IModpack) => modpack.modpackId !== modpackId
+          );
+        });
       }
+   
 
       return navigate("/");
     },
