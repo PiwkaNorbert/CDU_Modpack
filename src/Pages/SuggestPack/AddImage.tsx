@@ -41,8 +41,9 @@ const AddImage = ({ path, color }: { path: string; color: string }) => {
       },
       onSuccess: ({data}) => {
         
-        queryClient.setQueryData(["modpacks", "pack-details", modpackId], (oldData) => {
+        queryClient.setQueryData(["pack-details", modpackId], (oldData) => {
           const oldPackDetails = oldData as IPackDetails;
+          
           console.log(oldData);
           console.log(data);
           console.log( {
