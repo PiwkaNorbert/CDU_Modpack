@@ -12,12 +12,37 @@ import useDiscordProfileData from "../API/useDiscordProfileData";
 import { useSearchParams, Navigate } from "react-router-dom";
 import { DiscordProfileData } from "../Utils/Interfaces";
 import useUser from "../Context/useUser";
+import { useEffect } from "react";
 
 const Login = () => {
   const [searchParams] = useSearchParams();
   const returnUrl = searchParams.get("returnUrl");
   const { setUser } = useUser();
   const { data, isLoading, isError } = useDiscordProfileData();
+
+
+  
+  useEffect(() => {
+    if (data) {
+      const profileData: DiscordProfileData = {
+        isLoggedIn: true,
+        avatar: data.avatar,
+        globalName: data.global_name,
+        id: data.id,
+        username: data.username,
+        isAdmin: data.is_admin,
+        votesRemaining: data.votes_remaining,
+        tokenExpiry: data.token_expiry,
+        isLinked: data.is_linked,
+        inGuild: data.in_guild,
+        playerData: data.player_data,
+      };
+      localStorage.setItem("profileData", JSON.stringify(profileData));
+
+      setUser(profileData);
+    }
+  }, [data, setUser]);
+
 
   if (isLoading) {
     return (
@@ -60,22 +85,7 @@ const Login = () => {
       </div>
     );
   } else {
-    const profileData: DiscordProfileData = {
-      isLoggedIn: true,
-      avatar: data?.avatar,
-      globalName: data?.global_name,
-      id: data?.id,
-      username: data?.username,
-      isAdmin: data?.is_admin,
-      votesRemaining: data?.votes_remaining,
-      tokenExpiry: data?.token_expiry,
-      isLinked: data?.is_linked,
-      inGuild: data?.in_guild,
-      playerData: data?.player_data,
-    };
-
-    setUser(profileData);
-    localStorage.setItem("profileData", JSON.stringify(profileData));
+   
     // display a toast message to the user that they have logged in
 
     if (!returnUrl) return <Navigate to="/" />;
