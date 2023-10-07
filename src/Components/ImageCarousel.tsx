@@ -270,8 +270,6 @@ export const ImageCarousel = ({
               }
             )}
           </div>
-          make hover buttons on the left and right side of the carousel
-          
         </div>
       )}
       
