@@ -109,6 +109,8 @@ const PackDetails = ({ category }: { category: string }) => {
         
       // check if the modpack is archived, or suggested, if so, remove it from the archived modpacks list in the cache 
       if  (pathname.includes("archived")) {
+        console.log("archived");
+        
         queryClient.setQueryData(["archived-modpacks"], (oldData) => {
           console.log(oldData);
 
@@ -118,6 +120,8 @@ const PackDetails = ({ category }: { category: string }) => {
           );
         });
       } else  if (pathname.includes("suggested")) {
+        console.log("suggested");
+        
         queryClient.setQueryData(["suggested-modpacks"], (oldData) => {
           console.log(oldData);
 
@@ -128,6 +132,7 @@ const PackDetails = ({ category }: { category: string }) => {
         });
       }
       else {
+        console.log("main");
           
          // remove the modpack from the main modpacks list in the cache
          queryClient.setQueryData(["modpacks"], (oldData) => {
@@ -138,7 +143,8 @@ const PackDetails = ({ category }: { category: string }) => {
             () => data.modpackId !== modpackId);
         });
       }
-   
+      
+      toast.success(`${data.message}! 👌`);
 
       return navigate("/");
     },
