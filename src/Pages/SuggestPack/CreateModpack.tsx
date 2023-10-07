@@ -57,8 +57,19 @@ export const CreateModpack = () => {
         }
         throw error;
       },
-      onSuccess: (response) => {
-        return navigate(`/add-modpack/photos/${response.data.modpackId}`);
+      onSuccess: ({data}) => {
+        queryClient.setQueryData(["suggested-modpacks"], (oldData) => {
+          const oldSuggestedModpacks = oldData as AddModpackProps[];
+          console.log(oldSuggestedModpacks);
+          console.log(data.modpack);
+          
+          
+          return [
+            ...oldSuggestedModpacks,
+            data.modpack,
+          ];  
+        });
+        return navigate(`/add-modpack/photos/${data.modpackId}`);
       },
     }
   );
