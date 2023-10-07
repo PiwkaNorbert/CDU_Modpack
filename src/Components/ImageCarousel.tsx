@@ -244,18 +244,16 @@ export const ImageCarousel = ({
                     onClick={() => {
                       setCurrentImageIndex(index);
                       // check if im scrolling to the right or left
-                      // if the index is greater than the current index, scroll to the right
-                      // if the index is less than the current index, scroll to the left
 
                       if (index > currentImageIndex) {
-                        console.log("scrolling right");
+                        // console.log("scrolling right");
                         
                         carouselRef.current?.scrollBy({
                           left: 200,
                           behavior: "smooth",
                         });
                       } else if (index < currentImageIndex) {
-                        console.log("scrolling left");
+                        // console.log("scrolling left");
                         
                         carouselRef.current?.scrollBy({
                           left: -200 ,
