@@ -85,7 +85,10 @@ const PackDetails = ({ category }: { category: string }) => {
       queryClient.setQueryData(["modpacks"], (oldData) => {
         const newData = oldData as IModpack[];
         return newData.filter(
-          (modpack: IModpack) => modpack.modpackId !== modpackId
+          (modpack: IModpack) => {
+            console.log(modpack);
+            
+            return modpack.modpackId !== modpackId}
         );
       });
 
@@ -115,9 +118,15 @@ const PackDetails = ({ category }: { category: string }) => {
           console.log(oldData);
 
           const newData = oldData as IModpack[];
+          //return the every modpack that is not the one that was deleted
           return newData.filter(
-            () => data.modpackId !== modpackId
+            (modpack: IModpack) => {
+              console.log(modpack);
+              
+              return modpack.modpackId !== modpackId}
           );
+
+        
         });
       } else  if (pathname.includes("suggested")) {
         console.log("suggested");
@@ -127,7 +136,10 @@ const PackDetails = ({ category }: { category: string }) => {
 
           const newData = oldData as IModpack[];
           return newData.filter(
-            () => data.modpackId !== modpackId
+            (modpack: IModpack) => {
+              console.log(modpack);
+              
+              return modpack.modpackId !== modpackId}
           );
         });
       }
@@ -140,8 +152,13 @@ const PackDetails = ({ category }: { category: string }) => {
           
           const newData = oldData as IModpack[];
           return newData.filter(
-            () => data.modpackId !== modpackId);
-        });
+            (modpack: IModpack) => {
+              console.log(modpack);
+              
+              return modpack.modpackId !== modpackId}
+          );
+        }
+        );
       }
       
       toast.success(`${data.message}! 👌`);
@@ -310,15 +327,13 @@ const PackDetails = ({ category }: { category: string }) => {
                               disabled={deleteModpackMutation.isLoading}
                               className="last:active:bg-text/15 flex w-full cursor-pointer items-center gap-2 rounded-lg px-4 py-2 text-red-500 transition-all hover:bg-text/10 "
                               onClick={async () => {
-                                if (
-                                  prompt(
-                                    "Are you sure you want to delete this modpack?\nType 'yes' to confirm"
-                                  ) !== "yes"
-                                ) {
+                                if (confirm("Are you sure you want to delete this modpack?\n'yes' to confirm") === false) {
                                   return toast.error("Modpack not deleted");
                                 }
-                                if (deleteModpackMutation.isLoading) return;
-                                deleteModpackMutation.mutate();
+                                else {
+                                  if (deleteModpackMutation.isLoading) return;
+                                  deleteModpackMutation.mutate();
+                                }
                               }}
                             >
                               Delete{" "}
