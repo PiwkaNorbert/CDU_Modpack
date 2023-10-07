@@ -232,7 +232,7 @@ const Header = () => {
                 <img
                   className="h-full w-full cursor-pointer opacity-90 hover:opacity-100"
                   src={ 
-                    !user?.isLinked && user?.playerData?.mc_head_url.includes("NOT LINKED")
+                    !user?.isLinked && user?.playerData?.mc_head_url.includes("https://crafatar.com/renders/head/NOT LINKED?size=100&overlay")
                      ? `https://cdn.discordapp.com/avatars/${user?.id}/${user?.avatar}`
                      : user?.playerData?.mc_head_url
                   }
