@@ -2,44 +2,16 @@ import { QueryClient, useQuery } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { IModpack } from "../Utils/Interfaces";
 // import { staticLabels } from "../Constants";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { errorHandling } from "../Helper/errorHandling";
 import { apiBase } from "../Constants";
+import { filterModpacks } from "./filterModpacks";
 
 const useSuggestedModpackData = (queryClient: QueryClient) => {
-  const [modPackFilterByInput, setModPackFilterByInput] = useState("");
-  const [modPackFilterByTags, setModPackFilterByTags] = useState("");
-
-  const filterModpacks = useCallback(
-    (modpacks: IModpack[]) => {
-      if (!(modPackFilterByInput || modPackFilterByTags)) return modpacks;
-
-      let filteredModpacks = modpacks;
-
-      // sort packs by input value
-      if (modPackFilterByInput) {
-        filteredModpacks = filteredModpacks.filter(
-          (modpack) =>
-            modpack.name
-              .toLowerCase()
-              .includes(modPackFilterByInput.toLowerCase()) ||
-            modpack.tags.some(
-              (tag) => tag.toLowerCase() === modPackFilterByInput.toLowerCase()
-            )
-        );
-      }
-      // sort packs by tags
-      if (modPackFilterByTags) {
-        const tags = modPackFilterByTags.split(" ");
-        filteredModpacks = filteredModpacks.filter((modpack: IModpack) =>
-          tags.every((tag) => modpack.tags.includes(tag))
-        );
-      }
-
-      return filteredModpacks;
-    },
-    [modPackFilterByInput, modPackFilterByTags]
+  const [modPackFilterByInput, setModPackFilterByInput] = useState<string[]>(
+    []
   );
+  const [modPackFilterByTags, setModPackFilterByTags] = useState<string[]>([]);
 
   const fetchSuggestedModpacks = async () => {
     const { data, status } = await axios(`${apiBase}/api/list-suggested-packs`);
@@ -47,10 +19,7 @@ const useSuggestedModpackData = (queryClient: QueryClient) => {
     if (status !== 200) throw new Error("No Modpacks found");
 
     data.forEach((modpack: IModpack) => {
-      queryClient.setQueryData(
-        ["pack-details", modpack.modpackId],
-        modpack
-      );
+      queryClient.setQueryData(["pack-details", modpack.modpackId], modpack);
     });
 
     return data;
@@ -64,7 +33,8 @@ const useSuggestedModpackData = (queryClient: QueryClient) => {
       keepPreviousData: true,
       retry: 2,
       // initialData: staticLabels,
-      select: filterModpacks,
+      select: (modpack) =>
+        filterModpacks(modpack, modPackFilterByInput, modPackFilterByTags),
 
       onError: (error) => {
         if (axios.isAxiosError(error)) {

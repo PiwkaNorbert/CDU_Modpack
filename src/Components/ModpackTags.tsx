@@ -10,7 +10,7 @@ export function ModpackTags({
 }: {
   modpacks?: IModpack[];
   onTagClick: (tag: string) => void;
-  modPackFilterByTags: string;
+  modPackFilterByTags: string[];
 }) {
   // Initialize a state variable to store tag counts
   const tagCounts = useMemo(() => {

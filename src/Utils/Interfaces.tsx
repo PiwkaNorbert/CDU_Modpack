@@ -129,8 +129,8 @@ export interface iPackData {
   isLoading: boolean;
   isError: boolean;
   error: AxiosError<unknown> | null;
-  modPackFilterByTags: string;
-  modPackFilterByInput: string;
+  modPackFilterByTags: string[];
+  modPackFilterByInput: string[];
   setModPackFilterByInput: React.Dispatch<React.SetStateAction<string[]>>;
   setModPackFilterByTags: React.Dispatch<React.SetStateAction<string[]>>;
 }

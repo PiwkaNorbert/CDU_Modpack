@@ -2,48 +2,16 @@ import { QueryClient, useQuery } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { IModpack } from "../Utils/Interfaces";
 // import { staticLabels } from "../Constants";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { errorHandling } from "../Helper/errorHandling";
 import { apiBase } from "../Constants";
+import { filterModpacks } from "./filterModpacks";
 
 const useModpackData = (queryClient: QueryClient) => {
   const [modPackFilterByInput, setModPackFilterByInput] = useState<string[]>(
     []
   );
   const [modPackFilterByTags, setModPackFilterByTags] = useState<string[]>([]);
-
-  const filterModpacks = useCallback(
-    (modpacks: IModpack[]) => {
-      if (!(modPackFilterByInput || modPackFilterByTags)) return modpacks;
-
-      let filteredModpacks = modpacks;
-      // sort packs by input value
-      if (modPackFilterByInput.length > 0) {
-        filteredModpacks = filteredModpacks.filter(
-          (modpack) =>
-            modpack.name
-              .toLowerCase()
-              .includes(modPackFilterByInput[0].toLowerCase()) ||
-            modpack.tags.some(
-              (tag) =>
-                tag.toLowerCase() === modPackFilterByInput[0].toLowerCase()
-            )
-        );
-      }
-
-      // sort packs by tags
-      if (modPackFilterByTags.length > 0) {
-        filteredModpacks = filteredModpacks.filter(
-          (modpack: IModpack) =>
-            modPackFilterByTags.filter((tag) => modpack.tags.includes(tag))
-              .length === modPackFilterByTags.length
-        );
-      }
-
-      return filteredModpacks;
-    },
-    [modPackFilterByInput, modPackFilterByTags]
-  );
 
   const fetchModpacks = async () => {
     const { data, status } = await axios.get(`${apiBase}/api/list-packs`);
@@ -64,7 +32,8 @@ const useModpackData = (queryClient: QueryClient) => {
       staleTime: 1000 * 60 * 1, // 1 minutes
       retry: 2,
       // placeholderData: staticLabels,
-      select: filterModpacks,
+      select: (modpack) =>
+        filterModpacks(modpack, modPackFilterByInput, modPackFilterByTags),
 
       onError: (error) => {
         if (axios.isAxiosError(error)) {
