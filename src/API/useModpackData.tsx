@@ -7,32 +7,36 @@ import { errorHandling } from "../Helper/errorHandling";
 import { apiBase } from "../Constants";
 
 const useModpackData = (queryClient: QueryClient) => {
-  const [modPackFilterByInput, setModPackFilterByInput] = useState("");
-  const [modPackFilterByTags, setModPackFilterByTags] = useState("");
+  const [modPackFilterByInput, setModPackFilterByInput] = useState<string[]>(
+    []
+  );
+  const [modPackFilterByTags, setModPackFilterByTags] = useState<string[]>([]);
 
   const filterModpacks = useCallback(
     (modpacks: IModpack[]) => {
       if (!(modPackFilterByInput || modPackFilterByTags)) return modpacks;
 
       let filteredModpacks = modpacks;
-
       // sort packs by input value
-      if (modPackFilterByInput) {
+      if (modPackFilterByInput.length > 0) {
         filteredModpacks = filteredModpacks.filter(
           (modpack) =>
             modpack.name
               .toLowerCase()
-              .includes(modPackFilterByInput.toLowerCase()) ||
+              .includes(modPackFilterByInput[0].toLowerCase()) ||
             modpack.tags.some(
-              (tag) => tag.toLowerCase() === modPackFilterByInput.toLowerCase()
+              (tag) =>
+                tag.toLowerCase() === modPackFilterByInput[0].toLowerCase()
             )
         );
       }
+
       // sort packs by tags
-      if (modPackFilterByTags) {
-        const tags = modPackFilterByTags.split(" ");
-        filteredModpacks = filteredModpacks.filter((modpack: IModpack) =>
-          tags.every((tag) => modpack.tags.includes(tag))
+      if (modPackFilterByTags.length > 0) {
+        filteredModpacks = filteredModpacks.filter(
+          (modpack: IModpack) =>
+            modPackFilterByTags.filter((tag) => modpack.tags.includes(tag))
+              .length === modPackFilterByTags.length
         );
       }
 

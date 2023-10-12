@@ -71,7 +71,7 @@ const ModpackCard = (props: IModpack) => {
               width="275"
               height="155"
               placeholderSrc={`/src/assets/placeholderImg.png`}
-              className={`lazy-load-image-2 shrink-0 grow-0 block object-cover w-full border-b-[3.5px] text-right ${bgColorVariants[color]}  ${borderColorVariants[color]}  `}
+              className={`block w-full shrink-0 grow-0 border-b-[3.5px] object-cover text-right ${bgColorVariants[color]}  ${borderColorVariants[color]}  `}
             />
 
             <p
