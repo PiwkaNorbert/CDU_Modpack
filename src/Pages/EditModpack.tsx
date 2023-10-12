@@ -22,9 +22,10 @@ const EditModpack = ({ category }: { category: string }) => {
   // fetch the data from the server using the modpackName from the url
   const { modpackId: id } = useParams();
   const modpackId = id as string;
+  const [modpackColor, setModpackColor] = useState<string>("sky");
   const [modpackTags, setModpackTags] = useState<string[]>([]);
 
-  const { data, isLoading, isError,error } = usePackDetailData(modpackId);
+  const { data, isLoading, isError, error } = usePackDetailData(modpackId);
 
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -77,9 +78,11 @@ const EditModpack = ({ category }: { category: string }) => {
       },
     }
   );
+
   useEffect(() => {
     if (data?.tags) {
       setModpackTags(data?.tags);
+      setModpackColor(data?.color);
     }
   }, [data?.tags]);
 
@@ -89,7 +92,7 @@ const EditModpack = ({ category }: { category: string }) => {
         <h1 className="m-3 mt-5 text-2xl xl:text-3xl">Loading...</h1>
       </div>
     );
-    if (isError)
+  if (isError)
     return (
       <div className="flex h-full items-center justify-center">
         <h1 className="m-3 mt-5 text-2xl xl:text-3xl">{error.message}</h1>
@@ -102,12 +105,14 @@ const EditModpack = ({ category }: { category: string }) => {
       </div>
     );
 
+  const borderColor = modpackColor || "sky";
+
   return (
     <section
       id="modpack__addpack"
       className="z-[5] grid h-full w-full  flex-1 justify-normal  text-text lg:mx-auto lg:min-w-[900px] lg:max-w-[900px] "
     >
-      <div className="relative h-min overflow-hidden border-t-2 bg-bg  pb-4 dark:border-none dark:shadow  md:mb-4 md:rounded-b-md  md:border-none md:shadow-xl  ">
+      <div className="relative h-min border-t-2 bg-bg  pb-4 dark:border-none dark:shadow  md:mb-4 md:rounded-b-md  md:border-none md:shadow-xl  ">
         <div className={` z-10 grid h-full items-center  lg:rounded-md   `}>
           <div className=" z-10 mb-6 flex flex-col justify-between gap-2 px-8 pt-4  max-[350px]:mb-0 sm:gap-0  md:grid md:grid-cols-3 md:px-4 ">
             <div
@@ -234,10 +239,12 @@ const EditModpack = ({ category }: { category: string }) => {
               {/*Color selection*/}
               <select
                 className={`h-8 rounded-md border-2 px-3 py-1 font-Tilt dark:text-bg
-              ${borderColorVariants[data?.color]} 
-              ${bgColorVariants[data?.color]} `}
+                border-${borderColor}-500 bg-${borderColor}-400`}
                 name="color"
                 defaultValue={data?.color}
+                onChange={(e) => {
+                  setModpackColor(e.target.value);
+                }}
               >
                 {colorOptions.map((colorOption, index) => (
                   <option

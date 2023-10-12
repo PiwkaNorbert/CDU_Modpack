@@ -123,14 +123,10 @@ input[type="file"]::file-selector-button:hover {
   color: rgb(100 116 139);
 }
 .lazy-load-image {
-  width: 150px;
-  height: 138px;
+  width: 256px;
+  height: 144px;
 }
-.lazy-load-image-2 {
-  min-width: 194px;
-  min-height: 109px;
-  overflow: hidden;
-}
+
 @media screen and (min-width: 468px) {
   .lazy-load-image-2 {
     min-width: none;
@@ -139,7 +135,7 @@ input[type="file"]::file-selector-button:hover {
 
 @media only screen and (min-width: 1280px) {
   .lazy-load-image {
-    width: 180px;
+    width: auto;
     height: 166px;
   }
 }
@@ -334,14 +330,3 @@ input[type="file"]::file-selector-button:hover {
   filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=100);
   opacity: 1;
 }
-
-/* // modPackFilterByTags.includes(tag)
-//   ? setModPackFilterByTags(
-//       modPackFilterByTags
-//         .split(" ")
-//         .filter((tag: string) => tag !== tag)
-//         .join(" ")
-//     )
-//   : setModPackFilterByTags(
-//       modPackFilterByTags ? `${modPackFilterByTags} ${tag}` : tag
-//     ); */

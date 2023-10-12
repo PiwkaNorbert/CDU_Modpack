@@ -57,9 +57,9 @@ const Header = () => {
           <div className="absolute inset-0 m-auto bg-gradient-to-tr from-acc to-pri dark:brightness-50"></div>
           <img
             alt="CDU"
-            src="/logo.png"
-            width="140"
-            height="128"
+            src="/logo2.png"
+            width="256"
+            height="144"
             //loading="lazy"
             className=" lazy-load-image absolute top-0 cursor-pointer justify-self-center p-2 hover:animate-bounce-slow "
             onClick={() => navigate("/")}
@@ -68,7 +68,7 @@ const Header = () => {
       )}
       <nav
         className={twMerge(
-          "top-0  flex w-full items-center justify-stretch gap-2 border-bg bg-bg px-8 py-1 text-text md:justify-center md:px-4 lg:mx-auto lg:min-w-[900px] lg:max-w-[900px] lg:border-x-4",
+          "top-0  flex w-full items-center justify-stretch gap-2 border-bg bg-bg px-2 py-1 text-text  md:justify-center md:px-4 lg:mx-auto lg:min-w-[900px] lg:max-w-[900px] lg:border-x-4",
           isIntersecting ? "relative" : "sticky z-[10]  shadow-md ",
           window.location.pathname !== "/" ||
             window.location.pathname.includes("list")
@@ -86,7 +86,7 @@ const Header = () => {
             {/* If the window size is below 600px display a modal with the nav */}
             <img
               alt="CDU"
-              src="/logo.png"
+              src="/logo2.png"
               width="100"
               //loading="lazy"
               className="absolute top-0 z-30 cursor-pointer justify-self-center p-2 hover:animate-bounce-slow "
@@ -206,10 +206,10 @@ const Header = () => {
 
         <img
           alt="CDU"
-          src="/logo.png"
+          src="/logo2.png"
           loading="lazy"
           className={twMerge(
-            "top-0 z-10 order-1 block aspect-square h-10 cursor-pointer justify-self-center hover:animate-bounce-slow md:hidden ",
+            "top-0 z-10 order-1 block h-10 cursor-pointer justify-self-center hover:animate-bounce-slow md:hidden ",
             !isIntersecting || menu ? "block md:block" : ""
           )}
           onClick={() => navigate("/")}
@@ -228,18 +228,23 @@ const Header = () => {
                 <br />
                 {user?.globalName}
               </p>
-              <div className=" focus:ring-bkg/90 group relative z-10 flex aspect-square w-12 items-center rounded-full  font-medium focus:outline-none focus:ring-4">
+              <div className=" focus:ring-bkg/90 group/header__menu relative z-10 flex aspect-square w-12 items-center rounded-full  font-medium focus:outline-none focus:ring-4">
                 <img
                   className="h-full w-full cursor-pointer opacity-90 hover:opacity-100"
-                  src={ 
-                    !user?.isLinked && user?.playerData?.mc_head_url.includes("https://crafatar.com/renders/head/NOT%20LINKED?size=100&overlay")
-                     ? `https://cdn.discordapp.com/avatars/${user?.id}/${user?.avatar}`
-                     : user?.playerData?.mc_head_url
+                  src={
+                    !user?.isLinked &&
+                    user?.playerData?.mc_head_url.includes(
+                      "https://crafatar.com/renders/head/NOT%20LINKED?size=100&overlay"
+                    )
+                      ? `https://cdn.discordapp.com/avatars/${user?.id}/${user?.avatar}`
+                      : user?.playerData?.mc_head_url
                   }
                   alt={user?.username ? `${user?.username}'s avatar` : "avatar"}
                 />
-                <div className="absolute -left-9 top-12 rounded-lg bg-bg shadow-md ">
-                  <div className={`dropdown-body group-hover:block`}>
+                <div className="absolute -right-2 top-12 rounded-lg bg-bg shadow-md ">
+                  <div
+                    className={`dropdown-body group-hover/header__menu:block`}
+                  >
                     <ul
                       className="space-y-1 p-1 text-sm"
                       aria-labelledby="dropdown-button"
