@@ -106,7 +106,6 @@ export interface AddModpackProps {
   description: string;
   tags: string[];
   color: string;
-  suggestor: string;
   officialUrl: string;
 }
 

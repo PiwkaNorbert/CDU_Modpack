@@ -43,21 +43,35 @@ const PackDetails = ({ category }: { category: string }) => {
   }modpack/${modpackId}`;
   const returnToButton = category === "main" ? "/" : `/list-${category}-packs`;
 
+  function returnToLists(data: any ) {
+    toast.success(`${data.message}! 👌`); 
   
+    if (pathname.includes("archived")) {
+      updateModpackInList("archived-modpacks");
+      return navigate("/archived-modpacks");
+    } else if (pathname.includes("suggested")) {
+      updateModpackInList("suggested-modpacks");
+      return navigate("/suggested-modpacks");
+    } else {
+      updateModpackInList("modpacks");
+      return navigate("/");
+    }
+  }
 
   useEffect(() => {
     if (isLoading) return;
 
-    if (data?.isPublished && !data?.isArchived) {
-      return navigate(`/pack-details/${data?.modpackId}`);
-    } else if (data?.isArchived === true) {
-      return navigate(`/archived-pack-details/${data?.modpackId}`);
-    } else if (!data?.isPublished) {
-      return navigate(`/suggested-pack-details/${data?.modpackId}`);
-    }
+      if (data?.isPublished && !data?.isArchived) {
+        return navigate(`/pack-details/${data?.modpackId}`);
+      } else if (data?.isArchived === true) {
+        return navigate(`/archived-pack-details/${data?.modpackId}`);
+      } else if (!data?.isPublished) {
+        return navigate(`/suggested-pack-details/${data?.modpackId}`);
+      }
+
   }, [data, isLoading, navigate]);
 
-  const delteModpack = async () =>
+  const deleteModpack = async () =>
     await axios.delete(`${apiBase}/api/delete-modpack`, {
       withCredentials: true,
       headers: {
@@ -91,10 +105,8 @@ const PackDetails = ({ category }: { category: string }) => {
 
   const archiveModpackMutation = useMutation(archiveModpack, {
     onSuccess: ({data}) => {
-      updateModpackInList("modpacks");
-      
-      toast.success(`${data.message}! 👌`);
-      return navigate("/");
+      returnToLists(data)
+
     },
     onError: (error) => {
       if (error instanceof Error) {
@@ -107,20 +119,10 @@ const PackDetails = ({ category }: { category: string }) => {
     },
   });
 
-  const deleteModpackMutation = useMutation(delteModpack, {
+  const deleteModpackMutation = useMutation(deleteModpack, {
     onSuccess: ({data}) => {
-
-      if (pathname.includes("archived")) {
-        updateModpackInList("archived-modpacks");
-      } else if (pathname.includes("suggested")) {
-        updateModpackInList("suggested-modpacks");
-      } else {
-        updateModpackInList("modpacks");
-      }
-
-      toast.success(`${data.message}! 👌`);
-
-      return navigate("/");
+      returnToLists(data)
+    
     },
     onError: (error) => {
       if (error instanceof Error) {
@@ -357,7 +359,7 @@ const PackDetails = ({ category }: { category: string }) => {
                     Suggested By
                     <br />{" "}
                     <span className="text-text/50">
-                      {suggestedBy ?? "Suggestor"}
+                      {suggestedBy ?? "Unknown"}
                     </span>
                   </p>
                   <p data-tooltip={`Discord ID ${publishedBy}`} className="text-content  my-4 break-normal w-fit mx-auto text-center text-xs uppercase flex flex-col cursor-pointer justify-center items-center  md:my-0 group/publishedBy relative"
@@ -366,7 +368,7 @@ const PackDetails = ({ category }: { category: string }) => {
                     Published By
                     <br />{" "}
                     <span className="text-text/50">
-                      {publishedBy ?? "Publisher"}
+                      {publishedBy ?? "Unknown"}
                     </span>
                     
                   </p>

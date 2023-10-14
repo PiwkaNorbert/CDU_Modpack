@@ -26,7 +26,6 @@ export const CreateModpack = () => {
       description,
       tags,
       color,
-      suggestor,
       officialUrl,
     }: AddModpackProps) =>
       axios.post(
@@ -36,7 +35,6 @@ export const CreateModpack = () => {
           description,
           tags,
           color,
-          suggestor,
           officialUrl,
         },
         {
@@ -60,7 +58,6 @@ export const CreateModpack = () => {
       onSuccess: ({ data }) => {
         queryClient.setQueryData(["suggested-modpacks"], (oldData) => {
           const oldSuggestedModpacks = oldData as AddModpackProps[];
-          console.log(oldSuggestedModpacks);
       
           if (!oldSuggestedModpacks) {
             return [data.modpack];
@@ -98,7 +95,6 @@ export const CreateModpack = () => {
             name: { value: string };
             description: { value: string };
             color: { value: string };
-            suggestor: { value: string };
             officialUrl: { value: string };
           };
 
@@ -107,9 +103,7 @@ export const CreateModpack = () => {
             description: target.description.value,
             tags: modpackTags,
             color: target.color.value,
-            suggestor: target.suggestor.value,
             officialUrl: target.officialUrl.value,
-            // image: target.image.files[0],
           });
         }}
       >
