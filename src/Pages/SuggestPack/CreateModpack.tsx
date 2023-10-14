@@ -30,7 +30,7 @@ export const CreateModpack = () => {
       officialUrl,
     }: AddModpackProps) =>
       axios.post(
-        `${apiBase}/api/add-modpack`,
+        `${apiBase}/api/suggest-modpack`,
         {
           name,
           description,
@@ -49,7 +49,7 @@ export const CreateModpack = () => {
 
     {
       onSettled: () => {
-        queryClient.invalidateQueries(["modpacks"]);
+        queryClient.invalidateQueries(["modpacks", "suggested-modpacks", "archived-modpacks"]);
       },
       onError: (error) => {
         if (error instanceof Error) {
@@ -57,14 +57,20 @@ export const CreateModpack = () => {
         }
         throw error;
       },
-      onSuccess: ({data}) => {
+      onSuccess: ({ data }) => {
         queryClient.setQueryData(["suggested-modpacks"], (oldData) => {
           const oldSuggestedModpacks = oldData as AddModpackProps[];
-
-          return [
-            ...oldSuggestedModpacks,
-            data.modpack,
-          ];  
+          console.log(oldSuggestedModpacks);
+      
+          if (!oldSuggestedModpacks) {
+            return [data.modpack];
+          }
+      
+          return [...oldSuggestedModpacks, data.modpack];
+        });
+      
+        toast.success("Modpack added!", {
+          toastId: "modpack-added",
         });
         return navigate(`/add-modpack/photos/${data.modpackId}`);
       },
