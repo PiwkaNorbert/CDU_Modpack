@@ -48,10 +48,10 @@ const PackDetails = ({ category }: { category: string }) => {
   
     if (pathname.includes("archived")) {
       updateModpackInList("archived-modpacks");
-      return navigate("/archived-modpacks");
+      return navigate("/list-archived-modpacks");
     } else if (pathname.includes("suggested")) {
       updateModpackInList("suggested-modpacks");
-      return navigate("/suggested-modpacks");
+      return navigate("/list-suggested-modpacks");
     } else {
       updateModpackInList("modpacks");
       return navigate("/");
