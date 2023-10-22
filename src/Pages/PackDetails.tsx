@@ -98,7 +98,7 @@ const PackDetails = ({ category }: { category: string }) => {
       queryClient.setQueryData([listName], (oldData) => {
         const newData = oldData as IModpack[];
         return newData.filter(
-          (modpack: IModpack) => modpack.modpackId !== modpackId
+          (modpack: IModpack) => modpack.modpackId !== modpackId 
         );
       });
     }
