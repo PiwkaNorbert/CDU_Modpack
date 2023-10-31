@@ -173,6 +173,7 @@ const PackDetails = ({ category }: { category: string }) => {
   }: // isArchived,
   // isPublished,
   IPackDetails = data;
+  console.log(data);
 
   const commentCount = comments
     ? comments.length
