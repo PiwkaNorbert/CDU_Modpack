@@ -41,6 +41,21 @@ const PackDetails = ({ category }: { category: string }) => {
   }modpack/${modpackId}`;
   const returnToButton = category === "main" ? "/" : `/list-${category}-packs`;
 
+  function returnToLists(data: any) {
+    toast.success(`${data.message}! 👌`);
+
+    if (pathname.includes("archived")) {
+      updateModpackInList("archived-modpacks");
+      return navigate("/list-archived-modpacks");
+    } else if (pathname.includes("suggested")) {
+      updateModpackInList("suggested-modpacks");
+      return navigate("/list-suggested-modpacks");
+    } else {
+      updateModpackInList("modpacks");
+      return navigate("/");
+    }
+  }
+
   useEffect(() => {
     if (isLoading) return;
 
@@ -53,7 +68,7 @@ const PackDetails = ({ category }: { category: string }) => {
     }
   }, [data, isLoading, navigate]);
 
-  const delteModpack = async () =>
+  const deleteModpack = async () =>
     await axios.delete(`${apiBase}/api/delete-modpack`, {
       withCredentials: true,
       headers: {
@@ -87,10 +102,7 @@ const PackDetails = ({ category }: { category: string }) => {
 
   const archiveModpackMutation = useMutation(archiveModpack, {
     onSuccess: ({ data }) => {
-      updateModpackInList("modpacks");
-
-      toast.success(`${data.message}! 👌`);
-      return navigate("/");
+      returnToLists(data);
     },
     onError: (error) => {
       if (error instanceof Error) {
@@ -103,19 +115,9 @@ const PackDetails = ({ category }: { category: string }) => {
     },
   });
 
-  const deleteModpackMutation = useMutation(delteModpack, {
+  const deleteModpackMutation = useMutation(deleteModpack, {
     onSuccess: ({ data }) => {
-      if (pathname.includes("archived")) {
-        updateModpackInList("archived-modpacks");
-      } else if (pathname.includes("suggested")) {
-        updateModpackInList("suggested-modpacks");
-      } else {
-        updateModpackInList("modpacks");
-      }
-
-      toast.success(`${data.message}! 👌`);
-
-      return navigate("/");
+      returnToLists(data);
     },
     onError: (error) => {
       if (error instanceof Error) {
@@ -384,7 +386,7 @@ const PackDetails = ({ category }: { category: string }) => {
                     Suggested By
                     <br />{" "}
                     <span className="text-text/50">
-                      {suggestedBy ?? "Suggestor"}
+                      {suggestedBy ?? "Unknown"}
                     </span>
                   </p>
                   <p
@@ -395,7 +397,7 @@ const PackDetails = ({ category }: { category: string }) => {
                     Published By
                     <br />{" "}
                     <span className="text-text/50">
-                      {publishedBy ?? "Publisher"}
+                      {publishedBy ?? "Unknown"}
                     </span>
                   </p>
                 </div>

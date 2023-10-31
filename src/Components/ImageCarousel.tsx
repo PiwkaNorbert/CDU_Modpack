@@ -61,7 +61,7 @@ export const ImageCarousel = ({
     async () =>
       await axios.post(
         `${apiBase}/api/delete_pack_image`,
-        { imageId: match && match[0], modpackId },
+        { imageId: match && match[0] },
         {
           withCredentials: true,
           headers: {

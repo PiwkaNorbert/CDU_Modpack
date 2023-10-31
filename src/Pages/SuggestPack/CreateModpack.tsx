@@ -9,34 +9,38 @@ import { tagOptions, colorOptions } from "../../Helper/modifyModpack";
 import { errorHandling } from "../../Helper/errorHandling";
 import { twMerge } from "tailwind-merge";
 import { apiBase, borderColorVariants, isDev } from "../../Constants";
+import { debounce } from "lodash";
+import { DebounceInput } from "react-debounce-input";
 
 export const CreateModpack = () => {
   const [modpackDescription, setModpackDescription] =
     React.useState<string>("");
   const [modpackColor, setModpackColor] = React.useState<string>("sky");
   const [modpackTags, setModpackTags] = React.useState<string[]>([]);
+  const [isAvailable, setIsAvailable] = React.useState(false);
+  const [modpackName, setModpackName] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
   const { username } = JSON.parse(localStorage.getItem("profileData") || "{}");
+
+  const re = /^(?=[a-zA-Z0-9._]{2,32}$)(?!.*[_.]{2})[^_.].*[^_.]$/;
+
+  const isValid =
+    modpackName.length > 1 && modpackName.length < 32 && re.test(modpackName);
+  const isTouched = modpackName.length > 0;
+  const isTaken = isValid && !isAvailable && !loading;
 
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
   const addModpackMutation = useMutation(
-    ({
-      name,
-      description,
-      tags,
-      color,
-      suggestor,
-      officialUrl,
-    }: AddModpackProps) =>
+    ({ name, description, tags, color, officialUrl }: AddModpackProps) =>
       axios.post(
-        `${apiBase}/api/add-modpack`,
+        `${apiBase}/api/suggest-modpack`,
         {
           name,
           description,
           tags,
           color,
-          suggestor,
           officialUrl,
         },
         {
@@ -49,7 +53,11 @@ export const CreateModpack = () => {
 
     {
       onSettled: () => {
-        queryClient.invalidateQueries(["modpacks"]);
+        queryClient.invalidateQueries([
+          "modpacks",
+          "suggested-modpacks",
+          "archived-modpacks",
+        ]);
       },
       onError: (error) => {
         if (error instanceof Error) {
@@ -61,12 +69,50 @@ export const CreateModpack = () => {
         queryClient.setQueryData(["suggested-modpacks"], (oldData) => {
           const oldSuggestedModpacks = oldData as AddModpackProps[];
 
+          if (!oldSuggestedModpacks) {
+            return [data.modpack];
+          }
+
           return [...oldSuggestedModpacks, data.modpack];
+        });
+
+        toast.success("Modpack added!", {
+          toastId: "modpack-added",
         });
         return navigate(`/add-modpack/photos/${data.modpackId}`);
       },
     }
   );
+
+  const debouncedCheckAvailability = React.useRef(
+    debounce(checkAvailability, 500)
+  ).current;
+  console.log("debouncedCheckAvailability", debouncedCheckAvailability);
+
+  function handleModpackNameChange(newModpackName: string) {
+    console.log("handleModpackNameChange", newModpackName);
+
+    setModpackName(newModpackName);
+    setLoading(true);
+    setIsAvailable(false);
+    debouncedCheckAvailability(newModpackName);
+  }
+
+  async function checkAvailability(modpackName: string) {
+    console.log("checkAvailability", modpackName);
+
+    const { data, status } = await axios.post(
+      `${apiBase}/api/check-duplicate-modpack-name`,
+      { modpackName },
+      { withCredentials: true }
+    );
+    if (status !== 200)
+      throw new Error("Error checking modpack name availability");
+    const exists = data.exists;
+
+    setIsAvailable(!exists);
+    setLoading(false);
+  }
 
   const borderColor = modpackColor || "sky";
 
@@ -79,17 +125,19 @@ export const CreateModpack = () => {
         </h1>
       </div>
       <form
-        className="mb-8 grid items-center justify-center gap-4 pt-[.5em] text-sm text-text placeholder:text-slate-400 xl:text-base"
-        onSubmit={async (e: React.FormEvent<HTMLFormElement>) => {
+        className="mx-auto mb-8 flex w-96  flex-col flex-wrap justify-center gap-4 pt-[.5em] text-sm text-text  placeholder:text-slate-400  xl:text-base"
+        onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
           e.preventDefault();
-          if (addModpackMutation.isLoading) return;
-          confirm("Are you sure you want to submit this modpack?");
+          if (
+            addModpackMutation.isLoading ||
+            !confirm("Are you sure you want to submit this modpack?")
+          )
+            return;
 
           const target = e.target as HTMLFormElement & {
             name: { value: string };
             description: { value: string };
             color: { value: string };
-            suggestor: { value: string };
             officialUrl: { value: string };
           };
 
@@ -98,24 +146,80 @@ export const CreateModpack = () => {
             description: target.description.value,
             tags: modpackTags,
             color: target.color.value,
-            suggestor: target.suggestor.value,
             officialUrl: target.officialUrl.value,
-            // image: target.image.files[0],
           });
         }}
       >
         {/* Modpack name field, single line. */}
-        <input
-          required
-          className={` h-8 rounded-md border-2 bg-bg  border-${borderColor}-500 px-3 py-1`}
-          type="text"
-          placeholder="Name"
-          name="name"
-        />
+        <div className="relative">
+          <DebounceInput
+            required
+            className={twMerge(
+              ` mr-10 h-8 w-full rounded-md border-2 bg-bg focus:border-transparent focus:outline-none focus:ring-0 active:border-none active:outline-none border-${borderColor}-500 px-3 py-1`,
+              !isValid && isTouched && "border-red-500",
+              isTaken && "border-yellow-500",
+              isAvailable && isValid && !loading && "border-green-500"
+            )}
+            type="text"
+            placeholder="Name"
+            name="name"
+            minLength={3}
+            debounceTimeout={500}
+            onChange={(e: { target: { value: string } }) => {
+              // if the the input is empty return
+              if (!e.target.value) return;
+              handleModpackNameChange(e.target.value);
+            }}
+            autoComplete="false"
+          />
+          {loading && (
+            <div className="absolute bottom-0 right-0 top-0 flex items-center bg-black pr-3">
+              <svg
+                className="h-5 w-5 animate-spin"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                />
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                />
+              </svg>
+            </div>
+          )}
+        </div>
+        <div className=" relative w-full items-center gap-2 truncate pt-1 text-base ">
+          {loading ? (
+            <div className="w-full    break-all  sm:items-center sm:gap-2 ">
+              Checking availability of @{modpackName}...
+            </div>
+          ) : !isValid && isTouched ? (
+            <p className="text-error text-sm">
+              must be 3-16 characters long, alphanumeric only
+            </p>
+          ) : isValid && !isAvailable && !loading ? (
+            <p className="text-warning text-sm">
+              @{modpackName} is not available
+            </p>
+          ) : isValid && isTouched && isAvailable ? (
+            <button className="btn btn-success">
+              Confirm modpack name @{modpackName}{" "}
+            </button>
+          ) : null}
+        </div>
         {/* Modpack description field, multi line. */}
         {/* In order to make the modpack field multi line, we need to use a textarea instead of an input. */}
         <textarea
-          className={` min-h-[100px] rounded-md border-2 bg-bg  border-${borderColor}-500 w-96 px-3 py-1 out-of-range:border-red-500 `}
+          className={` min-h-[100px] rounded-md border-2 bg-bg  border-${borderColor}-500  px-3 py-1 out-of-range:border-red-500 `}
           placeholder="Modpack Description"
           value={modpackDescription}
           name="description"
@@ -135,7 +239,7 @@ export const CreateModpack = () => {
           <p>{modpackDescription.length}/500</p>
         </div>
         {/* A Tag selector that has pill shaped containers from tagOptions that when clicked once it pushes the tagoptions value to listOfTags and if clicked again it removes the tagoptions value from listOfTags and if the value is in the listOfTags it gets a checkmark on the left handside of the text */}
-        <div className=" mb-4 w-96">
+        <div className=" mb-4 ">
           <div className=" flex flex-wrap justify-center gap-2">
             {tagOptions.map((tagOption, index) => (
               <button
