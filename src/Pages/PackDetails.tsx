@@ -31,8 +31,6 @@ const PackDetails = ({ category }: { category: string }) => {
 
   const { data, isError, isLoading, fetchStatus, error } =
     usePackDetailData(modpackId);
-  
-    
 
   const { user } = useUser();
   const queryClient = useQueryClient();
@@ -42,8 +40,6 @@ const PackDetails = ({ category }: { category: string }) => {
     category === "main" ? "" : category + "-"
   }modpack/${modpackId}`;
   const returnToButton = category === "main" ? "/" : `/list-${category}-packs`;
-
-  
 
   useEffect(() => {
     if (isLoading) return;
@@ -80,19 +76,19 @@ const PackDetails = ({ category }: { category: string }) => {
       }
     );
 
-    const updateModpackInList = (listName: string) => {
-      queryClient.setQueryData([listName], (oldData) => {
-        const newData = oldData as IModpack[];
-        return newData.filter(
-          (modpack: IModpack) => modpack.modpackId !== modpackId
-        );
-      });
-    }
+  const updateModpackInList = (listName: string) => {
+    queryClient.setQueryData([listName], (oldData) => {
+      const newData = oldData as IModpack[];
+      return newData.filter(
+        (modpack: IModpack) => modpack.modpackId !== modpackId
+      );
+    });
+  };
 
   const archiveModpackMutation = useMutation(archiveModpack, {
-    onSuccess: ({data}) => {
+    onSuccess: ({ data }) => {
       updateModpackInList("modpacks");
-      
+
       toast.success(`${data.message}! 👌`);
       return navigate("/");
     },
@@ -108,8 +104,7 @@ const PackDetails = ({ category }: { category: string }) => {
   });
 
   const deleteModpackMutation = useMutation(delteModpack, {
-    onSuccess: ({data}) => {
-
+    onSuccess: ({ data }) => {
       if (pathname.includes("archived")) {
         updateModpackInList("archived-modpacks");
       } else if (pathname.includes("suggested")) {
@@ -129,12 +124,37 @@ const PackDetails = ({ category }: { category: string }) => {
       throw error;
     },
     onSettled: () => {
-      queryClient.invalidateQueries(["pack-details", modpackId], {exact: true});
-      queryClient.invalidateQueries(["modpacks","suggested-modpacks", "archived-modpacks"]);
+      queryClient.invalidateQueries(["pack-details", modpackId], {
+        exact: true,
+      });
+      queryClient.invalidateQueries([
+        "modpacks",
+        "suggested-modpacks",
+        "archived-modpacks",
+      ]);
     },
   });
+
   if (isLoading) return <Loading size="la-lx" fullScreen={true} other="" />;
-  if (isError) return <p>{error?.message}</p>;
+  if (isError)
+    return (
+      <div className="grid h-full w-full flex-1  justify-normal py-20 text-center text-text lg:mx-auto lg:min-w-[900px] lg:max-w-[900px]">
+        <p className="py-10">
+          {error?.message} 😢 - Please try again later or reload the page.
+          <br /> If the problem persists, please contact us on our discord
+          server.
+          {/* refetch data button */}
+        </p>
+        <button
+          className="mx-auto w-fit rounded-md border-2 border-black bg-text px-4 py-2 text-sm text-bg hover:bg-opacity-80 disabled:bg-slate-600 dark:text-bg xl:text-base"
+          onClick={() =>
+            queryClient.invalidateQueries(["pack-details", modpackId])
+          }
+        >
+          Reload
+        </button>
+      </div>
+    );
 
   const {
     name,
@@ -163,7 +183,6 @@ const PackDetails = ({ category }: { category: string }) => {
   function setShowAddReply(value: SetStateAction<boolean>): void {
     return console.log(value);
   }
-  
 
   return (
     <>
@@ -285,11 +304,16 @@ const PackDetails = ({ category }: { category: string }) => {
                               className="last:active:bg-text/15 flex w-full cursor-pointer items-center gap-2 rounded-lg px-4 py-2 text-red-500 transition-all hover:bg-text/10 "
                               onClick={async () => {
                                 if (deleteModpackMutation.isLoading) return;
-                                if (confirm("Are you sure you want to delete this modpack?\n'OK' to confirm")) {
+                                if (
+                                  confirm(
+                                    "Are you sure you want to delete this modpack?\n'OK' to confirm"
+                                  )
+                                ) {
                                   deleteModpackMutation.mutate();
-                                }
-                                else {
-                                  return toast.error("Unable to delete modpack");
+                                } else {
+                                  return toast.error(
+                                    "Unable to delete modpack"
+                                  );
                                 }
                               }}
                             >
@@ -326,9 +350,10 @@ const PackDetails = ({ category }: { category: string }) => {
                   <ImageCarousel galleryImages={galleryImages} color={color} />
                 )}
                 <div className="grid  content-center items-center space-y-4 md:mr-4">
-                  <p className="text-content mt-4 break-normal text-center text-4xl uppercase  md:my-0 "
-                   aria-label={`Modpack name: ${name}`}
-                   >
+                  <p
+                    className="text-content mt-4 break-normal text-center text-4xl uppercase  md:my-0 "
+                    aria-label={`Modpack name: ${name}`}
+                  >
                     {name ?? "Modpack Name"}
                   </p>
                   <div className="flex items-center justify-center gap-2">
@@ -351,30 +376,33 @@ const PackDetails = ({ category }: { category: string }) => {
                         : "You've Voted"}
                     </p>
                   )}
-                  <p data-tooltip={`Discord ID ${suggestedBy}`} className="text-content my-4 break-normal w-fit mx-auto text-center text-xs uppercase flex flex-col cursor-pointer justify-center items-center  md:my-0 group/suggestedBy relative "
-                   aria-label={`Suggested by ${suggestedBy}`}
-                   >
+                  <p
+                    data-tooltip={`Discord ID ${suggestedBy}`}
+                    className="text-content group/suggestedBy relative mx-auto my-4 flex w-fit cursor-pointer flex-col items-center justify-center break-normal text-center  text-xs uppercase md:my-0 "
+                    aria-label={`Suggested by ${suggestedBy}`}
+                  >
                     Suggested By
                     <br />{" "}
                     <span className="text-text/50">
                       {suggestedBy ?? "Suggestor"}
                     </span>
                   </p>
-                  <p data-tooltip={`Discord ID ${publishedBy}`} className="text-content  my-4 break-normal w-fit mx-auto text-center text-xs uppercase flex flex-col cursor-pointer justify-center items-center  md:my-0 group/publishedBy relative"
-                   aria-label={`Published by ${publishedBy}`}
-                   >
+                  <p
+                    data-tooltip={`Discord ID ${publishedBy}`}
+                    className="text-content  group/publishedBy relative mx-auto my-4 flex w-fit cursor-pointer flex-col items-center justify-center break-normal text-center  text-xs uppercase md:my-0"
+                    aria-label={`Published by ${publishedBy}`}
+                  >
                     Published By
                     <br />{" "}
                     <span className="text-text/50">
                       {publishedBy ?? "Publisher"}
                     </span>
-                    
                   </p>
                 </div>
               </div>
 
               {/* style the descripion to scroll on overflow and a max height of 364px */}
-              <div className="mx-auto grid sm:mb-0 mb-4  max-w-[412px] items-start justify-between gap-4 p-4 sm:mx-0 sm:max-w-full sm:grid-cols-2 sm:flex-row md:gap-0 md:space-x-4">
+              <div className="mx-auto mb-4 grid max-w-[412px]  items-start justify-between gap-4 p-4 sm:mx-0 sm:mb-0 sm:max-w-full sm:grid-cols-2 sm:flex-row md:gap-0 md:space-x-4">
                 {/* map the tags */}
                 <div className=" flex  flex-wrap items-center justify-center gap-[0.333rem] md:w-full ">
                   {tags?.map((tag: string, index: number) => (
@@ -417,7 +445,7 @@ const PackDetails = ({ category }: { category: string }) => {
               </div>
 
               {category !== "suggested" && (
-                <div className="sm:p-4 my-4 overflow-hidden px-2 py-4  ">
+                <div className="my-4 overflow-hidden px-2 py-4 sm:p-4  ">
                   <h3 className="mb-4 flex items-center justify-start  gap-4 text-2xl capitalize xl:text-3xl ">
                     comments ({commentCount}){" "}
                     {fetchStatus === "fetching" && (

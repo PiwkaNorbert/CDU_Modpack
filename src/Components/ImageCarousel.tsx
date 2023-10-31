@@ -22,7 +22,7 @@ export const ImageCarousel = ({
 
   const { modpackId } = useParams();
   const queryClient = useQueryClient();
-  
+
   const imagePath = galleryImages[currentImageIndex].imageUrl;
   const imageIdPattern = /\b[0-9A-Fa-f]+(?=\.\w+$)/;
   const match = imagePath.match(imageIdPattern);
@@ -36,29 +36,27 @@ export const ImageCarousel = ({
           withCredentials: true,
           headers: {
             "Content-Type": "application/json",
-          },  
-        }  
-      ),  
+          },
+        }
+      ),
     {
-      onSuccess: ({data}) => {
-
+      onSuccess: ({ data }) => {
         if (data.message.status === false)
           return toast.error(data.message.message);
-          
-          return toast.success("Image Updated!");
 
-      },    
+        return toast.success("Image Updated!");
+      },
       onError: (error) => {
         if (error instanceof Error) {
           return errorHandling(error);
-        }  
+        }
         throw error;
-      },  
+      },
       onSettled: () => {
         queryClient.invalidateQueries(["modpacks", "pack-details", modpackId]);
-      },  
-    }  
-  );  
+      },
+    }
+  );
   const deleteImageMutation = useMutation(
     async () =>
       await axios.post(
@@ -68,28 +66,27 @@ export const ImageCarousel = ({
           withCredentials: true,
           headers: {
             "Content-Type": "application/json",
-          },  
-        }  
-      ),  
+          },
+        }
+      ),
     {
       onSuccess: (res) => {
         if (res.data.message.status === false)
           return toast.error(res.data.message.message);
 
         toast.success("Image Deleted");
-      },  
+      },
       onError: (error) => {
         if (error instanceof Error) {
           return errorHandling(error);
-        }  
+        }
         throw error;
-      },  
+      },
       onSettled: () => {
         queryClient.invalidateQueries(["modpacks", "pack-details", modpackId]);
-      },  
-    }  
-  );  
-
+      },
+    }
+  );
 
   const handleImageClick = (imageUrl: string) => {
     setImageSrc(imageUrl);
@@ -112,7 +109,7 @@ export const ImageCarousel = ({
       setCurrentImageIndex(currentImageIndex - 1);
     }
   };
-  
+
   const carouselRef = useRef<HTMLDivElement>(null);
 
   return (
@@ -120,23 +117,23 @@ export const ImageCarousel = ({
       {/* make primary image button */}
 
       <div className="group relative mx-auto ">
-        <div className="w-full h-full flex overflow-hidden z-[5]  rounded-md ">
-          {galleryImages.map(({thumbnailUrl}: {thumbnailUrl:string}, index: number )=>
-            
+        <div className="z-[5] flex h-full w-full overflow-hidden  rounded-md ">
+          {galleryImages.map(
+            ({ thumbnailUrl }: { thumbnailUrl: string }, index: number) => (
               <img
-                    key={index}
-                    src={`https://www.trainjumper.com${thumbnailUrl}`}
-                    alt={`Modpack Image ${index + 1}`}
-                    style={{translate: `${-100 * currentImageIndex}%`}}
-                    // width="412"
-                    // height="233"
-                    className={` w-full shrink-0 grow-0 block object-cover border-2 rounded-md transition-all duration-300 min-h-[236.88px]  ${borderColorVariants[color]} ${bgColorVariants[color]}`}
-                />
-              
-         )}
+                key={index}
+                src={`https://www.trainjumper.com${thumbnailUrl}`}
+                alt={`Modpack Image ${index + 1}`}
+                style={{ translate: `${-100 * currentImageIndex}%` }}
+                // width="412"
+                // height="233"
+                className={` block min-h-[236.88px] w-full shrink-0 grow-0 rounded-md border-2 object-cover transition-all duration-300  ${borderColorVariants[color]} ${bgColorVariants[color]}`}
+              />
+            )
+          )}
         </div>
         {galleryImages?.length > 0 && (
-          <div className="absolute inset-0 mx-auto flex w-full h-full">
+          <div className="absolute inset-0 mx-auto flex h-full w-full">
             <div className="group flex flex-1 items-center justify-between  transition-all  ">
               <button
                 aria-label="Previous Image"
@@ -169,18 +166,19 @@ export const ImageCarousel = ({
                   <>
                     <button
                       disabled={primaryImageMutation.isLoading}
-                      className="last:active:bg-text/15 flex cursor-pointer disabled:cursor-auto items-center gap-2 rounded-lg bg-text bg-opacity-70 px-4 py-2  text-blue-500 opacity-0 transition-all  hover:bg-opacity-80 disabled:bg-slate-300   disabled:text-slate-500  group-hover/buttons:opacity-100  dark:bg-bg dark:bg-opacity-90  dark:hover:bg-opacity-100 dark:disabled:bg-slate-700  dark:disabled:text-slate-500 "
+                      className="last:active:bg-text/15 flex cursor-pointer items-center gap-2 rounded-lg bg-text bg-opacity-70 px-4 py-2 text-blue-500  opacity-0 transition-all hover:bg-opacity-80  disabled:cursor-auto disabled:bg-slate-300   disabled:text-slate-500  group-hover/buttons:opacity-100  dark:bg-bg dark:bg-opacity-90  dark:hover:bg-opacity-100 dark:disabled:bg-slate-700  dark:disabled:text-slate-500 "
                       onClick={() => {
                         if (primaryImageMutation.isLoading) return;
                         primaryImageMutation.mutate();
                       }}
                     >
-                      {primaryImageMutation.isLoading ? "Making Primary..." : "Make Primary"}
-
+                      {primaryImageMutation.isLoading
+                        ? "Making Primary..."
+                        : "Make Primary"}
                     </button>
                     <button
                       disabled={deleteImageMutation.isLoading}
-                      className="last:active:bg-text/15  flex cursor-pointer disabled:cursor-auto items-center gap-2 rounded-lg bg-text  bg-opacity-70 px-4 py-2 text-red-500 opacity-0 transition-all  hover:bg-opacity-80  disabled:bg-slate-300 disabled:text-slate-500 group-hover/buttons:opacity-100  dark:bg-bg  dark:bg-opacity-90   dark:hover:bg-opacity-100 dark:disabled:bg-slate-700  dark:disabled:text-slate-500  "
+                      className="last:active:bg-text/15  flex cursor-pointer items-center gap-2 rounded-lg bg-text bg-opacity-70  px-4 py-2 text-red-500 opacity-0 transition-all hover:bg-opacity-80  disabled:cursor-auto  disabled:bg-slate-300 disabled:text-slate-500 group-hover/buttons:opacity-100  dark:bg-bg  dark:bg-opacity-90   dark:hover:bg-opacity-100 dark:disabled:bg-slate-700  dark:disabled:text-slate-500  "
                       onClick={() => {
                         if (deleteImageMutation.isLoading) return;
                         deleteImageMutation.mutate();
@@ -216,11 +214,11 @@ export const ImageCarousel = ({
         )}
       </div>
       {galleryImages?.length > 1 && (
-
         // declare carouselRef using useRef hook
 
-        <div className="grid grid-cols-4 overflow-x-hidden px-1 scroll-smooth relative" 
-        ref={carouselRef}
+        <div
+          className="relative grid grid-cols-4 overflow-x-hidden scroll-smooth px-1"
+          ref={carouselRef}
         >
           <div className="mt-4 flex w-full gap-1 pb-1">
             {galleryImages?.map(
@@ -236,9 +234,9 @@ export const ImageCarousel = ({
                     width="81.3"
                     height="43.3"
                     className={twMerge(
-                      "  cursor-pointer grow-0 shrink-0  w-full h-full transition-all  rounded-md border-2 bg-text/50 object-cover  dark:bg-bg  focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-800 focus-visible:ring-white   ",
+                      "  h-full w-full shrink-0  grow-0 cursor-pointer rounded-md  border-2 bg-text/50 object-cover transition-all  focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-gray-800 dark:bg-bg   ",
                       currentImageIndex === index
-                        ? `border-bg/90 outline outline-2 shadow-inner `
+                        ? `border-bg/90 shadow-inner outline outline-2 `
                         : `border-text/50 hover:border-text/90 hover:shadow-inner`
                     )}
                     onClick={() => {
@@ -247,21 +245,20 @@ export const ImageCarousel = ({
 
                       if (index > currentImageIndex) {
                         // console.log("scrolling right");
-                        
+
                         carouselRef.current?.scrollBy({
                           left: 200,
                           behavior: "smooth",
                         });
                       } else if (index < currentImageIndex) {
                         // console.log("scrolling left");
-                        
+
                         carouselRef.current?.scrollBy({
-                          left: -200 ,
+                          left: -200,
                           behavior: "smooth",
                         });
                       }
                     }}
-                      
                     aria-label={`Image Thumbnail ${index + 1}`}
                   />
                 );
@@ -270,30 +267,29 @@ export const ImageCarousel = ({
           </div>
         </div>
       )}
-      
 
       <Dialog
         open={showModal}
         dialogStateChange={(open) => setShowModal(open)}
         contents={
-          <div className="fixed inset-0 h-full w-full z-50 grid items-center justify-center "
-          onClick={() => setShowModal(false)}
+          <div
+            className="fixed inset-0 z-50 grid h-full w-full items-center justify-center "
+            onClick={() => setShowModal(false)}
           >
-            <div className="flex flex-col  bg-black">
-
-            <img
-              src={`https://www.trainjumper.com${imageSrc}`}
-              alt="Modpack Image"
-              className="w-full md:w-[600px] lg:w-[896px] "
+            <div className="flex flex-col  ">
+              <img
+                src={`https://www.trainjumper.com${imageSrc}`}
+                alt="Modpack Image"
+                className="w-full md:w-[600px] lg:w-[896px] "
               />
-            <button
-              className="py-2 hover:bg-sec/20  w-full  text-text hover:text-text dark:hover:bg-hover-2 dark:text-text dark:hover:text-text"
-              onClick={() => setShowModal(false)}
-              aria-label="Close Modal"
+              <button
+                className="w-full bg-black py-2 text-bg  hover:bg-sec/20 hover:text-text dark:text-text dark:hover:bg-hover-2 dark:hover:text-text"
+                onClick={() => setShowModal(false)}
+                aria-label="Close Modal"
               >
-              Close
-            </button>
-              </div>
+                Close
+              </button>
+            </div>
           </div>
         }
       />

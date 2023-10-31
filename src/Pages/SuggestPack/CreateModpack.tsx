@@ -57,14 +57,11 @@ export const CreateModpack = () => {
         }
         throw error;
       },
-      onSuccess: ({data}) => {
+      onSuccess: ({ data }) => {
         queryClient.setQueryData(["suggested-modpacks"], (oldData) => {
           const oldSuggestedModpacks = oldData as AddModpackProps[];
 
-          return [
-            ...oldSuggestedModpacks,
-            data.modpack,
-          ];  
+          return [...oldSuggestedModpacks, data.modpack];
         });
         return navigate(`/add-modpack/photos/${data.modpackId}`);
       },
@@ -82,7 +79,7 @@ export const CreateModpack = () => {
         </h1>
       </div>
       <form
-        className="mb-8 grid items-center justify-center gap-4 pt-[.5em] text-sm text-text placeholder:text-slate-400   xl:text-base"
+        className="mb-8 grid items-center justify-center gap-4 pt-[.5em] text-sm text-text placeholder:text-slate-400 xl:text-base"
         onSubmit={async (e: React.FormEvent<HTMLFormElement>) => {
           e.preventDefault();
           if (addModpackMutation.isLoading) return;
