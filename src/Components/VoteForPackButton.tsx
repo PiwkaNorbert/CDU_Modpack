@@ -23,18 +23,10 @@ export default function VoteForPackButton({
   const { user, votesRemaining } = useUser();
 
   function changeVoteCount(response: any) {
-    console.log(response);
-
     if (response.status !== 200) throw new Error(response.data.error);
 
     queryClient.setQueryData(["pack-details", modpackId], (oldData) => {
       const modpack = oldData as IModpack;
-
-      console.log({
-        ...modpack,
-        voteCount: response?.data.modpack_votes,
-        timesVoted: response?.data.n_votes,
-      });
       if (!modpack) return;
 
       return {
@@ -50,12 +42,6 @@ export default function VoteForPackButton({
 
       return modpacks.map((modpack: IModpack) => {
         if (modpack.modpackId === modpackId) {
-          console.log({
-            ...modpack,
-            voteCount: response?.data.modpack_votes,
-            timesVoted: response?.data.n_votes,
-          });
-
           return {
             ...modpack,
             voteCount: response?.data.modpack_votes,
