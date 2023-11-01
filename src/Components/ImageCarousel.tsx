@@ -24,7 +24,7 @@ export const ImageCarousel = ({
   const queryClient = useQueryClient();
 
   const imagePath = galleryImages[currentImageIndex].imageUrl;
-  const imageIdPattern = /\b[0-9A-Fa-f]+(?=\.\w+$)/;
+  const imageIdPattern = /\b[0-9A-Fa-f-]+(?=\.\w+$)/;
   const match = imagePath.match(imageIdPattern);
 
   const primaryImageMutation = useMutation(
