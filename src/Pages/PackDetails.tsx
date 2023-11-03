@@ -288,7 +288,7 @@ console.log(data);
                     </button>
               
                     {/* delete modpack button only is userProfile is superUser */}
-                    {category !== "suggested" && (
+                    {category === "main" && (
                       <button
                         disabled={archiveModpackMutation.isLoading}
                         className="last:active:bg-text/15 flex sm:w-fit w-full justify-center sm:justify-normal cursor-pointer items-center gap-2 rounded-lg px-4 py-2 text-orange-500 transition-all hover:bg-text/10 "
@@ -297,9 +297,7 @@ console.log(data);
                           archiveModpackMutation.mutate();
                         }}
                       >
-                        {window.location.pathname.includes("archived")
-                          ? "Unarchive"
-                          : "Archive"}
+                      Archive
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="20"
