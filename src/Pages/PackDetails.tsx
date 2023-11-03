@@ -268,7 +268,16 @@ console.log(data);
                     disabled={publishModpackMutation.isLoading}
                     onClick={async () => {
                       if (publishModpackMutation.isLoading) return;
-                      publishModpackMutation.mutate();
+                      if (
+                        confirm(
+                          "Are you sure you want to Publish this modpack?\n'OK' to confirm"
+                        )
+                      ) {
+                          publishModpackMutation.mutate();
+                      }
+                      else {
+                        return toast.error("Unable to Publish modpack");
+                      }
                     }} >
                       {publishModpackMutation.isLoading ?  (
                           "Publishing Modpack..."
@@ -294,19 +303,33 @@ console.log(data);
                         className="last:active:bg-text/15 flex sm:w-fit w-full justify-center sm:justify-normal cursor-pointer items-center gap-2 rounded-lg px-4 py-2 text-orange-500 transition-all hover:bg-text/10 "
                         onClick={async () => {
                           if (archiveModpackMutation.isLoading) return;
-                          archiveModpackMutation.mutate();
+                          if (
+                            confirm(
+                              "Are you sure you want to Archive this modpack?\n'OK' to confirm"
+                            )
+                          ) {
+                            archiveModpackMutation.mutate();
+                          }
+                          else {
+                            return toast.error("Unable to Archive modpack");
+                          }
                         }}
                       >
-                      Archive
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="20"
-                          height="20"
-                          fill="currentColor"
-                          viewBox="0 0 256 256"
-                        >
-                          <path d="M224,48H32A16,16,0,0,0,16,64V88a16,16,0,0,0,16,16v88a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V104a16,16,0,0,0,16-16V64A16,16,0,0,0,224,48Zm-72,96H104a8,8,0,0,1,0-16h48a8,8,0,0,1,0,16Zm72-56H32V64H224V88Z"></path>
-                        </svg>
+                        {archiveModpackMutation.isLoading ?  (
+                          "Archiving Modpack..."
+                      ) : (
+                        <>
+                          Archive
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="20"
+                              height="20"
+                              fill="currentColor"
+                              viewBox="0 0 256 256"
+                              >
+                              <path d="M224,48H32A16,16,0,0,0,16,64V88a16,16,0,0,0,16,16v88a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V104a16,16,0,0,0,16-16V64A16,16,0,0,0,224,48Zm-72,96H104a8,8,0,0,1,0-16h48a8,8,0,0,1,0,16Zm72-56H32V64H224V88Z"></path>
+                            </svg>
+                        </>)}
                       </button>
                     )}
 
