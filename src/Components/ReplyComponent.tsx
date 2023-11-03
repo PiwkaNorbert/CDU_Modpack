@@ -111,6 +111,8 @@ export function ReplyComponent({
                     if (confirm("Are you sure you want to delete this comment?\n'OK' to confirm")) {
                       const commentId = comment?.uuid as string;
                       console.log(commentId);
+                      console.log(comment);
+                      
                       
                       deleteCommentMutation.mutate(commentId);
                     }
