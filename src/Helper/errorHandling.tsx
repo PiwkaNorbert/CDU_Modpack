@@ -1,7 +1,7 @@
 import { toast } from "react-toastify";
 
 export const errorHandling = (error: any) => {
-  switch (error.response.status) {
+  switch (error.status) {
     case 401:
       return toast.error(error.response.data.error);
     case 404:

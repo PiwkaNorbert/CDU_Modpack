@@ -44,7 +44,7 @@ const NotFoundPage = () => {
 
       {/* button to return to homepage */}
       <Link
-        className=" rounded-md border-2 border-black bg-text px-4 py-2 text-sm hover:bg-opacity-80 disabled:bg-slate-600 dark:text-bg xl:text-base"
+        className=" rounded-md border-2 border-black bg-text px-4 py-2 text-sm text-bg hover:bg-opacity-80 disabled:bg-slate-600 dark:text-bg xl:text-base"
         to={"/"}
       >
         Return to Homepage

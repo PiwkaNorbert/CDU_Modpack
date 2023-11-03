@@ -32,10 +32,8 @@ function SuggestedByUserSearch() {
       const { data, status } = await axios(
         `https://api.playcdu.co/search?partial_name=${username}&max_results=1`
       );
-      console.log(status);
 
       if (status !== 200) throw new Error("Error searching for username");
-      console.log(data);
 
       if (data.users.some((user: any) => user.username === username)) {
         console.log("Username exists");
