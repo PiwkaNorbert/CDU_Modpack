@@ -218,7 +218,7 @@ export const ImageCarousel = ({
         // declare carouselRef using useRef hook
 
         <div
-          className="relative grid grid-cols-4 overflow-x-hidden scroll-smooth px-1"
+          className="relative grid grid-cols-4 overflow-x-hidden scroll-smooth touch-pan-x px-1"
           ref={carouselRef}
         >
           <div className="mt-4 flex w-full gap-1 pb-1">

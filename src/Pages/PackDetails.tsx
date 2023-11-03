@@ -263,29 +263,54 @@ console.log(data);
                         <path d="M224,120v88a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V48A16,16,0,0,1,48,32h88a8,8,0,0,1,0,16H48V208H208V120a8,8,0,0,1,16,0Zm5.66-50.34-96,96A8,8,0,0,1,128,168H96a8,8,0,0,1-8-8V128a8,8,0,0,1,2.34-5.66l96-96a8,8,0,0,1,11.32,0l32,32A8,8,0,0,1,229.66,69.66Zm-17-5.66L192,43.31,179.31,56,200,76.69Z"></path>
                       </svg>
                     </Link>
+                    <button
+                    className={`last:active:bg-text/15 flex sm:w-fit w-full mx-auto justify-center sm:justify-normal cursor-pointer items-center gap-2 rounded-lg px-4 py-2 text-blue-500 transition-all hover:bg-text/10`}
+                    disabled={publishModpackMutation.isLoading}
+                    onClick={async () => {
+                      if (publishModpackMutation.isLoading) return;
+                      publishModpackMutation.mutate();
+                    }} >
+                      {publishModpackMutation.isLoading ?  (
+                          "Publishing Modpack..."
+                      ) : (
+                        <>
+                          Publish
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="w-4 "
+                            fill="currentColor"
+                            viewBox="0 0 256 256"
+                          >
+                            <path d="M230.14,25.86a20,20,0,0,0-19.57-5.11l-.22.07L18.44,79a20,20,0,0,0-3,37.28l84.32,40,40,84.32a19.81,19.81,0,0,0,18,11.44c.57,0,1.15,0,1.73-.07A19.82,19.82,0,0,0,177,237.56L235.18,45.65a1.42,1.42,0,0,0,.07-.22A20,20,0,0,0,230.14,25.86ZM157,220.92l-33.72-71.19,45.25-45.25a12,12,0,0,0-17-17l-45.25,45.25L35.08,99,210,46Z"></path>
+                          </svg>
+                        </>
+                      )}
+                    </button>
               
                     {/* delete modpack button only is userProfile is superUser */}
-                    <button
-                      disabled={archiveModpackMutation.isLoading}
-                      className="last:active:bg-text/15 flex sm:w-fit w-full justify-center sm:justify-normal cursor-pointer items-center gap-2 rounded-lg px-4 py-2 text-orange-500 transition-all hover:bg-text/10 "
-                      onClick={async () => {
-                        if (archiveModpackMutation.isLoading) return;
-                        archiveModpackMutation.mutate();
-                      }}
-                    >
-                      {window.location.pathname.includes("archived")
-                        ? "Unarchive"
-                        : "Archive"}
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="20"
-                        height="20"
-                        fill="currentColor"
-                        viewBox="0 0 256 256"
+                    {category !== "suggested" && (
+                      <button
+                        disabled={archiveModpackMutation.isLoading}
+                        className="last:active:bg-text/15 flex sm:w-fit w-full justify-center sm:justify-normal cursor-pointer items-center gap-2 rounded-lg px-4 py-2 text-orange-500 transition-all hover:bg-text/10 "
+                        onClick={async () => {
+                          if (archiveModpackMutation.isLoading) return;
+                          archiveModpackMutation.mutate();
+                        }}
                       >
-                        <path d="M224,48H32A16,16,0,0,0,16,64V88a16,16,0,0,0,16,16v88a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V104a16,16,0,0,0,16-16V64A16,16,0,0,0,224,48Zm-72,96H104a8,8,0,0,1,0-16h48a8,8,0,0,1,0,16Zm72-56H32V64H224V88Z"></path>
-                      </svg>
-                    </button>
+                        {window.location.pathname.includes("archived")
+                          ? "Unarchive"
+                          : "Archive"}
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="20"
+                          height="20"
+                          fill="currentColor"
+                          viewBox="0 0 256 256"
+                        >
+                          <path d="M224,48H32A16,16,0,0,0,16,64V88a16,16,0,0,0,16,16v88a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V104a16,16,0,0,0,16-16V64A16,16,0,0,0,224,48Zm-72,96H104a8,8,0,0,1,0-16h48a8,8,0,0,1,0,16Zm72-56H32V64H224V88Z"></path>
+                        </svg>
+                      </button>
+                    )}
 
                     {category === "suggested" && (
                         <button
@@ -373,33 +398,7 @@ console.log(data);
                       {suggestedBy ?? "Unknown"}
                     </span>
                   </p>
-                  {category === "suggested" ? (
-                    <button
-                    className={`last:active:bg-text/15 flex sm:w-fit w-full mx-auto justify-center sm:justify-normal cursor-pointer items-baseline gap-2 rounded-lg px-4 py-2 text-blue-500 transition-all hover:bg-text/10`}
-                    disabled={publishModpackMutation.isLoading}
-                    onClick={async () => {
-                      if (publishModpackMutation.isLoading) return;
-                      publishModpackMutation.mutate();
-                    }} >
-                      {publishModpackMutation.isLoading ?  (
-                          "Publishing Modpack..."
-                      ) : (
-                        <>
-                          <span>
-                          Publish Modpack!
-                          </span>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="w-4 "
-                            fill="currentColor"
-                            viewBox="0 0 256 256"
-                          >
-                            <path d="M230.14,25.86a20,20,0,0,0-19.57-5.11l-.22.07L18.44,79a20,20,0,0,0-3,37.28l84.32,40,40,84.32a19.81,19.81,0,0,0,18,11.44c.57,0,1.15,0,1.73-.07A19.82,19.82,0,0,0,177,237.56L235.18,45.65a1.42,1.42,0,0,0,.07-.22A20,20,0,0,0,230.14,25.86ZM157,220.92l-33.72-71.19,45.25-45.25a12,12,0,0,0-17-17l-45.25,45.25L35.08,99,210,46Z"></path>
-                          </svg>
-                        </>
-                      )}
-                    </button>
-                    ) : (
+                  {category !== "suggested" &&  (
                       <p data-tooltip={`Discord ID ${publishedBy}`} className="text-content  my-4 break-normal w-fit mx-auto text-center text-xs uppercase flex flex-col cursor-pointer justify-center items-center  md:my-0 group/publishedBy relative"
                       aria-label={`Published by ${publishedBy}`}
                       >
