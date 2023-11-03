@@ -263,6 +263,7 @@ console.log(data);
                         <path d="M224,120v88a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V48A16,16,0,0,1,48,32h88a8,8,0,0,1,0,16H48V208H208V120a8,8,0,0,1,16,0Zm5.66-50.34-96,96A8,8,0,0,1,128,168H96a8,8,0,0,1-8-8V128a8,8,0,0,1,2.34-5.66l96-96a8,8,0,0,1,11.32,0l32,32A8,8,0,0,1,229.66,69.66Zm-17-5.66L192,43.31,179.31,56,200,76.69Z"></path>
                       </svg>
                     </Link>
+                    {category !== "main" &&(
                     <button
                     className={`last:active:bg-text/15 flex sm:w-fit w-full mx-auto justify-center sm:justify-normal cursor-pointer items-center gap-2 rounded-lg px-4 py-2 text-blue-500 transition-all hover:bg-text/10`}
                     disabled={publishModpackMutation.isLoading}
@@ -295,7 +296,7 @@ console.log(data);
                         </>
                       )}
                     </button>
-              
+              )}
                     {/* delete modpack button only is userProfile is superUser */}
                     {category === "main" && (
                       <button
