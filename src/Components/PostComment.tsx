@@ -61,7 +61,7 @@ const PostComment = ({
         comment: comment,
         timestamp: Date.now(),
         username: user?.username,
-        avatar_url: user?.avatar,
+        avatar_url: `https://cdn.discordapp.com/avatars/${user?.id}/${user?.avatar}.png?size=1024`,
         reply_count: 0,
       };
 

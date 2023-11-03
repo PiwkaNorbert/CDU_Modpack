@@ -90,7 +90,7 @@ export function ReplyComponent({
     <div className="flex gap-2 pt-[1em] md:gap-4">
       <img
         className="h-10 w-10 rounded-full"
-        src={!comment?.avatar_url?.includes("https") ? 'https://cdn.discordapp.com/embed/avatars/0.png' :  comment?.avatar_url }
+        src={comment?.avatar_url}
         alt="user"
       />
       <div className="grid items-center gap-2 pt-1 text-base relative">
