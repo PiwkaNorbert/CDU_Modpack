@@ -182,7 +182,18 @@ export const ImageCarousel = ({
                       className="last:active:bg-text/15  flex cursor-pointer items-center gap-2 rounded-lg bg-text bg-opacity-70  px-4 py-2 text-red-500 opacity-0 transition-all hover:bg-opacity-80  disabled:cursor-auto  disabled:bg-slate-300 disabled:text-slate-500 group-hover/buttons:opacity-100  dark:bg-bg  dark:bg-opacity-90   dark:hover:bg-opacity-100 dark:disabled:bg-slate-700  dark:disabled:text-slate-500  "
                       onClick={() => {
                         if (deleteImageMutation.isLoading) return;
-                        deleteImageMutation.mutate();
+                        if (
+                          confirm(
+                            "Are you sure you want to delete this image?\n'OK' to confirm"
+                          )
+                        ) {
+
+                          deleteImageMutation.mutate();
+                        }
+                        else {
+                          return toast.error("Unable to delete image");
+                        }
+
                       }}
                     >
                       {deleteImageMutation.isLoading ? "Deleting..." : "Delete"}
