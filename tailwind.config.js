@@ -11,6 +11,12 @@ export default {
   theme: {
     extend: {
       backgroundOpacity: ["active"],
+      gridTemplateColumns: {
+        "auto-fit": "auto, 1fr",
+      },
+      gridTemplateRows: {
+        "auto-fit": "auto, 1fr",
+      },
 
       backgroundSize: {
         "size-200": "200% 200%",

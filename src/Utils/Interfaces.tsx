@@ -64,6 +64,7 @@ export interface ICommentReplies {
 export interface ICommentComponent {
   color: string;
   comment?: IComment;
+  idx?: number;
   replyingTo: boolean;
   replyParentId: string;
 }
@@ -106,6 +107,7 @@ export interface AddModpackProps {
   description: string;
   tags: string[];
   color: string;
+  suggestor: string;
   officialUrl: string;
 }
 

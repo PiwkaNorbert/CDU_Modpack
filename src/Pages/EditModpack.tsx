@@ -30,6 +30,7 @@ const EditModpack = ({ category }: { category: string }) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
+
   const editModpackMutation = useMutation(
     ({
       name,
@@ -163,7 +164,7 @@ const EditModpack = ({ category }: { category: string }) => {
               onSubmit={async (e: React.FormEvent<HTMLFormElement>) => {
                 e.preventDefault();
                 if (editModpackMutation.isLoading) return;
-
+                
                 const target = e.target as HTMLFormElement & {
                   name: { value: string };
                   description: { value: string };
@@ -171,7 +172,7 @@ const EditModpack = ({ category }: { category: string }) => {
                   suggestor: { value: string };
                   officialUrl: { value: string };
                 };
-
+  
                 editModpackMutation.mutate({
                   name: target.name.value,
                   description: target.description.value,
@@ -299,16 +300,12 @@ const EditModpack = ({ category }: { category: string }) => {
                 disabled={editModpackMutation.isLoading}
               >
                 <span className="flex items-center justify-center gap-2 group-hover:scale-105">
-                  {editModpackMutation.isLoading ? (
-                    category === "suggested" ? (
-                      "Publishing..."
-                    ) : (
+                  {editModpackMutation.isLoading ?  (
                       "Editing Modpack..."
-                    )
                   ) : (
                     <>
                       <span>
-                        {category === "suggested" ? "Publish" : "Edit Modpack!"}
+                      Edit Modpack!
                       </span>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
