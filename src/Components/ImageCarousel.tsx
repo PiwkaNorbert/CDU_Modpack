@@ -121,11 +121,11 @@ export const ImageCarousel = ({
 
       <div className="group relative mx-auto ">
         <div className="w-full h-full flex overflow-hidden z-[5]  rounded-md ">
-          {galleryImages.map(({thumbnailUrl}: {thumbnailUrl:string}, index: number )=>
+          {galleryImages.map(({imageUrl}: {imageUrl:string}, index: number )=>
             
               <img
                     key={index}
-                    src={`https://www.trainjumper.com${thumbnailUrl}`}
+                    src={`https://www.trainjumper.com${imageUrl}`}
                     alt={`Modpack Image ${index + 1}`}
                     style={{translate: `${-100 * currentImageIndex}%`}}
                     // width="412"
@@ -158,7 +158,7 @@ export const ImageCarousel = ({
               </button>
               {/* <div className="absolute z-10 hidden h-full w-full items-center justify-center gap-1 rounded-lg bg-sec/80 group-hover:flex"></div> */}
               <div
-                aria-label="Show Image Enlarged"
+                aria-label="Show enlarged image "
                 className="group/buttons flex h-full w-full  cursor-pointer flex-col items-center justify-center gap-1 "
                 onClick={(e) =>
                   e.currentTarget === e.target &&
@@ -167,6 +167,7 @@ export const ImageCarousel = ({
               >
                 {location.pathname.includes("edit-") && (
                   <>
+                  {/*  */}
                     <button
                       disabled={primaryImageMutation.isLoading}
                       className="last:active:bg-text/15 flex cursor-pointer disabled:cursor-auto items-center gap-2 rounded-lg bg-text bg-opacity-70 px-4 py-2  text-blue-500 opacity-0 transition-all  hover:bg-opacity-80 disabled:bg-slate-300   disabled:text-slate-500  group-hover/buttons:opacity-100  dark:bg-bg dark:bg-opacity-90  dark:hover:bg-opacity-100 dark:disabled:bg-slate-700  dark:disabled:text-slate-500 "

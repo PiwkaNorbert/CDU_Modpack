@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import axios from "axios";
 
-import { IPackDetails } from "../Utils/Interfaces";
+import { IComment, IPackDetails } from "../Utils/Interfaces";
 import { errorHandling } from "../Helper/errorHandling";
 import useUser from "../Context/useUser";
 import { apiBase } from "../Constants";
@@ -13,15 +13,13 @@ const PostComment = ({
   modpackId,
   replyParentId,
   replyingTo,
-  setShowAddReply,
-  setShowReplies,
+
 }: {
   color: string;
   modpackId?: string;
   replyParentId: string;
   replyingTo: boolean;
-  setShowAddReply: React.Dispatch<React.SetStateAction<boolean>>;
-  setShowReplies: React.Dispatch<React.SetStateAction<boolean>>;
+
 }) => {
   const [comment, setComment] = React.useState<string>("");
 
@@ -68,13 +66,12 @@ const PostComment = ({
       };
 
       if (replyingTo) {
-        setShowAddReply(false);
-        setShowReplies(true);
+
         queryClient.setQueriesData(
           ["replies", replyParentId],
-          (oldData: any) => {
+          (oldData) => {
             // check it the old data is an array if not make an empty array
-            const oldReplies = oldData as Array<any>;
+            const oldReplies = oldData as IComment[];
             if (!Array.isArray(oldReplies)) return [response];
             return [...oldReplies, response];
           }

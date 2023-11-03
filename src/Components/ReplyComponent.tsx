@@ -107,18 +107,16 @@ export function ReplyComponent({
                 disabled={deleteCommentMutation.isLoading}
                 className={` rounded-md border border-sec px-3 py-1 text-justify text-xs text-red-500 hover:border-opacity-20 hover:bg-sec hover:bg-opacity-20  dark:hover:bg-hover-2 `}
                 onClick={async () => {
-                  if (
-                    prompt(
-                      "Are you sure you want to delete this comment?\nType 'yes' to confirm"
-                    ) !== "yes"
-                  ) {
-                    return toast.error("Unable to delete comment");
-                  }
-                  if (deleteCommentMutation.isLoading) return;
-
                   const commentId = comment?.uuid as string;
 
-                  deleteCommentMutation.mutate(commentId);
+                  if (deleteCommentMutation.isLoading) return;
+                  if (confirm("Are you sure you want to delete this comment?\n'OK' to confirm")) {
+                    deleteCommentMutation.mutate(commentId);
+                  }
+                  else {
+                    return toast.error("Unable to delete comment");
+                  }
+
                 }}
               >
                 Delete

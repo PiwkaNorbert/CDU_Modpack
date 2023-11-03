@@ -21,17 +21,13 @@ const useArchivedModpackData = (queryClient: QueryClient) => {
     if (status !== 200) throw new Error("No Modpacks found");
 
     data.forEach((modpack: IModpack) => {
-      queryClient.setQueryData(
-        ["archived-details", modpack.modpackId],
-        modpack
-      );
+      queryClient.setQueryData(["pack-details", modpack.modpackId], modpack);
     });
-
     return data;
   };
 
   const { data, isLoading, isError, error } = useQuery<IModpack[], AxiosError>(
-    ["archived-modpacks"],
+    ["modpacks", "archived"],
     fetchArchivedModpacks,
     {
       staleTime: 1000 * 60 * 5, // 5 minutes

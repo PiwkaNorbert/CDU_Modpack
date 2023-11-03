@@ -26,11 +26,10 @@ const useSuggestedModpackData = (queryClient: QueryClient) => {
   };
 
   const { data, isLoading, isError, error } = useQuery<IModpack[], AxiosError>(
-    ["suggested-modpacks"],
+    ["modpacks", "suggested"],
     fetchSuggestedModpacks,
     {
       staleTime: 1000 * 60 * 5, // 5 minutes
-      keepPreviousData: true,
       retry: 2,
       // initialData: staticLabels,
       select: (modpack) =>
