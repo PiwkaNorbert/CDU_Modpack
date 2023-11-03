@@ -57,7 +57,7 @@ const PostComment = ({
   const commentMutation = useMutation(replyingTo ? fetchReply : fetchComment, {
     onSuccess: (response) => {
       const commentData = {
-        uuid: Math.random().toString(),
+        uuid: response.data.uuid,
         comment: comment,
         timestamp: Date.now(),
         username: user?.username,
