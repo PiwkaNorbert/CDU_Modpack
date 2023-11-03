@@ -83,6 +83,8 @@ export function ReplyComponent({
       // queryClient.invalidateQueries(["replies", replyTo]);
     },
   });
+  console.log(comment?.avatar_url);
+  
 
   return (
     <div className="flex gap-2 pt-[1em] md:gap-4">
@@ -124,7 +126,7 @@ export function ReplyComponent({
             </div>
           )}
         </div>
-        <p className="break-word sm:ml-0 -ml-10 text-justify text-sm xl:text-base ">
+        <p className="break-word sm:ml-0 -ml-10 text-justify text-gray-700 dark:text-gray-300 text-sm xl:text-base ">
           {comment?.comment}
         </p>
         {children}

@@ -212,7 +212,7 @@ const PackDetails = ({ category }: { category: string }) => {
                 </p>
               </Link>
 
-              <div className="z-[5] text-sm flex text-text max-[500px]:p-4 max-[500px]:mt-5 max-[500px]:flex-col gap-4 xl:text-base max-[500px]:bg-gray-50 max-[500px]:dark:bg-gray-800  dark:text-gray-400 max-[500px]:rounded-lg max-[500px]:border  border-gray-100 dark:border-gray-700  p-4 mt-4 md:flex-row md:mt-0 md:text-sm md:font-medium">
+              <div className="z-[5] text-sm justify-center flex text-text max-[500px]:p-4 max-[500px]:mt-5 max-[500px]:flex-col gap-4 xl:text-base max-[500px]:bg-gray-50 max-[500px]:dark:bg-gray-800  dark:text-gray-400 max-[500px]:rounded-lg max-[500px]:border  border-gray-100 dark:border-gray-700  p-4 mt-4 md:flex-row md:mt-0 md:text-sm md:font-medium">
                 {/* edit modpack button only is userProfile is superUser */}
 
                 {user?.isLoggedIn && user?.isAdmin && (
@@ -220,7 +220,7 @@ const PackDetails = ({ category }: { category: string }) => {
                   {!isPublished ? (
                    <Link
                       to={editPackButton}
-                      className={`last:active:bg-text/15 flex w-full sm:w-fit cursor-pointer items-center gap-2 rounded-lg px-4 py-2 transition-all hover:bg-text/10  `}
+                      className={`last:active:bg-text/15 flex w-full justify-center sm:justify-normal sm:w-fit cursor-pointer items-center gap-2 rounded-lg px-4 py-2 transition-all hover:bg-text/10  `}
                     >
                       Edit & Publish
                       <svg
@@ -237,7 +237,7 @@ const PackDetails = ({ category }: { category: string }) => {
 
                       <Link
                         to={editPackButton}
-                        className="last:active:bg-text/15 flex sm:w-fit w-full cursor-pointer items-center gap-2 rounded-lg px-4 py-2 transition-all hover:bg-text/10 "
+                        className="last:active:bg-text/15 flex sm:w-fit w-full justify-center sm:justify-normal cursor-pointer items-center gap-2 rounded-lg px-4 py-2 transition-all hover:bg-text/10 "
                       >
                         Edit
                         <svg
@@ -252,60 +252,60 @@ const PackDetails = ({ category }: { category: string }) => {
                       </Link>
                   )}
               
-                      {/* delete modpack button only is userProfile is superUser */}
-                      <button
-                        disabled={archiveModpackMutation.isLoading}
-                        className="last:active:bg-text/15 flex sm:w-fit w-full  cursor-pointer items-center gap-2 rounded-lg px-4 py-2 text-orange-500 transition-all hover:bg-text/10 "
-                        onClick={async () => {
-                          if (archiveModpackMutation.isLoading) return;
-                          archiveModpackMutation.mutate();
-                        }}
+                    {/* delete modpack button only is userProfile is superUser */}
+                    <button
+                      disabled={archiveModpackMutation.isLoading}
+                      className="last:active:bg-text/15 flex sm:w-fit w-full justify-center sm:justify-normal cursor-pointer items-center gap-2 rounded-lg px-4 py-2 text-orange-500 transition-all hover:bg-text/10 "
+                      onClick={async () => {
+                        if (archiveModpackMutation.isLoading) return;
+                        archiveModpackMutation.mutate();
+                      }}
+                    >
+                      {window.location.pathname.includes("archived")
+                        ? "Unarchive"
+                        : "Archive"}
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        fill="currentColor"
+                        viewBox="0 0 256 256"
                       >
-                        {window.location.pathname.includes("archived")
-                          ? "Unarchive"
-                          : "Archive"}
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="20"
-                          height="20"
-                          fill="currentColor"
-                          viewBox="0 0 256 256"
+                        <path d="M224,48H32A16,16,0,0,0,16,64V88a16,16,0,0,0,16,16v88a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V104a16,16,0,0,0,16-16V64A16,16,0,0,0,224,48Zm-72,96H104a8,8,0,0,1,0-16h48a8,8,0,0,1,0,16Zm72-56H32V64H224V88Z"></path>
+                      </svg>
+                    </button>
+
+                    {!(isPublished && isArchived) || isArchived && !isPublished ? (
+                        <button
+                          disabled={deleteModpackMutation.isLoading}
+                          className="last:active:bg-text/15 flex sm:w-fit w-full justify-center sm:justify-normal cursor-pointer items-center gap-2 rounded-lg px-4 py-2 text-red-500 transition-all hover:bg-text/10 "
+                          onClick={async () => {
+
+                            if (deleteModpackMutation.isLoading) return;
+                            if (
+                              prompt(
+                                "Are you sure you want to delete this modpack?\nType 'Yes' to confirm"
+                              ) === "Yes"
+                            ) {
+                                deleteModpackMutation.mutate();
+                            }
+                            else {
+                              return toast.error("Unable to delete modpack");
+                            }
+                          }}
                         >
-                          <path d="M224,48H32A16,16,0,0,0,16,64V88a16,16,0,0,0,16,16v88a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V104a16,16,0,0,0,16-16V64A16,16,0,0,0,224,48Zm-72,96H104a8,8,0,0,1,0-16h48a8,8,0,0,1,0,16Zm72-56H32V64H224V88Z"></path>
-                        </svg>
-                      </button>
-
-                      {!(isPublished && isArchived) || isArchived && !isPublished ? (
-                          <button
-                            disabled={deleteModpackMutation.isLoading}
-                            className="last:active:bg-text/15 flex sm:w-fit w-full cursor-pointer items-center gap-2 rounded-lg px-4 py-2 text-red-500 transition-all hover:bg-text/10 "
-                            onClick={async () => {
-
-                              if (deleteModpackMutation.isLoading) return;
-                              if (
-                                prompt(
-                                  "Are you sure you want to delete this modpack?\nType 'Yes' to confirm"
-                                ) === "Yes"
-                              ) {
-                                 deleteModpackMutation.mutate();
-                              }
-                              else {
-                                return toast.error("Unable to delete modpack");
-                              }
-                            }}
+                          Delete{" "}
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="20"
+                            height="20"
+                            fill="currentColor"
+                            viewBox="0 0 256 256"
                           >
-                            Delete{" "}
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="20"
-                              height="20"
-                              fill="currentColor"
-                              viewBox="0 0 256 256"
-                            >
-                              <path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM112,168a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm0-120H96V40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8Z"></path>
-                            </svg>
-                          </button>
-                      ): ""}
+                            <path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM112,168a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm0-120H96V40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8Z"></path>
+                          </svg>
+                        </button>
+                    ): ""}
                   </>
                 )}
               </div>
@@ -413,18 +413,21 @@ const PackDetails = ({ category }: { category: string }) => {
                   </Link>
                 </div>
               </div>
-              <div className=" bg-bg p-4 md:rounded-lg ">
-                <h3 className=" pt-4 text-2xl capitalize  xl:text-3xl ">
+              <div className="flex justify-between gap-2 p-4  max-[500px]:flex-col max-[500px]:mt-5 sm:gap-0  ">
+
+              <div className="  md:rounded-lg text-sm  text-text max-[500px]:p-4 max-[500px]:mt-5 xl:text-base max-[500px]:bg-gray-50 max-[500px]:dark:bg-gray-800  dark:text-gray-400 max-[500px]:rounded-lg max-[500px]:border  border-gray-100 dark:border-gray-700 mt-4 md:flex-row md:mt-0 md:text-sm md:font-medium">
+                <h3 className=" pt-4 text-2xl capitalize text-text  xl:text-3xl  text-center sm:text-left">
                   description
                 </h3>
                 <div className="p-4">
                   <p className=" text-justify">{description}</p>
                 </div>
               </div>
+              </div>
 
               {category !== "suggested" && (
                 <div className="my-4 overflow-hidden px-2 py-4 sm:p-4  ">
-                  <h3 className="mb-4 flex items-center justify-start  gap-4 text-2xl capitalize xl:text-3xl ">
+                  <h3 className="mb-4 inline-block items-center w-full  gap-4 text-2xl capitalize xl:text-3xl text-center sm:text-left">
                     comments ({commentCount}){" "}
                     {fetchStatus === "fetching" && (
                       <Loading
@@ -465,7 +468,7 @@ const PackDetails = ({ category }: { category: string }) => {
                     {comments?.map((comment, index) => (
                       <div
                         key={index}
-                        className="grid items-center justify-between  last:pb-0 "
+                        className="grid items-center justify-between  last:pb-0 max-[500px]:border-b pb-4 border-gray-100 dark:border-gray-700 "
                       >
                         <CommentsComponent color={color} comment={comment} />
                       </div>

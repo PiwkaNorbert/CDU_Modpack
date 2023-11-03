@@ -68,7 +68,7 @@ export interface ICommentComponent {
   replyParentId: string;
 }
 export interface ICommentComponentChildren extends ICommentComponent {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 export interface DiscordProfileData {
   isLoggedIn: boolean;

@@ -93,9 +93,8 @@ export function CommentsComponent({
                 comment={reply}
                 replyingTo={true}
                 replyParentId={comment?.uuid || ""}
-              >
-                <></>
-              </ReplyComponent>
+              />
+            
             ))
           )}
         </div>
