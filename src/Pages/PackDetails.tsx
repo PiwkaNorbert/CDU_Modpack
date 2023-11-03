@@ -11,12 +11,11 @@ import { toast } from "react-toastify";
 import { LoginButton } from "../Components/LoginButton";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, Link } from "react-router-dom";
-import { SetStateAction, useEffect, useRef, useState } from "react";
+import {  useEffect } from "react";
 import { errorHandling } from "../Helper/errorHandling";
 import { tagMap } from "../Helper/modifyModpack";
-import { DropDown } from "../Components/Dialog";
 
-import { apiBase, bgColorVariants, borderColorVariants, textColorVariants } from "../Constants";
+import { apiBase,  borderColorVariants, textColorVariants } from "../Constants";
 import { ImageCarousel } from "../Components/ImageCarousel";
 import { twMerge } from "tailwind-merge";
 
@@ -24,10 +23,6 @@ const PackDetails = ({ category }: { category: string }) => {
   const { modpackId: id } = useParams();
   const { pathname } = useLocation();
   const modpackId = id as string;
-
-  const [packdetailMenuShow, setPackdetailMenuShow] = useState(false);
-
-  const menuButtonRef = useRef<HTMLButtonElement>(null);
 
   const { data, isError, isLoading, fetchStatus, error } =
     usePackDetailData(modpackId);
@@ -41,8 +36,8 @@ const PackDetails = ({ category }: { category: string }) => {
   }modpack/${modpackId}`;
   const returnToButton = category === "main" ? "/" : `/list-${category}-packs`;
 
-  function returnToLists(data ) {
-    toast.success(`${data.message}! 👌`); 
+  function returnToLists({message} : {message: string} ) {
+    toast.success(`${message}! 👌`); 
   
     if (pathname.includes("archived")) {
       updateModpackInList(["modpacks","archived"]);
@@ -179,14 +174,7 @@ const PackDetails = ({ category }: { category: string }) => {
     ? comments.length
     : Math.floor(Math.random() * 10);
 
-  function setShowReplies(value: SetStateAction<boolean>): void {
-    return console.log(value);
-  }
 
-  function setShowAddReply(value: SetStateAction<boolean>): void {
-    return console.log(value);
-  }
-  
 
   return (
     <>
