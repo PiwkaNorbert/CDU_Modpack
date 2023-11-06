@@ -16,6 +16,7 @@ export default function VoteForPackButton({
   color,
   voteCount,
   timesVoted,
+  timesVotedThisMonth,
 }: VoteForPackButtonProps) {
   const queryClient = useQueryClient();
   const isFetching = useIsFetching();
@@ -117,7 +118,7 @@ export default function VoteForPackButton({
     <>
       {user?.isLinked && (
         <button
-          disabled={isFetching !== 0 || timesVoted === 0}
+          disabled={isFetching !== 0 || timesVotedThisMonth === 0}
           className={`${bgColorVariants[color]} group h-10 rounded-md px-3 py-1 text-sm text-bg transition-all hover:bg-opacity-80 hover:text-bg  disabled:bg-slate-300 disabled:text-slate-500 dark:text-bg dark:hover:bg-opacity-80 dark:hover:text-bg dark:disabled:bg-slate-700 dark:disabled:text-slate-500 xl:text-base`}
           onClick={() => {
             if (removeVote.isLoading) return;

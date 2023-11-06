@@ -197,20 +197,21 @@ const PackDetails = ({ category }: { category: string }) => {
     description,
     color,
     galleryImages,
-    comments,
+    // comments,
     voteCount,
     officialUrl,
     tags,
     suggestedBy,
     publishedBy,
     timesVoted,
-    isArchived,
-    isPublished,
-  }: IPackDetails = data;
+    timesVotedThisMonth,
+  }: // isArchived,
+  // isPublished,
+  IPackDetails = data;
 
-  const commentCount = comments
-    ? comments.length
-    : Math.floor(Math.random() * 10);
+  // const commentCount = comments
+  //   ? comments.length
+  //   : Math.floor(Math.random() * 10);
 
   console.log(data);
 
@@ -403,6 +404,7 @@ const PackDetails = ({ category }: { category: string }) => {
                           isLoading={isLoading}
                           voteCount={voteCount}
                           timesVoted={timesVoted}
+                          timesVotedThisMonth={timesVotedThisMonth}
                         />
                       </div>
                     )}

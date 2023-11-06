@@ -29,6 +29,7 @@ export interface IPackDetails {
   tags: string[];
   timesVoted: number;
   voteCount: number;
+  timesVotedThisMonth: number;
   isArchived: boolean;
   isPublished: boolean;
 }
@@ -98,6 +99,7 @@ export interface VoteForPackButtonProps {
   voteCount: number;
   timesVoted: number;
   isLoading: boolean;
+  timesVotedThisMonth: number;
 
   // Replace 'UserProfileType' with the actual type for the 'userProfile' prop
 }
@@ -115,9 +117,11 @@ export interface AddModpackProps {
 
 export interface IAddVoteButtonProps {
   votesRemaining?: number;
+  n_votes_this_month?: number;
 }
 export interface IRemoveVoteButtonProps {
   timesVoted: number;
+  n_votes_this_month?: number;
 }
 
 export interface IAddImageProps {
