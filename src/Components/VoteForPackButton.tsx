@@ -34,6 +34,7 @@ export default function VoteForPackButton({
         ...modpack,
         voteCount: response?.data.modpack_votes,
         timesVoted: response?.data.n_votes,
+        timesVotedThisMonth: response?.data.n_votes_this_month,
       };
     });
     queryClient.setQueryData(["modpacks"], (oldData) => {
@@ -72,7 +73,7 @@ export default function VoteForPackButton({
         changeVoteCount(response);
         votesRemaining(response?.data.votes_remaining);
 
-        toast.success(response?.data.message, { toastId: "add-vote" });
+        return toast.success(response?.data.message, { toastId: "add-vote" });
       },
       onSettled: () => {
         queryClient.invalidateQueries(["modpacks", "pack-details", modpackId]);
@@ -82,18 +83,10 @@ export default function VoteForPackButton({
 
   const removeVote = useMutation(
     async () =>
-      await toast.promise(
-        axios.get(`${apiBase}/api/remove-vote/${modpackId}`, {
-          withCredentials: true,
-        }),
-        {
-          error:
-            "Sorry, there was an error removing your vote for this modpack!",
-        },
-        {
-          autoClose: 5000,
-        }
-      ),
+      await axios.get(`${apiBase}/api/remove-vote/${modpackId}`, {
+        withCredentials: true,
+      }),
+
     {
       onError: (error) => {
         if (error instanceof Error) {
