@@ -116,8 +116,8 @@ export function ReplyComponent({
                 )
               ) {
                 const commentId = comment?.uuid as string;
-                console.log(commentId);
-                console.log(comment);
+                // console.log(commentId);
+                // console.log(comment);
 
                 deleteCommentMutation.mutate(commentId);
               } else {

@@ -24,8 +24,7 @@ const PackDetails = ({ category }: { category: string }) => {
   const { pathname } = useLocation();
   const modpackId = id as string;
 
-  const { data, isError, isLoading, fetchStatus, error } =
-    usePackDetailData(modpackId);
+  const { data, isError, isLoading, error } = usePackDetailData(modpackId);
 
   const { user } = useUser();
   const queryClient = useQueryClient();
@@ -212,8 +211,6 @@ const PackDetails = ({ category }: { category: string }) => {
   // const commentCount = comments
   //   ? comments.length
   //   : Math.floor(Math.random() * 10);
-
-  console.log(data);
 
   return (
     <>
