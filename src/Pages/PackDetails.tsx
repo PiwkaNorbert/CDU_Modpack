@@ -403,7 +403,6 @@ const PackDetails = ({ category }: { category: string }) => {
                           color={color}
                           isLoading={isLoading}
                           voteCount={voteCount}
-                          timesVoted={timesVoted}
                           timesVotedThisMonth={timesVotedThisMonth}
                         />
                       </div>

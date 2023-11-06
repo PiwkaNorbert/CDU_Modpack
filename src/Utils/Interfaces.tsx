@@ -97,7 +97,6 @@ export interface VoteForPackButtonProps {
   modpackId: string;
   color: string;
   voteCount: number;
-  timesVoted: number;
   isLoading: boolean;
   timesVotedThisMonth: number;
 

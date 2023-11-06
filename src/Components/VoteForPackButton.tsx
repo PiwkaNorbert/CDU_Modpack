@@ -15,7 +15,6 @@ export default function VoteForPackButton({
   modpackId,
   color,
   voteCount,
-  timesVoted,
   timesVotedThisMonth,
 }: VoteForPackButtonProps) {
   const queryClient = useQueryClient();
