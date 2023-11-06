@@ -84,53 +84,56 @@ export function ReplyComponent({
     },
   });
   return (
-    <div className="grid grid-cols-auto-fit gap-2  grid-rows-auto-fit  border-b py-4 border-gray-50 dark:border-gray-700 ">
+    <div className="grid grid-cols-auto-fit grid-rows-auto-fit  gap-2  border-b border-gray-50 py-4 dark:border-gray-700 ">
       <img
-        className="max-h-10 aspect-1/1 rounded-full"
+        className="aspect-1/1 max-h-10 rounded-full"
         src={comment?.avatar_url}
         alt="user avatar"
-        />
-        <div className="flex gap-2 w-full justify-between">
-
-          <div className="flex flex-col sm:flex-row sm:items-center sm:gap-2">
-            <p className={`text-justify ${textColorVariants[color ?? "sky"]}`}>
-              {comment?.username}
-            </p>
-            <p className=" text-justify text-xs  text-text/60 xl:text-sm ">
-              {comment && relativeDate(comment.timestamp)}
-            </p>
-          </div>
-            {/* If userProfile is super user / moderator show delete comment button underneith */}
-            {(user?.isAdmin || user?.id === comment?.discord_id) && (
-                <button
-                  disabled={deleteCommentMutation.isLoading}
-                  className={` rounded-md border border-sec px-3 py-1 text-justify text-xs text-red-500 hover:border-opacity-20 hover:bg-sec hover:bg-opacity-20  dark:hover:bg-hover-2 `}
-                  onClick={async () => {
-                    
-                    if (deleteCommentMutation.isLoading) return;
-                    if (confirm("Are you sure you want to delete this comment?\n'OK' to confirm")) {
-                      const commentId = comment?.uuid as string;
-                      console.log(commentId);
-                      console.log(comment);
-                      
-                      
-                      deleteCommentMutation.mutate(commentId);
-                    }
-                    else {
-                      return toast.error("Unable to delete comment");
-                    }
-                    
-                  }}
-                  >
-                  Delete
-                </button>
-            )}
+      />
+      <div className="flex w-full justify-between gap-2">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:gap-2">
+          <p
+            className={`text-justify capitalize ${
+              textColorVariants[color ?? "sky"]
+            }`}
+          >
+            {comment?.username}
+          </p>
+          <p className=" text-justify text-xs  text-text/60 xl:text-sm ">
+            {comment && relativeDate(comment.timestamp)}
+          </p>
         </div>
+        {/* If userProfile is super user / moderator show delete comment button underneith */}
+        {(user?.isAdmin || user?.id === comment?.discord_id) && (
+          <button
+            disabled={deleteCommentMutation.isLoading}
+            className={` rounded-md border border-sec px-3 py-1 text-justify text-xs text-red-500 hover:border-opacity-20 hover:bg-sec hover:bg-opacity-20  dark:hover:bg-hover-2 `}
+            onClick={async () => {
+              if (deleteCommentMutation.isLoading) return;
+              if (
+                confirm(
+                  "Are you sure you want to delete this comment?\n'OK' to confirm"
+                )
+              ) {
+                const commentId = comment?.uuid as string;
+                console.log(commentId);
+                console.log(comment);
 
-        <p className="comment__content flex flex-col gap-2 pt-1 relative w-full col-span-full break-word sm:ml-0  text-justify text-gray-700 dark:text-gray-300 text-sm xl:text-base">
-          {comment?.comment}
-        </p>
-        {children}
+                deleteCommentMutation.mutate(commentId);
+              } else {
+                return toast.error("Unable to delete comment");
+              }
+            }}
+          >
+            Delete
+          </button>
+        )}
+      </div>
+
+      <p className="comment__content break-word relative col-span-full flex w-full flex-col gap-2 pt-1 text-justify  text-sm text-gray-800 dark:text-gray-200 sm:ml-0 xl:text-base">
+        {comment?.comment}
+      </p>
+      {children}
     </div>
   );
 }
