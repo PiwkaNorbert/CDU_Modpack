@@ -59,6 +59,8 @@ const PostComment = ({
       const commentData = {
         uuid: response?.uuid,
         comment: response?.comment,
+        profanity_score: response?.profanity_score,
+        last_updated_time: null,
         timestamp: Date.now(),
         username: user?.username,
         avatar_url: `https://cdn.discordapp.com/avatars/${user?.id}/${user?.avatar}.png?size=1024`,

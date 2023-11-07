@@ -15,6 +15,8 @@ export const errorHandling = (error: any) => {
     }
     case 404:
       return toast.error(error.message);
+    case 400:
+      return toast.error(error.response.data.error);
     default: {
       console.error(error);
       return toast.error(error.message);
