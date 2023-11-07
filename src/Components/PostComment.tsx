@@ -57,7 +57,7 @@ const PostComment = ({
       console.log(response);
 
       const commentData = {
-        uuid: response?.data.uuid,
+        uuid: response?.uuid,
         comment: comment,
         timestamp: Date.now(),
         username: user?.username,
