@@ -86,18 +86,16 @@ const PostComment = ({
       }
     },
     onError: (error) => {
+      console.log(error instanceof Error);
+
       if (error instanceof Error) {
         return errorHandling(error);
       }
       throw error;
     },
     onSettled: () => {
-      queryClient.invalidateQueries([
-        "pack-details",
-        modpackId,
-        "replies",
-        replyParentId,
-      ]);
+      queryClient.invalidateQueries(["replies", replyParentId]);
+      queryClient.invalidateQueries(["pack-details", modpackId]);
 
       setComment("");
     },
