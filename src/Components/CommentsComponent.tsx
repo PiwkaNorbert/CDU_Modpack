@@ -76,7 +76,7 @@ export function CommentsComponent({
           color={color ?? "sky"}
           modpackId={modpackId}
           replyingTo={true}
-          replyParentId={comment?.uuid || ""}
+          replyParentId={comment?.uuid as string}
         />
       )}
       {showReplies && (
@@ -91,7 +91,7 @@ export function CommentsComponent({
                 color={color ?? "sky"}
                 comment={reply}
                 replyingTo={true}
-                replyParentId={comment?.uuid || ""}
+                replyParentId={comment?.uuid as string}
               >
                 <></>
               </ReplyComponent>
