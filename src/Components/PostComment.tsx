@@ -58,7 +58,7 @@ const PostComment = ({
 
       const commentData = {
         uuid: response?.uuid,
-        comment: comment,
+        comment: response?.comment,
         timestamp: Date.now(),
         username: user?.username,
         avatar_url: `https://cdn.discordapp.com/avatars/${user?.id}/${user?.avatar}.png?size=1024`,
@@ -74,10 +74,15 @@ const PostComment = ({
           if (!Array.isArray(oldReplies)) return [response];
           return [...oldReplies, response];
         });
-      }
-      if (!replyingTo) {
+      } else {
         queryClient.setQueriesData(["pack-details", modpackId], (oldData) => {
           const oldPackDetails = oldData as IPackDetails;
+          console.log(oldPackDetails);
+          console.log({
+            ...oldPackDetails,
+            comments: [commentData, ...oldPackDetails.comments],
+          });
+
           return {
             ...oldPackDetails,
             comments: [commentData, ...oldPackDetails.comments],
@@ -94,8 +99,11 @@ const PostComment = ({
       throw error;
     },
     onSettled: () => {
-      queryClient.invalidateQueries(["replies", replyParentId]);
-      queryClient.invalidateQueries(["pack-details", modpackId]);
+      if (replyingTo) {
+        queryClient.invalidateQueries(["replies", replyParentId]);
+      } else {
+        queryClient.invalidateQueries(["pack-details", modpackId]);
+      }
 
       setComment("");
     },
