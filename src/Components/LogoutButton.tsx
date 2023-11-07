@@ -4,7 +4,7 @@ import { errorHandling } from "../Helper/errorHandling";
 import SignOutSVG from "./SVG/SignOutSVG";
 import { useNavigate } from "react-router-dom";
 
-export async function logoutFunction(setUser: any, navigate: any) {
+export async function logoutFunction(setUser?: any, navigate?: any) {
   try {
     const response = await fetch("/api/logout");
 
