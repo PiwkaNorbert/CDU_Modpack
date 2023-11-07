@@ -81,9 +81,8 @@ export default function VoteForPackButton({
   );
 
   const removeVote = useMutation(
-    async ({ signal }: { signal?: AbortSignal }) =>
+    async () =>
       await axios.get(`${apiBase}/api/remove-vote/${modpackId}`, {
-        signal,
         withCredentials: true,
       }),
 
