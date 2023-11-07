@@ -13,9 +13,10 @@ const useArchivedModpackData = (queryClient: QueryClient) => {
   );
   const [modPackFilterByTags, setModPackFilterByTags] = useState<string[]>([]);
 
-  const fetchArchivedModpacks = async () => {
+  const fetchArchivedModpacks = async (signal?: AbortSignal) => {
     const { data, status } = await axios.get(
-      `${apiBase}/api/list-archived-packs`
+      `${apiBase}/api/list-archived-packs`,
+      { signal }
     );
 
     if (status !== 200) throw new Error("No Modpacks found");
@@ -28,7 +29,7 @@ const useArchivedModpackData = (queryClient: QueryClient) => {
 
   const { data, isLoading, isError, error } = useQuery<IModpack[], AxiosError>(
     ["modpacks", "archived"],
-    fetchArchivedModpacks,
+    ({ signal }) => fetchArchivedModpacks(signal),
     {
       staleTime: 1000 * 60 * 5, // 5 minutes
       retry: 2,

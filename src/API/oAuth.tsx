@@ -1,13 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { apiBase } from "../Constants";
 
 const useOAuth = () => {
-  const url = import.meta.env.VITE_URL
-    ? import.meta.env.VITE_URL
-    : "https://www.trainjumper.com/";
-
   const fetchLogin = async () => {
-    const { data, status } = await axios.get(`${url}auth/discord`);
+    const { data, status } = await axios.get(`${apiBase}auth/discord`);
     if (status !== 200) throw new Error("No login data found");
 
     return data;

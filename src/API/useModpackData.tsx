@@ -13,8 +13,10 @@ const useModpackData = (queryClient: QueryClient) => {
   );
   const [modPackFilterByTags, setModPackFilterByTags] = useState<string[]>([]);
 
-  const fetchModpacks = async () => {
-    const { data, status } = await axios.get(`${apiBase}/api/list-packs`);
+  const fetchModpacks = async (signal?: AbortSignal) => {
+    const { data, status } = await axios.get(`${apiBase}/api/list-packs`, {
+      signal,
+    });
 
     if (status !== 200) throw new Error("No Modpacks found");
 
@@ -27,7 +29,7 @@ const useModpackData = (queryClient: QueryClient) => {
 
   const { data, isLoading, isError, error } = useQuery<IModpack[], AxiosError>(
     ["modpacks"],
-    fetchModpacks,
+    ({ signal }) => fetchModpacks(signal),
     {
       staleTime: 1000 * 60 * 1, // 1 minutes
       retry: 2,

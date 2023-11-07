@@ -13,8 +13,13 @@ const useSuggestedModpackData = (queryClient: QueryClient) => {
   );
   const [modPackFilterByTags, setModPackFilterByTags] = useState<string[]>([]);
 
-  const fetchSuggestedModpacks = async () => {
-    const { data, status } = await axios(`${apiBase}/api/list-suggested-packs`);
+  const fetchSuggestedModpacks = async (signal?: AbortSignal) => {
+    const { data, status } = await axios(
+      `${apiBase}/api/list-suggested-packs`,
+      {
+        signal,
+      }
+    );
 
     if (status !== 200) throw new Error("No Modpacks found");
 
@@ -27,7 +32,7 @@ const useSuggestedModpackData = (queryClient: QueryClient) => {
 
   const { data, isLoading, isError, error } = useQuery<IModpack[], AxiosError>(
     ["modpacks", "suggested"],
-    fetchSuggestedModpacks,
+    ({ signal }) => fetchSuggestedModpacks(signal),
     {
       staleTime: 1000 * 60 * 5, // 5 minutes
       retry: 2,
