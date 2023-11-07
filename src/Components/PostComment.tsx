@@ -13,13 +13,11 @@ const PostComment = ({
   modpackId,
   replyParentId,
   replyingTo,
-
 }: {
   color: string;
   modpackId?: string;
   replyParentId: string;
   replyingTo: boolean;
-
 }) => {
   const [comment, setComment] = React.useState<string>("");
 
@@ -56,6 +54,8 @@ const PostComment = ({
 
   const commentMutation = useMutation(replyingTo ? fetchReply : fetchComment, {
     onSuccess: (response) => {
+      console.log(response);
+
       const commentData = {
         uuid: response?.data.uuid,
         comment: comment,
@@ -66,16 +66,14 @@ const PostComment = ({
       };
 
       if (replyingTo) {
+        queryClient.setQueriesData(["replies", replyParentId], (oldData) => {
+          // check it the old data is an array if not make an empty array
+          const oldReplies = oldData as IComment[];
+          console.log(oldReplies);
 
-        queryClient.setQueriesData(
-          ["replies", replyParentId],
-          (oldData) => {
-            // check it the old data is an array if not make an empty array
-            const oldReplies = oldData as IComment[];
-            if (!Array.isArray(oldReplies)) return [response];
-            return [...oldReplies, response];
-          }
-        );
+          if (!Array.isArray(oldReplies)) return [response];
+          return [...oldReplies, response];
+        });
       }
       if (!replyingTo) {
         queryClient.setQueriesData(["pack-details", modpackId], (oldData) => {
@@ -94,7 +92,12 @@ const PostComment = ({
       throw error;
     },
     onSettled: () => {
-      queryClient.invalidateQueries(["pack-details", modpackId, "replies", replyParentId]);
+      queryClient.invalidateQueries([
+        "pack-details",
+        modpackId,
+        "replies",
+        replyParentId,
+      ]);
 
       setComment("");
     },
