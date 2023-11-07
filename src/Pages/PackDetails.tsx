@@ -24,7 +24,8 @@ const PackDetails = ({ category }: { category: string }) => {
   const { pathname } = useLocation();
   const modpackId = id as string;
 
-  const { data, isError, isLoading, error } = usePackDetailData(modpackId);
+  const { data, isError, isLoading, error, fetchStatus } =
+    usePackDetailData(modpackId);
 
   const { user } = useUser();
   const queryClient = useQueryClient();
@@ -196,7 +197,7 @@ const PackDetails = ({ category }: { category: string }) => {
     description,
     color,
     galleryImages,
-    // comments,
+    comments,
     voteCount,
     officialUrl,
     tags,
@@ -208,9 +209,9 @@ const PackDetails = ({ category }: { category: string }) => {
   // isPublished,
   IPackDetails = data;
 
-  // const commentCount = comments
-  //   ? comments.length
-  //   : Math.floor(Math.random() * 10);
+  const commentCount = comments
+    ? comments.length
+    : Math.floor(Math.random() * 10);
 
   return (
     <>
@@ -484,6 +485,55 @@ const PackDetails = ({ category }: { category: string }) => {
                 </div>
               </div>
               {/* comment component here */}
+              {category !== "suggested" && (
+                <div className="my-4 overflow-hidden px-2 py-4 sm:p-4  ">
+                  <h3 className="mb-4 inline-block w-full items-center  gap-4 text-center text-2xl capitalize sm:text-left xl:text-3xl">
+                    comments ({commentCount}){" "}
+                    {fetchStatus === "fetching" && (
+                      <Loading
+                        size="la-sm"
+                        fullScreen={false}
+                        other="inline-block"
+                      />
+                    )}
+                  </h3>
+                  {/* input for posting comments by current user */}
+                  {!user?.isLoggedIn && <LoginButton />}
+                  <div className=" px-4">
+                    {/* if user is logged in, show comment input */}
+                    {user?.isLoggedIn && user?.isLinked && (
+                      <PostComment
+                        modpackId={modpackId}
+                        color={color}
+                        replyingTo={false}
+                        replyParentId=""
+                      />
+                    )}
+                    {user?.isLoggedIn && !user?.isLinked && (
+                      <div className="flex flex-col items-center justify-center gap-2">
+                        <p className="text-center  text-sm text-text/70">
+                          Link your account to post comments and vote for packs.
+                        </p>
+                        <a
+                          className="text-xs text-blue-500 underline"
+                          href="/#"
+                        >
+                          More info here.
+                        </a>
+                      </div>
+                    )}
+
+                    {/* Map comments from api the the img, username, userId, and the comment from the user */}
+                    {comments?.map((comment, idx) => (
+                      <CommentsComponent
+                        color={color}
+                        comment={comment}
+                        idx={idx}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
