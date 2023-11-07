@@ -56,6 +56,7 @@ function App() {
                   element={<PackDetails category="main" />}
                 />
                 <Route path="login" element={<Login />} />
+                <Route path="loginDev" element={<LoginDev />} />
                 {isDev && <Route path="loginDev" element={<LoginDev />} />}
                 <Route path="found-issue" element={<FoundBugs />} />
 
