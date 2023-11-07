@@ -4,10 +4,7 @@ import { errorHandling } from "../Helper/errorHandling";
 import SignOutSVG from "./SVG/SignOutSVG";
 import { useNavigate } from "react-router-dom";
 
-export async function logout() {
-  const { setUser } = useUser();
-  const navigate = useNavigate();
-
+export async function logoutFunction(setUser: any, navigate: any) {
   try {
     const response = await fetch("/api/logout");
 
@@ -27,11 +24,15 @@ export async function logout() {
 }
 
 export const LogoutButton = () => {
+  const { setUser } = useUser();
+  const navigate = useNavigate();
+  const logoutfn = async () => logoutFunction(setUser, navigate);
+
   return (
     <a
       type="button"
       className={`flex items-center justify-center gap-2 capitalize `}
-      onClick={logout}
+      onClick={logoutfn}
     >
       Logout
       <SignOutSVG />

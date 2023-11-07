@@ -10,7 +10,7 @@ export const errorHandling = (error: any) => {
   switch (error.status) {
     case 401: {
       logout();
-      toast.error(error.response.data.error);
+      toast.error(error?.response?.data?.error);
       return (window.location.pathname = "/");
     }
     case 404:

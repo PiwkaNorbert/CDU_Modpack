@@ -9,12 +9,10 @@ import { ReplyComponent } from "./ReplyComponent";
 import useUser from "../Context/useUser";
 import { useParams } from "react-router-dom";
 import { twJoin } from "tailwind-merge";
-import React from "react";
 
 export function CommentsComponent({
   color,
   comment,
-  idx
 }: Partial<ICommentComponent>) {
   const { user } = useUser();
   const { modpackId } = useParams();
@@ -28,7 +26,7 @@ export function CommentsComponent({
   const queryClient = useQueryClient();
 
   return (
-    <React.Fragment key={idx}>
+    <>
       <ReplyComponent
         color={color ?? "sky"}
         comment={comment}
@@ -38,9 +36,10 @@ export function CommentsComponent({
         <>
           {user?.isLoggedIn && (
             <button
-              className={twJoin(` w-fit rounded-md border px-3 py-1 text-justify text-xs text-bg hover:border-opacity-80 hover:bg-opacity-80 dark:hover:bg-opacity-80 `,
-              borderColorVariants[color ?? "sky"],
-              bgColorVariants[color ?? "sky"]
+              className={twJoin(
+                ` w-fit rounded-md border px-3 py-1 text-justify text-xs text-bg hover:border-opacity-80 hover:bg-opacity-80 dark:hover:bg-opacity-80 `,
+                borderColorVariants[color ?? "sky"],
+                bgColorVariants[color ?? "sky"]
               )}
               onClick={() => {
                 setShowAddReply(!showAddReply);
@@ -78,7 +77,6 @@ export function CommentsComponent({
           modpackId={modpackId}
           replyingTo={true}
           replyParentId={comment?.uuid || ""}
-    
         />
       )}
       {showReplies && (
@@ -95,12 +93,11 @@ export function CommentsComponent({
                 replyingTo={true}
                 replyParentId={comment?.uuid || ""}
               />
-            
             ))
           )}
         </div>
       )}
-    </React.Fragment>
+    </>
   );
 }
 

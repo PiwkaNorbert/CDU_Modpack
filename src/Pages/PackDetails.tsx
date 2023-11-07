@@ -526,6 +526,7 @@ const PackDetails = ({ category }: { category: string }) => {
                     {/* Map comments from api the the img, username, userId, and the comment from the user */}
                     {comments?.map((comment, idx) => (
                       <CommentsComponent
+                        key={idx}
                         color={color}
                         comment={comment}
                         idx={idx}
