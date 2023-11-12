@@ -57,7 +57,7 @@ const Header = () => {
           <div className="absolute inset-0 m-auto bg-gradient-to-t from-acc to-pri pointer-events-none dark:brightness-50"></div>
           <img
             alt="CDU"
-            src="/logo2.png"
+            src="/logo.png"
             width="256"
             height="144"
             //loading="lazy"
@@ -235,7 +235,7 @@ const Header = () => {
                       "NOT LINKED"
                     )
                       ? `https://cdn.discordapp.com/avatars/${user?.id}/${user?.avatar}`
-                      : user?.playerData?.mc_head_url
+                      : "steve.png"
                   }
                   alt={user?.username ? `${user?.username}'s avatar` : "avatar"}
                 />
