@@ -15,14 +15,14 @@ All commands are run from the root of the project and run the following commands
 | `npm run build`           | Build your production site to `./dist/`          |
 
 
-This should generate a folder called './dist/' and in this folder you will have all content of the site.
+This should generate a folder called `./dist/` and in this folder you will have all the content of the site.
 
-Place the content of the './dist/' folder into your `nginx` and it should work
+Place the content of the `./dist/` folder into your `nginx` and it should work
 
 
-## How to change the ip of the backend 
+## How to change the IP of the backend 
 
-Inside of the project folder, create a text file with the name .env `that should be the file type`.
+Inside the project folder, create a text file with the name .env `that should be the file type`.
 
 Add `VITE_NODE_ENV = "production"`
 
@@ -34,4 +34,4 @@ Add `VITE_NODE_ENV = "production"`
 │   └── Constants.tsx/
 
 ```
-Next change export const apiBase = isDev ? "https://www.trainjumper.com" : isProd ? "`to your desired ip adress`" : "";
+Next change export const apiBase = isDev ? "https://www.trainjumper.com" : isProd ? "`to your desired IP address`" : "";
