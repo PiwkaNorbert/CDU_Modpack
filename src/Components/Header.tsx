@@ -70,7 +70,7 @@ const Header = () => {
       )}
       <nav
         className={twMerge(
-          "top-0  flex w-full items-center justify-stretch gap-2 z-10  bg-gradient-to-b from-acc/10 to-sec/[15] px-2 py-1 text-text  md:justify-center md:px-4 lg:mx-auto lg:min-w-[900px] lg:max-w-[900px]",
+          "top-0  flex w-full items-center justify-stretch gap-2 z-10  bg-gradient-to-b from-acc/10 to-sec/[.15] px-2 py-1 text-text  md:justify-center md:px-4 lg:mx-auto lg:min-w-[900px] lg:max-w-[900px]",
           isIntersecting ? "relative" : "sticky bg-bg  shadow-md ",
           window.location.pathname !== "/" ||
             window.location.pathname.includes("list")
@@ -233,11 +233,9 @@ const Header = () => {
                 <img
                   className="h-full w-full cursor-pointer opacity-90 hover:opacity-100"
                   src={
-                    !user?.playerData?.mc_head_url.includes(
-                      "NOT LINKED"
-                    )
+                    user?.playerData?.mc_head_url === undefined
                       ? "steve.png"
-                      :`https://cdn.discordapp.com/avatars/${user?.id}/${user?.avatar}`
+                      : `https://cdn.discordapp.com/avatars/${user?.id}/${user?.avatar}`
                   }
                   alt={user?.username ? `${user?.username}'s avatar` : "avatar"}
                 />
