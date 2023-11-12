@@ -46,6 +46,8 @@ const Header = () => {
   const toggleMenu = () => {
     setMenu((open) => !open);
   };
+  console.log(user?.playerData?.mc_head_url);
+  
 
   return (
     <>
