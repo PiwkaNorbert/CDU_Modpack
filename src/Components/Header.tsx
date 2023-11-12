@@ -231,11 +231,11 @@ const Header = () => {
                 <img
                   className="h-full w-full cursor-pointer opacity-90 hover:opacity-100"
                   src={
-                    user?.playerData?.mc_head_url.includes(
+                    !user?.playerData?.mc_head_url.includes(
                       "NOT LINKED"
                     )
-                      ? `https://cdn.discordapp.com/avatars/${user?.id}/${user?.avatar}`
-                      : "steve.png"
+                      ? "steve.png"
+                      :`https://cdn.discordapp.com/avatars/${user?.id}/${user?.avatar}`
                   }
                   alt={user?.username ? `${user?.username}'s avatar` : "avatar"}
                 />
@@ -249,13 +249,13 @@ const Header = () => {
                     >
                       <li
                         data-tip="How to get Linked"
-                        className="active:bg-text/15 mb-1 flex w-full cursor-pointer gap-1 rounded-lg px-3 py-1 transition-all  last:mb-0 hover:bg-text/10"
+                        className="active:bg-text/15 mb-1 flex w-full cursor-pointer gap-1 rounded-lg transition-all  last:mb-0 hover:bg-text/10"
                       >
                         <a
                           type="button"
                           href="https://forum.playcdu.co/threads/how-to-link-your-discord-and-minecraft-accounts.922/"
                           target="_blank"
-                          className={`flex items-center justify-center gap-2 capitalize `}
+                          className={`flex items-center justify-center gap-2 capitalize px-3 py-1`}
                         >
                           <img
                             src={user?.isLinked ? "/check.png" : "/cross.png"}

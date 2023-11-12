@@ -131,10 +131,10 @@ const ModpackListView = ({
                           return (
                             <li
                               key={packLocation.name}
-                              className={` active:bg-text/15  mb-1 flex w-full cursor-pointer gap-1 rounded-lg px-3 py-1 transition-all last:mb-0 hover:bg-text/10 `}
+                              className={` active:bg-text/15  mb-1 flex w-full cursor-pointer gap-1 rounded-lg  transition-all last:mb-0 hover:bg-text/10 `}
                             >
                               <a
-                                className={`flex items-center w-max min-w-full justify-start gap-2 capitalize`}
+                                className={`flex items-center w-max min-w-full justify-start gap-2 px-3 py-1 capitalize`}
                                 onClick={() => {
                                   navigate(packLocation.pathname);
                                 }}
