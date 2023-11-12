@@ -1,6 +1,6 @@
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 
-const AddModpack = () => {
+const SuggestMPLayout = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -66,4 +66,4 @@ const AddModpack = () => {
   );
 };
 
-export default AddModpack;
+export default SuggestMPLayout;

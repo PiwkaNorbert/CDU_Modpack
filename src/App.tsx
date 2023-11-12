@@ -33,25 +33,14 @@ const queryClient = new QueryClient();
 function App() {
   const useAdmin= () => {
     const user = JSON.parse(localStorage.getItem("profileData") || "{}");
-    if (!user) return false;
-    if (user.isAdmin) {
-      return true;
-    } else {
-      return false;
-    }
+    return user && user.isAdmin ? true : false;
   };
-  const isAdmin = useAdmin();
   const useLinked = () => {
     const user = JSON.parse(localStorage.getItem("profileData") || "{}");
-    if (!user) return false;
-    if (user.isLinked) {
-      return true;
-    } else {
-      return false;
-    }
+    return user && user.isLinked ? true : false;
   };
+  const isAdmin = useAdmin();
   const isLinked = useLinked();
-
 
 
   return (
@@ -73,7 +62,7 @@ function App() {
 
                 <Route path="*" element={<Navigate to="/404" />} />
                 <Route path="404" element={<NotFoundPage />} />
-                
+
                 {isLinked && (
                   <>
                     <Route path="sugggest-modpack" element={<SuggestMPLayout />}>
