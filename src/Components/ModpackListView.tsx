@@ -238,10 +238,15 @@ const ModpackListView = ({
             </div>
           ) : // check if data.length is 0 or if the array is empty with
           data?.length === 0 || !Array.isArray(data) ? (
-            <div className=" my-10 flex-1 text-center capitalize">
+            <div className=" my-10 flex-1 text-center capitalize ">
               No {location.pathname.includes("archived") && " archived "}
               {location.pathname.includes("suggested") && " suggested "}
-              Modpacks
+              Modpacks found 
+              <div className=" z-20  grid grid-cols-2 gap-5 p-5 max-[400px]:grid-cols-1 sm:grid-cols-3  md:grid-cols-3   lg:grid-cols-4   ">
+
+              <SuggestPackCard />
+              </div>
+
             </div>
           ) : (
             <>
