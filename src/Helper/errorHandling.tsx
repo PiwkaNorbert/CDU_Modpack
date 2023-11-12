@@ -14,12 +14,17 @@ export const errorHandling = (error: any) => {
       return (window.location.pathname = "/");
     }
     case 404:
+      console.error(error);
       return toast.error(error.message);
     case 400:
+      console.error(error);
+      return toast.error(error.response.data.error);
+    case 500:
+      console.error(error);
       return toast.error(error.response.data.error);
     default: {
       console.error(error);
-      return toast.error(error.message);
+      return toast.error(error.response.data.error);
     }
   }
 };

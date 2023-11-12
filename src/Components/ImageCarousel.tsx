@@ -122,7 +122,7 @@ export const ImageCarousel = ({
             
               <img
                     key={index}
-                    src={`https://www.trainjumper.com${imageUrl}`}
+                    src={`${apiBase}${imageUrl}`}
                     alt={`Modpack Image ${index + 1}`}
                     style={{translate: `${-100 * currentImageIndex}%`}}
                     // width="412"
@@ -243,7 +243,7 @@ export const ImageCarousel = ({
                     return (
                       <LazyLoadImage
                         key={index}
-                        src={`https://www.trainjumper.com${gallery.thumbnailUrl}`}
+                        src={`${apiBase}${gallery.thumbnailUrl}`}
                         alt={`Image ${index + 1}`}
                         width="96"
                         height="54"
@@ -309,7 +309,7 @@ export const ImageCarousel = ({
           >
             <div className="flex flex-col  ">
               <img
-                src={`https://www.trainjumper.com${imageSrc}`}
+                src={`${apiBase}${imageSrc}`}
                 alt="Modpack Image"
                 className="w-full md:w-[600px] lg:w-[896px] "
               />

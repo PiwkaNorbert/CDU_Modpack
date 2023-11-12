@@ -7,7 +7,7 @@ import HeartFillSVG from "./SVG/HeartFillSVG";
 import CommentBubbleSVG from "./SVG/CommentBubbleSVG";
 import { Link, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { bgColorVariants, borderColorVariants } from "../Constants";
+import { apiBase, bgColorVariants, borderColorVariants } from "../Constants";
 
 const ModpackCard = (props: IModpack) => {
   const queryClient = useQueryClient();
@@ -63,7 +63,7 @@ const ModpackCard = (props: IModpack) => {
           <div className="  flex h-full w-full    flex-1 flex-col overflow-hidden text-base/[1.25rem]">
             {/* toggle images in production */}
             <LazyLoadImage
-              src={`https://www.trainjumper.com${
+              src={`${apiBase}${
                 imageUrl === null ? "/static/placeholder.png" : imageUrl
               }`}
               alt={name ? name + " Image" : "Pack Image"}
