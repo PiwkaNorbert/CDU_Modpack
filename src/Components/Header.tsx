@@ -233,9 +233,9 @@ const Header = () => {
                 <img
                   className="h-full w-full cursor-pointer opacity-90 hover:opacity-100"
                   src={
-                    user?.playerData?.mc_head_url === undefined
-                      ? "steve.png"
-                      : `https://cdn.discordapp.com/avatars/${user?.id}/${user?.avatar}`
+                    user?.isLinked
+                    ? user?.playerData?.mc_head_url
+                    : "steve.png"
                   }
                   alt={user?.username ? `${user?.username}'s avatar` : "avatar"}
                 />
