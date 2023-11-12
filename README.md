@@ -34,4 +34,5 @@ Add `VITE_NODE_ENV = "production"`
 │   └── Constants.tsx/
 
 ```
-Next change export const apiBase = isDev ? "https://www.trainjumper.com" : isProd ? "`to your desired IP address`" : "";
+Next change:
+  - export const apiBase = isDev ? "https://www.trainjumper.com" : isProd ? "`to your desired IP address`" : "";
