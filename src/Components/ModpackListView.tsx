@@ -81,14 +81,14 @@ const ModpackListView = ({
       >
         {/* set the width to ffit the content and assign them to sm md lg for the container  like lg:max-w-[1000px]
         below and assthese same things to the nav width*/}
-        <div className="overflow-hidden border-t-2 bg-sec/20 dark:border-none dark:bg-bg dark:shadow  md:mb-4 md:rounded-b-xl  md:border-none md:shadow-2xl  ">
+        <div className="overflow-hidden border-t-2 bg-sec/20 dark:border-none  dark:shadow  md:mb-4 md:rounded-b-xl  md:border-none md:shadow-2xl  ">
           {/* map the data variable in a grad 4x2  */}
           <div className="md:space-x-none  flex flex-col items-center justify-between gap-4  p-5  text-xl   text-text sm:flex-row sm:gap-0 sm:space-x-4 xl:text-2xl ">
             {/* Show this button if you're logged in and a staff member */}
             <div className="flex w-full items-center justify-between sm:w-auto">
               <div
                 className={twMerge(
-                  "relative z-[5] flex items-center justify-center gap-2 text-text",
+                  "relative z-[5] flex items-center justify-center gap-2 text-text lg:pointer-events-none",
                   user?.isAdmin &&
                     "cursor-pointer select-none rounded-lg px-2 py-1 capitalize hover:bg-text/10 ",
                   user?.isAdmin &&
@@ -108,7 +108,7 @@ const ModpackListView = ({
                       height="20"
                       fill="currentColor"
                       viewBox="0 0 256 256"
-                      className={`transition-transform   ${
+                      className={`transition-transform  lg:hidden ${
                         showModal ? "rotate-90" : "rotate-0"
                       }`}
                     >
@@ -117,9 +117,9 @@ const ModpackListView = ({
 
                     <ul
                       className={` absolute top-9 z-[200] space-y-1 rounded-lg bg-bg p-1
-                  text-sm shadow-md      dark:border-2 dark:border-sec/10  ${
-                    showModal ? " block" : "hidden"
-                  }`}
+                      text-sm shadow-md dark:border-2 dark:border-sec/10 ${
+                        showModal ? " block" : "hidden"
+                      }`}
                       id="dropdown-menu"
                     >
                       {packLocation
@@ -131,24 +131,24 @@ const ModpackListView = ({
                           return (
                             <li
                               key={packLocation.name}
-                              className={` active:bg-text/15  mb-1 flex w-full  cursor-pointer gap-1 rounded-lg  px-3 py-1 transition-all  last:mb-0 hover:bg-text/10 `}
+                              className={` active:bg-text/15  mb-1 flex w-full cursor-pointer gap-1 rounded-lg px-3 py-1 transition-all last:mb-0 hover:bg-text/10 `}
                             >
                               <a
-                                className={`flex items-center justify-center gap-2 capitalize `}
+                                className={`flex items-center w-max min-w-full justify-start gap-2 capitalize`}
                                 onClick={() => {
                                   navigate(packLocation.pathname);
                                 }}
                               >
-                                {packLocation.name}
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
                                   width="20"
                                   height="20"
                                   fill="currentColor"
                                   viewBox="0 0 256 256"
-                                >
-                                  <path d={packLocation.svgPath}></path>
+                                  >
+                                  <path d={packLocation?.svgPath}/>
                                 </svg>
+                                  {packLocation.name}
                               </a>
                             </li>
                           );
@@ -184,7 +184,7 @@ const ModpackListView = ({
             </div>
 
             <input
-              className={` h-9 w-full rounded-full border-2 bg-bg px-3 py-1 text-sm sm:w-80 `}
+              className={` h-9 w-full rounded-full border-2 border-text/20 bg-bg px-3 py-1 text-sm sm:w-80 `}
               placeholder="Search for modpacks"
               type="text"
               name="tagSearch"
@@ -215,7 +215,7 @@ const ModpackListView = ({
             </button>
           </div>
           {showFilterTags && (
-            <div className=" relative z-[4] border-b-2 px-4 pb-5">
+            <div className=" relative z-[4] border-b border-text/10 px-4 pb-5">
               <div className=" min-h-16 flex flex-wrap items-start justify-start gap-2 px-2">
                 <ModpackTags
                   modpacks={data}

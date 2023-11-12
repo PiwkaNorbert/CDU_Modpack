@@ -7,11 +7,11 @@ const Footer = () => {
       <div className="p-footer-inner">
         <div className="p-footer-row">
           <div className="p-footer-row-opposite ">
-            <ul className="flex flex-wrap items-center justify-end gap-4 px-8 py-2 pb-4 md:px-4 lg:px-1 ">
+            <ul className="flex flex-wrap items-center justify-end pb-4 md:px-4 lg:px-1 ">
               <li>
                 <a
                   href={"/found-issue"}
-                  className="rounded-sm px-3 py-1 hover:bg-hover-2"
+                  className="rounded-sm px-4 py-2 hover:bg-hover-2"
                 >
                   Found Issue?
                 </a>
@@ -19,7 +19,7 @@ const Footer = () => {
 
               <li>
                 <a
-                  className="rounded-sm px-3 py-1 hover:bg-hover-2"
+                  className="rounded-sm px-4 py-2 hover:bg-hover-2"
                   href="https://forum.playcdu.co"
                   target="_blank"
                 >
@@ -28,7 +28,7 @@ const Footer = () => {
               </li>
               <li>
                 <a
-                  className="rounded-md px-3 py-1  hover:bg-hover-2"
+                  className="rounded-md px-4 py-2  hover:bg-hover-2"
                   href="https://forum.playcdu.co/misc/contact"
                   data-xf-click="overlay"
                   target="_blank"
@@ -38,7 +38,7 @@ const Footer = () => {
               </li>
               <li>
                 <a
-                  className="rounded-sm px-3 py-1 hover:bg-hover-2"
+                  className="rounded-sm px-4 py-2 hover:bg-hover-2"
                   href="https://forum.playcdu.co/help/terms/"
                   target="_blank"
                 >
@@ -47,7 +47,7 @@ const Footer = () => {
               </li>
               <li>
                 <a
-                  className="rounded-sm px-3 py-1 hover:bg-hover-2"
+                  className="rounded-sm px-4 py-2 hover:bg-hover-2"
                   href="https://forum.playcdu.co/help/privacy-policy/"
                   target="_blank"
                 >
@@ -57,7 +57,7 @@ const Footer = () => {
               <li>
                 {" "}
                 <a
-                  className="rounded-sm px-3 py-1 hover:bg-hover-2"
+                  className="rounded-sm px-4 py-2 hover:bg-hover-2"
                   href="https://forum.playcdu.co/help/"
                   target="_blank"
                 >

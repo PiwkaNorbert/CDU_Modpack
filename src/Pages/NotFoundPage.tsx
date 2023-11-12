@@ -30,7 +30,7 @@ const NotFoundPage = () => {
   }, [navigate, timeleftRef]);
 
   return (
-    <div className="h-4xl my-10 flex w-full flex-col items-center  justify-center text-center text-xl text-text xl:text-2xl">
+    <div className="h-4xl my-10 flex w-full flex-col bg-sec/20 items-center  justify-center text-center text-xl text-text xl:text-2xl">
       <h1 className="mb-5 text-center text-5xl/[1.1] font-semibold leading-tight md:text-6xl/[1.1] lg:text-7xl/[1.1]">
         Page Not Found
       </h1>

@@ -52,9 +52,9 @@ const Header = () => {
       {menu ? null : (
         <header
           ref={ref}
-          className="relative hidden h-[140px] items-center justify-center text-sm md:grid xl:h-[170px] xl:text-base"
+          className="relative hidden h-[140px] items-center justify-center text-sm md:grid xl:h-[170px] xl:text-base "
         >
-          <div className="absolute inset-0 m-auto bg-gradient-to-tr from-acc to-pri dark:brightness-50"></div>
+          <div className="absolute inset-0 m-auto bg-gradient-to-t from-acc to-pri pointer-events-none dark:brightness-50"></div>
           <img
             alt="CDU"
             src="/logo2.png"
@@ -68,8 +68,8 @@ const Header = () => {
       )}
       <nav
         className={twMerge(
-          "top-0  flex w-full items-center justify-stretch gap-2 border-bg bg-bg px-2 py-1 text-text  md:justify-center md:px-4 lg:mx-auto lg:min-w-[900px] lg:max-w-[900px] lg:border-x-4",
-          isIntersecting ? "relative" : "sticky z-[10]  shadow-md ",
+          "top-0  flex w-full items-center justify-stretch gap-2 z-10  bg-gradient-to-b from-acc/30 to-sec/20 px-2 py-1 text-text  md:justify-center md:px-4 lg:mx-auto lg:min-w-[900px] lg:max-w-[900px]",
+          isIntersecting ? "relative" : "sticky bg-bg  shadow-md ",
           window.location.pathname !== "/" ||
             window.location.pathname.includes("list")
             ? "z-[10]"
@@ -103,11 +103,10 @@ const Header = () => {
                   stroke="currentColor"
                   viewBox="0 0 256 256"
                 >
-                  <path d="M208,32H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM181.66,170.34a8,8,0,0,1-11.32,11.32L128,139.31,85.66,181.66a8,8,0,0,1-11.32-11.32L116.69,128,74.34,85.66A8,8,0,0,1,85.66,74.34L128,116.69l42.34-42.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path>
+                  <path  d="M208,32H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM181.66,170.34a8,8,0,0,1-11.32,11.32L128,139.31,85.66,181.66a8,8,0,0,1-11.32-11.32L116.69,128,74.34,85.66A8,8,0,0,1,85.66,74.34L128,116.69l42.34-42.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path>
                 </svg>
               </button>
-              {links.map(
-                ({
+              {links.map(({
                   href,
                   name,
                   target,
@@ -232,9 +231,8 @@ const Header = () => {
                 <img
                   className="h-full w-full cursor-pointer opacity-90 hover:opacity-100"
                   src={
-                    !user?.isLinked &&
                     user?.playerData?.mc_head_url.includes(
-                      "https://crafatar.com/renders/head/NOT%20LINKED?size=100&overlay"
+                      "NOT%20LINKED"
                     )
                       ? `https://cdn.discordapp.com/avatars/${user?.id}/${user?.avatar}`
                       : user?.playerData?.mc_head_url
@@ -246,7 +244,7 @@ const Header = () => {
                     className={`dropdown-body group-hover/header__menu:block`}
                   >
                     <ul
-                      className="space-y-1 p-1 text-sm"
+                      className="space-y-1 p-1 text-base font-medium text-text rounded-lg bg-bg shadow-md"
                       aria-labelledby="dropdown-button"
                     >
                       <li
@@ -259,12 +257,12 @@ const Header = () => {
                           target="_blank"
                           className={`flex items-center justify-center gap-2 capitalize `}
                         >
-                          {user?.isLinked ? "linked" : "unlinked"}
-
                           <img
                             src={user?.isLinked ? "/check.png" : "/cross.png"}
-                            className="aspect-square w-6"
+                            className="aspect-square w-5"
                           />
+                          {user?.isLinked ? "linked" : "unlinked"}
+
                         </a>
                       </li>
                       <li className="active:bg-text/15 mb-1 flex w-full cursor-pointer gap-1 rounded-lg px-3 py-1 transition-all  last:mb-0 hover:bg-text/10">
@@ -294,6 +292,11 @@ const Header = () => {
 export default Header;
 
 const links = [
+  {
+    name: "Found Issue?",
+    href: "/found-issue",
+    target: '_self'
+  },
   {
     name: "Forum",
     href: "https://forum.playcdu.co",

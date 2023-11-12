@@ -258,7 +258,6 @@ export const ImageCarousel = ({
                           // check if im scrolling to the right or left
 
                           if (index > currentImageIndex) {
-                            // if i click on the 3rd image and the current image is the 1st image then scroll right by 1 but if i clcik the 44th image scroll by 2 to the right
                             if (index - currentImageIndex === 1) {
                               carouselRef.current?.scrollBy({
                                 left: 96,

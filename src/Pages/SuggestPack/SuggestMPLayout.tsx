@@ -9,7 +9,7 @@ const AddModpack = () => {
       id="modpack__addpack"
       className="z-[5] grid h-full w-full  flex-1 justify-normal  text-text lg:mx-auto lg:min-w-[900px] lg:max-w-[900px] "
     >
-      <div className="relative h-min overflow-hidden border-t-2 bg-bg pb-4 dark:border-none dark:shadow  md:mb-4 md:rounded-b-md  md:border-none md:shadow-xl  ">
+      <div className="relative h-min overflow-hidden border-t-2 bg-sec/20 pb-4 dark:border-none dark:shadow  md:mb-4 md:rounded-b-md  md:border-none md:shadow-xl  ">
         <div className={` z-10 grid h-full items-center  lg:rounded-md   `}>
           <div className=" z-10 mb-6 flex flex-col justify-between gap-2 px-8 pt-4  max-[350px]:mb-0 sm:gap-0  md:grid md:grid-cols-3 md:px-4 ">
             <Link

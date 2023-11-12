@@ -34,8 +34,8 @@ export const LogoutButton = () => {
       className={`flex items-center justify-center gap-2 capitalize `}
       onClick={logoutfn}
     >
-      Logout
       <SignOutSVG />
+      Logout
     </a>
   );
 };
