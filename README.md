@@ -22,7 +22,7 @@ Place the content of the `./dist/` folder into your `nginx` and it should work
 
 ## How to change the IP of the backend 
 
-Inside the project folder, create a text file with the name .env `that should be the file type`.
+Inside the root of the project, create a text file with the name `.env` (this is the full file name).
 
 Add `VITE_NODE_ENV = "production"`
 
