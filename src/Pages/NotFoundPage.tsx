@@ -13,6 +13,7 @@ const NotFoundPage = () => {
     const downloadTimer = setInterval(function () {
       if (timeleft === 0) {
         clearInterval(downloadTimer);
+        
         navigate("/");
       }
       const countdownElement = document.querySelector("#countdown");
@@ -27,6 +28,9 @@ const NotFoundPage = () => {
     if (window.location.href.endsWith("/404")) {
       countdown(timeleftRef.current, navigate);
     }
+    return () => {
+      timeleftRef.current = 4;
+    };
   }, [navigate, timeleftRef]);
 
   return (

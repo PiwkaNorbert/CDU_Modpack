@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, createContext } from "react";
 
 import { DiscordProfileData } from "../Utils/Interfaces";
 import { UserProviderProps } from "../Utils/Types";
@@ -11,27 +11,32 @@ export interface AppState {
   user?: Partial<DiscordProfileData>;
   setUser: React.Dispatch<React.SetStateAction<DiscordProfileData | undefined>>;
   votesRemaining: (amount: number) => void;
+  userLoading: boolean;
+  setUserLoading: React.Dispatch<React.SetStateAction<boolean>>;
+
 }
 
 const defaultState: AppState = {
   user: {},
   setUser: () => {},
   votesRemaining: () => {},
+  userLoading: true,
+  setUserLoading: () => {},
 };
-export const UserContext = React.createContext<AppState>(defaultState);
+export const UserContext = createContext<AppState>(defaultState);
 
 export const UserProvider: React.FunctionComponent<UserProviderProps> = (
   props: UserProviderProps
 ): JSX.Element => {
-  const [user, setUser] = React.useState<DiscordProfileData>();
+  const [user, setUser] = useState<DiscordProfileData>();
+  const [userLoading, setUserLoading] = useState(true);
 
   // const data = fetchProfile()
   // make an async function for fetchProfile to resolve the promise and then set the user
   const storedUser = localStorage.getItem("profileData");
 
   const CheckUserExpiriedLogin = () => {
-    if (!storedUser) return;
-
+    if (!storedUser) return
     const parsedUser = JSON.parse(storedUser);
     const tokenExpirationDate = parsedUser?.tokenExpiry;
     const currentDate = Date.now() / 1000;
@@ -47,11 +52,15 @@ export const UserProvider: React.FunctionComponent<UserProviderProps> = (
     } else {
       setUser(parsedUser);
       toast.success(`Welcome back, ${parsedUser.username}!`, {
-        autoClose: 5000,
+        autoClose: 1000,
         toastId: "welcome-back",
       });
     }
+    setUserLoading(false);
+  
+
   };
+
 
   useEffect(() => {
     CheckUserExpiriedLogin();
@@ -65,7 +74,7 @@ export const UserProvider: React.FunctionComponent<UserProviderProps> = (
     return setUser(userNew as DiscordProfileData);
   };
 
-  const value: AppState = { user, setUser, votesRemaining };
+  const value: AppState = { user, setUser, votesRemaining, userLoading, setUserLoading };
 
   return (
     <UserContext.Provider value={value}>{props.children}</UserContext.Provider>

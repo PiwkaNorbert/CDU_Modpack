@@ -20,8 +20,14 @@ export const ImageCarousel = ({
   const [showModal, setShowModal] = useState<boolean>(false);
   const [imageSrc, setImageSrc] = useState<string>("");
 
+
+  const carouselRef = useRef<HTMLDivElement>(null);
+
+
   const { modpackId } = useParams();
   const queryClient = useQueryClient();
+
+
 
   const imagePath = galleryImages[currentImageIndex].imageUrl;
   const imageIdPattern = /\b[0-9A-Fa-f-]+(?=\.\w+$)/;
@@ -93,24 +99,39 @@ export const ImageCarousel = ({
     setShowModal(true);
   };
 
+   const scrollCarousel = (scrollAmount: number) => {
+    carouselRef.current?.scrollBy({
+      left: scrollAmount,
+      behavior: "smooth",
+    });
+  };
+  
   const handleNextImage = () => {
+    // Check if we're at the end of the carousel
     if (currentImageIndex === galleryImages.length - 1) {
       setCurrentImageIndex(0);
-    }
-    if (currentImageIndex < galleryImages.length - 1) {
-      setCurrentImageIndex(currentImageIndex + 1);
+  const totalScrollWidth = carouselRef.current?.scrollWidth || 0;
+
+      scrollCarousel(-totalScrollWidth);
+    } else {
+      setCurrentImageIndex((prevIndex) => prevIndex + 1);
+      scrollCarousel(96); // or the width of your image
     }
   };
-
+  
   const handlePrevImage = () => {
+    // Check if we're at the start of the carousel
     if (currentImageIndex === 0) {
       setCurrentImageIndex(galleryImages.length - 1);
+  const totalScrollWidth = carouselRef.current?.scrollWidth || 0;
+
+      scrollCarousel(totalScrollWidth);
     } else {
-      setCurrentImageIndex(currentImageIndex - 1);
+      setCurrentImageIndex((prevIndex) => prevIndex - 1);
+      scrollCarousel(-96); // or the width of your image
     }
   };
 
-  const carouselRef = useRef<HTMLDivElement>(null);
 
   return (
     <div>
@@ -120,15 +141,13 @@ export const ImageCarousel = ({
         <div className="w-full h-full flex overflow-hidden z-[5]  rounded-md ">
           {galleryImages.map(({imageUrl}: {imageUrl:string}, index: number )=>
             
-              <img
-                    key={index}
-                    src={`${apiBase}${imageUrl}`}
-                    alt={`Modpack Image ${index + 1}`}
-                    style={{translate: `${-100 * currentImageIndex}%`}}
-                    // width="412"
-                    // height="233"
-                    className={` w-full shrink-0 grow-0 block object-cover border-2 rounded-md transition-all duration-300 min-h-[236.88px]  ${borderColorVariants[color]} ${bgColorVariants[color]}`}
-                />
+            <img
+            key={index}
+            src={`${apiBase}${imageUrl}`}
+            alt={`Modpack Image ${index + 1}`}
+            style={{transform: `translateX(${-100 * currentImageIndex}%)`}}
+            className={` w-full shrink-0 grow-0 block object-cover border-2 rounded-md transition-all duration-300 min-h-[236.88px]  ${borderColorVariants[color]} ${bgColorVariants[color]}`}
+          />
               
          )}
         </div>
@@ -259,33 +278,18 @@ export const ImageCarousel = ({
 
                           if (index > currentImageIndex) {
                             if (index - currentImageIndex === 1) {
-                              carouselRef.current?.scrollBy({
-                                left: 96,
-                                behavior: "smooth",
-                              });
+                              scrollCarousel(96);
                             } else {
-                              carouselRef.current?.scrollBy({
-                                left: 192,
-                                behavior: "smooth",
-                              });
+                              scrollCarousel(192);
                             }                       
                           }
                           if (index < currentImageIndex) {
                             if (currentImageIndex - index === 1) {
-                              carouselRef.current?.scrollBy({
-                                left: -96,
-                                behavior: "smooth",
-                              });
+                              scrollCarousel(-96);
                             } else {
-                              carouselRef.current?.scrollBy({
-                                left: -192,
-                                behavior: "smooth",
-                              });
+                              scrollCarousel(-192);
                             }
                           }
-
-
-
                     
                         }}
                         aria-label={`Image Thumbnail ${index + 1}`}

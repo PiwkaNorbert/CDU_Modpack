@@ -188,3 +188,37 @@ export const packLocation = [
       "M32,72V56a8,8,0,0,1,8-8H216a8,8,0,0,1,8,8V72a8,8,0,0,1-8,8H40A8,8,0,0,1,32,72Zm8,72H216a8,8,0,0,0,8-8V120a8,8,0,0,0-8-8H40a8,8,0,0,0-8,8v16A8,8,0,0,0,40,144Zm112,32H40a8,8,0,0,0-8,8v16a8,8,0,0,0,8,8H152a8,8,0,0,0,8-8V184A8,8,0,0,0,152,176Zm80,8H216V168a8,8,0,0,0-16,0v16H184a8,8,0,0,0,0,16h16v16a8,8,0,0,0,16,0V200h16a8,8,0,0,0,0-16Z",
   },
 ];
+
+export const links = [
+  {
+    name: "Found Issue?",
+    href: "/found-issue",
+    target: '_self'
+  },
+  {
+    name: "Forum",
+    href: "https://forum.playcdu.co",
+    target: "_blank",
+  },
+  {
+    name: "Contact us",
+    href: "https://forum.playcdu.co/misc/contact",
+    target: "_blank",
+    "data-xf-click": "overlay",
+  },
+  {
+    name: "Terms and rules",
+    href: "https://forum.playcdu.co/help/terms/",
+    target: "_blank",
+  },
+  {
+    name: "Privacy policy",
+    href: "https://forum.playcdu.co/help/privacy-policy/",
+    target: "_blank",
+  },
+  {
+    name: "Help",
+    href: "https://forum.playcdu.co/help/",
+    target: "_blank",
+  },
+];

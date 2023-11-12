@@ -23,30 +23,22 @@ import { CreateModpack } from "./Pages/SuggestPack/CreateModpack.tsx";
 import ArchivedPackListPage from "./Pages/ArchivedPackListPage";
 import SuggestedPackListPage from "./Pages/SuggestedPackListPage";
 
-import { UserProvider } from "./Context/UserContext.tsx";
+import { UserContext } from "./Context/UserContext.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import FoundBugs from "./Pages/FoundIssue.tsx";
 import { isDev } from "./Constants.tsx";
+import CreateModpackSuccess from "./Pages/CreateModpackSuccess.tsx";
+import { useContext } from "react";
 
 const queryClient = new QueryClient();
 
 function App() {
-  const useAdmin= () => {
-    const user = JSON.parse(localStorage.getItem("profileData") || "{}");
-    return user && user.isAdmin ? true : false;
-  };
-  const useLinked = () => {
-    const user = JSON.parse(localStorage.getItem("profileData") || "{}");
-    return user && user.isLinked ? true : false;
-  };
-  const isAdmin = useAdmin();
-  const isLinked = useLinked();
-console.log(isAdmin, isLinked);
+
+const { user } = useContext(UserContext);
 
 
   return (
     <QueryClientProvider client={queryClient}>
-      <UserProvider>
         <ThemeProvider>
             <BrowserRouter>
               <Header />
@@ -64,17 +56,23 @@ console.log(isAdmin, isLinked);
                 <Route path="*" element={<Navigate to="/404" />} />
                 <Route path="404" element={<NotFoundPage />} />
 
-                {isLinked && (
+                { user && user.isLinked && (
                     <Route path="suggest-modpack" element={<SuggestMPLayout />}>
                       <Route path="create" element={<CreateModpack />} />
+
                       <Route
                         path="photos/:modpackId"
                         element={<AddImage path="suggest" color="sky" />}
                       />
+                      {/* thank you for submitting pack */}
+                      <Route
+                        path="success"
+                        element={<CreateModpackSuccess />}
+                      />
                     </Route>
                 )}
 
-                {isAdmin && (
+                { user && user.isAdmin && (
                   <>
                     {/* ------------EDIT MODPACKS------------- */}
                     <Route
@@ -129,7 +127,6 @@ console.log(isAdmin, isLinked);
             {window.location?.pathname === "/404" ? null : <Footer />}
           <ReactQueryDevtools />
         </ThemeProvider>
-      </UserProvider>
     </QueryClientProvider>
   );
 }

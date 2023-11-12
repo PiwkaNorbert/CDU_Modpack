@@ -6,7 +6,7 @@ import { useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
 import { LogoutButton } from "./LogoutButton";
-import { isDev } from "../Constants";
+import { isDev, links } from "../Constants";
 
 const Header = () => {
   // set the state of voteRemaining to the value of the user's votesRemaining
@@ -46,7 +46,6 @@ const Header = () => {
   const toggleMenu = () => {
     setMenu((open) => !open);
   };
-  console.log(user?.playerData?.mc_head_url);
   
 
   return (
@@ -60,10 +59,10 @@ const Header = () => {
           <img
             alt="CDU"
             src="/logo.png"
-            width="256"
-            height="144"
+            height={119}
+            width={128}
             //loading="lazy"
-            className=" lazy-load-image absolute top-0 cursor-pointer justify-self-center p-2 hover:animate-bounce-slow "
+            className="  w-[8rem] xl:w-[9.6rem] transition-all absolute inset-0 m-auto cursor-pointer justify-self-center p-2 hover:animate-bounce-slow "
             onClick={() => navigate("/")}
           />
         </header>
@@ -215,7 +214,7 @@ const Header = () => {
           )}
           onClick={() => navigate("/")}
         />
-        {user?.isLoggedIn ? (
+        {user && user.isLoggedIn ? (
           <>
             <div className=" z-10 order-4 hidden w-full justify-self-start text-center text-sm uppercase sm:flex min-[900px]:justify-self-center  ">
               <p>{`${user?.votesRemaining} ${
@@ -291,36 +290,3 @@ const Header = () => {
 };
 export default Header;
 
-const links = [
-  {
-    name: "Found Issue?",
-    href: "/found-issue",
-    target: '_self'
-  },
-  {
-    name: "Forum",
-    href: "https://forum.playcdu.co",
-    target: "_blank",
-  },
-  {
-    name: "Contact us",
-    href: "https://forum.playcdu.co/misc/contact",
-    target: "_blank",
-    "data-xf-click": "overlay",
-  },
-  {
-    name: "Terms and rules",
-    href: "https://forum.playcdu.co/help/terms/",
-    target: "_blank",
-  },
-  {
-    name: "Privacy policy",
-    href: "https://forum.playcdu.co/help/privacy-policy/",
-    target: "_blank",
-  },
-  {
-    name: "Help",
-    href: "https://forum.playcdu.co/help/",
-    target: "_blank",
-  },
-];
