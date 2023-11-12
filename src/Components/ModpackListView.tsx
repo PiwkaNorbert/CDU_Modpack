@@ -242,10 +242,15 @@ const ModpackListView = ({
               No {location.pathname.includes("archived") && " archived "}
               {location.pathname.includes("suggested") && " suggested "}
               Modpacks found 
-              <div className=" z-20  grid grid-cols-2 gap-5 p-5 max-[400px]:grid-cols-1 sm:grid-cols-3  md:grid-cols-3   lg:grid-cols-4   ">
-
-              <SuggestPackCard />
-              </div>
+              {user?.isLinked &&
+                  !(
+                    location.pathname.includes("archived") ||
+                    location.pathname.includes("suggested")
+                  ) && (
+                    <div className=" z-20  grid grid-cols-2 gap-5 p-5 max-[400px]:grid-cols-1 sm:grid-cols-3  md:grid-cols-3   lg:grid-cols-4   ">
+                      <SuggestPackCard />
+                    </div>
+                  )}
 
             </div>
           ) : (
