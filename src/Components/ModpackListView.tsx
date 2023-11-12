@@ -88,7 +88,7 @@ const ModpackListView = ({
             <div className="flex w-full items-center justify-between sm:w-auto">
               <div
                 className={twMerge(
-                  "relative z-[5] flex items-center justify-center gap-2 text-text lg:pointer-events-none",
+                  "relative z-[5] flex items-center justify-center gap-2 text-text ",
                   user?.isAdmin &&
                     "cursor-pointer select-none rounded-lg px-2 py-1 capitalize hover:bg-text/10 ",
                   user?.isAdmin &&
@@ -108,7 +108,7 @@ const ModpackListView = ({
                       height="20"
                       fill="currentColor"
                       viewBox="0 0 256 256"
-                      className={`transition-transform  lg:hidden ${
+                      className={`transition-transform   ${
                         showModal ? "rotate-90" : "rotate-0"
                       }`}
                     >

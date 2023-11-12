@@ -1,4 +1,4 @@
-import React from "react";
+import {useState, useRef} from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -7,27 +7,30 @@ import { AddModpackProps } from "../../Utils/Interfaces";
 import { tagOptions, colorOptions } from "../../Helper/modifyModpack";
 // import SuggestedByUserSearch from "../../Components/SuggestedByUserSearch";
 import { errorHandling } from "../../Helper/errorHandling";
-import { twMerge } from "tailwind-merge";
+import { twJoin, twMerge } from "tailwind-merge";
 import { apiBase, borderColorVariants, isDev } from "../../Constants";
 import { debounce } from "lodash";
 import { DebounceInput } from "react-debounce-input";
 
 export const CreateModpack = () => {
   const [modpackDescription, setModpackDescription] =
-    React.useState<string>("");
-  const [modpackColor, setModpackColor] = React.useState<string>("sky");
-  const [modpackTags, setModpackTags] = React.useState<string[]>([]);
-  const [isAvailable, setIsAvailable] = React.useState(false);
-  const [modpackName, setModpackName] = React.useState("");
-  const [loading, setLoading] = React.useState(false);
+    useState<string>("");
+  const [modpackColor, setModpackColor] = useState<string>("sky");
+  const [modpackTags, setModpackTags] = useState<string[]>([]);
+  const [isAvailable, setIsAvailable] = useState<boolean>(false);
+  const [modpackName, setModpackName] = useState("");
+  const [isTaken, setIsTaken] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const { username } = JSON.parse(localStorage.getItem("profileData") || "{}");
 
-  const re = /^(?=[a-zA-Z0-9._]{2,32}$)(?!.*[_.]{2})[^_.].*[^_.]$/;
+  const re = /^[ a-zA-Z0-9'"._-]{5,50}$/;
 
-  const isValid =
-    modpackName.length > 1 && modpackName.length < 32 && re.test(modpackName);
+  const isValid =  re.test(modpackName);
   const isTouched = modpackName.length > 0;
-  const isTaken = isValid && !isAvailable && !loading;
+  // const isTaken = isValid && !isAvailable && !loading;
+  
+
+  
 
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -84,22 +87,23 @@ export const CreateModpack = () => {
     }
   );
 
-  const debouncedCheckAvailability = React.useRef(
+  const debouncedCheckAvailability = useRef(
     debounce(checkAvailability, 500)
   ).current;
-  console.log("debouncedCheckAvailability", debouncedCheckAvailability);
+  // console.log("debouncedCheckAvailability", debouncedCheckAvailability);
 
   function handleModpackNameChange(newModpackName: string) {
     console.log("handleModpackNameChange", newModpackName);
 
     setModpackName(newModpackName);
-    setLoading(true);
-    setIsAvailable(false);
     debouncedCheckAvailability(newModpackName);
+
   }
 
   async function checkAvailability(modpackName: string) {
     console.log("checkAvailability", modpackName);
+    setLoading(true);
+    setIsAvailable(false);
 
     const { data, status } = await axios.post(
       `${apiBase}/api/check-duplicate-modpack-name`,
@@ -108,11 +112,26 @@ export const CreateModpack = () => {
     );
     if (status !== 200)
       throw new Error("Error checking modpack name availability");
-    const exists = data.exists;
 
-    setIsAvailable(!exists);
+      
+    if (data.success === true) {
+      setIsAvailable(true);
+      setIsTaken(true);
+    }
+    if (data.success === false) {
+      setIsAvailable(false);
+      setIsTaken(false);
+      
+    }
     setLoading(false);
+    
+    
+    
   }
+  console.log(isAvailable, loading);
+  console.log(isValid + " isValid");
+  console.log(isTaken + " isTaken");
+
 
   const borderColor = modpackColor || "sky";
 
@@ -151,14 +170,28 @@ export const CreateModpack = () => {
         }}
       >
         {/* Modpack name field, single line. */}
-        <div className="relative">
+        <div className="relative text-gray-500">
+          {loading ? (
+            <div className="absolute inset-y-0 left-0 h-8 flex spacer-left-2 items-center">
+              <div className="la-ball-clip-rotate la-dark la-sm ">
+                <div/>
+              </div>
+            </div>
+          ) : (
+            <div className="absolute inset-y-0 left-0 h-8 flex items-center pl-2 text-gray-500">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"></path></svg>
+            </div>
+          
+          )
+
+          }
           <DebounceInput
             required
-            className={twMerge(
-              ` mr-10 h-8 w-full rounded-md border-2 bg-bg focus:border-transparent focus:outline-none focus:ring-0 active:border-none active:outline-none border-${borderColor}-500 px-3 py-1`,
+            className={twJoin(
+              ` mr-10 h-8 w-full rounded-md border-2 bg-bg spacer-left pr-3 py-1 focus:border-transparent focus:outline-none focus:ring-0 active:border-none active:outline-none `,
               !isValid && isTouched && "border-red-500",
               isTaken && "border-yellow-500",
-              isAvailable && isValid && !loading && "border-green-500"
+              !isTaken && isValid && "border-green-500"
             )}
             type="text"
             placeholder="Name"
@@ -170,51 +203,28 @@ export const CreateModpack = () => {
               if (!e.target.value) return;
               handleModpackNameChange(e.target.value);
             }}
-            autoComplete="false"
+            autoComplete="off"
           />
-          {loading && (
-            <div className="absolute bottom-0 right-0 top-0 flex items-center bg-black pr-3">
-              <svg
-                className="h-5 w-5 animate-spin"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <circle
-                  className="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="4"
-                />
-                <path
-                  className="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-                />
-              </svg>
-            </div>
-          )}
+        
         </div>
-        <div className=" relative w-full items-center gap-2 truncate pt-1 text-base ">
+        <div className=" relative w-full items-center gap-2 truncate text-base ">
           {loading ? (
             <div className="w-full    break-all  sm:items-center sm:gap-2 ">
               Checking availability of @{modpackName}...
             </div>
-          ) : !isValid && isTouched ? (
-            <p className="text-error text-sm">
-              must be 3-16 characters long, alphanumeric only
+          ) : !isValid ? (
+            <p className="text-red-00 text-sm">
+              Name must be 5-50 characters long
             </p>
-          ) : isValid && !isAvailable && !loading ? (
+          ) : isTaken ? (
             <p className="text-warning text-sm">
               @{modpackName} is not available
             </p>
-          ) : isValid && isTouched && isAvailable ? (
+          ) : !isTaken ? (
             <button className="btn btn-success">
               Confirm modpack name @{modpackName}{" "}
             </button>
-          ) : null}
+          ) : ""}
         </div>
         {/* Modpack description field, multi line. */}
         {/* In order to make the modpack field multi line, we need to use a textarea instead of an input. */}
@@ -321,7 +331,7 @@ export const CreateModpack = () => {
 
         <button
           className={` h-10 rounded-md border-2 border-black hover:bg-opacity-80 disabled:bg-slate-600 bg-${borderColor}-500 px-3 py-1  text-sm  xl:text-base`}
-          disabled={addModpackMutation.isLoading}
+          disabled={addModpackMutation.isLoading || isTaken}
           type="submit"
         >
           {addModpackMutation.isLoading ? "Adding Modpack" : "Add Modpack"}

@@ -1,5 +1,6 @@
 export const isDev = import.meta.env.VITE_NODE_ENV === "development";
-export const apiBase = isDev ? "https://www.trainjumper.com" : "";
+export const isProd = import.meta.env.VITE_NODE_ENV === "production";
+export const apiBase = isDev ? "https://www.trainjumper.com" : isProd ? "" : "";
 
 export const colorOptions = [
   { value: "red", label: "Red" },

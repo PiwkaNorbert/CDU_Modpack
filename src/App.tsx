@@ -75,15 +75,21 @@ function App() {
                     {/* ------------EDIT MODPACKS------------- */}
                     <Route
                       path="edit-modpack/:modpackId"
-                      element={<EditModpack category="main" />}
+                      element={<EditModpack 
+                        // category="main" 
+                        />}
                     />
                     <Route
                       path="edit-suggested-modpack/:modpackId"
-                      element={<EditModpack category="suggested" />}
+                      element={<EditModpack 
+                        // category="suggested"
+                      />}
                     />
                     <Route
                       path="edit-archived-modpack/:modpackId"
-                      element={<EditModpack category="archived" />}
+                      element={<EditModpack 
+                        // category="archived" 
+                        />}
                     />
 
                     {/* ------------LIST MODPACKS------------- */}
