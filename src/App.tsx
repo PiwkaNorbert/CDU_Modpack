@@ -41,6 +41,7 @@ function App() {
   };
   const isAdmin = useAdmin();
   const isLinked = useLinked();
+console.log(isAdmin, isLinked);
 
 
   return (
@@ -64,15 +65,13 @@ function App() {
                 <Route path="404" element={<NotFoundPage />} />
 
                 {isLinked && (
-                  <>
-                    <Route path="sugggest-modpack" element={<SuggestMPLayout />}>
+                    <Route path="suggest-modpack" element={<SuggestMPLayout />}>
                       <Route path="create" element={<CreateModpack />} />
                       <Route
                         path="photos/:modpackId"
                         element={<AddImage path="suggest" color="sky" />}
                       />
                     </Route>
-                  </>
                 )}
 
                 {isAdmin && (

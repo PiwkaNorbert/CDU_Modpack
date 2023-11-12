@@ -1,4 +1,4 @@
-import {useState, useRef} from "react";
+import {useState, useRef, useEffect} from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -19,18 +19,14 @@ export const CreateModpack = () => {
   const [modpackTags, setModpackTags] = useState<string[]>([]);
   const [isAvailable, setIsAvailable] = useState<boolean>(false);
   const [modpackName, setModpackName] = useState("");
-  const [isTaken, setIsTaken] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const { username } = JSON.parse(localStorage.getItem("profileData") || "{}");
 
   const re = /^[ a-zA-Z0-9'"._-]{5,50}$/;
 
-  const isValid =  re.test(modpackName);
+  const isNameValid =  re.test(modpackName);
   const isTouched = modpackName.length > 0;
   // const isTaken = isValid && !isAvailable && !loading;
-  
-
-  
 
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -90,18 +86,16 @@ export const CreateModpack = () => {
   const debouncedCheckAvailability = useRef(
     debounce(checkAvailability, 500)
   ).current;
-  // console.log("debouncedCheckAvailability", debouncedCheckAvailability);
 
   function handleModpackNameChange(newModpackName: string) {
-    console.log("handleModpackNameChange", newModpackName);
 
     setModpackName(newModpackName);
+    // checkAvailability(newModpackName);
     debouncedCheckAvailability(newModpackName);
 
   }
 
   async function checkAvailability(modpackName: string) {
-    console.log("checkAvailability", modpackName);
     setLoading(true);
     setIsAvailable(false);
 
@@ -113,25 +107,28 @@ export const CreateModpack = () => {
     if (status !== 200)
       throw new Error("Error checking modpack name availability");
 
-      
+    setLoading(false);
+    
     if (data.success === true) {
       setIsAvailable(true);
-      setIsTaken(true);
+      
     }
     if (data.success === false) {
       setIsAvailable(false);
-      setIsTaken(false);
       
     }
-    setLoading(false);
-    
-    
     
   }
-  console.log(isAvailable, loading);
-  console.log(isValid + " isValid");
-  console.log(isTaken + " isTaken");
 
+  // make isValid a state to update the button disabled state
+  const [isValid, setIsValid] = useState<boolean>(false);
+  useEffect(() => {
+    if (isNameValid && isAvailable && !loading) {
+      setIsValid(true);
+    } else {
+      setIsValid(false);
+    }
+  }, [isNameValid, isAvailable, loading]);
 
   const borderColor = modpackColor || "sky";
 
@@ -189,9 +186,9 @@ export const CreateModpack = () => {
             required
             className={twJoin(
               ` mr-10 h-8 w-full rounded-md border-2 bg-bg spacer-left pr-3 py-1 focus:border-transparent focus:outline-none focus:ring-0 active:border-none active:outline-none `,
-              !isValid && isTouched && "border-red-500",
-              isTaken && "border-yellow-500",
-              !isTaken && isValid && "border-green-500"
+              !isNameValid && isTouched && "border-red-500",
+              !isValid && isTouched && "border-yellow-500",
+              isValid && isTouched && "border-green-500"
             )}
             type="text"
             placeholder="Name"
@@ -212,18 +209,18 @@ export const CreateModpack = () => {
             <div className="w-full    break-all  sm:items-center sm:gap-2 ">
               Checking availability of @{modpackName}...
             </div>
-          ) : !isValid ? (
+          ) : !isNameValid ? (
             <p className="text-red-00 text-sm">
               Name must be 5-50 characters long
             </p>
-          ) : isTaken ? (
+          ) : !isValid ? (
             <p className="text-warning text-sm">
               @{modpackName} is not available
             </p>
-          ) : !isTaken ? (
-            <button className="btn btn-success">
+          ) : isValid ? (
+            <p className="btn btn-success">
               Confirm modpack name @{modpackName}{" "}
-            </button>
+            </p>
           ) : ""}
         </div>
         {/* Modpack description field, multi line. */}
@@ -331,7 +328,7 @@ export const CreateModpack = () => {
 
         <button
           className={` h-10 rounded-md border-2 border-black hover:bg-opacity-80 disabled:bg-slate-600 bg-${borderColor}-500 px-3 py-1  text-sm  xl:text-base`}
-          disabled={addModpackMutation.isLoading || isTaken}
+          disabled={addModpackMutation.isLoading || !isValid }
           type="submit"
         >
           {addModpackMutation.isLoading ? "Adding Modpack" : "Add Modpack"}
