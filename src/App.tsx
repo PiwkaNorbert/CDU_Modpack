@@ -13,7 +13,7 @@ import PackDetails from "./Pages/PackDetails";
 import Login from "./Pages/Login";
 // import FetchingIndicator from "./Components/FetchingIndicator";
 import NotFoundPage from "./Pages/NotFoundPage";
-import AddMPLayout from "./Pages/SuggestPack/SuggestMPLayout.tsx";
+import SuggestMPLayout from "./Pages/SuggestPack/SuggestMPLayout.tsx";
 import AddImage from "./Pages/SuggestPack/AddImage.tsx";
 import EditModpack from "./Pages/EditModpack";
 // import Customers from "./Pages/Customers";
@@ -31,7 +31,7 @@ import { isDev } from "./Constants.tsx";
 const queryClient = new QueryClient();
 
 function App() {
-  const useAuth = () => {
+  const useAdmin= () => {
     const user = JSON.parse(localStorage.getItem("profileData") || "{}");
     if (!user) return false;
     if (user.isAdmin) {
@@ -40,7 +40,19 @@ function App() {
       return false;
     }
   };
-  const isAdmin = useAuth();
+  const isAdmin = useAdmin();
+  const useLinked = () => {
+    const user = JSON.parse(localStorage.getItem("profileData") || "{}");
+    if (!user) return false;
+    if (user.isLinked) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+  const isLinked = useLinked();
+
+
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -61,16 +73,21 @@ function App() {
 
                 <Route path="*" element={<Navigate to="/404" />} />
                 <Route path="404" element={<NotFoundPage />} />
-
-                {isAdmin && (
+                
+                {isLinked && (
                   <>
-                    <Route path="add-modpack" element={<AddMPLayout />}>
+                    <Route path="sugggest-modpack" element={<SuggestMPLayout />}>
                       <Route path="create" element={<CreateModpack />} />
                       <Route
                         path="photos/:modpackId"
                         element={<AddImage path="suggest" color="sky" />}
                       />
                     </Route>
+                  </>
+                )}
+
+                {isAdmin && (
+                  <>
                     {/* ------------EDIT MODPACKS------------- */}
                     <Route
                       path="edit-modpack/:modpackId"

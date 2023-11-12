@@ -46,7 +46,7 @@ const AddModpack = () => {
               <li>
                 <a
                   className={` ${
-                    location.pathname.includes("/add-modpack/photos")
+                    location.pathname.includes("/suggest-modpack/photos")
                       ? "progress__step--active  border-bg  before:bg-acc after:bg-acc"
                       : ""
                   }`}

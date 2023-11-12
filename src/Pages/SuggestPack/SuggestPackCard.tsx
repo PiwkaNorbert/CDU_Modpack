@@ -4,7 +4,7 @@ const SuggestPackCard = () => {
   return (
     <div className="relative z-[1]  mb-8 flex justify-center overflow-hidden  rounded-md border-[3.5px] border-dashed border-text/20  transition-transform hover:scale-[102%] lg:min-h-[109px] lg:min-w-[194px]">
       <Link
-        to="/add-modpack/create"
+        to="/suggest-modpack/create"
         className={`  h-full flex flex-col flex-1 px-2 py-10 sm:py-0 items-center justify-center   bg-bg  text-base/[1.25rem]`}
       >
         {/* toggle images in production */}

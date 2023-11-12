@@ -82,7 +82,7 @@ export const CreateModpack = () => {
         toast.success("Modpack added!", {
           toastId: "modpack-added",
         });
-        return navigate(`/add-modpack/photos/${data.modpackId}`);
+        return navigate(`/suggest-modpack/photos/${data.modpackId}`);
       },
     }
   );
@@ -322,7 +322,7 @@ export const CreateModpack = () => {
         </div>
         {isDev && (
           <Link
-            to={"/add-modpack/photos/12312"}
+            to={"/suggest-modpack/photos/12312"}
             className="ml-4 flex min-w-min cursor-pointer items-center gap-2 rounded-md px-3 py-1  hover:bg-sec hover:bg-opacity-20  dark:hover:bg-hover-2"
           >
             Test link to photos
