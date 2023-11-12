@@ -228,55 +228,75 @@ export const ImageCarousel = ({
       {galleryImages?.length > 1 && (
         // declare carouselRef using useRef hook
 
-        <div
-          className="relative grid grid-cols-4 overflow-x-hidden scroll-smooth touch-pan-x px-1"
-          ref={carouselRef}
-        >
-          <div className="mt-4 flex w-full gap-1 pb-1">
-            {galleryImages?.map(
-              (
-                gallery: { imageUrl: string; thumbnailUrl: string },
-                index: number
-              ) => {
-                return (
-                  <LazyLoadImage
-                    key={index}
-                    src={`https://www.trainjumper.com${gallery.thumbnailUrl}`}
-                    alt={`Image ${index + 1}`}
-                    width="81.3"
-                    height="43.3"
-                    className={twMerge(
-                      "  h-full w-full shrink-0  grow-0 cursor-pointer rounded-md  border-2 bg-text/50 object-cover transition-all  focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-gray-800 dark:bg-bg   ",
-                      currentImageIndex === index
-                        ? `border-bg/90 shadow-inner outline outline-2 `
-                        : `border-text/50 hover:border-text/90 hover:shadow-inner`
-                    )}
-                    onClick={() => {
-                      setCurrentImageIndex(index);
-                      // check if im scrolling to the right or left
 
-                      if (index > currentImageIndex) {
-                        // console.log("scrolling right");
+        <div className="relative  rounded-xl overflow-hidden dark:bg-slate-800/25">
+          <div className="relative rounded-xl overflow-auto">
+            <div
+              className="relative w-full flex gap-4 snap-x overflow-x-auto p-2"
+              ref={carouselRef}
+            >
+                {galleryImages?.map(
+                  (
+                    gallery: { imageUrl: string; thumbnailUrl: string },
+                    index: number
+                  ) => {
+                    return (
+                      <LazyLoadImage
+                        key={index}
+                        src={`https://www.trainjumper.com${gallery.thumbnailUrl}`}
+                        alt={`Image ${index + 1}`}
+                        width="96"
+                        height="54"
+                        className={twMerge(
+                          "   snap-center w-24 aspect-video shrink-0 grow-0 cursor-pointer rounded-md  border-2 bg-text/50 object-cover transition-all  focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-gray-800 dark:bg-bg   ",
+                          currentImageIndex === index
+                            ? `border-bg/90 shadow-inner outline outline-2 `
+                            : `border-text/50 hover:border-text/90 hover:shadow-inner`
+                        )}
+                        onClick={() => {
+                          setCurrentImageIndex(index);
+                          // check if im scrolling to the right or left
 
-                        carouselRef.current?.scrollBy({
-                          left: 200,
-                          behavior: "smooth",
-                        });
-                      } else if (index < currentImageIndex) {
-                        // console.log("scrolling left");
+                          if (index > currentImageIndex) {
+                            // if i click on the 3rd image and the current image is the 1st image then scroll right by 1 but if i clcik the 44th image scroll by 2 to the right
+                            if (index - currentImageIndex === 1) {
+                              carouselRef.current?.scrollBy({
+                                left: 96,
+                                behavior: "smooth",
+                              });
+                            } else {
+                              carouselRef.current?.scrollBy({
+                                left: 192,
+                                behavior: "smooth",
+                              });
+                            }                       
+                          }
+                          if (index < currentImageIndex) {
+                            if (currentImageIndex - index === 1) {
+                              carouselRef.current?.scrollBy({
+                                left: -96,
+                                behavior: "smooth",
+                              });
+                            } else {
+                              carouselRef.current?.scrollBy({
+                                left: -192,
+                                behavior: "smooth",
+                              });
+                            }
+                          }
 
-                        carouselRef.current?.scrollBy({
-                          left: -200,
-                          behavior: "smooth",
-                        });
-                      }
-                    }}
-                    aria-label={`Image Thumbnail ${index + 1}`}
-                  />
-                );
-              }
-            )}
-          </div>
+
+
+                    
+                        }}
+                        aria-label={`Image Thumbnail ${index + 1}`}
+                      />
+                    );
+                  }
+                )}
+            </div>
+         </div>
+          <div className="absolute inset-0 pointer-events-none border border-black/5 rounded-xl dark:border-white/5"></div>
         </div>
       )}
 
@@ -308,3 +328,5 @@ export const ImageCarousel = ({
     </div>
   );
 };
+
+

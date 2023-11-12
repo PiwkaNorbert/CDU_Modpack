@@ -1,19 +1,21 @@
 import { useLocation, useParams } from "react-router-dom";
 import usePackDetailData from "../API/usePackDetailData";
-import { CommentsComponent } from "../Components/CommentsComponent";
 import { IModpack, IPackDetails } from "../Utils/Interfaces";
 import Loading from "../Components/Loading";
 import VoteForPackButton from "../Components/VoteForPackButton";
-import PostComment from "../Components/PostComment";
 import useUser from "../Context/useUser";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { LoginButton } from "../Components/LoginButton";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, Link } from "react-router-dom";
 import { useEffect } from "react";
 import { errorHandling } from "../Helper/errorHandling";
 import { tagMap } from "../Helper/modifyModpack";
+
+// enable with the comment component
+// import { LoginButton } from "../Components/LoginButton";
+// import { CommentsComponent } from "../Components/CommentsComponent";
+// import PostComment from "../Components/PostComment";
 
 import { apiBase, borderColorVariants, textColorVariants } from "../Constants";
 import { ImageCarousel } from "../Components/ImageCarousel";
@@ -24,7 +26,9 @@ const PackDetails = ({ category }: { category: string }) => {
   const { pathname } = useLocation();
   const modpackId = id as string;
 
-  const { data, isError, isLoading, error, fetchStatus } =
+  const { data, isError, isLoading, error,
+    //  fetchStatus  eneable with the comment component
+    } =
     usePackDetailData(modpackId);
 
   const { user } = useUser();
@@ -197,7 +201,7 @@ const PackDetails = ({ category }: { category: string }) => {
     description,
     color,
     galleryImages,
-    comments,
+    // comments, 
     voteCount,
     officialUrl,
     tags,
@@ -209,9 +213,11 @@ const PackDetails = ({ category }: { category: string }) => {
   // isPublished,
   IPackDetails = data;
 
-  const commentCount = comments
-    ? comments.length
-    : Math.floor(Math.random() * 10);
+
+  // enable with the comment component
+  // const commentCount = comments
+  //   ? comments.length
+  //   : Math.floor(Math.random() * 10);
 
   return (
     <>
@@ -485,56 +491,7 @@ const PackDetails = ({ category }: { category: string }) => {
                 </div>
               </div>
               {/* comment component here */}
-              {category !== "suggested" && (
-                <div className="my-4 overflow-hidden px-2 py-4 sm:p-4  ">
-                  <h3 className="mb-4 inline-block w-full items-center  gap-4 text-center text-2xl capitalize sm:text-left xl:text-3xl">
-                    comments ({commentCount}){" "}
-                    {fetchStatus === "fetching" && (
-                      <Loading
-                        size="la-sm"
-                        fullScreen={false}
-                        other="inline-block"
-                      />
-                    )}
-                  </h3>
-                  {/* input for posting comments by current user */}
-                  {!user?.isLoggedIn && <LoginButton />}
-                  <div className=" px-4">
-                    {/* if user is logged in, show comment input */}
-                    {user?.isLoggedIn && user?.isLinked && (
-                      <PostComment
-                        modpackId={modpackId}
-                        color={color}
-                        replyingTo={false}
-                        replyParentId=""
-                      />
-                    )}
-                    {user?.isLoggedIn && !user?.isLinked && (
-                      <div className="flex flex-col items-center justify-center gap-2">
-                        <p className="text-center  text-sm text-text/70">
-                          Link your account to post comments and vote for packs.
-                        </p>
-                        <a
-                          className="text-xs text-blue-500 underline"
-                          href="/#"
-                        >
-                          More info here.
-                        </a>
-                      </div>
-                    )}
 
-                    {/* Map comments from api the the img, username, userId, and the comment from the user */}
-                    {comments?.map((comment, idx) => (
-                      <CommentsComponent
-                        key={idx}
-                        color={color}
-                        comment={comment}
-                        idx={idx}
-                      />
-                    ))}
-                  </div>
-                </div>
-              )}
             </div>
           </div>
         </div>

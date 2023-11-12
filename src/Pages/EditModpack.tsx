@@ -18,7 +18,7 @@ import {
 } from "../Constants";
 import AddImage from "./SuggestPack/AddImage";
 
-const EditModpack = ({ category }: { category: string }) => {
+const EditModpack = () => {
   // fetch the data from the server using the modpackName from the url
   const { modpackId: id } = useParams();
   const modpackId = id as string;
