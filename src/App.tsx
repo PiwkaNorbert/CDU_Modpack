@@ -46,7 +46,6 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <UserProvider>
         <ThemeProvider>
-          <div className="flex min-h-screen  flex-col text-text ">
             <BrowserRouter>
               <Header />
               <Routes>
@@ -123,7 +122,6 @@ function App() {
 
             {/* <FetchingIndicator /> */}
             {window.location?.pathname === "/404" ? null : <Footer />}
-          </div>
           <ReactQueryDevtools />
         </ThemeProvider>
       </UserProvider>
