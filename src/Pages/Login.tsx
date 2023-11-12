@@ -68,7 +68,7 @@ const Login = () => {
           discord and minecraft account{" "}
         </p>
         <a
-          href="https://discord.gg/8aaZ7EfA5E"
+          href="https://discord.com/invite/playcdu"
           target="_blank"
           className={` my-4 flex gap-2 rounded-md border border-sec px-4 py-2 font-thin text-blue-500 hover:border-opacity-20 hover:bg-sec hover:bg-opacity-20 dark:hover:bg-hover-2`}
         >
