@@ -233,7 +233,7 @@ const PackDetails = ({ category }: { category: string }) => {
             <div className="flex justify-between gap-2 px-4 pt-4 max-[500px]:mt-5 max-[500px]:flex-col sm:gap-0 md:px-8 ">
               {/* backarrow to the root page */}
               <Link
-                className=" flex min-w-fit cursor-pointer items-center gap-2 rounded-md px-3 py-1 text-sm text-text hover:bg-sec hover:bg-opacity-20 hover:text-text dark:hover:bg-hover-2 lg:text-base lg:font-medium"
+                className="flex min-w-fit cursor-pointer items-center gap-2 rounded-md px-3 py-1 text-sm text-text hover:bg-sec hover:bg-opacity-20 hover:text-text dark:hover:bg-hover-2 lg:text-base lg:font-medium"
                 to={returnToButton}
               >
                 <svg
@@ -374,7 +374,7 @@ const PackDetails = ({ category }: { category: string }) => {
                         >
                           <path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM112,168a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm0-120H96V40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8Z"></path>
                         </svg>
-                        Delete{" "}
+                        Delete
                       </button>
                     )}
                   </>
@@ -384,19 +384,19 @@ const PackDetails = ({ category }: { category: string }) => {
             <div className={`grid items-center md:px-4`}>
               <div
                 className={twMerge(
-                  " grid p-4",
+                  "grid p-4",
                   galleryImages?.length > 0
                     ? "sm:grid-cols-2 md:space-x-4"
-                    : " sm:grid-cols-1"
+                    : "sm:grid-cols-1"
                 )}
               >
                 {/* toggle images in production */}
                 {galleryImages?.length > 0 && (
                   <ImageCarousel galleryImages={galleryImages} color={color} />
                 )}
-                <div className="grid  content-center items-center space-y-4 md:mr-4">
+                <div className="grid content-center items-center space-y-4 md:mr-4">
                   <p
-                    className="text-content mt-4 break-normal px-2 text-center text-4xl  uppercase md:my-0 "
+                    className="text-content mt-4 break-normal px-2 text-center text-4xl uppercase md:my-0"
                     aria-label={`Modpack name: ${name}`}
                   >
                     {name ?? "Modpack Name"}
@@ -415,7 +415,7 @@ const PackDetails = ({ category }: { category: string }) => {
                     )}
                   </div>
                   {category === "main" && (
-                    <p className="mx-auto  break-normal border-b border-text/75 px-3 py-1 text-center text-xs uppercase text-text/75  md:my-0 ">
+                    <p className="mx-auto break-normal border-b border-text/75 px-3 py-1 text-center text-xs uppercase text-text/75 md:my-0 ">
                       {timesVoted === 0
                         ? "You've yet to vote!"
                         : "You've Voted " + timesVoted + " times"}
@@ -423,11 +423,11 @@ const PackDetails = ({ category }: { category: string }) => {
                   )}
                   <p
                     data-tooltip={`Discord ID ${suggestedBy}`}
-                    className="text-content group/suggestedBy relative mx-auto my-4 flex w-fit cursor-pointer flex-col items-center justify-center break-normal text-center  text-xs uppercase md:my-0 "
+                    className="text-content group/suggestedBy relative mx-auto my-4 flex w-fit cursor-pointer flex-col items-center justify-center break-normal text-center text-xs uppercase md:my-0 "
                     aria-label={`Suggested by ${suggestedBy}`}
                   >
                     Suggested By
-                    <br />{" "}
+                    <br />
                     <span className="text-text/50">
                       {suggestedBy ?? "Unknown"}
                     </span>
@@ -435,11 +435,11 @@ const PackDetails = ({ category }: { category: string }) => {
                   {category !== "suggested" && (
                     <p
                       data-tooltip={`Discord ID ${publishedBy}`}
-                      className="text-content  group/publishedBy relative mx-auto my-4 flex w-fit cursor-pointer flex-col items-center justify-center break-normal text-center  text-xs uppercase md:my-0"
+                      className="text-content group/publishedBy relative mx-auto my-4 flex w-fit cursor-pointer flex-col items-center justify-center break-normal text-center text-xs uppercase md:my-0"
                       aria-label={`Published by ${publishedBy}`}
                     >
                       Published By
-                      <br />{" "}
+                      <br />
                       <span className="text-text/50">
                         {publishedBy ?? "Unknown"}
                       </span>
@@ -451,18 +451,18 @@ const PackDetails = ({ category }: { category: string }) => {
               {/* style the descripion to scroll on overflow and a max height of 364px */}
               <div className="mx-auto grid max-w-[412px] items-start justify-between gap-4 p-4 sm:mx-0 sm:mb-0 sm:max-w-full sm:grid-cols-2 sm:flex-row md:gap-0 md:space-x-4">
                 {/* map the tags */}
-                <div className=" flex  flex-wrap items-center justify-center gap-[0.333rem] md:w-full ">
+                <div className="flex flex-wrap items-center justify-center gap-[0.333rem] md:w-full ">
                   {tags?.map((tag: string, index: number) => (
                     <div
                       key={index}
-                      className={`z-[5]  flex min-w-fit items-center justify-start self-start rounded-full border-2 bg-bg px-2 py-0.5 text-sm capitalize text-text/80 ${borderColorVariants[color]} `}
+                      className={`z-[5] flex min-w-fit items-center justify-start self-start rounded-full border-2 bg-bg px-2 py-0.5 text-sm capitalize text-text/80 ${borderColorVariants[color]} `}
                     >
                       {tagMap.get(tag)}
                     </div>
                   ))}
                 </div>
                 <div className="flex flex-wrap justify-center ">
-                  Modpack official page:{" "}
+                  Modpack official page:
                   <Link
                     to={officialUrl}
                     className={`ml-2 flex items-center gap-1 hover:opacity-80 ${textColorVariants[color]} `}
@@ -482,13 +482,13 @@ const PackDetails = ({ category }: { category: string }) => {
                   </Link>
                 </div>
               </div>
-              <div className="flex justify-between gap-2 p-4  max-[500px]:flex-col sm:gap-0  ">
-                <div className="  mt-4 border-gray-100  text-sm text-text dark:border-gray-700 dark:text-gray-400 max-[500px]:mt-5 max-[500px]:rounded-lg  max-[500px]:border max-[500px]:bg-gray-50 max-[500px]:p-4  max-[500px]:dark:bg-gray-800 md:mt-0 md:flex-row md:rounded-lg md:text-sm md:font-medium xl:text-base">
-                  <h3 className=" pt-4 text-center text-2xl capitalize  text-text  sm:text-left xl:text-3xl">
+              <div className="flex justify-between gap-2 p-4 max-[500px]:flex-col sm:gap-0  ">
+                <div className="dark:border-gray-700dark:text-gray-400 max-[500px]:p-4max-[500px]:dark:bg-gray-800  mt-4 border-gray-100 text-sm text-text max-[500px]:mt-5  max-[500px]:rounded-lg max-[500px]:border max-[500px]:bg-gray-50 md:mt-0 md:flex-row md:rounded-lg md:text-sm md:font-medium xl:text-base">
+                  <h3 className="pt-4 text-center text-2xl capitalize text-text sm:text-left xl:text-3xl">
                     description
                   </h3>
                   <div className="p-4">
-                    <p className=" text-justify">{description}</p>
+                    <p className="text-justify">{description}</p>
                   </div>
                 </div>
               </div>
@@ -503,8 +503,8 @@ const PackDetails = ({ category }: { category: string }) => {
 export default PackDetails;
 //  {category !== "suggested" && (
 //   <div className="my-4 overflow-hidden px-2 py-4 sm:p-4  ">
-//     <h3 className="mb-4 inline-block items-center w-full  gap-4 text-2xl capitalize xl:text-3xl text-center sm:text-left">
-//       comments ({commentCount}){" "}
+//     <h3 className="mb-4 inline-block items-center w-full gap-4 text-2xl capitalize xl:text-3xl text-center sm:text-left">
+//       comments ({commentCount})
 //       {fetchStatus === "fetching" && (
 //         <Loading
 //           size="la-sm"
@@ -515,7 +515,7 @@ export default PackDetails;
 //     </h3>
 //     {/* input for posting comments by current user */}
 //     {!user?.isLoggedIn && <LoginButton />}
-//     <div className=" px-4">
+//     <div className="px-4">
 //       {/* if user is logged in, show comment input */}
 //       {user?.isLoggedIn && user?.isLinked && (
 //         <PostComment
@@ -528,7 +528,7 @@ export default PackDetails;
 //       )}
 //       {user?.isLoggedIn && !user?.isLinked && (
 //         <div className="flex flex-col items-center justify-center gap-2">
-//           <p className="text-center  text-sm text-text/70">
+//           <p className="text-center text-sm text-text/70">
 //             Link your account to post comments and vote for packs.
 //           </p>
 //           <a

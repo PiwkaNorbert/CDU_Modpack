@@ -68,7 +68,7 @@ const AddImage = ({ path, color }: { path: string; color: string }) => {
           Add Image/s to your Modpack
         </h1>
         <form
-          className="mb-8 grid gap-4 pt-[.5em] text-sm placeholder:text-slate-400  dark:text-bg xl:text-base"
+          className="mb-8 grid gap-4 pt-[.5em] text-sm placeholder:text-slate-400 dark:text-bg xl:text-base"
           onSubmit={async (e: React.FormEvent<HTMLFormElement>) => {
             e.preventDefault();
             if (addImageMutation.isLoading) return;
@@ -93,12 +93,11 @@ const AddImage = ({ path, color }: { path: string; color: string }) => {
             htmlFor="image"
             className={`-mt-2 text-sm dark:text-text xl:text-base`}
           >
-            {" "}
-            (PNG or JPG MAX. 5MB, 640x480px){" "}
+            (PNG or JPG MAX. 5MB, 640x480px)
           </label>
 
           <button
-            className={`  rounded-md border-2 border-black  px-3 py-1 text-sm hover:bg-opacity-80 disabled:bg-slate-600 dark:text-bg xl:text-base ${bgColorVariants[color]}`}
+            className={`rounded-md border-2 border-black px-3 py-1 text-sm hover:bg-opacity-80 disabled:bg-slate-600 dark:text-bg xl:text-base ${bgColorVariants[color]}`}
             disabled={addImageMutation.isLoading}
             type="submit"
           >
@@ -108,7 +107,7 @@ const AddImage = ({ path, color }: { path: string; color: string }) => {
           {isDev && (
             <Link
               to={"/suggest-modpack/success"}
-              className="ml-4 flex min-w-min cursor-pointer items-center gap-2 rounded-md px-3 py-1  hover:bg-sec hover:bg-opacity-20  dark:hover:bg-hover-2"
+              className="ml-4 flex min-w-min cursor-pointer items-center gap-2 rounded-md px-3 py-1 hover:bg-sec hover:bg-opacity-20  dark:hover:bg-hover-2"
             >
               Test link to success
             </Link>

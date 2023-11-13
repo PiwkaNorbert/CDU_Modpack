@@ -48,7 +48,7 @@ const ModpackCard = (props: IModpack) => {
   return (
     <div
       key={modpackId}
-      className={`relative z-[1]  mb-8 flex justify-center rounded-md border-[3.5px] text-text transition-transform hover:scale-[102%] hover:shadow-sm hover:shadow-white/50 lg:min-h-[109px] lg:min-w-[194px] ${borderColorVariants[color]} `}
+      className={`relative z-[1] mb-8 flex justify-center rounded-md border-[3.5px] text-text transition-transform hover:scale-[102%] hover:shadow-sm hover:shadow-white/50 lg:min-h-[109px] lg:min-w-[194px] ${borderColorVariants[color]} `}
       onMouseEnter={() => {
         queryClient.prefetchQuery(["pack-details", modpackId], () =>
           fetchPackDetail(modpackId as string)
@@ -57,10 +57,10 @@ const ModpackCard = (props: IModpack) => {
     >
       <Link
         to={`${currentPlace}/${modpackId}`}
-        className={`w-full overflow-hidden rounded-sm bg-bg `}
+        className={`w-full overflow-hidden rounded-sm bg-bg`}
       >
-        <div className=" flex h-full justify-center rounded-md  hover:text-opacity-100  ">
-          <div className="  flex h-full w-full    flex-1 flex-col overflow-hidden text-base/[1.25rem]">
+        <div className="flex h-full justify-center rounded-md hover:text-opacity-100">
+          <div className="flex h-full w-full flex-1 flex-col overflow-hidden text-base/[1.25rem]">
             {/* toggle images in production */}
             <LazyLoadImage
               src={`${apiBase}${
@@ -72,7 +72,7 @@ const ModpackCard = (props: IModpack) => {
               width="275"
               height="155"
               placeholderSrc={`/src/assets/placeholderImg.png`}
-              className={`block w-full shrink-0 grow-0 border-b-[3.5px] object-cover text-right ${bgColorVariants[color]}  ${borderColorVariants[color]}  `}
+              className={`block w-full shrink-0 grow-0 border-b-[3.5px] object-cover text-right ${bgColorVariants[color]} ${borderColorVariants[color]}  `}
             />
 
             <p
@@ -85,9 +85,9 @@ const ModpackCard = (props: IModpack) => {
           </div>
           {!(isPublished || isArchived) ? null : (
             <div
-              className={`absolute flex h-9 divide-x   overflow-hidden rounded-full border-[3.5px] bg-bg px-2 py-1 text-text  ${borderColorVariants[color]} -bottom-[22px]  items-center text-base `}
+              className={`absolute flex h-9 divide-x overflow-hidden rounded-full border-[3.5px] bg-bg px-2 py-1 text-text ${borderColorVariants[color]} -bottom-[22px]  items-center text-base `}
             >
-              <div className=" flex items-center gap-1 pr-2">
+              <div className="flex items-center gap-1 pr-2">
                 <picture className={`flex`}>
                   {timesVoted > 0 ? <HeartFillSVG /> : <HeartSVG />}
                 </picture>

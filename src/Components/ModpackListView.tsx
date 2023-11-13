@@ -198,6 +198,7 @@ const ModpackListView = ({
                   setModPackFilterByTags([]);
                 }
               }}
+              aria-label="Filter by tags"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -226,9 +227,9 @@ const ModpackListView = ({
             </div>
           )}
           {isLoading ? (
-            <div className=" my-10 text-center">Loading...</div>
+            <div className="my-10 text-center">Loading...</div>
           ) : isError ? (
-            <div className=" my-10 text-center">
+            <div className="my-10 text-center">
               <div>
                 <h3 className="prose-2xl">{error?.message}</h3>
                 <p>
@@ -247,14 +248,14 @@ const ModpackListView = ({
                   location.pathname.includes("archived") ||
                   location.pathname.includes("suggested")
                 ) && (
-                  <div className=" z-20  grid grid-cols-2 gap-5 p-5 max-[400px]:grid-cols-1 sm:grid-cols-3  md:grid-cols-3   lg:grid-cols-4   ">
+                  <div className="z-20 grid grid-cols-2 gap-5 p-5 max-[400px]:grid-cols-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4   ">
                     <SuggestPackCard />
                   </div>
                 )}
             </div>
           ) : (
             <>
-              <div className=" z-20  grid grid-cols-2 gap-5 p-5 max-[400px]:grid-cols-1 sm:grid-cols-3  md:grid-cols-3   lg:grid-cols-4   ">
+              <div className="z-20 grid grid-cols-2 gap-5 p-5 max-[400px]:grid-cols-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4">
                 {user?.isLinked &&
                   !(
                     location.pathname.includes("archived") ||
@@ -267,11 +268,11 @@ const ModpackListView = ({
             </>
           )}
         </div>
-        <div className="p-body-inner m-4  my-0 flex  h-10   items-center justify-end md:mr-0 lg:mr-0">
+        <div className="p-body-inner m-4  my-0 flex h-10 items-center justify-end md:mr-0 lg:mr-0">
           {/* button to scroll to the top of the page */}
           {pageBottom ? (
             <button
-              className=" flex w-10 items-center  justify-center rounded-full bg-pri text-sm hover:bg-opacity-80 dark:hover:bg-hover-2 xl:text-base"
+              className="flex w-10 items-center justify-center rounded-full bg-pri text-sm hover:bg-opacity-80 dark:hover:bg-hover-2 xl:text-base"
               onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             >
               ^

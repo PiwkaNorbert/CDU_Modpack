@@ -12,11 +12,11 @@ const SuggestMPLayout = () => {
   return (
     <section
       id="modpack__addpack"
-      className="z-[5] grid h-full w-full  flex-1 justify-normal  text-text lg:mx-auto lg:min-w-[900px] lg:max-w-[900px] "
+      className="z-[5] grid h-full w-full flex-1 justify-normal text-text lg:mx-auto lg:min-w-[900px] lg:max-w-[900px] "
     >
-      <div className="relative h-min overflow-hidden border-t-2 bg-sec/20 pb-4 dark:border-none dark:shadow  md:mb-4 md:rounded-b-md  md:border-none md:shadow-xl  ">
-        <div className={` z-10 grid h-full items-center  lg:rounded-md   `}>
-          <div className=" z-10 mb-6 flex flex-col justify-between gap-2 px-8 pt-4  max-[350px]:mb-0 sm:gap-0  md:grid md:grid-cols-3 md:px-4 ">
+      <div className="relative h-min overflow-hidden border-t-2 bg-sec/20 pb-4 dark:border-none dark:shadow md:mb-4 md:rounded-b-md md:border-none md:shadow-xl">
+        <div className={`z-10 grid h-full items-center lg:rounded-md`}>
+          <div className="z-10 mb-6 flex flex-col justify-between gap-2 px-8 pt-4 max-[350px]:mb-0 sm:gap-0 md:grid md:grid-cols-3 md:px-4 ">
             <Link
               to={"/"}
               className="ml-4 mr-auto flex min-w-min cursor-pointer items-center gap-2 self-center justify-self-start rounded-md px-3 py-1 text-text hover:bg-sec hover:bg-opacity-20 hover:text-text dark:hover:bg-hover-2 sm:mr-0"
@@ -41,7 +41,7 @@ const SuggestMPLayout = () => {
             <ul className="progress__steps text-text dark:text-text ">
               {/* prettier-ignore */}
               <li>
-                <a type="button" className={twJoin(`progress__step--active  cursor-pointer`, 
+                <a type="button" className={twJoin(`progress__step--active cursor-pointer`, 
                (photoLocation || successLocation) && "progress__step--link",
                 createLocation && "progress__step--curLink"
                 )} onClick={()=>{
@@ -56,10 +56,10 @@ const SuggestMPLayout = () => {
                   type="button"
                   className={` ${
                     photoLocation || successLocation
-                      ? "progress__step--active  cursor-pointer  "
+                      ? "progress__step--active cursor-pointer"
                       : ""
                   } ${successLocation ? "progress__step--link" : ""}${
-                    photoLocation ? " progress__step--curLink" : ""
+                    photoLocation ? "progress__step--curLink" : ""
                   }`}
                   onClick={() => {
                     // check if the confirmation is true and then navigate

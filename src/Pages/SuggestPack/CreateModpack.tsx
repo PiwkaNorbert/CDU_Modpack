@@ -137,7 +137,7 @@ export const CreateModpack = () => {
         </h1>
       </div>
       <form
-        className="mx-auto mb-8 flex w-96  flex-col flex-wrap justify-center gap-4 pt-[.5em] text-sm text-text  placeholder:text-slate-400  xl:text-base"
+        className="mx-auto mb-8 flex w-96  flex-col flex-wrap justify-center gap-4 pt-[.5em] text-sm text-text placeholder:text-slate-400 xl:text-base"
         onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
           e.preventDefault();
           if (
@@ -186,7 +186,7 @@ export const CreateModpack = () => {
           <DebounceInput
             required
             className={twJoin(
-              ` spacer-left mr-10 h-8 w-full rounded-md border-2 bg-bg py-1 pr-3 focus:border-transparent focus:outline-none focus:ring-0 active:border-none active:outline-none `,
+              `spacer-left mr-10 h-8 w-full rounded-md border-2 bg-bg py-1 pr-3 focus:border-transparent focus:outline-none focus:ring-0 active:border-none active:outline-none `,
               !isNameValid && isTouched && "border-red-500",
               !isValid && isTouched && "border-yellow-500",
               isValid && isTouched && "border-green-500"
@@ -204,9 +204,9 @@ export const CreateModpack = () => {
             autoComplete="off"
           />
         </div>
-        <div className=" relative w-full items-center gap-2 truncate text-base ">
+        <div className="relative w-full items-center gap-2 truncate text-base">
           {loading ? (
-            <div className="w-full    break-all  sm:items-center sm:gap-2 ">
+            <div className="w-full break-all sm:items-center sm:gap-2">
               Checking availability of @{modpackName}...
             </div>
           ) : !isNameValid ? (
@@ -219,7 +219,7 @@ export const CreateModpack = () => {
             </p>
           ) : isValid ? (
             <p className="btn btn-success">
-              Confirm modpack name @{modpackName}{" "}
+              Confirm modpack name @{modpackName}
             </p>
           ) : (
             ""
@@ -228,7 +228,7 @@ export const CreateModpack = () => {
         {/* Modpack description field, multi line. */}
         {/* In order to make the modpack field multi line, we need to use a textarea instead of an input. */}
         <textarea
-          className={` min-h-[100px] rounded-md border-2 bg-bg  border-${borderColor}-500  px-3 py-1 out-of-range:border-red-500 `}
+          className={`min-h-[100px] rounded-md border-2 bg-bg border-${borderColor}-500 px-3 py-1 out-of-range:border-red-500 `}
           placeholder="Modpack Description"
           value={modpackDescription}
           name="description"
@@ -248,14 +248,14 @@ export const CreateModpack = () => {
           <p>{modpackDescription.length}/1000</p>
         </div>
         {/* A Tag selector that has pill shaped containers from tagOptions that when clicked once it pushes the tagoptions value to listOfTags and if clicked again it removes the tagoptions value from listOfTags and if the value is in the listOfTags it gets a checkmark on the left handside of the text */}
-        <div className=" mb-4 ">
-          <div className=" flex flex-wrap justify-center gap-2">
+        <div className="mb-4 ">
+          <div className="flex flex-wrap justify-center gap-2">
             {tagOptions.map((tagOption, index) => (
               <button
                 type="button"
                 key={index}
                 className={twMerge(
-                  " flex items-center justify-center rounded-full px-3 py-1 text-sm transition-all hover:bg-opacity-80",
+                  "flex items-center justify-center rounded-full px-3 py-1 text-sm transition-all hover:bg-opacity-80",
                   modpackTags.includes(tagOption.value)
                     ? `bg-${borderColor}-500 text-bg dark:text-bg `
                     : `bg-slate-300 text-text dark:bg-slate-700`
@@ -278,7 +278,7 @@ export const CreateModpack = () => {
 
         {/*Color selection*/}
         <select
-          className={` h-8 cursor-pointer rounded-md border-2  dark:text-bg border-${borderColor}-500 bg-${borderColor}-400 px-3 py-1 font-Tilt `}
+          className={`h-8 cursor-pointer rounded-md border-2 dark:text-bg border-${borderColor}-500 bg-${borderColor}-400 px-3 py-1 font-Tilt`}
           name="color"
           defaultValue="Sky"
           onChange={(e) => {
@@ -298,7 +298,7 @@ export const CreateModpack = () => {
 
         <input
           required
-          className={` h-8 rounded-md border-2 bg-bg  ${borderColorVariants[borderColor]} px-3 py-1`}
+          className={`h-8 rounded-md border-2 bg-bg ${borderColorVariants[borderColor]} px-3 py-1`}
           type="text"
           placeholder="Official URL"
           name="officialUrl"
@@ -311,7 +311,7 @@ export const CreateModpack = () => {
             Suggested By
           </label>
           <input
-            className="h-8 select-none rounded-md  bg-bg px-3 py-1 disabled:bg-slate-300  dark:text-bg"
+            className="h-8 select-none rounded-md bg-bg px-3 py-1 disabled:bg-slate-300 dark:text-bg"
             placeholder="Suggested By"
             name="suggestor"
             type="text"
@@ -322,14 +322,14 @@ export const CreateModpack = () => {
         {isDev && (
           <Link
             to={"/suggest-modpack/photos/12312"}
-            className="ml-4 flex min-w-min cursor-pointer items-center gap-2 rounded-md px-3 py-1  hover:bg-sec hover:bg-opacity-20  dark:hover:bg-hover-2"
+            className="ml-4 flex min-w-min cursor-pointer items-center gap-2 rounded-md px-3 py-1 hover:bg-sec hover:bg-opacity-20 dark:hover:bg-hover-2"
           >
             Test link to photos
           </Link>
         )}
 
         <button
-          className={` h-10 rounded-md border-2 border-black hover:bg-opacity-80 disabled:bg-slate-600 bg-${borderColor}-500 px-3 py-1  text-sm  xl:text-base`}
+          className={`h-10 rounded-md border-2 border-black hover:bg-opacity-80 disabled:bg-slate-600 bg-${borderColor}-500 px-3 py-1 text-sm  xl:text-base`}
           disabled={addModpackMutation.isLoading || !isValid}
           type="submit"
         >
