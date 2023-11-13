@@ -1,4 +1,4 @@
-import {useState, useRef, useEffect} from "react";
+import { useState, useRef, useEffect } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -13,8 +13,7 @@ import { debounce } from "lodash";
 import { DebounceInput } from "react-debounce-input";
 
 export const CreateModpack = () => {
-  const [modpackDescription, setModpackDescription] =
-    useState<string>("");
+  const [modpackDescription, setModpackDescription] = useState<string>("");
   const [modpackColor, setModpackColor] = useState<string>("sky");
   const [modpackTags, setModpackTags] = useState<string[]>([]);
   const [isAvailable, setIsAvailable] = useState<boolean>(false);
@@ -24,7 +23,7 @@ export const CreateModpack = () => {
 
   const re = /^[ a-zA-Z0-9'"._-]{5,50}$/;
 
-  const isNameValid =  re.test(modpackName);
+  const isNameValid = re.test(modpackName);
   const isTouched = modpackName.length > 0;
   // const isTaken = isValid && !isAvailable && !loading;
 
@@ -78,7 +77,9 @@ export const CreateModpack = () => {
         toast.success("Modpack added!", {
           toastId: "modpack-added",
         });
-        return navigate(`/suggest-modpack/photos/${data.modpackId}`);
+        return navigate(`/suggest-modpack/photos/${data.modpackId}`, {
+          state: { modpackID: data?.modpackId },
+        });
       },
     }
   );
@@ -88,11 +89,9 @@ export const CreateModpack = () => {
   ).current;
 
   function handleModpackNameChange(newModpackName: string) {
-
     setModpackName(newModpackName);
     // checkAvailability(newModpackName);
     debouncedCheckAvailability(newModpackName);
-
   }
 
   async function checkAvailability(modpackName: string) {
@@ -108,16 +107,13 @@ export const CreateModpack = () => {
       throw new Error("Error checking modpack name availability");
 
     setLoading(false);
-    
+
     if (data.success === true) {
       setIsAvailable(true);
-      
     }
     if (data.success === false) {
       setIsAvailable(false);
-      
     }
-    
   }
 
   // make isValid a state to update the button disabled state
@@ -169,23 +165,28 @@ export const CreateModpack = () => {
         {/* Modpack name field, single line. */}
         <div className="relative text-gray-500">
           {loading ? (
-            <div className="absolute inset-y-0 left-0 h-8 flex spacer-left-2 items-center">
+            <div className="spacer-left-2 absolute inset-y-0 left-0 flex h-8 items-center">
               <div className="la-ball-clip-rotate la-dark la-sm ">
-                <div/>
+                <div />
               </div>
             </div>
           ) : (
-            <div className="absolute inset-y-0 left-0 h-8 flex items-center pl-2 text-gray-500">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"></path></svg>
+            <div className="absolute inset-y-0 left-0 flex h-8 items-center pl-2 text-gray-500">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                fill="currentColor"
+                viewBox="0 0 256 256"
+              >
+                <path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"></path>
+              </svg>
             </div>
-          
-          )
-
-          }
+          )}
           <DebounceInput
             required
             className={twJoin(
-              ` mr-10 h-8 w-full rounded-md border-2 bg-bg spacer-left pr-3 py-1 focus:border-transparent focus:outline-none focus:ring-0 active:border-none active:outline-none `,
+              ` spacer-left mr-10 h-8 w-full rounded-md border-2 bg-bg py-1 pr-3 focus:border-transparent focus:outline-none focus:ring-0 active:border-none active:outline-none `,
               !isNameValid && isTouched && "border-red-500",
               !isValid && isTouched && "border-yellow-500",
               isValid && isTouched && "border-green-500"
@@ -202,7 +203,6 @@ export const CreateModpack = () => {
             }}
             autoComplete="off"
           />
-        
         </div>
         <div className=" relative w-full items-center gap-2 truncate text-base ">
           {loading ? (
@@ -221,7 +221,9 @@ export const CreateModpack = () => {
             <p className="btn btn-success">
               Confirm modpack name @{modpackName}{" "}
             </p>
-          ) : ""}
+          ) : (
+            ""
+          )}
         </div>
         {/* Modpack description field, multi line. */}
         {/* In order to make the modpack field multi line, we need to use a textarea instead of an input. */}
@@ -233,7 +235,7 @@ export const CreateModpack = () => {
           required
           onChange={(e) => {
             const newLength = e.target.value.length;
-            if (newLength >= 0 && newLength <= 500) {
+            if (newLength >= 0 && newLength <= 1000) {
               return setModpackDescription(e.target.value);
             }
             toast.error("Too many characters!", {
@@ -243,7 +245,7 @@ export const CreateModpack = () => {
         />
         {/* Adds a character counter to the description field */}
         <div className="t -mt-2 flex items-center justify-center">
-          <p>{modpackDescription.length}/500</p>
+          <p>{modpackDescription.length}/1000</p>
         </div>
         {/* A Tag selector that has pill shaped containers from tagOptions that when clicked once it pushes the tagoptions value to listOfTags and if clicked again it removes the tagoptions value from listOfTags and if the value is in the listOfTags it gets a checkmark on the left handside of the text */}
         <div className=" mb-4 ">
@@ -328,7 +330,7 @@ export const CreateModpack = () => {
 
         <button
           className={` h-10 rounded-md border-2 border-black hover:bg-opacity-80 disabled:bg-slate-600 bg-${borderColor}-500 px-3 py-1  text-sm  xl:text-base`}
-          disabled={addModpackMutation.isLoading || !isValid }
+          disabled={addModpackMutation.isLoading || !isValid}
           type="submit"
         >
           {addModpackMutation.isLoading ? "Adding Modpack" : "Add Modpack"}

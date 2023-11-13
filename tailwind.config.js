@@ -103,7 +103,7 @@ export default {
         Tilt: ["Tilt Warp", "cursive"],
       },
       fontSize: {
-        xxs: '0.65rem',
+        xxs: "0.65rem",
       },
     },
   },

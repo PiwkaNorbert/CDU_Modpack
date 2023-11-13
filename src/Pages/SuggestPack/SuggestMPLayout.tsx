@@ -1,8 +1,13 @@
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { twJoin } from "tailwind-merge";
 
 const SuggestMPLayout = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const photoLocation = location.pathname.includes("photos");
+  const successLocation = location.pathname.includes("success");
+  const createLocation = location.pathname.includes("create");
+  console.log(location);
 
   return (
     <section
@@ -30,28 +35,56 @@ const SuggestMPLayout = () => {
                   d="M10 19l-7-7m0 0l7-7m-7 7h18"
                 />
               </svg>
-              <p className={` `}>Cancel</p>
+              <p>Cancel</p>
             </Link>
 
             <ul className="progress__steps text-text dark:text-text ">
               {/* prettier-ignore */}
               <li>
-            <a  className="progress__step--active before:bg-acc bg-acc cursor-pointer border-bg after:bg-acc"  onClick={()=>{
-              // check if the confirmation is true and then navigate
-              if( window.location.pathname.includes("photos") && confirm("Are you sure? You will lose all progress.")){
-                navigate("create")
-              }
-            }} >Create</a>
-          </li>
+                <a type="button" className={twJoin(`progress__step--active  cursor-pointer`, 
+               (photoLocation || successLocation) && "progress__step--link",
+                createLocation && "progress__step--curLink"
+                )} onClick={()=>{
+                  // check if the confirmation is true and then navigate
+                  if( photoLocation && confirm("Are you sure? You will lose all progress.")){
+                    navigate("create")
+                  }
+                }} >Create</a>
+              </li>
               <li>
                 <a
+                  type="button"
                   className={` ${
-                    location.pathname.includes("/suggest-modpack/photos")
-                      ? "progress__step--active  border-bg  before:bg-acc after:bg-acc"
+                    photoLocation || successLocation
+                      ? "progress__step--active  cursor-pointer  "
                       : ""
+                  } ${successLocation ? "progress__step--link" : ""}${
+                    photoLocation ? " progress__step--curLink" : ""
                   }`}
+                  onClick={() => {
+                    // check if the confirmation is true and then navigate
+                    if (
+                      successLocation &&
+                      confirm(
+                        "Are you sure? You won't be able to add an image to this pack."
+                      )
+                    ) {
+                      navigate(`photos`);
+                    }
+                  }}
                 >
                   Add Photos
+                </a>
+              </li>
+              <li>
+                <a
+                  className={
+                    successLocation
+                      ? "progress__step--active progress__step--curLink "
+                      : ""
+                  }
+                >
+                  Approval
                 </a>
               </li>
             </ul>
@@ -60,7 +93,7 @@ const SuggestMPLayout = () => {
 
           <Outlet />
         </div>
-        <div className="absolute inset-0 -z-10 h-full w-full flex-1 bg-sec opacity-20"></div>
+        <div className="pointer-events-none absolute inset-0 -z-10 h-full w-full flex-1 bg-sec opacity-20"></div>
       </div>
     </section>
   );

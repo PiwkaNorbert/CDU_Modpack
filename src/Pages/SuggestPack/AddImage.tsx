@@ -1,10 +1,15 @@
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { errorHandling } from "../../Helper/errorHandling";
 import { IAddImageProps, IPackDetails } from "../../Utils/Interfaces";
-import { apiBase, bgColorVariants, borderColorVariants } from "../../Constants";
+import {
+  apiBase,
+  bgColorVariants,
+  borderColorVariants,
+  isDev,
+} from "../../Constants";
 import { UserContext } from "../../Context/UserContext";
 
 const AddImage = ({ path, color }: { path: string; color: string }) => {
@@ -32,37 +37,33 @@ const AddImage = ({ path, color }: { path: string; color: string }) => {
     {
       onSettled: () => {
         queryClient.invalidateQueries(["modpacks", "pack-details", modpackId]);
-
       },
       onError: (error) => {
-        
         if (error instanceof Error) {
           return errorHandling(error);
         }
         throw error;
       },
-      onSuccess: ({data}) => {
-        
+      onSuccess: ({ data }) => {
         queryClient.setQueryData(["pack-details", modpackId], (oldData) => {
           const oldPackDetails = oldData as IPackDetails;
           // inject the new gallery images into the cached data
           return {
             ...oldPackDetails,
             galleryImages: data.galleryImages,
-          };  
-        });  
+          };
+        });
         if (path === "edit") return navigate(`/edit-modpack/${modpackId}`);
-        return navigate("/");
+        return navigate(`/suggest-modpack/success`);
       },
     }
   );
 
   return (
     <div className="mx-auto">
-
       {/* Title of the form, centered */}
       {/* CHANGE TO ISLINKED */}
-        {user && user.isAdmin && (
+      {user && user.isAdmin && (
         <>
           <h1 className="m-3 mt-5 text-2xl xl:text-3xl">
             Add Image/s to your Modpack
@@ -97,16 +98,25 @@ const AddImage = ({ path, color }: { path: string; color: string }) => {
               (PNG or JPG MAX. 5MB, 640x480px){" "}
             </label>
 
-              <button
+            <button
               className={`  rounded-md border-2 border-black  px-3 py-1 text-sm hover:bg-opacity-80 disabled:bg-slate-600 dark:text-bg xl:text-base ${bgColorVariants[color]}`}
               disabled={addImageMutation.isLoading}
               type="submit"
-              >
+            >
               {addImageMutation.isLoading ? "Adding Image..." : "Add Image"}
             </button>
+
+            {isDev && (
+              <Link
+                to={"/suggest-modpack/success"}
+                className="ml-4 flex min-w-min cursor-pointer items-center gap-2 rounded-md px-3 py-1  hover:bg-sec hover:bg-opacity-20  dark:hover:bg-hover-2"
+              >
+                Test link to success
+              </Link>
+            )}
           </form>
         </>
-        )}
+      )}
     </div>
   );
 };
