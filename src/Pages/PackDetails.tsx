@@ -418,7 +418,9 @@ const PackDetails = ({ category }: { category: string }) => {
                     <p className="mx-auto break-normal border-b border-text/75 px-3 py-1 text-center text-xs uppercase text-text/75 md:my-0 ">
                       {timesVoted === 0
                         ? "You've yet to vote!"
-                        : "You've Voted " + timesVoted + " times"}
+                        : timesVoted === 1
+                        ? "You've voted " + timesVoted + " time"
+                        : "You've voted " + timesVoted + " times"}
                     </p>
                   )}
                   <p
