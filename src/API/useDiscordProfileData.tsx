@@ -13,13 +13,13 @@ export const fetchProfile = async () => {
   if (status !== 200) {
     toast.error("No login data found");
     throw new Error("No login data found");
-}
+  }
 
   return data;
 };
 
 const useDiscordProfileData = () => {
-  const { setUser} = useContext( UserContext )
+  const { setUser } = useContext(UserContext);
 
   return useQuery(["login"], fetchProfile, {
     onError: (error) => {
@@ -30,7 +30,7 @@ const useDiscordProfileData = () => {
     },
     onSuccess: (response) => {
       if (response.in_guild === false) return;
-      
+
       const profileData = {
         isLoggedIn: true,
         avatar: response.avatar,
@@ -46,7 +46,6 @@ const useDiscordProfileData = () => {
       };
       localStorage.setItem("profileData", JSON.stringify(profileData));
       setUser(profileData);
-
 
       toast.success("Welcome back! You are now logged in!");
     },

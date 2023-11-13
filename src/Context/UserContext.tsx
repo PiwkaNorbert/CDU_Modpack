@@ -3,6 +3,7 @@ import React, { useEffect, useState, createContext } from "react";
 import { DiscordProfileData } from "../Utils/Interfaces";
 import { UserProviderProps } from "../Utils/Types";
 import { toast } from "react-toastify";
+import { fetchProfile } from "../API/useDiscordProfileData";
 // import { fetchProfile } from "../API/useDiscordProfileData";
 
 // Path: UserProvider.tsx
@@ -13,7 +14,6 @@ export interface AppState {
   votesRemaining: (amount: number) => void;
   userLoading: boolean;
   setUserLoading: React.Dispatch<React.SetStateAction<boolean>>;
-
 }
 
 const defaultState: AppState = {
@@ -31,16 +31,17 @@ export const UserProvider: React.FunctionComponent<UserProviderProps> = (
   const [user, setUser] = useState<DiscordProfileData>();
   const [userLoading, setUserLoading] = useState(true);
 
-  // const data = fetchProfile()
-  // make an async function for fetchProfile to resolve the promise and then set the user
   const storedUser = localStorage.getItem("profileData");
 
   const CheckUserExpiriedLogin = () => {
-    if (!storedUser) return
+    console.log("checking user expired login");
+
+    if (!storedUser) return;
     const parsedUser = JSON.parse(storedUser);
     const tokenExpirationDate = parsedUser?.tokenExpiry;
     const currentDate = Date.now() / 1000;
 
+    // if the token is expired, remove the user from the local storage and set the user to undefined
     if (tokenExpirationDate < currentDate) {
       localStorage.removeItem("profileData");
       setUser(undefined);
@@ -50,20 +51,38 @@ export const UserProvider: React.FunctionComponent<UserProviderProps> = (
         toastId: "session-expired",
       });
     } else {
-      setUser(parsedUser);
+      fetchProfile().then((data) => {
+        if (data.in_guild === false) return;
+        const profileData = {
+          isLoggedIn: true,
+          avatar: data.avatar,
+          globalName: data.global_name,
+          id: data.id,
+          username: data.username,
+          isAdmin: data.is_admin,
+          votesRemaining: data.votes_remaining,
+          tokenExpiry: data.token_expiry,
+          isLinked: data.is_linked,
+          inGuild: data.in_guild,
+          playerData: data.player_data,
+        };
+        localStorage.setItem("profileData", JSON.stringify(profileData));
+        setUser(profileData);
+      });
+
       toast.success(`Welcome back, ${parsedUser.username}!`, {
         autoClose: 1000,
         toastId: "welcome-back",
       });
     }
     setUserLoading(false);
-  
-
   };
 
-
   useEffect(() => {
-    CheckUserExpiriedLogin();
+    const profileData = localStorage.getItem("profileData");
+    console.log("profileData", profileData);
+
+    if (!profileData) CheckUserExpiriedLogin();
   }, []);
 
   const votesRemaining = (n: number) => {
@@ -74,7 +93,13 @@ export const UserProvider: React.FunctionComponent<UserProviderProps> = (
     return setUser(userNew as DiscordProfileData);
   };
 
-  const value: AppState = { user, setUser, votesRemaining, userLoading, setUserLoading };
+  const value: AppState = {
+    user,
+    setUser,
+    votesRemaining,
+    userLoading,
+    setUserLoading,
+  };
 
   return (
     <UserContext.Provider value={value}>{props.children}</UserContext.Provider>
