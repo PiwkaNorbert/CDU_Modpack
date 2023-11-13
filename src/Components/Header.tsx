@@ -68,7 +68,7 @@ const Header = () => {
       )}
       <nav
         className={twMerge(
-          "top-0  z-10 flex w-full items-center justify-stretch gap-2  bg-gradient-to-b from-acc/10 to-sec/[.15] px-2 py-1 text-text  md:justify-center md:px-4 lg:mx-auto lg:min-w-[900px] lg:max-w-[900px]",
+          "top-0  z-10 flex w-full items-center justify-stretch gap-2 bg-gradient-to-b  from-acc/10 to-sec/[.15] px-2 py-1 text-text   md:justify-center md:px-4 lg:mx-auto lg:min-w-[900px] lg:max-w-[900px]",
           isIntersecting ? "relative" : "sticky bg-bg  shadow-md ",
           window.location.pathname !== "/" ||
             window.location.pathname.includes("list")
@@ -106,6 +106,7 @@ const Header = () => {
                   <path d="M208,32H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM181.66,170.34a8,8,0,0,1-11.32,11.32L128,139.31,85.66,181.66a8,8,0,0,1-11.32-11.32L116.69,128,74.34,85.66A8,8,0,0,1,85.66,74.34L128,116.69l42.34-42.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path>
                 </svg>
               </button>
+
               {links.map(
                 ({
                   href,

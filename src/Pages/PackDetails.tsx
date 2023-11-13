@@ -230,7 +230,12 @@ const PackDetails = ({ category }: { category: string }) => {
       >
         <div className="relative h-min overflow-hidden border-t-2 bg-sec/20 pb-4 dark:border-none dark:shadow md:mb-4 md:rounded-b-md md:border-none md:shadow-xl">
           <div className="grid h-full items-center lg:rounded-md">
-            <div className="flex justify-between gap-2 px-4 pt-4 max-[500px]:mt-5 max-[500px]:flex-col sm:gap-0 md:px-8 ">
+            <div className="mt-1 flex justify-between gap-2 px-4 pt-4 max-[640px]:flex-col sm:gap-0 md:px-8 ">
+              <div className=" z-[5] mx-auto -mt-6 flex w-fit flex-col justify-center  gap-4 rounded-b-lg border border-gray-100 bg-gray-50 p-4 text-center text-sm uppercase text-text empty:hidden  dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300  max-[500px]:w-full sm:hidden  md:mt-0 md:flex-row lg:text-base lg:font-medium ">
+                {`${user?.votesRemaining} ${
+                  user?.votesRemaining == 1 ? "vote" : "votes"
+                } remaining this month`}
+              </div>
               {/* backarrow to the root page */}
               <Link
                 className="flex min-w-fit cursor-pointer items-center gap-2 rounded-md px-3 py-1 text-sm text-text hover:bg-sec hover:bg-opacity-20 hover:text-text dark:hover:bg-hover-2 lg:text-base lg:font-medium"
@@ -257,7 +262,7 @@ const PackDetails = ({ category }: { category: string }) => {
                 </p>
               </Link>
 
-              <div className="z-[5] mt-4 flex justify-center gap-4 border-gray-100 text-sm text-text empty:hidden dark:border-gray-700 dark:text-gray-400 max-[500px]:mt-5 max-[500px]:flex-col  max-[500px]:rounded-lg max-[500px]:border max-[500px]:bg-gray-50  max-[500px]:p-4 max-[500px]:dark:bg-gray-800  md:mt-0 md:flex-row lg:text-base lg:font-medium">
+              <div className="z-[5] flex justify-center gap-4 border-gray-100 text-sm text-text empty:hidden dark:border-gray-700 dark:text-gray-300 max-[500px]:flex-col  max-[500px]:rounded-lg max-[500px]:border max-[500px]:bg-gray-50  max-[500px]:p-4 max-[500px]:dark:bg-gray-800  md:mt-0 md:flex-row lg:text-base lg:font-medium">
                 {/* edit modpack button only is userProfile is superUser */}
 
                 {user?.isLoggedIn && user?.isAdmin && (
@@ -485,7 +490,7 @@ const PackDetails = ({ category }: { category: string }) => {
                 </div>
               </div>
               <div className="flex justify-between gap-2 p-4 max-[500px]:flex-col sm:gap-0  ">
-                <div className="max-[500px]:p-4max-[500px]:dark:bg-gray-800 mt-4 border-gray-100 text-sm text-text dark:border-gray-700 dark:text-gray-400 max-[500px]:mt-5  max-[500px]:rounded-lg max-[500px]:border max-[500px]:bg-gray-50 md:mt-0 md:flex-row md:rounded-lg md:text-sm md:font-medium xl:text-base">
+                <div className="mt-4 border-gray-100 text-sm text-text dark:border-gray-700 dark:text-gray-300 max-[500px]:mt-5 max-[500px]:rounded-lg max-[500px]:border  max-[500px]:bg-gray-50 max-[500px]:p-4 max-[500px]:dark:bg-gray-800 md:mt-0 md:flex-row md:rounded-lg md:text-sm md:font-medium xl:text-base">
                   <h3 className="pt-4 text-center text-2xl capitalize text-text sm:text-left xl:text-3xl">
                     description
                   </h3>
