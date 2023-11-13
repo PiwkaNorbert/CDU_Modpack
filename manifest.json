@@ -1,0 +1,21 @@
+{
+  "name": "Craft Down Under Modpack Voter",
+  "short_name": "CDU Voter",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "description": " Craft Down Under Modpack Voter is a web app that allows you to vote for Modpacks that you would like to see as a Craft Down Under Server.  ",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

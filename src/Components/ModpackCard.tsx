@@ -67,7 +67,8 @@ const ModpackCard = (props: IModpack) => {
                 imageUrl === null ? "/static/placeholder.png" : imageUrl
               }`}
               alt={name ? name + " Image" : "Pack Image"}
-              loading="lazy"
+              // lazy load the images after the index of 8 to improve performance and load time but keep the LCP low
+              loading={+modpackId > 8 ? "lazy" : "eager"}
               width="275"
               height="155"
               placeholderSrc={`/src/assets/placeholderImg.png`}

@@ -134,7 +134,7 @@ const ModpackListView = ({
                               className={` active:bg-text/15  mb-1 flex w-full cursor-pointer gap-1 rounded-lg  transition-all last:mb-0 hover:bg-text/10 `}
                             >
                               <a
-                                className={`flex items-center w-max min-w-full justify-start gap-2 px-3 py-1 capitalize`}
+                                className={`flex w-max min-w-full items-center justify-start gap-2 px-3 py-1 capitalize`}
                                 onClick={() => {
                                   navigate(packLocation.pathname);
                                 }}
@@ -145,10 +145,10 @@ const ModpackListView = ({
                                   height="20"
                                   fill="currentColor"
                                   viewBox="0 0 256 256"
-                                  >
-                                  <path d={packLocation?.svgPath}/>
+                                >
+                                  <path d={packLocation?.svgPath} />
                                 </svg>
-                                  {packLocation.name}
+                                {packLocation.name}
                               </a>
                             </li>
                           );
@@ -191,7 +191,7 @@ const ModpackListView = ({
               onChange={(e) => changeViewByInput(e)}
             />
             <button
-              className="hidden w-[96.81px] justify-end sm:flex "
+              className="hidden  aspect-square h-full justify-end sm:flex "
               onClick={() => {
                 setShowFilterTags((open) => !open);
                 if (showFilterTags) {
@@ -201,8 +201,8 @@ const ModpackListView = ({
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="25"
-                height="25"
+                width="30"
+                height="30"
                 fill="currentColor"
                 viewBox="0 0 256 256"
               >
@@ -241,17 +241,16 @@ const ModpackListView = ({
             <div className=" my-10 flex-1 text-center capitalize ">
               No {location.pathname.includes("archived") && " archived "}
               {location.pathname.includes("suggested") && " suggested "}
-              Modpacks found 
+              Modpacks found
               {user?.isLinked &&
-                  !(
-                    location.pathname.includes("archived") ||
-                    location.pathname.includes("suggested")
-                  ) && (
-                    <div className=" z-20  grid grid-cols-2 gap-5 p-5 max-[400px]:grid-cols-1 sm:grid-cols-3  md:grid-cols-3   lg:grid-cols-4   ">
-                      <SuggestPackCard />
-                    </div>
-                  )}
-
+                !(
+                  location.pathname.includes("archived") ||
+                  location.pathname.includes("suggested")
+                ) && (
+                  <div className=" z-20  grid grid-cols-2 gap-5 p-5 max-[400px]:grid-cols-1 sm:grid-cols-3  md:grid-cols-3   lg:grid-cols-4   ">
+                    <SuggestPackCard />
+                  </div>
+                )}
             </div>
           ) : (
             <>

@@ -37,7 +37,7 @@
 * {
   scrollbar-width: thin;
   scrollbar-color: #62afdb #282c3e;
-  /* background-color: rgba(0, 255, 0, 0.1) */
+  /* background-color: rgba(0, 255, 0, 0.1); */
 }
 /* scroll bar styling  */
 ::-webkit-scrollbar {
