@@ -80,7 +80,7 @@ export function CommentsComponent({
         />
       )}
       {showReplies && (
-        <div className="ml-10 pt-[.5em]">
+        <div className="ml-10 pt-[.5em] ">
           {isLoading ? (
             <p>Loading...</p>
           ) : isError ? (

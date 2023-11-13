@@ -18,8 +18,8 @@ const Login = () => {
 
   if (isLoading) {
     return (
-      <div className="my-10 flex w-full flex-1 flex-col items-center justify-start">
-        Loading.
+      <div className="my-10 flex w-full flex-1 flex-col items-center justify-start text-text dark:text-text">
+        Loading...
       </div>
     );
   }
@@ -57,7 +57,6 @@ const Login = () => {
       </div>
     );
   } else {
-   
     // display a toast message to the user that they have logged in
 
     if (!returnUrl) return <Navigate to="/" />;

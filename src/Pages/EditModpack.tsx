@@ -17,6 +17,7 @@ import {
   textColorVariants,
 } from "../Constants";
 import AddImage from "./SuggestPack/AddImage";
+import Loading from "../Components/Loading";
 
 const EditModpack = () => {
   // fetch the data from the server using the modpackName from the url
@@ -86,21 +87,16 @@ const EditModpack = () => {
     }
   }, [data?.tags]);
 
-  if (isLoading)
-    return (
-      <div className="flex h-full items-center justify-center">
-        <h1 className="m-3 mt-5 text-2xl xl:text-3xl">Loading...</h1>
-      </div>
-    );
+  if (isLoading) return <Loading size="la-lx" fullScreen={true} other="" />;
   if (isError)
     return (
-      <div className="flex h-full items-center justify-center">
+      <div className="flex h-full items-center justify-center text-text dark:text-text">
         <h1 className="m-3 mt-5 text-2xl xl:text-3xl">{error.message}</h1>
       </div>
     );
   if (!data)
     return (
-      <div className="flex h-full items-center justify-center">
+      <div className="flex h-full items-center justify-center text-text dark:text-text">
         <h1 className="m-3 mt-5 text-2xl xl:text-3xl">Modpack not found</h1>
       </div>
     );
