@@ -52,6 +52,8 @@ export const UserProvider: React.FunctionComponent<UserProviderProps> = (
       });
     } else {
       fetchProfile().then((data) => {
+        console.log("fetching profile data");
+
         if (data.in_guild === false) return;
         const profileData = {
           isLoggedIn: true,
