@@ -33,7 +33,7 @@ export const UserProvider: React.FunctionComponent<UserProviderProps> = (
 
   const storedUser = localStorage.getItem("profileData");
 
-  const CheckUserExpiriedLogin = () => {
+  useEffect(() => {
     console.log("checking user expired login");
 
     if (!storedUser) return;
@@ -78,13 +78,6 @@ export const UserProvider: React.FunctionComponent<UserProviderProps> = (
       });
     }
     setUserLoading(false);
-  };
-
-  useEffect(() => {
-    const profileData = localStorage.getItem("profileData");
-    console.log("profileData", profileData);
-
-    if (!profileData) CheckUserExpiriedLogin();
   }, []);
 
   const votesRemaining = (n: number) => {
