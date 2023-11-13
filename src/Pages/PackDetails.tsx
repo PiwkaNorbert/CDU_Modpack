@@ -485,7 +485,7 @@ const PackDetails = ({ category }: { category: string }) => {
                 </div>
               </div>
               <div className="flex justify-between gap-2 p-4 max-[500px]:flex-col sm:gap-0  ">
-                <div className="dark:border-gray-700dark:text-gray-400 max-[500px]:p-4max-[500px]:dark:bg-gray-800  mt-4 border-gray-100 text-sm text-text max-[500px]:mt-5  max-[500px]:rounded-lg max-[500px]:border max-[500px]:bg-gray-50 md:mt-0 md:flex-row md:rounded-lg md:text-sm md:font-medium xl:text-base">
+                <div className="max-[500px]:p-4max-[500px]:dark:bg-gray-800 mt-4 border-gray-100 text-sm text-text dark:border-gray-700 dark:text-gray-400 max-[500px]:mt-5  max-[500px]:rounded-lg max-[500px]:border max-[500px]:bg-gray-50 md:mt-0 md:flex-row md:rounded-lg md:text-sm md:font-medium xl:text-base">
                   <h3 className="pt-4 text-center text-2xl capitalize text-text sm:text-left xl:text-3xl">
                     description
                   </h3>
