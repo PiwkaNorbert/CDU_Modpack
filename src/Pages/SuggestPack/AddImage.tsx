@@ -10,13 +10,10 @@ import {
   borderColorVariants,
   isDev,
 } from "../../Constants";
-import { UserContext } from "../../Context/UserContext";
 
 const AddImage = ({ path, color }: { path: string; color: string }) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const { user } = useContext(UserContext);
-
   const { modpackId } = useParams();
 
   const addImageMutation = useMutation(
