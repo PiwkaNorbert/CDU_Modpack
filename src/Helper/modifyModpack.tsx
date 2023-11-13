@@ -9,7 +9,7 @@ export const tagOptions = [
   { value: "magic", label: "Magic / Fantasy" },
   { value: "medieval", label: "Medieval" },
   { value: "minigame", label: "Mini Game" },
-  { value: "pixelmon ", label: "Pixelmon / Cobblemon" },
+  { value: "pixelmon", label: "Pixelmon / Cobblemon" },
   { value: "quests", label: "Quests" },
   { value: "roleplaying", label: "Roleplaying" },
   { value: "sci-fi", label: "Sci-Fi" },
@@ -33,5 +33,6 @@ export const colorOptions = [
   { value: "fuchsia", label: "Fuchsia" },
 ];
 
-export const tagMap = new Map(tagOptions.map(option => [option.value, option.label]));
-
+export const tagMap = new Map(
+  tagOptions.map((option) => [option.value, option.label])
+);

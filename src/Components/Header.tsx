@@ -237,9 +237,9 @@ const Header = () => {
                   }
                   alt={user?.username ? `${user?.username}'s avatar` : "avatar"}
                 />
-                <div className="absolute -right-2 top-12 rounded-lg bg-bg shadow-md ">
+                <div className="absolute -right-2 top-10 pt-5  ">
                   <div
-                    className={`dropdown-body group-hover/header__menu:block`}
+                    className={`dropdown-body rounded-lg bg-bg shadow-md group-hover/header__menu:block`}
                   >
                     <ul
                       className="space-y-1 rounded-lg bg-bg p-1 text-base font-medium text-text shadow-md"
