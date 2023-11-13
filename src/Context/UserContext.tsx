@@ -4,6 +4,7 @@ import { DiscordProfileData } from "../Utils/Interfaces";
 import { UserProviderProps } from "../Utils/Types";
 import { toast } from "react-toastify";
 import { fetchProfile } from "../API/useDiscordProfileData";
+import { errorHandling } from "../Helper/errorHandling";
 // import { fetchProfile } from "../API/useDiscordProfileData";
 
 // Path: UserProvider.tsx
@@ -50,27 +51,34 @@ export const UserProvider: React.FunctionComponent<UserProviderProps> = (
         autoClose: 5000,
         toastId: "session-expired",
       });
-    } else {
-      fetchProfile().then((data) => {
-        console.log("fetching profile data");
+    } else if (parsedUser) {
+      fetchProfile()
+        .then((data) => {
+          console.log("fetching profile data");
 
-        if (data.in_guild === false) return;
-        const profileData = {
-          isLoggedIn: true,
-          avatar: data.avatar,
-          globalName: data.global_name,
-          id: data.id,
-          username: data.username,
-          isAdmin: data.is_admin,
-          votesRemaining: data.votes_remaining,
-          tokenExpiry: data.token_expiry,
-          isLinked: data.is_linked,
-          inGuild: data.in_guild,
-          playerData: data.player_data,
-        };
-        localStorage.setItem("profileData", JSON.stringify(profileData));
-        setUser(profileData);
-      });
+          if (data.in_guild === false) return;
+          const profileData = {
+            isLoggedIn: true,
+            avatar: data.avatar,
+            globalName: data.global_name,
+            id: data.id,
+            username: data.username,
+            isAdmin: data.is_admin,
+            votesRemaining: data.votes_remaining,
+            tokenExpiry: data.token_expiry,
+            isLinked: data.is_linked,
+            inGuild: data.in_guild,
+            playerData: data.player_data,
+          };
+          localStorage.setItem("profileData", JSON.stringify(profileData));
+          setUser(profileData);
+        })
+        .catch((error) => {
+          console.error("Error fetching profile:", error);
+          if (error instanceof Error) {
+            return errorHandling(error);
+          }
+        });
 
       toast.success(`Welcome back, ${parsedUser.username}!`, {
         autoClose: 1000,
