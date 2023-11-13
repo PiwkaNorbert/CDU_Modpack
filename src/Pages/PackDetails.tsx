@@ -26,10 +26,13 @@ const PackDetails = ({ category }: { category: string }) => {
   const { pathname } = useLocation();
   const modpackId = id as string;
 
-  const { data, isError, isLoading, error,
+  const {
+    data,
+    isError,
+    isLoading,
+    error,
     //  fetchStatus  eneable with the comment component
-    } =
-    usePackDetailData(modpackId);
+  } = usePackDetailData(modpackId);
 
   const { user } = useUser();
   const queryClient = useQueryClient();
@@ -201,7 +204,7 @@ const PackDetails = ({ category }: { category: string }) => {
     description,
     color,
     galleryImages,
-    // comments, 
+    // comments,
     voteCount,
     officialUrl,
     tags,
@@ -212,7 +215,6 @@ const PackDetails = ({ category }: { category: string }) => {
   }: // isArchived,
   // isPublished,
   IPackDetails = data;
-
 
   // enable with the comment component
   // const commentCount = comments
@@ -231,7 +233,7 @@ const PackDetails = ({ category }: { category: string }) => {
             <div className="flex justify-between gap-2 px-4 pt-4 max-[500px]:mt-5 max-[500px]:flex-col sm:gap-0 md:px-8 ">
               {/* backarrow to the root page */}
               <Link
-                className=" flex min-w-fit cursor-pointer items-center gap-2 rounded-md px-3 py-1 text-text hover:bg-sec hover:bg-opacity-20 hover:text-text dark:hover:bg-hover-2 text-sm lg:text-base lg:font-medium"
+                className=" flex min-w-fit cursor-pointer items-center gap-2 rounded-md px-3 py-1 text-sm text-text hover:bg-sec hover:bg-opacity-20 hover:text-text dark:hover:bg-hover-2 lg:text-base lg:font-medium"
                 to={returnToButton}
               >
                 <svg
@@ -416,7 +418,7 @@ const PackDetails = ({ category }: { category: string }) => {
                     <p className="mx-auto  break-normal border-b border-text/75 px-3 py-1 text-center text-xs uppercase text-text/75  md:my-0 ">
                       {timesVoted === 0
                         ? "You've yet to vote!"
-                        : "You've Voted"}
+                        : "You've Voted " + timesVoted + " times"}
                     </p>
                   )}
                   <p
@@ -491,7 +493,6 @@ const PackDetails = ({ category }: { category: string }) => {
                 </div>
               </div>
               {/* comment component here */}
-
             </div>
           </div>
         </div>
