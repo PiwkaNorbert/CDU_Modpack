@@ -23,15 +23,13 @@ import { CreateModpack } from "./Pages/SuggestPack/CreateModpack.tsx";
 import ArchivedPackListPage from "./Pages/ArchivedPackListPage";
 import SuggestedPackListPage from "./Pages/SuggestedPackListPage";
 
-import { UserContext } from "./Context/UserContext.tsx";
 import FoundBugs from "./Pages/FoundIssue.tsx";
 import { isDev } from "./Constants.tsx";
 import CreateModpackSuccess from "./Pages/SuggestPack/CreateModpackSuccess.tsx";
-import { useContext } from "react";
+import LinkedRoutes from "./Utils/LinkedRoutes.tsx";
+import AdminRoutes from "./Utils/AdminRoutes.tsx";
 
 function App() {
-  const { user } = useContext(UserContext);
-
   return (
     <ThemeProvider>
       <BrowserRouter>
@@ -50,7 +48,9 @@ function App() {
           <Route path="*" element={<Navigate to="/404" />} />
           <Route path="404" element={<NotFoundPage />} />
 
-          {user && user.isLinked && (
+          {/* ------------LINKED ROUTES------------- */}
+
+          <Route element={<LinkedRoutes />}>
             <Route path="suggest-modpack" element={<SuggestMPLayout />}>
               <Route path="create" element={<CreateModpack />} />
 
@@ -61,9 +61,10 @@ function App() {
               {/* thank you for submitting pack */}
               <Route path="success" element={<CreateModpackSuccess />} />
             </Route>
-          )}
+          </Route>
+          {/* ------------ADMIN ROUTES------------- */}
 
-          {user && user.isAdmin && (
+          <Route element={<AdminRoutes />}>
             <>
               {/* ------------EDIT MODPACKS------------- */}
               <Route
@@ -111,7 +112,7 @@ function App() {
                 element={<PackDetails category="archived" />}
               />
             </>
-          )}
+          </Route>
         </Routes>
       </BrowserRouter>
 
