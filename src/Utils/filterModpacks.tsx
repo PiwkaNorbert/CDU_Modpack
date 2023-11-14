@@ -1,4 +1,4 @@
-import { IModpack } from "../Utils/Interfaces";
+import { IModpack } from "./Interfaces";
 
 export const filterModpacks = (
   modpacks: IModpack[],

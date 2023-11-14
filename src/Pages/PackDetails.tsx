@@ -228,14 +228,17 @@ const PackDetails = ({ category }: { category: string }) => {
         key={modpackId}
         className="grid h-full w-full flex-1 justify-normal text-text lg:mx-auto lg:min-w-[900px] lg:max-w-[900px] "
       >
-        <div className="relative h-min overflow-hidden border-t-2 bg-sec/20 pb-4 dark:border-none dark:shadow md:mb-4 md:rounded-b-md md:border-none md:shadow-xl">
+        <div className="relative h-min  border-t-2 bg-sec/20 pb-4 dark:border-none dark:shadow md:mb-4 md:rounded-b-md md:border-none md:shadow-xl">
           <div className="grid h-full items-center lg:rounded-md">
             <div className="mt-1 flex justify-between gap-2 px-4 pt-4 max-[640px]:flex-col sm:gap-0 md:px-8 ">
-              <div className=" z-[5] mx-auto -mt-6 flex w-fit flex-col justify-center  gap-4 rounded-b-lg border border-gray-100 bg-gray-50 p-4 text-center text-sm uppercase text-text empty:hidden  dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300  max-[500px]:w-full sm:hidden  md:mt-0 md:flex-row lg:text-base lg:font-medium ">
-                {`${user?.votesRemaining} ${
-                  user?.votesRemaining == 1 ? "vote" : "votes"
-                } remaining this month`}
-              </div>
+              {user?.isLoggedIn && (
+                <div className=" z-[5] mx-auto -mt-6 flex w-fit flex-col justify-center  gap-4 rounded-b-lg border border-gray-100 bg-gray-50 p-4 text-center text-sm uppercase text-text empty:hidden  dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300  max-[500px]:w-full sm:hidden  md:mt-0 md:flex-row lg:text-base lg:font-medium ">
+                  {`${user?.votesRemaining} ${
+                    user?.votesRemaining == 1 ? "vote" : "votes"
+                  } remaining this month`}
+                </div>
+              )}
+
               {/* backarrow to the root page */}
               <Link
                 className="flex min-w-fit cursor-pointer items-center gap-2 rounded-md px-3 py-1 text-sm text-text hover:bg-sec hover:bg-opacity-20 hover:text-text dark:hover:bg-hover-2 lg:text-base lg:font-medium"

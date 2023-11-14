@@ -8,7 +8,7 @@ export default function Loading({ size, fullScreen, other }: LoadingProps) {
       } ${other}`}
     >
       <div
-        className={`la-ball-clip-rotate mx-auto ${size} 
+        className={`la-ball-clip-rotate mx-auto ${size} la-dark
         ${
           !window.matchMedia("(prefers-color-scheme: dark)").matches
             ? "la-dark"
@@ -22,7 +22,7 @@ export default function Loading({ size, fullScreen, other }: LoadingProps) {
   );
 }
 export interface LoadingProps {
-  size: string;
-  fullScreen: boolean;
-  other: string;
+  size?: string;
+  fullScreen?: boolean;
+  other?: string;
 }

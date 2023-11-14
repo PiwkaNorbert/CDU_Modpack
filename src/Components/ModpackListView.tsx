@@ -85,10 +85,17 @@ const ModpackListView = ({
           {/* map the data variable in a grad 4x2  */}
           <div className="md:space-x-none  flex flex-col items-center justify-between gap-4  p-5  text-xl   text-text sm:flex-row sm:gap-0 sm:space-x-4 xl:text-2xl ">
             {/* Show this button if you're logged in and a staff member */}
-            <div className="flex w-full items-center justify-between sm:w-auto">
+            <div className="grid w-full grid-cols-2 grid-rows-2 items-center justify-between sm:flex sm:w-auto sm:flex-row">
+              {user?.isLoggedIn && (
+                <div className=" z-[5] col-span-full row-span-1 mx-auto -mt-6 flex w-fit flex-col justify-center gap-4  rounded-b-lg border border-gray-100 bg-gray-50 p-4 text-center text-sm uppercase text-text empty:hidden dark:border-gray-700  dark:bg-gray-800 dark:text-gray-300 max-[500px]:w-full  sm:row-auto sm:hidden  md:mt-0 md:flex-row lg:text-base lg:font-medium ">
+                  {`${user?.votesRemaining} ${
+                    user?.votesRemaining == 1 ? "vote" : "votes"
+                  } remaining this month`}
+                </div>
+              )}
               <div
                 className={twMerge(
-                  "relative z-[5] flex items-center justify-center gap-2 text-text ",
+                  "relative z-[5] row-span-2 flex items-center gap-2 text-text sm:justify-center ",
                   user?.isAdmin &&
                     "cursor-pointer select-none rounded-lg px-2 py-1 capitalize hover:bg-text/10 ",
                   user?.isAdmin &&

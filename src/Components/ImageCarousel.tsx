@@ -20,14 +20,10 @@ export const ImageCarousel = ({
   const [showModal, setShowModal] = useState<boolean>(false);
   const [imageSrc, setImageSrc] = useState<string>("");
 
-
   const carouselRef = useRef<HTMLDivElement>(null);
-
 
   const { modpackId } = useParams();
   const queryClient = useQueryClient();
-
-
 
   const imagePath = galleryImages[currentImageIndex].imageUrl;
   const imageIdPattern = /\b[0-9A-Fa-f-]+(?=\.\w+$)/;
@@ -99,18 +95,18 @@ export const ImageCarousel = ({
     setShowModal(true);
   };
 
-   const scrollCarousel = (scrollAmount: number) => {
+  const scrollCarousel = (scrollAmount: number) => {
     carouselRef.current?.scrollBy({
       left: scrollAmount,
       behavior: "smooth",
     });
   };
-  
+
   const handleNextImage = () => {
     // Check if we're at the end of the carousel
     if (currentImageIndex === galleryImages.length - 1) {
       setCurrentImageIndex(0);
-  const totalScrollWidth = carouselRef.current?.scrollWidth || 0;
+      const totalScrollWidth = carouselRef.current?.scrollWidth || 0;
 
       scrollCarousel(-totalScrollWidth);
     } else {
@@ -118,12 +114,12 @@ export const ImageCarousel = ({
       scrollCarousel(96); // or the width of your image
     }
   };
-  
+
   const handlePrevImage = () => {
     // Check if we're at the start of the carousel
     if (currentImageIndex === 0) {
       setCurrentImageIndex(galleryImages.length - 1);
-  const totalScrollWidth = carouselRef.current?.scrollWidth || 0;
+      const totalScrollWidth = carouselRef.current?.scrollWidth || 0;
 
       scrollCarousel(totalScrollWidth);
     } else {
@@ -132,24 +128,25 @@ export const ImageCarousel = ({
     }
   };
 
-
   return (
-    <div>
+    <div className="w-full overflow-hidden scroll-smooth">
       {/* make primary image button */}
 
       <div className="group relative mx-auto ">
-        <div className="w-full h-full flex overflow-hidden z-[5]  rounded-md ">
-          {galleryImages.map(({imageUrl}: {imageUrl:string}, index: number )=>
-            
-            <img
-            key={index}
-            src={`${apiBase}${imageUrl}`}
-            alt={`Modpack Image ${index + 1}`}
-            style={{transform: `translateX(${-100 * currentImageIndex}%)`}}
-            className={` w-full shrink-0 grow-0 block object-cover border-2 rounded-md transition-all duration-300 min-h-[236.88px]  ${borderColorVariants[color]} ${bgColorVariants[color]}`}
-          />
-              
-         )}
+        <div className="z-[5] flex h-full w-full overflow-hidden  rounded-md ">
+          {galleryImages.map(
+            ({ imageUrl }: { imageUrl: string }, index: number) => (
+              <img
+                key={index}
+                src={`${apiBase}${imageUrl}`}
+                alt={`Modpack Image ${index + 1}`}
+                style={{
+                  transform: `translateX(${-100 * currentImageIndex}%)`,
+                }}
+                className={` block  w-full shrink-0 grow-0 rounded-md border-2 object-cover transition-all duration-300  ${borderColorVariants[color]} ${bgColorVariants[color]}`}
+              />
+            )
+          )}
         </div>
         {galleryImages?.length > 0 && (
           <div className="absolute inset-0 mx-auto flex h-full w-full">
@@ -183,7 +180,7 @@ export const ImageCarousel = ({
               >
                 {location.pathname.includes("edit-") && (
                   <>
-                  {/*  */}
+                    {/*  */}
                     <button
                       disabled={primaryImageMutation.isLoading}
                       className="last:active:bg-text/15 flex cursor-pointer items-center gap-2 rounded-lg bg-text bg-opacity-70 px-4 py-2 text-blue-500  opacity-0 transition-all hover:bg-opacity-80  disabled:cursor-auto disabled:bg-slate-300   disabled:text-slate-500  group-hover/buttons:opacity-100  dark:bg-bg dark:bg-opacity-90  dark:hover:bg-opacity-100 dark:disabled:bg-slate-700  dark:disabled:text-slate-500 "
@@ -206,13 +203,10 @@ export const ImageCarousel = ({
                             "Are you sure you want to delete this image?\n'OK' to confirm"
                           )
                         ) {
-
                           deleteImageMutation.mutate();
-                        }
-                        else {
+                        } else {
                           return toast.error("Unable to delete image");
                         }
-
                       }}
                     >
                       {deleteImageMutation.isLoading ? "Deleting..." : "Delete"}
@@ -247,59 +241,57 @@ export const ImageCarousel = ({
       {galleryImages?.length > 1 && (
         // declare carouselRef using useRef hook
 
-
-        <div className="relative  rounded-xl overflow-hidden dark:bg-slate-800/25">
-          <div className="relative rounded-xl overflow-auto">
+        <div className="relative  overflow-hidden rounded-xl dark:bg-slate-800/25">
+          <div className="relative w-full overflow-hidden rounded-xl">
             <div
-              className="relative w-full flex gap-4 snap-x overflow-x-auto p-2"
+              className="flex max-w-full snap-x gap-4 overflow-x-scroll p-2"
               ref={carouselRef}
             >
-                {galleryImages?.map(
-                  (
-                    gallery: { imageUrl: string; thumbnailUrl: string },
-                    index: number
-                  ) => {
-                    return (
-                      <LazyLoadImage
-                        key={index}
-                        src={`${apiBase}${gallery.thumbnailUrl}`}
-                        alt={`Image ${index + 1}`}
-                        width="96"
-                        height="54"
-                        className={twMerge(
-                          "   snap-center w-24 aspect-video shrink-0 grow-0 cursor-pointer rounded-md  border-2 bg-text/50 object-cover transition-all  focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-gray-800 dark:bg-bg   ",
-                          currentImageIndex === index
-                            ? `border-bg/90 shadow-inner outline outline-2 `
-                            : `border-text/50 hover:border-text/90 hover:shadow-inner`
-                        )}
-                        onClick={() => {
-                          setCurrentImageIndex(index);
-                          // check if im scrolling to the right or left
+              {galleryImages?.map(
+                (
+                  gallery: { imageUrl: string; thumbnailUrl: string },
+                  index: number
+                ) => {
+                  return (
+                    <LazyLoadImage
+                      key={index}
+                      src={`${apiBase}${gallery.thumbnailUrl}`}
+                      alt={`Image ${index + 1}`}
+                      width="96"
+                      height="54"
+                      className={twMerge(
+                        "   aspect-video w-24 shrink-0 grow-0 cursor-pointer snap-center rounded-md  border-2 bg-text/50 object-cover transition-all  focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-gray-800 dark:bg-bg   ",
+                        currentImageIndex === index
+                          ? `border-bg/90 shadow-inner outline outline-2 `
+                          : `border-text/50 hover:border-text/90 hover:shadow-inner`
+                      )}
+                      onClick={() => {
+                        setCurrentImageIndex(index);
+                        // check if im scrolling to the right or left
 
-                          if (index > currentImageIndex) {
-                            if (index - currentImageIndex === 1) {
-                              scrollCarousel(96);
-                            } else {
-                              scrollCarousel(192);
-                            }                       
+                        if (index > currentImageIndex) {
+                          if (index - currentImageIndex === 1) {
+                            scrollCarousel(96);
+                          } else {
+                            scrollCarousel(192);
                           }
-                          if (index < currentImageIndex) {
-                            if (currentImageIndex - index === 1) {
-                              scrollCarousel(-96);
-                            } else {
-                              scrollCarousel(-192);
-                            }
+                        }
+                        if (index < currentImageIndex) {
+                          if (currentImageIndex - index === 1) {
+                            scrollCarousel(-96);
+                          } else {
+                            scrollCarousel(-192);
                           }
-                    
-                        }}
-                        aria-label={`Image Thumbnail ${index + 1}`}
-                      />
-                    );
-                  }
-                )}
+                        }
+                      }}
+                      aria-label={`Image Thumbnail ${index + 1}`}
+                    />
+                  );
+                }
+              )}
             </div>
-         </div>
-          <div className="absolute inset-0 pointer-events-none border border-black/5 rounded-xl dark:border-white/5"></div>
+          </div>
+          <div className="pointer-events-none absolute inset-0 rounded-xl border border-black/5 dark:border-white/5"></div>
         </div>
       )}
 
@@ -331,5 +323,3 @@ export const ImageCarousel = ({
     </div>
   );
 };
-
-

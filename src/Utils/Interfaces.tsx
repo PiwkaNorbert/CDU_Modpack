@@ -110,6 +110,7 @@ export interface AddModpackProps {
   color: string;
   suggestor?: string;
   officialUrl: string;
+  minecraftVersion?: string;
 }
 
 // image?: File ;

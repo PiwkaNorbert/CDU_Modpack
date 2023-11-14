@@ -5,7 +5,7 @@ import { IModpack } from "../Utils/Interfaces";
 import { useState } from "react";
 import { errorHandling } from "../Helper/errorHandling";
 import { apiBase } from "../Constants";
-import { filterModpacks } from "./filterModpacks";
+import { filterModpacks } from "../Utils/filterModpacks";
 
 const useSuggestedModpackData = (queryClient: QueryClient) => {
   const [modPackFilterByInput, setModPackFilterByInput] = useState<string[]>(
