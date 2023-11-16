@@ -367,18 +367,18 @@ export const CreateModpack = () => {
                       return (
                         <li
                           key={version.id}
-                          className="relative cursor-pointer  select-none py-2 pl-3 pr-9 text-text/50 hover:bg-sec hover:bg-opacity-20 dark:text-text/70"
+                          className="relative cursor-pointer select-none py-2 pl-3 pr-9  text-text/70 hover:bg-sec hover:bg-opacity-20 "
                           onClick={() => {
                             setModpackVersion(version.name);
                             setVersionFilterByInput([version.name]);
                           }}
                         >
-                          <div className="flex items-center justify-center gap-2">
-                            <span className="truncate font-medium">
+                          <div className="flex items-center justify-center gap-2 tracking-widest">
+                            <span className="truncate  tracking-widest">
                               {beforeStr}
-                              <strong className="text-text/60 dark:text-text/80">
+                              <span className=" font-normal tracking-widest text-text">
                                 {matchStr}
-                              </strong>
+                              </span>
                               {afterStr}
                             </span>
                           </div>
