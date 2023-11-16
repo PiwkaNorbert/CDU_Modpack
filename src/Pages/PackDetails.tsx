@@ -212,6 +212,7 @@ const PackDetails = ({ category }: { category: string }) => {
     publishedBy,
     timesVoted,
     timesVotedThisMonth,
+    mcVersion,
   }: // isArchived,
   // isPublished,
   IPackDetails = data;
@@ -455,6 +456,16 @@ const PackDetails = ({ category }: { category: string }) => {
                       </span>
                     </p>
                   )}
+                  <p
+                    className="text-content group/mcVersion relative mx-auto my-4 flex w-fit flex-col items-center justify-center break-normal text-center text-xs uppercase md:my-0 "
+                    aria-label={`MC Version ${suggestedBy}`}
+                  >
+                    MC Version
+                    <br />
+                    <span className="text-text/50">
+                      {mcVersion ?? "Unknown"}
+                    </span>
+                  </p>
                 </div>
               </div>
 

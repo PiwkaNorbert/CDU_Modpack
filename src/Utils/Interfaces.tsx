@@ -26,6 +26,7 @@ export interface IPackDetails {
   officialUrl: string;
   suggestedBy: string;
   publishedBy: string;
+  mcVersion: string;
   tags: string[];
   timesVoted: number;
   voteCount: number;

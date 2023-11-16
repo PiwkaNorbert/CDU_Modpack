@@ -5,12 +5,13 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { AddModpackProps } from "../../Utils/Interfaces";
 import { tagOptions, colorOptions } from "../../Helper/modifyModpack";
-// import SuggestedByUserSearch from "../../Components/SuggestedByUserSearch";
 import { errorHandling } from "../../Helper/errorHandling";
 import { twJoin, twMerge } from "tailwind-merge";
 import { apiBase, borderColorVariants, isDev } from "../../Constants";
 import { debounce } from "lodash";
 import { DebounceInput } from "react-debounce-input";
+import useMCVersionData from "../../API/useMCVersionData";
+import Loading from "../../Components/Loading";
 
 export const CreateModpack = () => {
   const [modpackDescription, setModpackDescription] = useState<string>("");
@@ -18,8 +19,15 @@ export const CreateModpack = () => {
   const [modpackTags, setModpackTags] = useState<string[]>([]);
   const [isAvailable, setIsAvailable] = useState<boolean>(false);
   const [modpackName, setModpackName] = useState("");
+  const [modpackVersion, setModpackVersion] = useState("");
+  const [isInputTouched, setIsInputTouched] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
   const { username } = JSON.parse(localStorage.getItem("profileData") || "{}");
+
+  const { useMCVersionQuery, setVersionFilterByInput, versionFilterByInput } =
+    useMCVersionData();
+
+  const { data, isLoading, error, isError, fetchStatus } = useMCVersionQuery;
 
   const re = /^[ a-zA-Z0-9'"._-]{5,50}$/;
 
@@ -31,7 +39,14 @@ export const CreateModpack = () => {
   const navigate = useNavigate();
 
   const addModpackMutation = useMutation(
-    ({ name, description, tags, color, officialUrl }: AddModpackProps) =>
+    ({
+      name,
+      description,
+      tags,
+      color,
+      officialUrl,
+      minecraftVersion,
+    }: AddModpackProps) =>
       axios.post(
         `${apiBase}/api/suggest-modpack`,
         {
@@ -40,6 +55,7 @@ export const CreateModpack = () => {
           tags,
           color,
           officialUrl,
+          minecraftVersion,
         },
         {
           headers: {
@@ -115,6 +131,14 @@ export const CreateModpack = () => {
       setIsAvailable(false);
     }
   }
+  function getDropdownItems() {
+    if (
+      versionFilterByInput.length === 1 &&
+      versionFilterByInput[0] === modpackVersion
+    )
+      return false;
+    return true;
+  }
 
   // make isValid a state to update the button disabled state
   const [isValid, setIsValid] = useState<boolean>(false);
@@ -151,6 +175,7 @@ export const CreateModpack = () => {
             description: { value: string };
             color: { value: string };
             officialUrl: { value: string };
+            minecraftVersion: { value: string };
           };
 
           addModpackMutation.mutate({
@@ -159,6 +184,7 @@ export const CreateModpack = () => {
             tags: modpackTags,
             color: target.color.value,
             officialUrl: target.officialUrl.value,
+            minecraftVersion: target.minecraftVersion.value,
           });
         }}
       >
@@ -225,10 +251,11 @@ export const CreateModpack = () => {
             ""
           )}
         </div>
+
         {/* Modpack description field, multi line. */}
         {/* In order to make the modpack field multi line, we need to use a textarea instead of an input. */}
         <textarea
-          className={`min-h-[100px] rounded-md border-2 bg-bg border-${borderColor}-500 px-3 py-1 out-of-range:border-red-500 `}
+          className={`min-h-[100px] rounded-md border-2 bg-bg ${borderColorVariants[borderColor]}  px-3 py-1 out-of-range:border-red-500 `}
           placeholder="Modpack Description"
           value={modpackDescription}
           name="description"
@@ -275,10 +302,100 @@ export const CreateModpack = () => {
             ))}
           </div>
         </div>
+        {/* minecraft version input data from api */}
+
+        {/* create a search input with auto complete instead of a dropdown with the data from the api and map it to a div with the results so when the user types in the input it will show the results from the api and dont use select or options */}
+        <div className="relative">
+          <div className="relative inset-y-0 left-0 flex h-8 w-full items-center text-gray-500">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width={20}
+              height={20}
+              fill="currentColor"
+              viewBox="0 0 256 256"
+              className="pointer-events-none absolute inset-y-0 left-0 ml-2 flex h-5 w-5 items-center"
+            >
+              <path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"></path>
+            </svg>
+
+            <DebounceInput
+              className="spacer-left h-8 w-full rounded-md border-2 bg-bg py-1 pr-3 focus:border-transparent focus:outline-none focus:ring-0 active:border-none active:outline-none "
+              type="text"
+              placeholder="Search for Version '1.2'"
+              name="minecraftVersion"
+              minLength={1}
+              debounceTimeout={500}
+              value={modpackVersion}
+              onChange={(e: { target: { value: string } }) => {
+                // if the the input is empty return
+                if (!e.target.value) return;
+                setVersionFilterByInput([e.target.value]);
+                setModpackVersion(e.target.value);
+              }}
+              onFocus={() => setIsInputTouched(true)}
+              onBlur={() => setTimeout(() => setIsInputTouched(false), 100)}
+              autoComplete="off"
+              required
+            />
+          </div>
+          {/* create a dropdown menu with max of 5 results from the data that the user can select */}
+          <div className="relative max-h-[100px] w-full  overflow-y-scroll ">
+            {fetchStatus === "idle" && isLoading === true ? (
+              <Loading />
+            ) : isError ? (
+              <p>{error.message}</p>
+            ) : getDropdownItems() === false && isInputTouched === true ? (
+              <div className="absolute mt-1 h-24 w-24  rounded-md bg-bg  shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                <ul
+                  className=" py-1 empty:hidden"
+                  style={{ overflowY: "auto", maxHeight: "16rem" }}
+                >
+                  {/* make a list element that on click changes the search value into the set value */}
+                  {data &&
+                    data.map((version) => {
+                      const index = version.name
+                        .toLowerCase()
+                        .indexOf(modpackVersion.toLowerCase());
+                      const beforeStr = version.name.slice(0, index);
+                      const matchStr = version.name.slice(
+                        index,
+                        index + modpackVersion.length
+                      );
+                      const afterStr = version.name.slice(
+                        index + modpackVersion.length
+                      );
+                      return (
+                        <li
+                          key={version.id}
+                          className="relative cursor-pointer  select-none py-2 pl-3 pr-9 text-text/50 hover:bg-sec hover:bg-opacity-20 dark:text-text/70"
+                          onClick={() => {
+                            setModpackVersion(version.name);
+                            setVersionFilterByInput([version.name]);
+                          }}
+                        >
+                          <div className="flex items-center justify-center gap-2">
+                            <span className="truncate font-medium">
+                              {beforeStr}
+                              <strong className="text-text/60 dark:text-text/80">
+                                {matchStr}
+                              </strong>
+                              {afterStr}
+                            </span>
+                          </div>
+                        </li>
+                      );
+                    })}
+                </ul>
+              </div>
+            ) : (
+              ""
+            )}
+          </div>
+        </div>
 
         {/*Color selection*/}
         <select
-          className={`h-8 cursor-pointer rounded-md border-2 dark:text-bg border-${borderColor}-500 bg-${borderColor}-400 px-3 py-1 font-Tilt`}
+          className={`h-8 cursor-pointer rounded-md border-2 dark:text-bg ${borderColorVariants[borderColor]}   px-3 py-1 font-Tilt`}
           name="color"
           defaultValue="Sky"
           onChange={(e) => {
