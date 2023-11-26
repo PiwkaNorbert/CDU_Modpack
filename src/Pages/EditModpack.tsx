@@ -29,6 +29,7 @@ const EditModpack = () => {
   const [modpackTags, setModpackTags] = useState<string[]>([]);
   const [modpackVersion, setModpackVersion] = useState("");
   const [isInputTouched, setIsInputTouched] = useState(false);
+  const [description, setDescription] = useState<string>("");
 
   const { data, isLoading, isError, error } = usePackDetailData(modpackId);
   const { useMCVersionQuery, setVersionFilterByInput, versionFilterByInput } =
@@ -181,7 +182,6 @@ const EditModpack = () => {
 
                 const target = e.target as HTMLFormElement & {
                   name: { value: string };
-                  description: { value: string };
                   color: { value: string };
                   suggestor: { value: string };
                   officialUrl: { value: string };
@@ -189,7 +189,7 @@ const EditModpack = () => {
 
                 editModpackMutation.mutate({
                   name: target.name.value,
-                  description: target.description.value,
+                  description: description,
                   tags: modpackTags,
                   color: target.color.value,
                   suggestor: target.suggestor.value,
@@ -219,6 +219,7 @@ const EditModpack = () => {
                 name="description"
                 maxLength={500}
                 minLength={0}
+                onChange={(e) => setDescription(e.target.value)}
               />
               {/* Tag selector */}
               <div className="mb-4 w-96">
