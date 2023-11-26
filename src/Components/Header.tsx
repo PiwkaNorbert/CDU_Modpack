@@ -68,7 +68,7 @@ const Header = () => {
       )}
       <nav
         className={twMerge(
-          "top-0 z-10 flex w-full md:mb-4 items-center justify-stretch gap-2  py-1 text-text-1 md:justify-center px-4 ",
+          "top-0 z-10 flex w-full md:mb-4 items-center justify-stretch gap-2  py-1 text-text-1 md:justify-center px-4 2xl:w-[1300px] 2xl:mx-auto ",
           isIntersecting ? "relative" : "sticky bg-bg  shadow-md ",
           window.location.pathname !== "/" ||
             window.location.pathname.includes("list")
