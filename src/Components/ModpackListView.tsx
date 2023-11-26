@@ -77,17 +77,17 @@ const ModpackListView = ({
     <>
       <section
         id="modpack__gallery"
-        className="grid h-full w-full justify-normal self-center text-text lg:mx-auto lg:min-w-[900px] lg:max-w-[900px] "
+        className="grid h-full w-full justify-normal self-center text-text-1 lg:mx-auto px-2 sm:px-0 lg:w-[900px] xl:w-[1100px] 2xl:w-[1300px]   "
       >
         {/* set the width to ffit the content and assign them to sm md lg for the container  like lg:max-w-[1000px]
         below and assthese same things to the nav width*/}
-        <div className="overflow-hidden border-t-2 bg-sec/20 dark:border-none  dark:shadow  md:mb-4 md:rounded-b-xl  md:border-none md:shadow-2xl  ">
+        <div className="border-t-2 dark:border-none md:mb-4 md:rounded-b-xl md:border-none   ">
           {/* map the data variable in a grad 4x2  */}
-          <div className="md:space-x-none  flex flex-col items-center justify-between gap-4  p-5  text-xl   text-text sm:flex-row sm:gap-0 sm:space-x-4 xl:text-2xl ">
+          <div className=" grid w-full sm:grid-cols-[1fr_1fr_1fr] sm:justify-between gap-4 text-xl text-text-1 justify-items-center items-center sm:gap-0 xl:text-2xl ">
             {/* Show this button if you're logged in and a staff member */}
-            <div className="grid w-full grid-cols-2 grid-rows-2 items-center justify-between sm:flex sm:w-auto sm:flex-row">
+            <div className="grid w-full grid-cols-2 grid-rows-2 items-center justify-between sm:flex  sm:flex-row ">
               {user?.isLoggedIn && (
-                <div className=" z-[5] col-span-full row-span-1 mx-auto -mt-6 flex w-fit flex-col justify-center gap-4  rounded-b-lg border border-gray-100 bg-gray-50 p-4 text-center text-sm uppercase text-text empty:hidden dark:border-gray-700  dark:bg-gray-800 dark:text-gray-300 max-[500px]:w-full  sm:row-auto sm:hidden  md:mt-0 md:flex-row lg:text-base lg:font-medium ">
+                <div className=" z-[5] col-span-full row-span-1 mx-auto -mt-1 flex w-fit flex-col justify-center gap-4  rounded-b-lg border border-gray-100 bg-gray-50 p-4 text-center text-sm uppercase text-text-1 empty:hidden dark:border-gray-700  dark:bg-gray-800 dark:text-gray-300 max-[500px]:w-full  sm:row-auto sm:hidden  md:mt-0 md:flex-row lg:text-base lg:font-medium ">
                   {`${user?.votesRemaining} ${
                     user?.votesRemaining == 1 ? "vote" : "votes"
                   } remaining this month`}
@@ -95,7 +95,7 @@ const ModpackListView = ({
               )}
               <div
                 className={twMerge(
-                  "relative z-[5] row-span-2 flex items-center gap-2 text-text sm:justify-center ",
+                  "relative z-[5] row-span-2 w-fit flex items-center gap-2 text-text-1 sm:justify-center  ",
                   user?.isAdmin &&
                     "cursor-pointer select-none rounded-lg px-2 py-1 capitalize hover:bg-text/10 ",
                   user?.isAdmin &&
@@ -123,8 +123,7 @@ const ModpackListView = ({
                     </svg>
 
                     <ul
-                      className={` absolute top-9 z-[200] space-y-1 rounded-lg bg-bg p-1
-                      text-sm shadow-md dark:border-2 dark:border-sec/10 ${
+                      className={` absolute top-9 z-[200] space-y-1 rounded-lg bg-card p-1 text-sm shadow-md dark:border dark:border-sec/10 ${
                         showModal ? " block" : "hidden"
                       }`}
                       id="dropdown-menu"
@@ -166,7 +165,7 @@ const ModpackListView = ({
               </div>
 
               <button
-                className="flex justify-end  sm:hidden sm:min-w-[96.81px] "
+                className="flex justify-end   sm:hidden sm:min-w-[96.81px] "
                 onClick={() => {
                   setShowFilterTags((open) => !open);
                   if (showFilterTags) {
@@ -191,14 +190,14 @@ const ModpackListView = ({
             </div>
 
             <input
-              className={` h-9 w-full rounded-full border-2 border-text/20 bg-bg px-3 py-1 text-sm sm:w-80 `}
+              className="border-text/20  text-sm sm:w-80 w-full p-2 shadow-custom  border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pri"
               placeholder="Search for modpacks"
               type="text"
               name="tagSearch"
               onChange={(e) => changeViewByInput(e)}
             />
             <button
-              className="hidden  aspect-square h-full justify-end sm:flex "
+              className="hidden sm:flex place-self-end "
               onClick={() => {
                 setShowFilterTags((open) => !open);
                 if (showFilterTags) {
@@ -223,7 +222,7 @@ const ModpackListView = ({
             </button>
           </div>
           {showFilterTags && (
-            <div className=" relative z-[4] border-b border-text/10 px-4 pb-5">
+            <div className=" relative z-[4] border-b border-text/10 px-4 py-6">
               <div className=" min-h-16 flex flex-wrap items-start justify-start gap-2 px-2">
                 <ModpackTags
                   modpacks={data}
@@ -255,14 +254,14 @@ const ModpackListView = ({
                   location.pathname.includes("archived") ||
                   location.pathname.includes("suggested")
                 ) && (
-                  <div className="z-20 grid grid-cols-2 gap-5 p-5 max-[400px]:grid-cols-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4   ">
+                  <div className="z-20 grid grid-cols-2 gap-5 p-5 max-[400px]:grid-cols-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5   ">
                     <SuggestPackCard />
                   </div>
                 )}
             </div>
           ) : (
             <>
-              <div className="z-20 grid grid-cols-2 gap-5 p-5 max-[400px]:grid-cols-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4">
+              <div className="z-20 grid grid-cols-2 gap-x-5 gap-y-10 py-10 max-[400px]:grid-cols-1 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 ">
                 {(user?.isLinked || user?.isAdmin) &&
                   !(
                     location.pathname.includes("archived") ||
@@ -279,10 +278,10 @@ const ModpackListView = ({
           {/* button to scroll to the top of the page */}
           {pageBottom ? (
             <button
-              className="flex w-10 items-center justify-center rounded-full bg-pri text-sm hover:bg-opacity-80 dark:hover:bg-hover-2 xl:text-base"
+              className="flex items-center justify-center rounded-full bg-pri p-4 text-bg text-sm hover:bg-opacity-80 dark:hover:bg-hover-2 xl:text-base"
               onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             >
-              ^
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 256 256"><path d="M207.39,115.06A8,8,0,0,1,200,120H136v96a8,8,0,0,1-16,0V120H56a8,8,0,0,1-5.66-13.66l72-72a8,8,0,0,1,11.32,0l72,72A8,8,0,0,1,207.39,115.06Z"></path></svg>
             </button>
           ) : (
             <div className="h-10 w-10"></div>

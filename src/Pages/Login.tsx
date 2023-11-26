@@ -18,7 +18,7 @@ const Login = () => {
 
   if (isLoading) {
     return (
-      <div className="my-10 flex w-full flex-1 flex-col items-center justify-start text-text dark:text-text">
+      <div className="my-10 flex w-full flex-1 flex-col items-center justify-start text-text-1">
         Loading...
       </div>
     );

@@ -99,7 +99,7 @@ export function ReplyComponent({
           >
             {comment?.username}
           </p>
-          <p className=" text-justify text-xs  text-text/60 xl:text-sm ">
+          <p className=" text-justify text-xs  text-text-1/60 xl:text-sm ">
             {comment && relativeDate(comment.timestamp)}
           </p>
         </div>

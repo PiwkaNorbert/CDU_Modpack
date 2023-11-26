@@ -32,94 +32,96 @@ import AdminRoutes from "./Utils/AdminRoutes.tsx";
 function App() {
   return (
     <ThemeProvider>
-      <BrowserRouter>
+
+          <BrowserRouter>
         <Header />
-        <Routes>
-          <Route path="/" element={<PackListPage />} />
-          <Route
-            path="pack-details/:modpackId"
-            element={<PackDetails category="main" />}
-          />
-          <Route path="login" element={<Login />} />
-          <Route path="loginDev" element={<LoginDev />} />
-          {isDev && <Route path="loginDev" element={<LoginDev />} />}
-          <Route path="found-issue" element={<FoundBugs />} />
 
-          <Route path="*" element={<Navigate to="/404" />} />
-          <Route path="404" element={<NotFoundPage />} />
-
-          {/* ------------LINKED ROUTES------------- */}
-
-          <Route element={<LinkedRoutes />}>
-            <Route path="suggest-modpack" element={<SuggestMPLayout />}>
-              <Route path="create" element={<CreateModpack />} />
-
+            <Routes>
+              <Route path="/" element={<PackListPage />} />
               <Route
-                path="photos/:modpackId"
-                element={<AddImage path="suggest" color="sky" />}
+                path="pack-details/:modpackId"
+                element={<PackDetails category="main" />}
               />
-              {/* thank you for submitting pack */}
-              <Route path="success" element={<CreateModpackSuccess />} />
-            </Route>
-          </Route>
-          {/* ------------ADMIN ROUTES------------- */}
+              <Route path="login" element={<Login />} />
+              <Route path="loginDev" element={<LoginDev />} />
+              {isDev && <Route path="loginDev" element={<LoginDev />} />}
+              <Route path="found-issue" element={<FoundBugs />} />
 
-          <Route element={<AdminRoutes />}>
-            <>
-              {/* ------------EDIT MODPACKS------------- */}
-              <Route
-                path="edit-modpack/:modpackId"
-                element={
-                  <EditModpack
-                  // category="main"
+              <Route path="*" element={<Navigate to="/404" />} />
+              <Route path="404" element={<NotFoundPage />} />
+
+              {/* ------------LINKED ROUTES------------- */}
+
+              <Route element={<LinkedRoutes />}>
+                <Route path="suggest-modpack" element={<SuggestMPLayout />}>
+                  <Route path="create" element={<CreateModpack />} />
+
+                  <Route
+                    path="photos/:modpackId"
+                    element={<AddImage path="suggest" color="sky" />}
                   />
-                }
-              />
-              <Route
-                path="edit-suggested-modpack/:modpackId"
-                element={
-                  <EditModpack
-                  // category="suggested"
-                  />
-                }
-              />
-              <Route
-                path="edit-archived-modpack/:modpackId"
-                element={
-                  <EditModpack
-                  // category="archived"
-                  />
-                }
-              />
+                  {/* thank you for submitting pack */}
+                  <Route path="success" element={<CreateModpackSuccess />} />
+                </Route>
+              </Route>
+              {/* ------------ADMIN ROUTES------------- */}
 
-              {/* ------------LIST MODPACKS------------- */}
-              <Route
-                path="list-archived-packs"
-                element={<ArchivedPackListPage />}
-              />
-              <Route
-                path="list-suggested-packs"
-                element={<SuggestedPackListPage />}
-              />
+              <Route element={<AdminRoutes />}>
+                <>
+                  {/* ------------EDIT MODPACKS------------- */}
+                  <Route
+                    path="edit-modpack/:modpackId"
+                    element={
+                      <EditModpack
+                      // category="main"
+                      />
+                    }
+                  />
+                  <Route
+                    path="edit-suggested-modpack/:modpackId"
+                    element={
+                      <EditModpack
+                      // category="suggested"
+                      />
+                    }
+                  />
+                  <Route
+                    path="edit-archived-modpack/:modpackId"
+                    element={
+                      <EditModpack
+                      // category="archived"
+                      />
+                    }
+                  />
 
-              {/* ------------MODPACK DETAILS------------- */}
-              <Route
-                path="suggested-pack-details/:modpackId"
-                element={<PackDetails category="suggested" />}
-              />
-              <Route
-                path="archived-pack-details/:modpackId"
-                element={<PackDetails category="archived" />}
-              />
-            </>
-          </Route>
-        </Routes>
-      </BrowserRouter>
+                  {/* ------------LIST MODPACKS------------- */}
+                  <Route
+                    path="list-archived-packs"
+                    element={<ArchivedPackListPage />}
+                  />
+                  <Route
+                    path="list-suggested-packs"
+                    element={<SuggestedPackListPage />}
+                  />
+
+                  {/* ------------MODPACK DETAILS------------- */}
+                  <Route
+                    path="suggested-pack-details/:modpackId"
+                    element={<PackDetails category="suggested" />}
+                  />
+                  <Route
+                    path="archived-pack-details/:modpackId"
+                    element={<PackDetails category="archived" />}
+                  />
+                </>
+              </Route>
+            </Routes>
+      {window.location?.pathname === "/404" ? null : <Footer />}
+          </BrowserRouter>
 
       <ToastContainer limit={2} pauseOnFocusLoss={false} autoClose={2000} />
-      {/* <FetchingIndicator /> */}
-      {window.location?.pathname === "/404" ? null : <Footer />}
       <ReactQueryDevtools />
+
     </ThemeProvider>
   );
 }

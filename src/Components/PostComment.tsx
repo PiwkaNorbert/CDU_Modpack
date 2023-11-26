@@ -114,7 +114,7 @@ const PostComment = ({
   return (
     <form
       method="post"
-      className={`flex items-start justify-center gap-2 pb-2 pt-4 text-sm text-text md:gap-4 xl:text-base ${
+      className={`flex items-start justify-center gap-2 pb-2 pt-4 text-sm text-text-1 md:gap-4 xl:text-base ${
         replyingTo && "pl-10 "
       } `}
       onSubmit={async (e: React.FormEvent<HTMLFormElement>) => {
@@ -149,7 +149,7 @@ const PostComment = ({
             });
           }}
         />
-        <div className="mt-2 flex items-center justify-center dark:text-text">
+        <div className="mt-2 flex items-center justify-center">
           <p>{comment.length}/360</p>
         </div>
       </div>

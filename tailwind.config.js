@@ -67,6 +67,8 @@ export default {
       boxShadow: {
         header: "0 0 8px 3px rgba(0,0,0,0.3)",
         mainContainer: "rgba(149,157,165,0.2) 0px 8px 24px",
+        custom: "var(--shadow)",
+
       },
       spacing: {
         26: "6.56rem",
@@ -74,11 +76,15 @@ export default {
       },
       colors: {
         bg: "hsl(var(--clr-bg) / <alpha-value>)",
-        text: "hsl(var(--clr-text) / <alpha-value>)",
-        acc: "hsl(var(--clr-acc) / <alpha-value>)",
+        card: "hsl(var(--clr-bg-card) / <alpha-value>)",
+        text: {
+          1: "hsl(var(--clr-text) / <alpha-value>)",
+          2: "hsl(var(--clr-text-2) / <alpha-value>)",
+        },
         pri: "hsl(var(--clr-pri) / <alpha-value>)",
         sec: "hsl(var(--clr-sec) / <alpha-value>)",
-
+        acc: "hsl(var(--clr-acc) / <alpha-value>)",
+        border: "hsl(var(--clr-border) / <alpha-value>)",
         borderColor: {
           0: "hsl(var(--clr-border-0) / <alpha-value>)",
         },
@@ -87,7 +93,7 @@ export default {
           2: "#fefefe1a",
           3: "#00000010",
         },
-
+  
         red: colors.red,
         orange: colors.orange,
         yellow: colors.yellow,
@@ -99,8 +105,13 @@ export default {
         violet: colors.violet,
         fuchsia: colors.fuchsia,
       },
+   
       fontFamily: {
         Tilt: ["Tilt Warp", "cursive"],
+        minecraft: "var(--font-minecraft)",
+        displayfont: "var(--displayfont)",
+        default: "var(--defaultfont)",
+        
       },
       fontSize: {
         xxs: "0.65rem",

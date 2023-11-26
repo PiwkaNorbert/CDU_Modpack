@@ -181,7 +181,7 @@ const PackDetails = ({ category }: { category: string }) => {
   if (isLoading) return <Loading size="la-lx" fullScreen={true} other="" />;
   if (isError)
     return (
-      <div className="grid h-full w-full flex-1  justify-normal py-20 text-center text-text lg:mx-auto lg:min-w-[900px] lg:max-w-[900px]">
+      <div className="grid h-full w-full flex-1  justify-normal py-20 text-center text-text-1 lg:mx-auto  lg:w-[900px] xl:w-[1100px] 2xl:w-[1300px]  ">
         <p className="py-10">
           {error?.message} 😢 - Please try again later or reload the page.
           <br /> If the problem persists, please contact us on our discord
@@ -189,7 +189,7 @@ const PackDetails = ({ category }: { category: string }) => {
           {/* refetch data button */}
         </p>
         <button
-          className="mx-auto w-fit rounded-md border-2 border-black bg-text px-4 py-2 text-sm text-bg hover:bg-opacity-80 disabled:bg-slate-600 dark:text-bg xl:text-base"
+          className="mx-auto w-fit rounded-md border border-black bg-text px-4 py-2 text-sm text-bg hover:bg-opacity-80 disabled:bg-slate-600 dark:text-bg xl:text-base"
           onClick={() =>
             queryClient.invalidateQueries(["pack-details", modpackId])
           }
@@ -227,13 +227,12 @@ const PackDetails = ({ category }: { category: string }) => {
       <section
         id="modpack__details"
         key={modpackId}
-        className="grid h-full w-full flex-1 justify-normal text-text lg:mx-auto lg:min-w-[900px] lg:max-w-[900px] "
+        className="grid h-full relative w-full justify-normal bg-card border border-border pb-4 dark:border-none dark:shadow md:mb-4 md:rounded-md md:border-none md:shadow-xl text-text-1 lg:mx-auto  lg:w-[900px] xl:w-[1100px] 2xl:w-[1300px]   "
       >
-        <div className="relative h-min  border-t-2 bg-sec/20 pb-4 dark:border-none dark:shadow md:mb-4 md:rounded-b-md md:border-none md:shadow-xl">
           <div className="grid h-full items-center lg:rounded-md">
             <div className="mt-1 flex justify-between gap-2 px-4 pt-4 max-[640px]:flex-col sm:gap-0 md:px-8 ">
               {user?.isLoggedIn && (
-                <div className=" z-[5] mx-auto -mt-6 flex w-fit flex-col justify-center  gap-4 rounded-b-lg border border-gray-100 bg-gray-50 p-4 text-center text-sm uppercase text-text empty:hidden  dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300  max-[500px]:w-full sm:hidden  md:mt-0 md:flex-row lg:text-base lg:font-medium ">
+                <div className=" z-[5] mx-auto -mt-5 flex w-fit flex-col justify-center  gap-4 rounded-b-lg border border-t-0 border-gray-100 bg-gray-50 p-4 text-center text-sm uppercase empty:hidden  dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300  max-[500px]:w-full sm:hidden  md:mt-0 md:flex-row lg:text-base lg:font-medium ">
                   {`${user?.votesRemaining} ${
                     user?.votesRemaining == 1 ? "vote" : "votes"
                   } remaining this month`}
@@ -242,7 +241,7 @@ const PackDetails = ({ category }: { category: string }) => {
 
               {/* backarrow to the root page */}
               <Link
-                className="flex min-w-fit cursor-pointer items-center gap-2 rounded-md px-3 py-1 text-sm text-text hover:bg-sec hover:bg-opacity-20 hover:text-text dark:hover:bg-hover-2 lg:text-base lg:font-medium"
+                className="flex min-w-fit cursor-pointer items-center gap-2 rounded-md px-3 py-1 text-sm text-text-1 hover:bg-text-1/10 active:bg-text-1/20 lg:text-base transition-all  lg:font-medium"
                 to={returnToButton}
               >
                 <svg
@@ -266,14 +265,14 @@ const PackDetails = ({ category }: { category: string }) => {
                 </p>
               </Link>
 
-              <div className="z-[5] flex justify-center gap-4 border-gray-100 text-sm text-text empty:hidden dark:border-gray-700 dark:text-gray-300 max-[500px]:flex-col  max-[500px]:rounded-lg max-[500px]:border max-[500px]:bg-gray-50  max-[500px]:p-4 max-[500px]:dark:bg-gray-800  md:mt-0 md:flex-row lg:text-base lg:font-medium">
+              <div className="z-[5] flex justify-center gap-4 border-gray-100 text-sm  empty:hidden dark:border-gray-700 dark:text-gray-300 max-[500px]:flex-col  max-[500px]:rounded-lg max-[500px]:border max-[500px]:bg-gray-50  max-[500px]:p-4 max-[500px]:dark:bg-gray-900  md:mt-0 md:flex-row lg:text-base lg:font-medium">
                 {/* edit modpack button only is userProfile is superUser */}
 
                 {user?.isLoggedIn && user?.isAdmin && (
                   <>
                     <Link
                       to={editPackButton}
-                      className="last:active:bg-text/15 flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg px-4 py-2 transition-all hover:bg-text/10 sm:w-fit sm:justify-normal "
+                      className="flex w-full cursor-pointer items-center text-text-1 hover:bg-text-1/10 active:bg-text-1/20 justify-center gap-2 rounded-lg px-4 py-2 transition-all sm:w-fit sm:justify-normal "
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -288,7 +287,7 @@ const PackDetails = ({ category }: { category: string }) => {
                     </Link>
                     {category !== "main" && (
                       <button
-                        className={`last:active:bg-text/15 mx-auto flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg px-4 py-2 text-blue-500 transition-all hover:bg-text/10 sm:w-fit sm:justify-normal`}
+                        className="hover:bg-text-1/10 active:bg-text-1/20 mx-auto flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg px-4 py-2 text-blue-500 transition-all h sm:w-fit sm:justify-normal"
                         disabled={publishModpackMutation.isLoading}
                         onClick={async () => {
                           if (publishModpackMutation.isLoading) return;
@@ -324,7 +323,7 @@ const PackDetails = ({ category }: { category: string }) => {
                     {category === "main" && (
                       <button
                         disabled={archiveModpackMutation.isLoading}
-                        className="last:active:bg-text/15 flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg px-4 py-2 text-orange-500 transition-all hover:bg-text/10 sm:w-fit sm:justify-normal "
+                        className="hover:bg-text-1/10 active:bg-text-1/20 flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg px-4 py-2 text-orange-500 transition-all sm:w-fit sm:justify-normal "
                         onClick={async () => {
                           if (archiveModpackMutation.isLoading) return;
                           if (
@@ -360,7 +359,7 @@ const PackDetails = ({ category }: { category: string }) => {
                     {category === "suggested" && (
                       <button
                         disabled={deleteModpackMutation.isLoading}
-                        className="last:active:bg-text/15 flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg px-4 py-2 text-red-500 transition-all hover:bg-text/10 sm:w-fit sm:justify-normal "
+                        className="active:bg-text/15 flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg px-4 py-2 text-red-500 transition-all hover:bg-text-1/10 active:bg-text-1/20 sm:w-fit sm:justify-normal "
                         onClick={async () => {
                           if (deleteModpackMutation.isLoading) return;
                           if (
@@ -404,12 +403,12 @@ const PackDetails = ({ category }: { category: string }) => {
                   <ImageCarousel galleryImages={galleryImages} color={color} />
                 )}
                 <div className="grid content-center items-center space-y-4 md:mr-4">
-                  <p
-                    className="text-content mt-4 break-normal px-2 text-center text-4xl uppercase md:my-0"
+                  <h3
+                    className="text-pri mt-4 break-normal font-minecraft px-2 text-center text-4xl uppercase md:my-0"
                     aria-label={`Modpack name: ${name}`}
                   >
                     {name ?? "Modpack Name"}
-                  </p>
+                  </h3>
                   <div className="flex items-center justify-center gap-2">
                     {category === "main" && (
                       <div className="flex items-center justify-center gap-2">
@@ -424,7 +423,7 @@ const PackDetails = ({ category }: { category: string }) => {
                     )}
                   </div>
                   {category === "main" && (
-                    <p className="mx-auto break-normal border-b border-text/75 px-3 py-1 text-center text-xs uppercase text-text/75 md:my-0 ">
+                    <p className="mx-auto break-normal border-b border-text/75 px-3 py-1 text-center text-xs uppercase text-text-1/75 md:my-0 ">
                       {timesVoted === 0
                         ? "You've yet to vote!"
                         : timesVoted === 1
@@ -439,7 +438,7 @@ const PackDetails = ({ category }: { category: string }) => {
                   >
                     Suggested By
                     <br />
-                    <span className="text-text/50">
+                    <span className="text-text-1/50">
                       {suggestedBy ?? "Unknown"}
                     </span>
                   </p>
@@ -451,7 +450,7 @@ const PackDetails = ({ category }: { category: string }) => {
                     >
                       Published By
                       <br />
-                      <span className="text-text/50">
+                      <span className="text-text-1/50">
                         {publishedBy ?? "Unknown"}
                       </span>
                     </p>
@@ -462,7 +461,7 @@ const PackDetails = ({ category }: { category: string }) => {
                   >
                     MC Version
                     <br />
-                    <span className="text-text/50">
+                    <span className="text-text-1/50">
                       {mcVersion ?? "Unknown"}
                     </span>
                   </p>
@@ -476,7 +475,7 @@ const PackDetails = ({ category }: { category: string }) => {
                   {tags?.map((tag: string, index: number) => (
                     <div
                       key={index}
-                      className={`z-[5] flex min-w-fit items-center justify-start self-start rounded-full border-2 bg-bg px-2 py-0.5 text-sm capitalize text-text/80 ${borderColorVariants[color]} `}
+                      className={`z-[5] flex min-w-fit items-center justify-start self-start rounded-full border bg-card px-2 py-0.5 text-sm capitalize text-text-1 font-displayfont font-semibold ${borderColorVariants[color]} `}
                     >
                       {tagMap.get(tag)}
                     </div>
@@ -504,19 +503,18 @@ const PackDetails = ({ category }: { category: string }) => {
                 </div>
               </div>
               <div className="flex justify-between gap-2 p-4 max-[500px]:flex-col sm:gap-0  ">
-                <div className="mt-4 border-gray-100 text-sm text-text dark:border-gray-700 dark:text-gray-300 max-[500px]:mt-5 max-[500px]:rounded-lg max-[500px]:border  max-[500px]:bg-gray-50 max-[500px]:p-4 max-[500px]:dark:bg-gray-800 md:mt-0 md:flex-row md:rounded-lg md:text-sm md:font-medium xl:text-base">
-                  <h3 className="pt-4 text-center text-2xl capitalize text-text sm:text-left xl:text-3xl">
+                <div className="mt-4 border-gray-100 text-sm text-text-1 dark:border-gray-700 dark:text-gray-300 max-[500px]:mt-5 max-[500px]:rounded-lg max-[500px]:border  max-[500px]:bg-gray-50 max-[500px]:p-4 max-[500px]:dark:bg-gray-900 md:mt-0 md:flex-row md:rounded-lg md:text-sm md:font-medium xl:text-base">
+                  <h3 className="pt-4 text-pri text-2xl capitalize  sm:text-left xl:text-3xl">
                     description
                   </h3>
                   <div className="p-4">
-                    <p className="text-justify">{description}</p>
+                    <p className="text-justify font-default font-normal ">{description}</p>
                   </div>
                 </div>
               </div>
               {/* comment component here */}
             </div>
           </div>
-        </div>
       </section>
     </>
   );
@@ -549,7 +547,7 @@ export default PackDetails;
 //       )}
 //       {user?.isLoggedIn && !user?.isLinked && (
 //         <div className="flex flex-col items-center justify-center gap-2">
-//           <p className="text-center text-sm text-text/70">
+//           <p className="text-center text-sm text-text-1/70">
 //             Link your account to post comments and vote for packs.
 //           </p>
 //           <a

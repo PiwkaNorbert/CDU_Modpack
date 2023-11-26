@@ -70,7 +70,7 @@ export function ModpackTags({
           "z-[5] flex gap-1 items-center justify-center capitalize rounded-full px-3 py-1 text-sm transition-all hover:bg-opacity-80 dark:hover:bg-opacity-80 dark:disabled:hover:bg-opacity-100 disabled:opacity-50 ",
           isActive
             ? `bg-slate-700 text-bg dark:bg-slate-300 dark:text-bg `
-            : `bg-slate-300 text-text dark:bg-slate-700 dark:text-text`
+            : `bg-slate-300 text-text-1 dark:bg-slate-700 `
         );
 
         return (
@@ -83,7 +83,7 @@ export function ModpackTags({
             {tagMap.get(tagCount.name) ?? tagCount.name}
             <span
               className={twMerge(
-                `text-text/50`,
+                `text-text-1/50`,
                 modPackFilterByTags.includes(tagCount.name) &&
                   `text-bg/50 dark:text-bg/50`
               )}

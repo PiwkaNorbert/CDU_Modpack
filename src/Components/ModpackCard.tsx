@@ -48,7 +48,7 @@ const ModpackCard = (props: IModpack) => {
   return (
     <div
       key={modpackId}
-      className={`relative z-[1] mb-8 flex justify-center rounded-md border-[3.5px] text-text transition-transform hover:scale-[102%] hover:shadow-sm hover:shadow-white/50 lg:min-h-[109px] lg:min-w-[194px] ${borderColorVariants[color]} `}
+      className={`relative z-[1]  flex justify-center   text-text-1 lg:min-h-[109px] lg:min-w-[194px]  `}
       onMouseEnter={() => {
         queryClient.prefetchQuery(["pack-details", modpackId], () =>
           fetchPackDetail(modpackId as string)
@@ -57,9 +57,8 @@ const ModpackCard = (props: IModpack) => {
     >
       <Link
         to={`${currentPlace}/${modpackId}`}
-        className={`w-full overflow-hidden rounded-sm bg-bg`}
+        className={`w-full  rounded-md  bg-card shadow-custom hover:shadow-lg hover:scale-[102%] transition-transform border ${borderColorVariants[color]}`}
       >
-        <div className="flex h-full justify-center rounded-md hover:text-opacity-100">
           <div className="flex h-full w-full flex-1 flex-col overflow-hidden text-base/[1.25rem]">
             {/* toggle images in production */}
             <LazyLoadImage
@@ -73,6 +72,14 @@ const ModpackCard = (props: IModpack) => {
               height="155"
               placeholderSrc={`/src/assets/placeholderImg.png`}
               className={`block w-full shrink-0 grow-0 border-b-[3.5px] object-cover text-right ${bgColorVariants[color]} ${borderColorVariants[color]}  `}
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.onerror = null;
+                target.src = "/steve.png";
+                e.currentTarget.src = "/cross.png";
+                return;
+              }}
+           
             />
 
             <p
@@ -84,24 +91,20 @@ const ModpackCard = (props: IModpack) => {
             </p>
           </div>
           {!(isPublished || isArchived) ? null : (
-            <div
-              className={`absolute flex h-9 divide-x overflow-hidden rounded-full border-[3.5px] bg-bg px-2 py-1 text-text ${borderColorVariants[color]} -bottom-[22px]  items-center text-base `}
-            >
-              <div className="flex items-center gap-1 pr-2">
-                <picture className={`flex`}>
-                  {timesVoted > 0 ? <HeartFillSVG /> : <HeartSVG />}
-                </picture>
-                <p>{voteCount}</p>
-              </div>
-              <div className="flex items-center gap-1 pl-2">
-                <picture className={`flex `}>
-                  <CommentBubbleSVG />
-                </picture>
-                <p>{commentCount}</p>
-              </div>
-            </div>
-          )}
-        </div>
+                <div
+                  className={`absolute left-0 right-0 mx-auto flex h-9 divide-x overflow-hidden shadow-custom -bottom-[22px] rounded-full border bg-card px-2 py-1 ${borderColorVariants[color]} `}
+                  style={{ maxWidth: 'fit-content' }}
+                >
+                  <div className="flex items-center gap-1 pr-2">
+                    {timesVoted > 0 ? <HeartFillSVG /> : <HeartSVG />}
+                    <p>{voteCount}</p>
+                  </div>
+                  <div className="flex items-center gap-1 pl-2">
+                    <CommentBubbleSVG />
+                    <p>{commentCount}</p>
+                  </div>
+                </div>
+              )}
       </Link>
     </div>
   );

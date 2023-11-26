@@ -81,20 +81,20 @@ const AddImage = ({ path, color }: { path: string; color: string }) => {
           <input
             required
             name="image"
-            className={`h-8 w-full cursor-pointer rounded-md border-2 px-3 py-1 file:placeholder:text-slate-400 dark:text-text ${borderColorVariants[color]}`}
+            className={`h-8 w-full cursor-pointer rounded-md border px-3 py-1 file:placeholder:text-slate-400  ${borderColorVariants[color]}`}
             type="file"
             multiple
           />
 
           <label
             htmlFor="image"
-            className={`-mt-2 text-sm dark:text-text xl:text-base`}
+            className={`-mt-2 text-sm  xl:text-base`}
           >
             (PNG or JPG MAX. 5MB, 640x480px)
           </label>
 
           <button
-            className={`rounded-md border-2 border-black px-3 py-1 text-sm hover:bg-opacity-80 disabled:bg-slate-600 dark:text-bg xl:text-base ${bgColorVariants[color]}`}
+            className={`rounded-md border border-vorder px-3 py-1 text-sm hover:bg-opacity-80 disabled:bg-slate-600 dark:text-bg xl:text-base ${bgColorVariants[color]}`}
             disabled={addImageMutation.isLoading}
             type="submit"
           >

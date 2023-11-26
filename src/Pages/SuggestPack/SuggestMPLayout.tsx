@@ -10,14 +10,14 @@ const SuggestMPLayout = () => {
   return (
     <section
       id="modpack__addpack"
-      className="z-[5] grid  w-full flex-1 justify-normal text-text lg:mx-auto lg:min-w-[900px] lg:max-w-[900px] "
+      className="z-[5] grid w-full flex-1 justify-normal text-text-1 lg:mx-auto lg:w-[900px] xl:w-[1100px] 2xl:w-[1300px]  "
     >
-      <div className="relative border-t-2 bg-sec/20 pb-4 dark:border-none dark:shadow md:mb-4 md:rounded-b-md md:border-none md:shadow-xl">
+      <div className="relative border-t-2 bg-card pb-4 dark:border-none dark:shadow md:mb-4 md:rounded-md md:border-none md:shadow-xl">
         <div className={`z-10 grid h-full items-center lg:rounded-md`}>
           <div className="z-10 mb-6 flex flex-col justify-between gap-2 px-8 pt-4 max-[350px]:mb-0 sm:gap-0 md:grid md:grid-cols-3 md:px-4 ">
             <Link
               to={"/"}
-              className="ml-4 mr-auto flex min-w-min cursor-pointer items-center gap-2 self-center justify-self-start rounded-md px-3 py-1 text-text hover:bg-sec hover:bg-opacity-20 hover:text-text dark:hover:bg-hover-2 sm:mr-0"
+              className="ml-4 mr-auto flex min-w-min cursor-pointer items-center gap-2 self-center justify-self-start rounded-md px-3 py-1 text-text-1 hover:bg-sec hover:bg-opacity-20 hover:text-text-1 dark:hover:bg-hover-2 sm:mr-0"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -36,7 +36,7 @@ const SuggestMPLayout = () => {
               <p>Cancel</p>
             </Link>
 
-            <ul className="progress__steps text-text dark:text-text ">
+            <ul className="progress__steps text-text-1 ">
               {/* prettier-ignore */}
               <li>
                 <a type="button" className={twJoin(`progress__step--active cursor-pointer`, 

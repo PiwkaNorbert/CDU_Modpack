@@ -11,7 +11,7 @@ const CreateModpackSuccess = () => {
       </p>
       <Link
         to={"/"}
-        className="flex min-w-min cursor-pointer items-center gap-2 rounded-md border-2 border-blue-500 px-4 py-2 text-sm text-blue-500 hover:bg-sec hover:bg-opacity-20 hover:text-blue-700 dark:border-blue-300 dark:text-blue-300 dark:hover:bg-hover-2 dark:hover:text-blue-500"
+        className="flex min-w-min cursor-pointer items-center gap-2 rounded-md border border-blue-500 px-4 py-2 text-sm text-blue-500 hover:bg-sec hover:bg-opacity-20 hover:text-blue-700 dark:border-blue-300 dark:text-blue-300 dark:hover:bg-hover-2 dark:hover:text-blue-500"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

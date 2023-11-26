@@ -90,13 +90,13 @@ const EditModpack = () => {
   if (isLoading) return <Loading size="la-lx" fullScreen={true} other="" />;
   if (isError)
     return (
-      <div className="flex h-full items-center justify-center text-text dark:text-text">
+      <div className="flex h-full items-center justify-center text-text-1">
         <h1 className="m-3 mt-5 text-2xl xl:text-3xl">{error.message}</h1>
       </div>
     );
   if (!data)
     return (
-      <div className="flex h-full items-center justify-center text-text dark:text-text">
+      <div className="flex h-full items-center justify-center text-text-1">
         <h1 className="m-3 mt-5 text-2xl xl:text-3xl">Modpack not found</h1>
       </div>
     );
@@ -106,9 +106,9 @@ const EditModpack = () => {
   return (
     <section
       id="modpack__addpack"
-      className="z-[5] grid h-full w-full flex-1 justify-normal text-text lg:mx-auto lg:min-w-[900px] lg:max-w-[900px]"
+      className="z-[5] grid h-full w-full flex-1 justify-normal text-text-1 lg:mx-auto  lg:w-[900px] xl:w-[1100px] 2xl:w-[1300px]  "
     >
-      <div className="relative h-min border-t-2 bg-sec/20 pb-4 dark:border-none dark:shadow md:mb-4 md:rounded-b-md md:border-none md:shadow-xl">
+      <div className="relative h-min border-t-2 bg-card pb-4 dark:border-none dark:shadow md:mb-4 md:rounded-md md:border-none md:shadow-xl">
         <div className={`z-10 grid h-full items-center lg:rounded-md`}>
           <div className="z-10 mb-6 flex flex-col justify-between gap-2 px-8 pt-4 max-[350px]:mb-0 sm:gap-0 md:grid md:grid-cols-3 md:px-4">
             <div
@@ -155,7 +155,7 @@ const EditModpack = () => {
             </div>
 
             <form
-              className="grid gap-4 pt-[.5em] text-sm text-text placeholder:text-slate-400 xl:text-base"
+              className="grid gap-4 pt-[.5em] text-sm text-text-1 placeholder:text-slate-400 xl:text-base"
               onSubmit={async (e: React.FormEvent<HTMLFormElement>) => {
                 e.preventDefault();
                 if (editModpackMutation.isLoading) return;
@@ -180,7 +180,7 @@ const EditModpack = () => {
             >
               {/* Modpack name field, single line. */}
               <input
-                className={`h-8 rounded-md border-2 bg-bg px-3 py-1 ${
+                className={`h-8 rounded-md border bg-bg px-3 py-1 ${
                   borderColorVariants[data?.color]
                 } `}
                 type="text"
@@ -192,7 +192,7 @@ const EditModpack = () => {
               {/* Modpack description field, multi line. */}
               {/* In order to make the modpack field multi line, we need to use a textarea instead of an input. */}
               <textarea
-                className={`h-40 min-h-[100px] w-96 rounded-md border-2 bg-bg px-3 py-1 out-of-range:border-red-500 ${
+                className={`h-40 min-h-[100px] w-96 rounded-md border bg-bg px-3 py-1 out-of-range:border-red-500 ${
                   borderColorVariants[data?.color]
                 }  `}
                 placeholder="Modpack Description"
@@ -203,7 +203,7 @@ const EditModpack = () => {
               />
               {/* Tag selector */}
               <div className="mb-4 w-96">
-                <div className="flex flex-wrap justify-center gap-2 text-text ">
+                <div className="flex flex-wrap justify-center gap-2 text-text-1 ">
                   {tagOptions.map((tagOption, index) => (
                     <button
                       type="button"
@@ -234,7 +234,7 @@ const EditModpack = () => {
 
               {/*Color selection*/}
               <select
-                className={`h-8 rounded-md border-2 px-3 py-1 font-Tilt dark:text-bg
+                className={`h-8 rounded-md border px-3 py-1 font-Tilt dark:text-bg
                 border-${borderColor}-500 bg-${borderColor}-400`}
                 name="color"
                 defaultValue={data?.color}
@@ -256,7 +256,7 @@ const EditModpack = () => {
               <p className="-mb-2 ">Image</p>
               {/* <input
               name="image"
-              className={`cursor-pointer rounded-md border-2 file:placeholder:text-slate-400  border-${borderColor}-500 h-8 w-full px-3 py-1`}
+              className={`cursor-pointer rounded-md border file:placeholder:text-slate-400  border-${borderColor}-500 h-8 w-full px-3 py-1`}
               type="file"
             /> */}
 
@@ -265,7 +265,7 @@ const EditModpack = () => {
               </label>
               <input
                 required
-                className={`h-8 rounded-md border-2 bg-bg px-3 py-1 ${
+                className={`h-8 rounded-md border bg-bg px-3 py-1 ${
                   borderColorVariants[data?.color]
                 } `}
                 type="text"
@@ -275,7 +275,7 @@ const EditModpack = () => {
               />
               {/* Modpack suggestor field, single line. */}
               <input
-                className={`h-8 rounded-md border-2 bg-bg px-3 py-1 ${
+                className={`h-8 rounded-md border bg-bg px-3 py-1 ${
                   borderColorVariants[data?.color]
                 } `}
                 type="text"
@@ -286,7 +286,7 @@ const EditModpack = () => {
               <br />
 
               <button
-                className={`group h-16 rounded-md border-2 px-3 py-1 text-base hover:bg-opacity-90 disabled:bg-slate-600 dark:text-bg dark:hover:bg-opacity-90 ${
+                className={`group h-16 rounded-md border px-3 py-1 text-base hover:bg-opacity-90 disabled:bg-slate-600 dark:text-bg dark:hover:bg-opacity-90 ${
                   borderColorVariants[data?.color]
                 }  ${bgColorVariants[data?.color]}
               `}

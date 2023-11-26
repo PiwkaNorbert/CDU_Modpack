@@ -161,7 +161,7 @@ export const CreateModpack = () => {
         </h1>
       </div>
       <form
-        className="mx-auto mb-8 flex w-96  flex-col flex-wrap justify-center gap-4 pt-[.5em] text-sm text-text placeholder:text-slate-400 xl:text-base"
+        className="mx-auto mb-8 flex w-96  flex-col flex-wrap justify-center gap-4 pt-[.5em] text-sm text-text-1 placeholder:text-slate-400 xl:text-base"
         onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
           e.preventDefault();
           if (
@@ -212,7 +212,7 @@ export const CreateModpack = () => {
           <DebounceInput
             required
             className={twJoin(
-              `spacer-left mr-10 h-8 w-full rounded-md border-2 bg-bg py-1 pr-3 focus:border-transparent focus:outline-none focus:ring-0 active:border-none active:outline-none `,
+              `spacer-left mr-10 h-8 w-full rounded-md border bg-bg py-1 pr-3 focus:border-transparent focus:outline-none focus:ring-0 active:border-none active:outline-none `,
               !isNameValid && isTouched && "border-red-500",
               !isValid && isTouched && "border-yellow-500",
               isValid && isTouched && "border-green-500"
@@ -255,7 +255,7 @@ export const CreateModpack = () => {
         {/* Modpack description field, multi line. */}
         {/* In order to make the modpack field multi line, we need to use a textarea instead of an input. */}
         <textarea
-          className={`min-h-[100px] rounded-md border-2 bg-bg ${borderColorVariants[borderColor]}  px-3 py-1 out-of-range:border-red-500 `}
+          className={`min-h-[100px] rounded-md border bg-bg ${borderColorVariants[borderColor]}  px-3 py-1 out-of-range:border-red-500 `}
           placeholder="Modpack Description"
           value={modpackDescription}
           name="description"
@@ -285,7 +285,7 @@ export const CreateModpack = () => {
                   "flex items-center justify-center rounded-full px-3 py-1 text-sm transition-all hover:bg-opacity-80",
                   modpackTags.includes(tagOption.value)
                     ? `bg-${borderColor}-500 text-bg dark:text-bg `
-                    : `bg-slate-300 text-text dark:bg-slate-700`
+                    : `bg-slate-300 text-text-1 dark:bg-slate-700`
                 )}
                 onClick={() => {
                   if (modpackTags.includes(tagOption.value)) {
@@ -319,7 +319,7 @@ export const CreateModpack = () => {
             </svg>
 
             <DebounceInput
-              className="spacer-left h-8 w-full rounded-md border-2 bg-bg py-1 pr-3 focus:border-transparent focus:outline-none focus:ring-0 active:border-none active:outline-none "
+              className="spacer-left h-8 w-full rounded-md border bg-bg py-1 pr-3 focus:border-transparent focus:outline-none focus:ring-0 active:border-none active:outline-none "
               type="text"
               placeholder="Search for Version '1.2'"
               name="minecraftVersion"
@@ -367,7 +367,7 @@ export const CreateModpack = () => {
                       return (
                         <li
                           key={version.id}
-                          className="relative cursor-pointer select-none py-2 pl-3 pr-9  text-text/70 hover:bg-sec hover:bg-opacity-20 "
+                          className="relative cursor-pointer select-none py-2 pl-3 pr-9  text-text-1/[.75] hover:bg-sec hover:bg-opacity-20 "
                           onClick={() => {
                             setModpackVersion(version.name);
                             setVersionFilterByInput([version.name]);
@@ -376,7 +376,7 @@ export const CreateModpack = () => {
                           <div className="flex items-center justify-center gap-2 tracking-widest">
                             <span className="truncate  tracking-widest">
                               {beforeStr}
-                              <span className=" font-normal tracking-widest text-text">
+                              <span className=" font-normal tracking-widest text-text-1">
                                 {matchStr}
                               </span>
                               {afterStr}
@@ -395,7 +395,7 @@ export const CreateModpack = () => {
 
         {/*Color selection*/}
         <select
-          className={`h-8 cursor-pointer rounded-md border-2 dark:text-bg ${borderColorVariants[borderColor]}   px-3 py-1 font-Tilt`}
+          className={`h-8 cursor-pointer rounded-md border dark:text-bg ${borderColorVariants[borderColor]}   px-3 py-1 font-Tilt`}
           name="color"
           defaultValue="Sky"
           onChange={(e) => {
@@ -415,7 +415,7 @@ export const CreateModpack = () => {
 
         <input
           required
-          className={`h-8 rounded-md border-2 bg-bg ${borderColorVariants[borderColor]} px-3 py-1`}
+          className={`h-8 rounded-md border bg-bg ${borderColorVariants[borderColor]} px-3 py-1`}
           type="text"
           placeholder="Official URL"
           name="officialUrl"
@@ -424,7 +424,7 @@ export const CreateModpack = () => {
         {/* Modpack suggestor field, single line. */}
         {/* <SuggestedByUserSearch /> */}
         <div className="grid">
-          <label htmlFor="suggestor" className="text-text/50 dark:text-text/70">
+          <label htmlFor="suggestor" className="text-text-1/[.75]">
             Suggested By
           </label>
           <input
@@ -446,7 +446,7 @@ export const CreateModpack = () => {
         )}
 
         <button
-          className={`h-10 rounded-md border-2 border-black hover:bg-opacity-80 disabled:bg-slate-600 bg-${borderColor}-500 px-3 py-1 text-sm  xl:text-base`}
+          className={`h-10 rounded-md border border-black hover:bg-opacity-80 disabled:bg-slate-600 bg-${borderColor}-500 px-3 py-1 text-sm  xl:text-base`}
           disabled={addModpackMutation.isLoading || !isValid}
           type="submit"
         >

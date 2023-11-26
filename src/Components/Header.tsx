@@ -54,7 +54,7 @@ const Header = () => {
           ref={ref}
           className="relative hidden h-[140px] items-center justify-center text-sm md:grid xl:h-[170px] xl:text-base "
         >
-          <div className="pointer-events-none absolute inset-0 m-auto bg-gradient-to-t from-acc to-pri dark:brightness-50"></div>
+          <div className="pointer-events-none absolute inset-0 m-auto bg-gradient-to-t from-bg to-acc/30 "></div>
           <img
             alt="CDU"
             src="/logo.png"
@@ -68,7 +68,7 @@ const Header = () => {
       )}
       <nav
         className={twMerge(
-          "top-0  z-10 flex w-full items-center justify-stretch gap-2 bg-gradient-to-b  from-acc/10 to-sec/[.15] px-2 py-1 text-text   md:justify-center md:px-4 lg:mx-auto lg:min-w-[900px] lg:max-w-[900px]",
+          "top-0 z-10 flex w-full md:mb-4 items-center justify-stretch gap-2  py-1 text-text-1 md:justify-center px-4 ",
           isIntersecting ? "relative" : "sticky bg-bg  shadow-md ",
           window.location.pathname !== "/" ||
             window.location.pathname.includes("list")
@@ -169,7 +169,7 @@ const Header = () => {
           {/* the track for the toggle */}
           <label
             htmlFor="theme"
-            className="flex h-8 w-16 cursor-pointer items-center justify-center rounded-full bg-text/20 p-1 transition-all "
+            className="flex h-8 w-16 cursor-pointer items-center justify-center rounded-full bg-pri/20 p-1 transition-all "
           >
             <span className="sr-only">Toggle Theme</span>
             {/* this is the white ball inside track */}
@@ -232,23 +232,30 @@ const Header = () => {
               </p>
               <div className=" focus:ring-bkg/90 group/header__menu relative z-10 flex aspect-[1.08] w-12 items-center rounded-full  font-medium focus:outline-none focus:ring-4">
                 <img
-                  className="h-full w-full cursor-pointer opacity-90 hover:opacity-100"
-                  src={
-                    user?.isLinked ? user?.playerData?.mc_head_url : "steve.png"
-                  }
-                  alt={user?.username ? `${user?.username}'s avatar` : "avatar"}
+                  className="h-full w-full cursor-pointer opacity-90 hover:opacity-100 italic text-xs block"
+                 
+                  src={`https://mc-heads.net/head/${user?.playerData?.username}`}
+                  alt={user?.username ? `${user?.username}'s head` : "head"}
+                  width={32}
+                  height={32}
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.onerror = null;
+                    target.src = "/steve.png";
+                    return;
+                  }}
                 />
                 <div className="absolute -right-2 top-10 pt-5  ">
                   <div
-                    className={`dropdown-body rounded-lg bg-bg shadow-md group-hover/header__menu:block`}
+                    className={`dropdown-body rounded-lg bg-card shadow-md group-hover/header__menu:block`}
                   >
                     <ul
-                      className="space-y-1 rounded-lg bg-bg p-1 text-base font-medium text-text shadow-md"
+                      className="space-y-1 rounded-lg bg-card p-1 text-base font-medium text-text-1 shadow-md"
                       aria-labelledby="dropdown-button"
                     >
                       <li
                         data-tip="How to get Linked"
-                        className="active:bg-text/15 mb-1 flex w-full cursor-pointer gap-1 rounded-lg transition-all  last:mb-0 hover:bg-text/10"
+                        className="active:bg-pri/15 mb-1 flex w-full cursor-pointer gap-1 rounded-lg transition-all  last:mb-0 hover:bg-pri/10"
                       >
                         <a
                           type="button"
@@ -263,7 +270,7 @@ const Header = () => {
                           {user?.isLinked ? "linked" : "unlinked"}
                         </a>
                       </li>
-                      <li className="active:bg-text/15 mb-1 flex w-full cursor-pointer gap-1 rounded-lg px-3 py-1 transition-all  last:mb-0 hover:bg-text/10">
+                      <li className="active:bg-pri/15 mb-1 flex w-full cursor-pointer gap-1 rounded-lg px-3 py-1 transition-all  last:mb-0 hover:bg-pri/10">
                         <LogoutButton />
                       </li>
                     </ul>

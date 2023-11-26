@@ -47,7 +47,7 @@ export function Dialog({
             <div className="dialog-accent-border group-hover:duration-2000 group-hover:opacity-100"></div>
             <div
               ref={dialog}
-              className="dialog-content-container place-items-center text-bg dark:text-text"
+              className="dialog-content-container place-items-center text-bg"
             >
               {contents}
             </div>
@@ -102,7 +102,7 @@ export function DropDown({
       className="dialog-backdrop "
     >
       <div
-        className={`w-min-content absolute z-[9999] rounded-xl border border-text/20 bg-bg text-text shadow ${position}`}
+        className={`w-min-content absolute z-[9999] rounded-xl border border-text/20 bg-bg text-text-1 shadow ${position}`}
         ref={dropdown}
       >
         {contents}

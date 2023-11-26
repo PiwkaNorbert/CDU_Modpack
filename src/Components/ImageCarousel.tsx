@@ -129,21 +129,21 @@ export const ImageCarousel = ({
   };
 
   return (
-    <div className="w-full overflow-hidden scroll-smooth">
+    <div className="w-full overflow-hidden ">
       {/* make primary image button */}
 
       <div className="group relative mx-auto ">
         <div className="z-[5] flex h-full w-full overflow-hidden  rounded-md ">
           {galleryImages.map(
             ({ imageUrl }: { imageUrl: string }, index: number) => (
-              <img
+              <LazyLoadImage
                 key={index}
                 src={`${apiBase}${imageUrl}`}
                 alt={`Modpack Image ${index + 1}`}
                 style={{
                   transform: `translateX(${-100 * currentImageIndex}%)`,
                 }}
-                className={` block  w-full shrink-0 grow-0 rounded-md border-2 object-cover transition-all duration-300  ${borderColorVariants[color]} ${bgColorVariants[color]}`}
+                className={` block min-h-[190px] md:min-h-[170px] lg:min-h-[236px] xl:min-h-[290px] 2xl:min-h-[349px]  w-full shrink-0 grow-0 rounded-md border object-cover transition-all duration-300  ${borderColorVariants[color]} ${bgColorVariants[color]}`}
               />
             )
           )}
@@ -155,7 +155,7 @@ export const ImageCarousel = ({
                 aria-label="Previous Image"
                 onClick={handlePrevImage}
                 className={twMerge(
-                  `flex h-full w-20 items-center justify-center overflow-hidden rounded-l-lg border-2 text-bg opacity-0 transition-all group-hover:opacity-100 dark:bg-bg dark:text-text ${borderColorVariants[color]} border-r-0 bg-text bg-opacity-50 hover:bg-opacity-60 dark:bg-bg dark:bg-opacity-50 dark:text-text dark:hover:bg-opacity-60`,
+                  `flex h-full w-20 items-center justify-center overflow-hidden rounded-l-lg border text-bg dark:text-text-1 opacity-0 transition-all group-hover:opacity-100 ${borderColorVariants[color]} border-r-0 bg-pri/10 hover:bg-pri/30 dark:bg-card/90 dark:hover:bg-card  `,
                   galleryImages?.length === 1 && "hidden"
                 )}
               >
@@ -183,7 +183,7 @@ export const ImageCarousel = ({
                     {/*  */}
                     <button
                       disabled={primaryImageMutation.isLoading}
-                      className="last:active:bg-text/15 flex cursor-pointer items-center gap-2 rounded-lg bg-text bg-opacity-70 px-4 py-2 text-blue-500  opacity-0 transition-all hover:bg-opacity-80  disabled:cursor-auto disabled:bg-slate-300   disabled:text-slate-500  group-hover/buttons:opacity-100  dark:bg-bg dark:bg-opacity-90  dark:hover:bg-opacity-100 dark:disabled:bg-slate-700  dark:disabled:text-slate-500 "
+                      className="active:bg-pri/15 flex cursor-pointer items-center gap-2 rounded-lg bg-pri/70 px-2 py-1 text-blue-500  opacity-0 transition-all disabled:cursor-auto disabled:bg-slate-300 disabled:text-slate-500 group-hover/buttons:opacity-100 hover:bg-pri/60 dark:bg-card/90 dark:hover:bg-card dark:disabled:bg-slate-700 dark:disabled:text-slate-500 "
                       onClick={() => {
                         if (primaryImageMutation.isLoading) return;
                         primaryImageMutation.mutate();
@@ -195,7 +195,7 @@ export const ImageCarousel = ({
                     </button>
                     <button
                       disabled={deleteImageMutation.isLoading}
-                      className="last:active:bg-text/15  flex cursor-pointer items-center gap-2 rounded-lg bg-text bg-opacity-70  px-4 py-2 text-red-500 opacity-0 transition-all hover:bg-opacity-80  disabled:cursor-auto  disabled:bg-slate-300 disabled:text-slate-500 group-hover/buttons:opacity-100  dark:bg-bg  dark:bg-opacity-90   dark:hover:bg-opacity-100 dark:disabled:bg-slate-700  dark:disabled:text-slate-500  "
+                      className="active:bg-pri/15  flex cursor-pointer items-center gap-2 rounded-lg bg-pri/70 px-2 py-1 text-red-500 opacity-0 transition-all disabled:cursor-auto  disabled:bg-slate-300 disabled:text-slate-500 group-hover/buttons:opacity-100 hover:bg-pri/60 dark:bg-card/90 dark:hover:bg-card dark:disabled:bg-slate-700 dark:disabled:text-slate-500  "
                       onClick={() => {
                         if (deleteImageMutation.isLoading) return;
                         if (
@@ -218,7 +218,7 @@ export const ImageCarousel = ({
                 aria-label="Next Image"
                 onClick={handleNextImage}
                 className={twMerge(
-                  `flex h-full w-20 items-center  justify-center overflow-hidden rounded-r-lg border-2 text-bg opacity-0  transition-all group-hover:opacity-100 dark:bg-bg  dark:text-text ${borderColorVariants[color]} border-l-0 bg-text bg-opacity-50 hover:bg-opacity-60 dark:bg-opacity-50 dark:text-text dark:hover:bg-opacity-60 `,
+                  `flex h-full w-20 items-center  justify-center overflow-hidden rounded-r-lg border text-bg dark:text-text-1 opacity-0  transition-all group-hover:opacity-100 ${borderColorVariants[color]} border-l-0 bg-pri/10 hover:bg-pri/30  dark:bg-card/90 dark:hover:bg-card `,
                   galleryImages?.length === 1 && "hidden"
                 )}
               >
@@ -260,10 +260,10 @@ export const ImageCarousel = ({
                       width="96"
                       height="54"
                       className={twMerge(
-                        "   aspect-video w-24 shrink-0 grow-0 cursor-pointer snap-center rounded-md  border-2 bg-text/50 object-cover transition-all  focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-gray-800 dark:bg-bg   ",
+                        "   aspect-video w-24 shrink-0 grow-0 cursor-pointer snap-center rounded-md border bg-text/50 object-cover transition-all  focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-gray-800 dark:bg-bg   ",
                         currentImageIndex === index
                           ? `border-bg/90 shadow-inner outline outline-2 `
-                          : `border-text/50 hover:border-text/90 hover:shadow-inner`
+                          : `border-text-1/50 hover:border-text-1/90 hover:shadow-inner`
                       )}
                       onClick={() => {
                         setCurrentImageIndex(index);
@@ -310,7 +310,7 @@ export const ImageCarousel = ({
                 className="w-full md:w-[600px] lg:w-[896px] "
               />
               <button
-                className="w-full bg-black py-2 text-bg  hover:bg-sec/20 hover:text-text dark:text-text dark:hover:bg-hover-2 dark:hover:text-text"
+                className="w-full bg-pri text-bg py-2 hover:bg-pri/80 transition-all "
                 onClick={() => setShowModal(false)}
                 aria-label="Close Modal"
               >

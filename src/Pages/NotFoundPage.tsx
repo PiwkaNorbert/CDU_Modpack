@@ -34,11 +34,11 @@ const NotFoundPage = () => {
   }, [navigate, timeleftRef]);
 
   return (
-    <div className="h-4xl my-10 flex w-full flex-col items-center justify-center  bg-bg text-center text-xl text-text xl:text-2xl">
-      <h1 className="mb-5 text-center text-5xl/[1.1] font-semibold leading-tight md:text-6xl/[1.1] lg:text-7xl/[1.1]">
+    <div className="my-10 grid justify-items-center py-20 h-full relative w-full justify-normal bg-card border border-border pb-10 dark:border-none dark:shadow md:mb-4 md:rounded-md md:border-none md:shadow-xl text-text-1 lg:mx-auto  lg:w-[900px] xl:w-[1100px] 2xl:w-[1300px] ">
+      <h1 className="my-5 text-center text-5xl/[1.1] font-semibold leading-tight md:text-6xl/[1.1] lg:text-7xl/[1.1]">
         Page Not Found
       </h1>
-      <h3 className="mb-6 text-2xl/[1.1] font-bold capitalize leading-tight text-text/50 md:text-3xl/[1.1] lg:text-4xl/[1.1]">
+      <h3 className="mb-6 text-2xl/[1.1] font-bold capitalize leading-tight text-text-1/50 md:text-3xl/[1.1] lg:text-4xl/[1.1]">
         Error 404
       </h3>
 
@@ -48,7 +48,7 @@ const NotFoundPage = () => {
 
       {/* button to return to homepage */}
       <Link
-        className="rounded-md border-2 border-black bg-text px-4 py-2 text-sm text-bg hover:bg-opacity-80 disabled:bg-slate-600 dark:text-bg xl:text-base"
+        className="rounded-md border border-border bg-text px-4 py-2 text-sm text-text-1 dark:text-text-1 hover:bg-opacity-80 disabled:bg-slate-600  xl:text-base"
         to={"/"}
       >
         Return to Homepage
