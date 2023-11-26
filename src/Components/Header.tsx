@@ -175,7 +175,7 @@ const Header = () => {
             {/* this is the white ball inside track */}
             <span
               className={twMerge(
-                "z-[5] inline-block h-6 w-6 transform rounded-full bg-white shadow-lg transition-all  group-hover:bg-pri",
+                "z-[5] inline-block h-6 w-6 transform rounded-full bg-card shadow-lg transition-all  group-hover:bg-card/80 dark:bg-text-1 dark:group-hover:bg-text-1/80",
                 theme ? "translate-x-4" : "-translate-x-4"
               )}
             ></span>
