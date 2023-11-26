@@ -77,11 +77,11 @@ const ModpackListView = ({
     <>
       <section
         id="modpack__gallery"
-        className="grid h-full w-full justify-normal self-center text-text-1 lg:mx-auto px-2 sm:px-0 lg:w-[900px] xl:w-[1100px] 2xl:w-[1300px]   "
+        className="grid h-full w-full justify-normal self-center text-text-1 lg:mx-auto px-4 lg:px-0 lg:w-[900px] xl:w-[1100px] 2xl:w-[1300px]   "
       >
         {/* set the width to ffit the content and assign them to sm md lg for the container  like lg:max-w-[1000px]
         below and assthese same things to the nav width*/}
-        <div className="border-t-2 dark:border-none md:mb-4 md:rounded-b-xl md:border-none   ">
+        <div className="border-t-2 dark:border-none md:mb-4  md:rounded-b-xl md:border-none   ">
           {/* map the data variable in a grad 4x2  */}
           <div className=" grid w-full sm:grid-cols-[1fr_1fr_1fr] sm:justify-between gap-4 text-xl text-text-1 justify-items-center items-center sm:gap-0 xl:text-2xl ">
             {/* Show this button if you're logged in and a staff member */}
