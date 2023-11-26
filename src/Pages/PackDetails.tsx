@@ -230,9 +230,9 @@ const PackDetails = ({ category }: { category: string }) => {
         className="grid h-full relative w-full justify-normal bg-card border border-border pb-4 dark:border-none dark:shadow md:mb-4 md:rounded-md md:border-none md:shadow-xl text-text-1 lg:mx-auto  lg:w-[900px] xl:w-[1100px] 2xl:w-[1300px]   "
       >
           <div className="grid h-full items-center lg:rounded-md">
-            <div className="mt-1 flex justify-between gap-2 px-4 pt-4 max-[640px]:flex-col sm:gap-0 md:px-8 ">
+            <div className=" flex justify-between gap-2 px-4 pt-4 max-[640px]:flex-col sm:gap-0 md:px-8 ">
               {user?.isLoggedIn && (
-                <div className=" z-[5] mx-auto -mt-5 flex w-fit flex-col justify-center  gap-4 rounded-b-lg border border-t-0 border-gray-100 bg-gray-50 p-4 text-center text-sm uppercase empty:hidden  dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300  max-[500px]:w-full sm:hidden  md:mt-0 md:flex-row lg:text-base lg:font-medium ">
+                <div className=" z-[5] mx-auto -mt-4 flex w-fit flex-col justify-center  gap-4 rounded-b-lg border border-t-0 border-gray-100 shadow-custom bg-gray-50 p-4 text-center text-sm uppercase empty:hidden  dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300  max-[500px]:w-full sm:hidden  md:mt-0 md:flex-row lg:text-base lg:font-medium ">
                   {`${user?.votesRemaining} ${
                     user?.votesRemaining == 1 ? "vote" : "votes"
                   } remaining this month`}

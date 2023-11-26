@@ -230,14 +230,14 @@ const Header = () => {
                 <br />
                 {user?.globalName}
               </p>
-              <div className=" focus:ring-bkg/90 group/header__menu relative z-10 flex aspect-[1.08] w-12 items-center rounded-full  font-medium focus:outline-none focus:ring-4">
+              <div className=" focus:ring-bkg/90 group/header__menu relative z-10 flex aspect-[180/191] h-12  items-center rounded-full  font-medium focus:outline-none focus:ring-4">
                 <img
                   className="h-full w-full cursor-pointer opacity-90 hover:opacity-100 italic text-xs block"
                  
                   src={`https://mc-heads.net/head/${user?.playerData?.username}`}
                   alt={user?.username ? `${user?.username}'s head` : "head"}
-                  width={32}
-                  height={32}
+                  width={45.23}
+                  height={48}
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
                     target.onerror = null;

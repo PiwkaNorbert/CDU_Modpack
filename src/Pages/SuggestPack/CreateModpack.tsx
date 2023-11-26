@@ -313,7 +313,7 @@ export const CreateModpack = () => {
               height={20}
               fill="currentColor"
               viewBox="0 0 256 256"
-              className="pointer-events-none absolute inset-y-0 left-0 ml-2 flex h-5 w-5 items-center"
+              className="pointer-events-none absolute inset-y-0 my-auto h-full left-0 ml-2 flex  w-5 items-center"
             >
               <path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"></path>
             </svg>
@@ -321,7 +321,7 @@ export const CreateModpack = () => {
             <DebounceInput
               className="spacer-left h-8 w-full rounded-md border bg-bg py-1 pr-3 focus:border-transparent focus:outline-none focus:ring-0 active:border-none active:outline-none "
               type="text"
-              placeholder="Search for Version '1.2'"
+              placeholder="Select minecraft version"
               name="minecraftVersion"
               minLength={1}
               debounceTimeout={500}

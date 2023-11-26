@@ -48,7 +48,7 @@ const ModpackCard = (props: IModpack) => {
   return (
     <div
       key={modpackId}
-      className={`relative z-[1]  flex justify-center   text-text-1 lg:min-h-[109px] lg:min-w-[194px]  `}
+      className={`relative z-[1]  justify-center text-text-1 lg:min-h-[109px] lg:min-w-[194px] transition-transform hover:scale-[102%] `}
       onMouseEnter={() => {
         queryClient.prefetchQuery(["pack-details", modpackId], () =>
           fetchPackDetail(modpackId as string)
@@ -57,9 +57,8 @@ const ModpackCard = (props: IModpack) => {
     >
       <Link
         to={`${currentPlace}/${modpackId}`}
-        className={`w-full  rounded-md  bg-card shadow-custom hover:shadow-lg hover:scale-[102%] transition-transform border ${borderColorVariants[color]}`}
+        className={`w-full rounded-md overflow-hidden grid  shadow-custom hover:shadow-lg  ${bgColorVariants[color]} border-2 ${borderColorVariants[color]}`}
       >
-          <div className="flex h-full w-full flex-1 flex-col overflow-hidden text-base/[1.25rem]">
             {/* toggle images in production */}
             <LazyLoadImage
               src={`${apiBase}${
@@ -70,8 +69,8 @@ const ModpackCard = (props: IModpack) => {
               loading={+modpackId > 8 ? "lazy" : "eager"}
               width="275"
               height="155"
-              placeholderSrc={`/src/assets/placeholderImg.png`}
-              className={`block w-full shrink-0 grow-0 border-b-[3.5px] object-cover text-right ${bgColorVariants[color]} ${borderColorVariants[color]}  `}
+              placeholderSrc={`/src/assets/16.png`}
+              className={` w-full shrink-0 grow-0 border-b-2 rounded-t object-cover text-right ${borderColorVariants[color]}`}
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
                 target.onerror = null;
@@ -83,16 +82,15 @@ const ModpackCard = (props: IModpack) => {
             />
 
             <p
-              className={`text-content ${
-                !(isPublished || isArchived) ? "pb-[.3rem]" : " mb-4 pb-[.1rem]"
-              } flex h-[72px] min-h-max items-center justify-center hyphens-auto px-2 pt-[.3rem] text-center uppercase`}
+              className={`text-content bg-card ${
+                !(isPublished || isArchived) ? "pb-[.3rem]" : "pb-[1.1rem]"
+              } flex h-[72px] min-h-max items-center justify-center hyphens-auto px-2  text-center uppercase`}
             >
               {name}
             </p>
-          </div>
           {!(isPublished || isArchived) ? null : (
                 <div
-                  className={`absolute left-0 right-0 mx-auto flex h-9 divide-x overflow-hidden shadow-custom -bottom-[22px] rounded-full border bg-card px-2 py-1 ${borderColorVariants[color]} `}
+                  className={`absolute left-0 right-0 mx-auto flex h-9 divide-x overflow-hidden hover:shadow-lg shadow-custom -bottom-[22px] rounded-full border-2 bg-card px-2 py-1 ${borderColorVariants[color]} `}
                   style={{ maxWidth: 'fit-content' }}
                 >
                   <div className="flex items-center gap-1 pr-2">
