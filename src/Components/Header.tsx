@@ -68,7 +68,7 @@ const Header = () => {
       )}
       <nav
         className={twMerge(
-          "top-0 z-10 flex w-full md:mb-4 items-center justify-stretch gap-2  py-1 text-text-1 md:justify-center px-4 2xl:w-[1300px] 2xl:mx-auto ",
+          "top-0 z-10 flex w-full md:mb-4 items-center justify-stretch gap-2  py-1 text-text-1 md:justify-center px-4 xl:px-0 xl:w-[1100px] 2xl:w-[1300px] xl:mx-auto ",
           isIntersecting ? "relative" : "sticky bg-bg  shadow-md ",
           window.location.pathname !== "/" ||
             window.location.pathname.includes("list")
@@ -233,7 +233,6 @@ const Header = () => {
               <div className=" focus:ring-bkg/90 group/header__menu relative z-10 flex aspect-[180/191] h-12  items-center rounded-full  font-medium focus:outline-none focus:ring-4">
                 <img
                   className="h-full w-full cursor-pointer opacity-90 hover:opacity-100 italic text-xs block"
-                 
                   src={`https://mc-heads.net/head/${user?.playerData?.username}`}
                   alt={user?.username ? `${user?.username}'s head` : "head"}
                   width={45.23}

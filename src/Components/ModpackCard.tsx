@@ -44,11 +44,10 @@ const ModpackCard = (props: IModpack) => {
     isArchived,
     // isSponsored,
   } = props;
-
   return (
     <div
       key={modpackId}
-      className={`relative z-[1]  justify-center text-text-1 lg:min-h-[109px] lg:min-w-[194px] transition-transform hover:scale-[102%] `}
+      className={`relative z-[1] flex justify-center rounded-md border-2 text-text transition-transform hover:scale-[102%] hover:shadow-lg shadow-custom lg:min-h-[109px] lg:min-w-[194px] ${borderColorVariants[color]} ${bgColorVariants[color]} `}
       onMouseEnter={() => {
         queryClient.prefetchQuery(["pack-details", modpackId], () =>
           fetchPackDetail(modpackId as string)
@@ -57,8 +56,10 @@ const ModpackCard = (props: IModpack) => {
     >
       <Link
         to={`${currentPlace}/${modpackId}`}
-        className={`w-full rounded-md overflow-hidden grid  shadow-custom hover:shadow-lg  ${bgColorVariants[color]} border-2 ${borderColorVariants[color]}`}
+        className={`w-full overflow-hidden rounded bg-card`}
       >
+        <div className="flex h-full justify-center rounded-md hover:text-opacity-100">
+          <div className="flex h-full w-full flex-1 flex-col overflow-hidden text-base/[1.25rem]">
             {/* toggle images in production */}
             <LazyLoadImage
               src={`${apiBase}${
@@ -69,40 +70,37 @@ const ModpackCard = (props: IModpack) => {
               loading={+modpackId > 8 ? "lazy" : "eager"}
               width="275"
               height="155"
-              placeholderSrc={`/src/assets/16.png`}
-              className={` w-full shrink-0 grow-0 border-b-2 rounded-t object-cover text-right ${borderColorVariants[color]}`}
-              onError={(e) => {
-                const target = e.target as HTMLImageElement;
-                target.onerror = null;
-                target.src = "/steve.png";
-                e.currentTarget.src = "/cross.png";
-                return;
-              }}
-           
+              placeholderSrc={`/src/assets/placeholderImg.png`}
+              className={`block w-full shrink-0 grow-0 border-b-2 object-cover text-right ${bgColorVariants[color]} ${borderColorVariants[color]}  `}
             />
 
             <p
-              className={`text-content bg-card ${
-                !(isPublished || isArchived) ? "pb-[.3rem]" : "pb-[1.1rem]"
-              } flex h-[72px] min-h-max items-center justify-center hyphens-auto px-2  text-center uppercase`}
+              className={`text-content ${
+                !(isPublished || isArchived) ? "pb-[.3rem]" : " mb-4 pb-[.1rem]"
+              } flex h-[72px] min-h-max items-center justify-center hyphens-auto px-2 pt-[.3rem] text-center uppercase`}
             >
               {name}
             </p>
+          </div>
           {!(isPublished || isArchived) ? null : (
-                <div
-                  className={`absolute left-0 right-0 mx-auto flex h-9 divide-x overflow-hidden hover:shadow-lg shadow-custom -bottom-[22px] rounded-full border-2 bg-card px-2 py-1 ${borderColorVariants[color]} `}
-                  style={{ maxWidth: 'fit-content' }}
-                >
-                  <div className="flex items-center gap-1 pr-2">
-                    {timesVoted > 0 ? <HeartFillSVG /> : <HeartSVG />}
-                    <p>{voteCount}</p>
-                  </div>
-                  <div className="flex items-center gap-1 pl-2">
-                    <CommentBubbleSVG />
-                    <p>{commentCount}</p>
-                  </div>
-                </div>
-              )}
+            <div
+              className={`absolute flex h-9 shadow-custom hover:shadow-lg divide-x overflow-hidden rounded-full border-2 bg-card px-2 py-1 text-text ${borderColorVariants[color]} -bottom-[22px]  items-center text-base `}
+            >
+              <div className="flex items-center gap-1 pr-2">
+                <picture className={`flex`}>
+                  {timesVoted > 0 ? <HeartFillSVG /> : <HeartSVG />}
+                </picture>
+                <p>{voteCount}</p>
+              </div>
+              <div className="flex items-center gap-1 pl-2">
+                <picture className={`flex `}>
+                  <CommentBubbleSVG />
+                </picture>
+                <p>{commentCount}</p>
+              </div>
+            </div>
+          )}
+        </div>
       </Link>
     </div>
   );
