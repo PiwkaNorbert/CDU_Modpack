@@ -13,7 +13,7 @@ import { DebounceInput } from "react-debounce-input";
 import useMCVersionData from "../../API/useMCVersionData";
 import Loading from "../../Components/Loading";
 
-export const CreateModpack = () => {
+export default function CreateModpack() {
   const [modpackDescription, setModpackDescription] = useState<string>("");
   const [modpackColor, setModpackColor] = useState<string>("sky");
   const [modpackTags, setModpackTags] = useState<string[]>([]);

@@ -1,15 +1,12 @@
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import usePackDetailData from "../API/usePackDetailData";
-import { IModpack, IPackDetails } from "../Utils/Interfaces";
+import { IPackDetails } from "../Utils/Interfaces";
 import Loading from "../Components/Loading";
 import VoteForPackButton from "../Components/VoteForPackButton";
 import useUser from "../Context/useUser";
-import axios from "axios";
-import { toast } from "react-toastify";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate, Link } from "react-router-dom";
-import { useEffect } from "react";
-import { errorHandling } from "../Helper/errorHandling";
+import { useEffect, Suspense, lazy } from "react";
 import { tagMap } from "../Helper/modifyModpack";
 
 // enable with the comment component
@@ -17,13 +14,17 @@ import { tagMap } from "../Helper/modifyModpack";
 // import { CommentsComponent } from "../Components/CommentsComponent";
 // import PostComment from "../Components/PostComment";
 
-import { apiBase, borderColorVariants, textColorVariants } from "../Constants";
+import { borderColorVariants, textColorVariants } from "../Constants";
 import { ImageCarousel } from "../Components/ImageCarousel";
 import { twMerge } from "tailwind-merge";
 
+const RejectModpackBtn = lazy(() => import("../Components/ActionButtons/RejectModpackBtn"));
+const DeleteModpackBtn = lazy(() => import("../Components/ActionButtons/DeleteModpackBtn"));
+const ArchiveModpackBtn = lazy(() => import("../Components/ActionButtons/ArchiveModpackBtn"));
+const PublishModpackBtn = lazy(() => import("../Components/ActionButtons/PublishModpackBtn"));
+
 const PackDetails = ({ category }: { category: string }) => {
   const { modpackId: id } = useParams();
-  const { pathname } = useLocation();
   const modpackId = id as string;
 
   const {
@@ -43,20 +44,6 @@ const PackDetails = ({ category }: { category: string }) => {
   }modpack/${modpackId}`;
   const returnToButton = category === "main" ? "/" : `/list-${category}-packs`;
 
-  function returnToLists({ message }: { message: string }) {
-    toast.success(`${message}! 👌`);
-
-    if (pathname.includes("archived")) {
-      updateModpackInList(["modpacks", "archived"]);
-      return navigate("/list-archived-modpacks");
-    } else if (pathname.includes("suggested")) {
-      updateModpackInList(["modpacks", "suggested"]);
-      return navigate("/list-suggested-modpacks");
-    } else {
-      updateModpackInList(["modpacks"]);
-      return navigate("/");
-    }
-  }
 
   useEffect(() => {
     if (isLoading) return;
@@ -69,114 +56,6 @@ const PackDetails = ({ category }: { category: string }) => {
       return navigate(`/suggested-pack-details/${data?.modpackId}`);
     }
   }, [data, isLoading, navigate]);
-
-  const deleteModpack = async () =>
-    await axios.delete(`${apiBase}/api/delete-modpack`, {
-      withCredentials: true,
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: {
-        modpackId,
-      },
-    });
-
-  const archiveModpack = async () =>
-    await axios.post(
-      `${apiBase}/api/archive-modpack`,
-      { modpackId },
-      {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-
-  const updateModpackInList = (listName: string[]) => {
-    queryClient.setQueryData(listName, (oldData) => {
-      const newData = oldData as IModpack[];
-      return newData.filter(
-        (modpack: IModpack) => modpack.modpackId !== modpackId
-      );
-    });
-  };
-
-  const archiveModpackMutation = useMutation(archiveModpack, {
-    onSuccess: ({ data }) => {
-      returnToLists(data);
-    },
-    onError: (error) => {
-      if (error instanceof Error) {
-        return errorHandling(error);
-      }
-      throw error;
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries([
-        "modpacks",
-        "pack-details",
-        "suggested",
-        "archived",
-        modpackId,
-      ]);
-    },
-  });
-
-  const deleteModpackMutation = useMutation(deleteModpack, {
-    onSuccess: ({ data }) => {
-      returnToLists(data);
-    },
-    onError: (error) => {
-      if (error instanceof Error) {
-        return errorHandling(error);
-      }
-      throw error;
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries(["pack-details", modpackId], {
-        exact: true,
-      });
-      queryClient.invalidateQueries([
-        "modpacks",
-        "suggested-modpacks",
-        "archived-modpacks",
-      ]);
-    },
-  });
-  const publishModpackMutation = useMutation(
-    () =>
-      axios.post(
-        `${apiBase}/api/publish-modpack`,
-        { modpackId },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        }
-      ),
-    {
-      onSuccess: ({ data }) => {
-        queryClient.setQueryData(
-          ["modpacks", "pack-details", modpackId],
-          data.modpack
-        );
-        toast.success(data.message);
-
-        return (window.location.pathname = `/pack-details/${modpackId}`);
-      },
-      onError: (error) => {
-        if (error instanceof Error) {
-          return errorHandling(error);
-        }
-        throw error;
-      },
-      onSettled: () => {
-        queryClient.invalidateQueries(["modpacks", "pack-details", modpackId]);
-      },
-    }
-  );
 
   if (isLoading) return <Loading size="la-lx" fullScreen={true} other="" />;
   if (isError)
@@ -204,7 +83,6 @@ const PackDetails = ({ category }: { category: string }) => {
     description,
     color,
     galleryImages,
-    // comments,
     voteCount,
     officialUrl,
     tags,
@@ -214,6 +92,7 @@ const PackDetails = ({ category }: { category: string }) => {
     timesVotedThisMonth,
     mcVersion,
   }: // isArchived,
+  // comments,
   // isPublished,
   IPackDetails = data;
 
@@ -225,11 +104,11 @@ const PackDetails = ({ category }: { category: string }) => {
   return (
     <>
       <section
-        id="modpack__details"
+        id="modpack__layout"
         key={modpackId}
-        className="grid h-full relative w-full justify-normal bg-card border border-border pb-4 dark:border-none dark:shadow md:mb-4 md:rounded-md md:border-none md:shadow-xl text-text-1 lg:mx-auto  lg:w-[900px] xl:w-[1100px] 2xl:w-[1300px]   "
+        className="grid h-full relative w-full justify-normal bg-card border border-border pb-4 dark:border-none dark:shadow md:mb-4 lg:rounded-md md:border-none md:shadow-xl text-text-1 lg:mx-auto  lg:w-[900px] xl:w-[1100px] 2xl:w-[1300px]   "
       >
-        <div className="grid h-full items-center lg:rounded-md">
+        <div>
           <div className=" flex justify-between gap-2 px-4 pt-4 max-[640px]:flex-col sm:gap-0 md:px-8 ">
             {user?.isLoggedIn && (
               <div className=" z-[5] mx-auto -mt-4 flex w-fit flex-col justify-center  gap-4 rounded-b-lg border border-t-0 border-gray-100 shadow-custom bg-gray-50 p-4 text-center text-sm uppercase empty:hidden  dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300  max-[500px]:w-full sm:hidden  md:mt-0 md:flex-row lg:text-base lg:font-medium ">
@@ -241,12 +120,12 @@ const PackDetails = ({ category }: { category: string }) => {
 
             {/* backarrow to the root page */}
             <Link
-              className="flex min-w-fit cursor-pointer items-center gap-2 rounded-md px-3 py-1 text-sm text-text-1 hover:bg-text-1/10 active:bg-text-1/20 lg:text-base transition-all  lg:font-medium"
+              className="flex min-w-fit w-fit cursor-pointer items-center gap-2 rounded-md px-3 py-1 text-sm text-text-1 hover:bg-text-1/10 active:bg-text-1/20 lg:text-base transition-all  lg:font-medium"
               to={returnToButton}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className={`pointer-events-none h-8 w-8 ${textColorVariants[color]}`}
+                className="pointer-events-none h-8 w-8"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -258,7 +137,7 @@ const PackDetails = ({ category }: { category: string }) => {
                   d="M10 19l-7-7m0 0l7-7m-7 7h18"
                 />
               </svg>
-              <p className={`pointer-events-none ${textColorVariants[color]}`}>
+              <p className="pointer-events-none">
                 Back
               </p>
             </Link>
@@ -283,106 +162,15 @@ const PackDetails = ({ category }: { category: string }) => {
                     </svg>
                     Edit
                   </Link>
-                  {category !== "main" && (
-                    <button
-                      className="hover:bg-text-1/10 active:bg-text-1/20 mx-auto flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg px-4 py-2 text-blue-500 transition-all h sm:w-fit sm:justify-normal"
-                      disabled={publishModpackMutation.isLoading}
-                      onClick={async () => {
-                        if (publishModpackMutation.isLoading) return;
-                        if (
-                          confirm(
-                            "Are you sure you want to Publish this modpack?\n'OK' to confirm"
-                          )
-                        ) {
-                          publishModpackMutation.mutate();
-                        } else {
-                          return toast.error("Unable to Publish modpack");
-                        }
-                      }}
-                    >
-                      {publishModpackMutation.isLoading ? (
-                        "Publishing Modpack..."
-                      ) : (
-                        <>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="w-4 "
-                            fill="currentColor"
-                            viewBox="0 0 256 256"
-                          >
-                            <path d="M230.14,25.86a20,20,0,0,0-19.57-5.11l-.22.07L18.44,79a20,20,0,0,0-3,37.28l84.32,40,40,84.32a19.81,19.81,0,0,0,18,11.44c.57,0,1.15,0,1.73-.07A19.82,19.82,0,0,0,177,237.56L235.18,45.65a1.42,1.42,0,0,0,.07-.22A20,20,0,0,0,230.14,25.86ZM157,220.92l-33.72-71.19,45.25-45.25a12,12,0,0,0-17-17l-45.25,45.25L35.08,99,210,46Z"></path>
-                          </svg>
-                          Publish
-                        </>
-                      )}
-                    </button>
-                  )}
-                  {/* delete modpack button only is userProfile is superUser */}
-                  {category === "main" && (
-                    <button
-                      disabled={archiveModpackMutation.isLoading}
-                      className="hover:bg-text-1/10 active:bg-text-1/20 flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg px-4 py-2 text-orange-500 transition-all sm:w-fit sm:justify-normal "
-                      onClick={async () => {
-                        if (archiveModpackMutation.isLoading) return;
-                        if (
-                          confirm(
-                            "Are you sure you want to Archive this modpack?\n'OK' to confirm"
-                          )
-                        ) {
-                          archiveModpackMutation.mutate();
-                        } else {
-                          return toast.error("Unable to Archive modpack");
-                        }
-                      }}
-                    >
-                      {archiveModpackMutation.isLoading ? (
-                        "Archiving Modpack..."
-                      ) : (
-                        <>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="20"
-                            height="20"
-                            fill="currentColor"
-                            viewBox="0 0 256 256"
-                          >
-                            <path d="M224,48H32A16,16,0,0,0,16,64V88a16,16,0,0,0,16,16v88a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V104a16,16,0,0,0,16-16V64A16,16,0,0,0,224,48Zm-72,96H104a8,8,0,0,1,0-16h48a8,8,0,0,1,0,16Zm72-56H32V64H224V88Z"></path>
-                          </svg>
-                          Archive
-                        </>
-                      )}
-                    </button>
-                  )}
-
-                  {category === "suggested" && (
-                    <button
-                      disabled={deleteModpackMutation.isLoading}
-                      className="active:bg-text/15 flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg px-4 py-2 text-red-500 transition-all hover:bg-text-1/10 active:bg-text-1/20 sm:w-fit sm:justify-normal "
-                      onClick={async () => {
-                        if (deleteModpackMutation.isLoading) return;
-                        if (
-                          prompt(
-                            "Are you sure you want to delete this modpack?\nType 'Yes' to confirm"
-                          ) === "Yes"
-                        ) {
-                          deleteModpackMutation.mutate();
-                        } else {
-                          return toast.error("Unable to delete modpack");
-                        }
-                      }}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="20"
-                        height="20"
-                        fill="currentColor"
-                        viewBox="0 0 256 256"
-                      >
-                        <path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM112,168a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm0-120H96V40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8Z"></path>
-                      </svg>
-                      Delete
-                    </button>
-                  )}
+                  <Suspense fallback={<Loading size="la-sm" fullScreen={false} other="inline-block" />}>
+                    {category === "main" ?  <ArchiveModpackBtn modpackId={modpackId} /> : <PublishModpackBtn modpackId={modpackId} />}
+                    {category === "suggested" && (
+                      <>
+                        <RejectModpackBtn modpackId={modpackId} />
+                        <DeleteModpackBtn modpackId={modpackId} />
+                      </>
+                    )}
+                  </Suspense>
                 </>
               )}
             </div>

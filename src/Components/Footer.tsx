@@ -1,7 +1,7 @@
 const Footer = () => {
   return (
     <footer
-    className={`mt-auto hidden text-text-1 text-sm sm:block lg:mx-auto lg:w-[900px] xl:w-[1100px] 2xl:w-[1300px]  xl:text-base  `}
+    className={`mt-auto py-24 px-4 hidden text-text-1 text-sm sm:block lg:mx-auto lg:w-[900px] xl:w-[1100px] 2xl:w-[1300px]  xl:text-base  `}
     id="footer"
   >
     <p className="pb-10">&copy; 2023 CDU. All rights reserved.</p>
@@ -9,7 +9,7 @@ const Footer = () => {
       <div className="p-footer-row">
         <section className="p-footer-row-opposite ">
           <ul className="flex flex-wrap items-center justify-end pb-4 md:px-4 lg:px-1 ">
-          <li>
+            <li>
                 <a
                   href={"/found-issue"}
                   className="rounded-md px-4 py-2 hover:bg-pri/10"
