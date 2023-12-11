@@ -1,14 +1,10 @@
 import React, { useEffect, useState, createContext } from "react";
-
 import { DiscordProfileData } from "../Utils/Interfaces";
 import { UserProviderProps } from "../Utils/Types";
 import { toast } from "react-toastify";
 import { fetchProfile } from "../API/useDiscordProfileData";
 import { errorHandling } from "../Helper/errorHandling";
-// import { fetchProfile } from "../API/useDiscordProfileData";
 
-// Path: UserProvider.tsx
-// create a user provider that can be used in other components to get the user data from the context provider
 export interface AppState {
   user?: Partial<DiscordProfileData>;
   setUser: React.Dispatch<React.SetStateAction<DiscordProfileData | undefined>>;
@@ -32,14 +28,14 @@ export const UserProvider: React.FunctionComponent<UserProviderProps> = (
   const [user, setUser] = useState<DiscordProfileData>();
   const [userLoading, setUserLoading] = useState(true);
 
-  const storedUser = localStorage.getItem("profileData");
-
   useEffect(() => {
+    const storedUser = localStorage.getItem("profileData");
     console.log("checking user expired login");
 
     if (!storedUser) return;
+
     const parsedUser = JSON.parse(storedUser);
-    const tokenExpirationDate = parsedUser?.tokenExpiry;
+    const tokenExpirationDate = parsedUser.tokenExpiry;
     const currentDate = Date.now() / 1000;
 
     // if the token is expired, remove the user from the local storage and set the user to undefined

@@ -1,7 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
 import { NavigateFunction } from "react-router-dom";
 

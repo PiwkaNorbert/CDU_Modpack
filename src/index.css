@@ -57,6 +57,7 @@
       --clr-sec: var(--color-dark-sec);
       --clr-border: var(--color-dark-border);
       --shadow: var(--box-dark-shadow);
+
       color-scheme: dark;
     }
   }
@@ -111,7 +112,6 @@
   color: #4b5563;
 }
 
-
 * {
   scrollbar-width: thin;
   scrollbar-color: #62afdb #282c3e;
@@ -164,9 +164,7 @@ body {
   font-family: "Tilt Warp", "cursive";
   min-height: 100vh;
   min-height: 100dvh;
-  transition:
-    color 0.3s ease,
-    background-color 0.3s ease;
+  transition: color 0.3s ease, background-color 0.3s ease;
 }
 
 .btn__vote--heart {

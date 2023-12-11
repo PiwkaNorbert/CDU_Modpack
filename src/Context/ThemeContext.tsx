@@ -1,6 +1,5 @@
-import { createContext } from "react";
 // Path: ThemeContext.tsx
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, createContext } from "react";
 import { UserProviderProps } from "../Utils/Types";
 
 export type ThemeContextType = {
@@ -19,9 +18,8 @@ export const ThemeProvider: React.FC<UserProviderProps> = ({ children }) => {
   // get theme from local storage and set the state to it
   const [theme, setTheme] = useState(false);
 
-  const storedTheme = localStorage.getItem("theme");
-
   useEffect(() => {
+    const storedTheme = localStorage.getItem("theme");
     if (
       storedTheme === "dark" ||
       (!storedTheme &&
@@ -32,7 +30,6 @@ export const ThemeProvider: React.FC<UserProviderProps> = ({ children }) => {
   }, []);
 
   useEffect(() => {
-
     if (theme) {
       document.documentElement.setAttribute("data-theme", "dark");
       document.documentElement.classList.add("dark");
@@ -41,7 +38,6 @@ export const ThemeProvider: React.FC<UserProviderProps> = ({ children }) => {
 
       localStorage.setItem("theme", "dark");
     } else {
-
       document.documentElement.classList.remove("dark");
       document.documentElement.classList.add("light");
 

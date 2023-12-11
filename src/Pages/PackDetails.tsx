@@ -229,50 +229,147 @@ const PackDetails = ({ category }: { category: string }) => {
         key={modpackId}
         className="grid h-full relative w-full justify-normal bg-card border border-border pb-4 dark:border-none dark:shadow md:mb-4 md:rounded-md md:border-none md:shadow-xl text-text-1 lg:mx-auto  lg:w-[900px] xl:w-[1100px] 2xl:w-[1300px]   "
       >
-          <div className="grid h-full items-center lg:rounded-md">
-            <div className=" flex justify-between gap-2 px-4 pt-4 max-[640px]:flex-col sm:gap-0 md:px-8 ">
-              {user?.isLoggedIn && (
-                <div className=" z-[5] mx-auto -mt-4 flex w-fit flex-col justify-center  gap-4 rounded-b-lg border border-t-0 border-gray-100 shadow-custom bg-gray-50 p-4 text-center text-sm uppercase empty:hidden  dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300  max-[500px]:w-full sm:hidden  md:mt-0 md:flex-row lg:text-base lg:font-medium ">
-                  {`${user?.votesRemaining} ${
-                    user?.votesRemaining == 1 ? "vote" : "votes"
-                  } remaining this month`}
-                </div>
-              )}
+        <div className="grid h-full items-center lg:rounded-md">
+          <div className=" flex justify-between gap-2 px-4 pt-4 max-[640px]:flex-col sm:gap-0 md:px-8 ">
+            {user?.isLoggedIn && (
+              <div className=" z-[5] mx-auto -mt-4 flex w-fit flex-col justify-center  gap-4 rounded-b-lg border border-t-0 border-gray-100 shadow-custom bg-gray-50 p-4 text-center text-sm uppercase empty:hidden  dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300  max-[500px]:w-full sm:hidden  md:mt-0 md:flex-row lg:text-base lg:font-medium ">
+                {`${user?.votesRemaining} ${
+                  user?.votesRemaining == 1 ? "vote" : "votes"
+                } remaining this month`}
+              </div>
+            )}
 
-              {/* backarrow to the root page */}
-              <Link
-                className="flex min-w-fit cursor-pointer items-center gap-2 rounded-md px-3 py-1 text-sm text-text-1 hover:bg-text-1/10 active:bg-text-1/20 lg:text-base transition-all  lg:font-medium"
-                to={returnToButton}
+            {/* backarrow to the root page */}
+            <Link
+              className="flex min-w-fit cursor-pointer items-center gap-2 rounded-md px-3 py-1 text-sm text-text-1 hover:bg-text-1/10 active:bg-text-1/20 lg:text-base transition-all  lg:font-medium"
+              to={returnToButton}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className={`pointer-events-none h-8 w-8 ${textColorVariants[color]}`}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className={`pointer-events-none h-8 w-8 ${textColorVariants[color]}`}
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M10 19l-7-7m0 0l7-7m-7 7h18"
-                  />
-                </svg>
-                <p
-                  className={`pointer-events-none ${textColorVariants[color]}`}
-                >
-                  Back
-                </p>
-              </Link>
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M10 19l-7-7m0 0l7-7m-7 7h18"
+                />
+              </svg>
+              <p className={`pointer-events-none ${textColorVariants[color]}`}>
+                Back
+              </p>
+            </Link>
 
-              <div className="z-[5] flex justify-center gap-4 border-gray-100 text-sm  empty:hidden dark:border-gray-700 dark:text-gray-300 max-[500px]:flex-col  max-[500px]:rounded-lg max-[500px]:border max-[500px]:bg-gray-50  max-[500px]:p-4 max-[500px]:dark:bg-gray-900  md:mt-0 md:flex-row lg:text-base lg:font-medium">
-                {/* edit modpack button only is userProfile is superUser */}
+            <div className="z-[5] flex justify-center gap-4 border-gray-100 text-sm  empty:hidden dark:border-gray-700 dark:text-gray-300 max-[500px]:flex-col  max-[500px]:rounded-lg max-[500px]:border max-[500px]:bg-gray-50  max-[500px]:p-4 max-[500px]:dark:bg-gray-900  md:mt-0 md:flex-row lg:text-base lg:font-medium">
+              {/* edit modpack button only is userProfile is superUser */}
 
-                {user?.isLoggedIn && user?.isAdmin && (
-                  <>
-                    <Link
-                      to={editPackButton}
-                      className="flex w-full cursor-pointer items-center text-text-1 hover:bg-text-1/10 active:bg-text-1/20 justify-center gap-2 rounded-lg px-4 py-2 transition-all sm:w-fit sm:justify-normal "
+              {user?.isLoggedIn && user?.isAdmin && (
+                <>
+                  <Link
+                    to={editPackButton}
+                    className="flex w-full cursor-pointer items-center text-text-1 hover:bg-text-1/10 active:bg-text-1/20 justify-center gap-2 rounded-lg px-4 py-2 transition-all sm:w-fit sm:justify-normal "
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      fill="currentColor"
+                      viewBox="0 0 256 256"
+                    >
+                      <path d="M224,120v88a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V48A16,16,0,0,1,48,32h88a8,8,0,0,1,0,16H48V208H208V120a8,8,0,0,1,16,0Zm5.66-50.34-96,96A8,8,0,0,1,128,168H96a8,8,0,0,1-8-8V128a8,8,0,0,1,2.34-5.66l96-96a8,8,0,0,1,11.32,0l32,32A8,8,0,0,1,229.66,69.66Zm-17-5.66L192,43.31,179.31,56,200,76.69Z"></path>
+                    </svg>
+                    Edit
+                  </Link>
+                  {category !== "main" && (
+                    <button
+                      className="hover:bg-text-1/10 active:bg-text-1/20 mx-auto flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg px-4 py-2 text-blue-500 transition-all h sm:w-fit sm:justify-normal"
+                      disabled={publishModpackMutation.isLoading}
+                      onClick={async () => {
+                        if (publishModpackMutation.isLoading) return;
+                        if (
+                          confirm(
+                            "Are you sure you want to Publish this modpack?\n'OK' to confirm"
+                          )
+                        ) {
+                          publishModpackMutation.mutate();
+                        } else {
+                          return toast.error("Unable to Publish modpack");
+                        }
+                      }}
+                    >
+                      {publishModpackMutation.isLoading ? (
+                        "Publishing Modpack..."
+                      ) : (
+                        <>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="w-4 "
+                            fill="currentColor"
+                            viewBox="0 0 256 256"
+                          >
+                            <path d="M230.14,25.86a20,20,0,0,0-19.57-5.11l-.22.07L18.44,79a20,20,0,0,0-3,37.28l84.32,40,40,84.32a19.81,19.81,0,0,0,18,11.44c.57,0,1.15,0,1.73-.07A19.82,19.82,0,0,0,177,237.56L235.18,45.65a1.42,1.42,0,0,0,.07-.22A20,20,0,0,0,230.14,25.86ZM157,220.92l-33.72-71.19,45.25-45.25a12,12,0,0,0-17-17l-45.25,45.25L35.08,99,210,46Z"></path>
+                          </svg>
+                          Publish
+                        </>
+                      )}
+                    </button>
+                  )}
+                  {/* delete modpack button only is userProfile is superUser */}
+                  {category === "main" && (
+                    <button
+                      disabled={archiveModpackMutation.isLoading}
+                      className="hover:bg-text-1/10 active:bg-text-1/20 flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg px-4 py-2 text-orange-500 transition-all sm:w-fit sm:justify-normal "
+                      onClick={async () => {
+                        if (archiveModpackMutation.isLoading) return;
+                        if (
+                          confirm(
+                            "Are you sure you want to Archive this modpack?\n'OK' to confirm"
+                          )
+                        ) {
+                          archiveModpackMutation.mutate();
+                        } else {
+                          return toast.error("Unable to Archive modpack");
+                        }
+                      }}
+                    >
+                      {archiveModpackMutation.isLoading ? (
+                        "Archiving Modpack..."
+                      ) : (
+                        <>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="20"
+                            height="20"
+                            fill="currentColor"
+                            viewBox="0 0 256 256"
+                          >
+                            <path d="M224,48H32A16,16,0,0,0,16,64V88a16,16,0,0,0,16,16v88a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V104a16,16,0,0,0,16-16V64A16,16,0,0,0,224,48Zm-72,96H104a8,8,0,0,1,0-16h48a8,8,0,0,1,0,16Zm72-56H32V64H224V88Z"></path>
+                          </svg>
+                          Archive
+                        </>
+                      )}
+                    </button>
+                  )}
+
+                  {category === "suggested" && (
+                    <button
+                      disabled={deleteModpackMutation.isLoading}
+                      className="active:bg-text/15 flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg px-4 py-2 text-red-500 transition-all hover:bg-text-1/10 active:bg-text-1/20 sm:w-fit sm:justify-normal "
+                      onClick={async () => {
+                        if (deleteModpackMutation.isLoading) return;
+                        if (
+                          prompt(
+                            "Are you sure you want to delete this modpack?\nType 'Yes' to confirm"
+                          ) === "Yes"
+                        ) {
+                          deleteModpackMutation.mutate();
+                        } else {
+                          return toast.error("Unable to delete modpack");
+                        }
+                      }}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -281,240 +378,143 @@ const PackDetails = ({ category }: { category: string }) => {
                         fill="currentColor"
                         viewBox="0 0 256 256"
                       >
-                        <path d="M224,120v88a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V48A16,16,0,0,1,48,32h88a8,8,0,0,1,0,16H48V208H208V120a8,8,0,0,1,16,0Zm5.66-50.34-96,96A8,8,0,0,1,128,168H96a8,8,0,0,1-8-8V128a8,8,0,0,1,2.34-5.66l96-96a8,8,0,0,1,11.32,0l32,32A8,8,0,0,1,229.66,69.66Zm-17-5.66L192,43.31,179.31,56,200,76.69Z"></path>
+                        <path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM112,168a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm0-120H96V40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8Z"></path>
                       </svg>
-                      Edit
-                    </Link>
-                    {category !== "main" && (
-                      <button
-                        className="hover:bg-text-1/10 active:bg-text-1/20 mx-auto flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg px-4 py-2 text-blue-500 transition-all h sm:w-fit sm:justify-normal"
-                        disabled={publishModpackMutation.isLoading}
-                        onClick={async () => {
-                          if (publishModpackMutation.isLoading) return;
-                          if (
-                            confirm(
-                              "Are you sure you want to Publish this modpack?\n'OK' to confirm"
-                            )
-                          ) {
-                            publishModpackMutation.mutate();
-                          } else {
-                            return toast.error("Unable to Publish modpack");
-                          }
-                        }}
-                      >
-                        {publishModpackMutation.isLoading ? (
-                          "Publishing Modpack..."
-                        ) : (
-                          <>
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="w-4 "
-                              fill="currentColor"
-                              viewBox="0 0 256 256"
-                            >
-                              <path d="M230.14,25.86a20,20,0,0,0-19.57-5.11l-.22.07L18.44,79a20,20,0,0,0-3,37.28l84.32,40,40,84.32a19.81,19.81,0,0,0,18,11.44c.57,0,1.15,0,1.73-.07A19.82,19.82,0,0,0,177,237.56L235.18,45.65a1.42,1.42,0,0,0,.07-.22A20,20,0,0,0,230.14,25.86ZM157,220.92l-33.72-71.19,45.25-45.25a12,12,0,0,0-17-17l-45.25,45.25L35.08,99,210,46Z"></path>
-                            </svg>
-                            Publish
-                          </>
-                        )}
-                      </button>
-                    )}
-                    {/* delete modpack button only is userProfile is superUser */}
-                    {category === "main" && (
-                      <button
-                        disabled={archiveModpackMutation.isLoading}
-                        className="hover:bg-text-1/10 active:bg-text-1/20 flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg px-4 py-2 text-orange-500 transition-all sm:w-fit sm:justify-normal "
-                        onClick={async () => {
-                          if (archiveModpackMutation.isLoading) return;
-                          if (
-                            confirm(
-                              "Are you sure you want to Archive this modpack?\n'OK' to confirm"
-                            )
-                          ) {
-                            archiveModpackMutation.mutate();
-                          } else {
-                            return toast.error("Unable to Archive modpack");
-                          }
-                        }}
-                      >
-                        {archiveModpackMutation.isLoading ? (
-                          "Archiving Modpack..."
-                        ) : (
-                          <>
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="20"
-                              height="20"
-                              fill="currentColor"
-                              viewBox="0 0 256 256"
-                            >
-                              <path d="M224,48H32A16,16,0,0,0,16,64V88a16,16,0,0,0,16,16v88a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V104a16,16,0,0,0,16-16V64A16,16,0,0,0,224,48Zm-72,96H104a8,8,0,0,1,0-16h48a8,8,0,0,1,0,16Zm72-56H32V64H224V88Z"></path>
-                            </svg>
-                            Archive
-                          </>
-                        )}
-                      </button>
-                    )}
-
-                    {category === "suggested" && (
-                      <button
-                        disabled={deleteModpackMutation.isLoading}
-                        className="active:bg-text/15 flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg px-4 py-2 text-red-500 transition-all hover:bg-text-1/10 active:bg-text-1/20 sm:w-fit sm:justify-normal "
-                        onClick={async () => {
-                          if (deleteModpackMutation.isLoading) return;
-                          if (
-                            prompt(
-                              "Are you sure you want to delete this modpack?\nType 'Yes' to confirm"
-                            ) === "Yes"
-                          ) {
-                            deleteModpackMutation.mutate();
-                          } else {
-                            return toast.error("Unable to delete modpack");
-                          }
-                        }}
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="20"
-                          height="20"
-                          fill="currentColor"
-                          viewBox="0 0 256 256"
-                        >
-                          <path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM112,168a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm0-120H96V40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8Z"></path>
-                        </svg>
-                        Delete
-                      </button>
-                    )}
-                  </>
-                )}
-              </div>
-            </div>
-            <div className={`grid items-center md:px-4`}>
-              <div
-                className={twMerge(
-                  "grid p-4",
-                  galleryImages?.length > 0
-                    ? "sm:grid-cols-2 md:space-x-4"
-                    : "sm:grid-cols-1"
-                )}
-              >
-                {/* toggle images in production */}
-                {galleryImages?.length > 0 && (
-                  <ImageCarousel galleryImages={galleryImages} color={color} />
-                )}
-                <div className="grid content-center items-center space-y-4 md:mr-4">
-                  <h3
-                    className="text-pri mt-4 break-normal font-minecraft px-2 text-center text-4xl uppercase md:my-0"
-                    aria-label={`Modpack name: ${name}`}
-                  >
-                    {name ?? "Modpack Name"}
-                  </h3>
-                  <div className="flex items-center justify-center gap-2">
-                    {category === "main" && (
-                      <div className="flex items-center justify-center gap-2">
-                        <VoteForPackButton
-                          modpackId={modpackId}
-                          color={color}
-                          isLoading={isLoading}
-                          voteCount={voteCount}
-                          timesVotedThisMonth={timesVotedThisMonth}
-                        />
-                      </div>
-                    )}
-                  </div>
-                  {category === "main" && (
-                    <p className="mx-auto break-normal border-b border-text/75 px-3 py-1 text-center text-xs uppercase text-text-1/75 md:my-0 ">
-                      {timesVoted === 0
-                        ? "You've yet to vote!"
-                        : timesVoted === 1
-                        ? "You've voted " + timesVoted + " time"
-                        : "You've voted " + timesVoted + " times"}
-                    </p>
+                      Delete
+                    </button>
                   )}
-                  <p
-                    data-tooltip={`Discord ID ${suggestedBy}`}
-                    className="text-content group/suggestedBy relative mx-auto my-4 flex w-fit cursor-pointer flex-col items-center justify-center break-normal text-center text-xs uppercase md:my-0 "
-                    aria-label={`Suggested by ${suggestedBy}`}
-                  >
-                    Suggested By
-                    <br />
-                    <span className="text-text-1/50">
-                      {suggestedBy ?? "Unknown"}
-                    </span>
-                  </p>
-                  {category !== "suggested" && (
-                    <p
-                      data-tooltip={`Discord ID ${publishedBy}`}
-                      className="text-content group/publishedBy relative mx-auto my-4 flex w-fit cursor-pointer flex-col items-center justify-center break-normal text-center text-xs uppercase md:my-0"
-                      aria-label={`Published by ${publishedBy}`}
-                    >
-                      Published By
-                      <br />
-                      <span className="text-text-1/50">
-                        {publishedBy ?? "Unknown"}
-                      </span>
-                    </p>
-                  )}
-                  <p
-                    className="text-content group/mcVersion relative mx-auto my-4 flex w-fit flex-col items-center justify-center break-normal text-center text-xs uppercase md:my-0 "
-                    aria-label={`MC Version ${suggestedBy}`}
-                  >
-                    MC Version
-                    <br />
-                    <span className="text-text-1/50">
-                      {mcVersion ?? "Unknown"}
-                    </span>
-                  </p>
-                </div>
-              </div>
-
-              {/* style the descripion to scroll on overflow and a max height of 364px */}
-              <div className="mx-auto grid max-w-[412px] items-start justify-between gap-4 p-4 sm:mx-0 sm:mb-0 sm:max-w-full sm:grid-cols-2 sm:flex-row md:gap-0 md:space-x-4">
-                {/* map the tags */}
-                <div className="flex flex-wrap items-center justify-center gap-[0.333rem] md:w-full ">
-                  {tags?.map((tag: string, index: number) => (
-                    <div
-                      key={index}
-                      className={`z-[5] flex min-w-fit items-center justify-start self-start rounded-full border bg-card px-2 py-0.5 text-sm capitalize text-text-1 font-displayfont font-semibold ${borderColorVariants[color]} `}
-                    >
-                      {tagMap.get(tag)}
-                    </div>
-                  ))}
-                </div>
-                <div className="flex flex-wrap justify-center ">
-                  Modpack official page:
-                  <Link
-                    to={officialUrl}
-                    className={`ml-2 flex items-center gap-1 hover:opacity-80 ${textColorVariants[color]} `}
-                    target="_blank"
-                  >
-                    Here
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="20"
-                      height="20"
-                      fill="currentColor"
-                      stroke="currentColor"
-                      viewBox="0 0 256 256"
-                    >
-                      <path d="M192,136v72a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V80A16,16,0,0,1,48,64h72a8,8,0,0,1,0,16H48V208H176V136a8,8,0,0,1,16,0Zm32-96a8,8,0,0,0-8-8H152a8,8,0,0,0-5.66,13.66L172.69,72l-42.35,42.34a8,8,0,0,0,11.32,11.32L184,83.31l26.34,26.35A8,8,0,0,0,224,104Z"></path>
-                    </svg>
-                  </Link>
-                </div>
-              </div>
-              <div className="flex justify-between gap-2 p-4 max-[500px]:flex-col sm:gap-0  ">
-                <div className="mt-4 border-gray-100 text-sm text-text-1 dark:border-gray-700 dark:text-gray-300 max-[500px]:mt-5 max-[500px]:rounded-lg max-[500px]:border  max-[500px]:bg-gray-50 max-[500px]:p-4 max-[500px]:dark:bg-gray-900 md:mt-0 md:flex-row md:rounded-lg md:text-sm md:font-medium xl:text-base">
-                  <h3 className="pt-4 text-pri text-2xl capitalize  sm:text-left xl:text-3xl">
-                    description
-                  </h3>
-                  <div className="p-4">
-                    <p className="text-justify font-default font-normal ">{description}</p>
-                  </div>
-                </div>
-              </div>
-              {/* comment component here */}
+                </>
+              )}
             </div>
           </div>
+          <div className={`grid items-center md:px-4`}>
+            <div
+              className={twMerge(
+                "grid p-4",
+                galleryImages?.length > 0
+                  ? "sm:grid-cols-2 md:space-x-4"
+                  : "sm:grid-cols-1"
+              )}
+            >
+              {/* toggle images in production */}
+              {galleryImages?.length > 0 && (
+                <ImageCarousel galleryImages={galleryImages} color={color} />
+              )}
+              <div className="grid content-center items-center space-y-4 md:mr-4">
+                <h3
+                  className="text-pri mt-4 break-normal font-minecraft px-2 text-center text-4xl uppercase md:my-0"
+                  aria-label={`Modpack name: ${name}`}
+                >
+                  {name ?? "Modpack Name"}
+                </h3>
+                <div className="flex items-center justify-center gap-2">
+                  {category === "main" && (
+                    <div className="flex items-center justify-center gap-2">
+                      <VoteForPackButton
+                        modpackId={modpackId}
+                        color={color}
+                        isLoading={isLoading}
+                        voteCount={voteCount}
+                        timesVotedThisMonth={timesVotedThisMonth}
+                      />
+                    </div>
+                  )}
+                </div>
+                {category === "main" && (
+                  <p className="mx-auto break-normal border-b border-text/75 px-3 py-1 text-center text-xs uppercase text-text-1/75 md:my-0 ">
+                    {timesVoted === 0
+                      ? "You need to be logged in to vote"
+                      : timesVoted === 1
+                      ? "You've voted " + timesVoted + " time"
+                      : "You've voted " + timesVoted + " times"}
+                  </p>
+                )}
+                <p
+                  data-tooltip={`Discord ID ${suggestedBy}`}
+                  className="text-content group/suggestedBy relative mx-auto my-4 flex w-fit cursor-pointer flex-col items-center justify-center break-normal text-center text-xs uppercase md:my-0 "
+                  aria-label={`Suggested by ${suggestedBy}`}
+                >
+                  Suggested By
+                  <br />
+                  <span className="text-text-1/50">
+                    {suggestedBy ?? "Unknown"}
+                  </span>
+                </p>
+                {category !== "suggested" && (
+                  <p
+                    data-tooltip={`Discord ID ${publishedBy}`}
+                    className="text-content group/publishedBy relative mx-auto my-4 flex w-fit cursor-pointer flex-col items-center justify-center break-normal text-center text-xs uppercase md:my-0"
+                    aria-label={`Published by ${publishedBy}`}
+                  >
+                    Published By
+                    <br />
+                    <span className="text-text-1/50">
+                      {publishedBy ?? "Unknown"}
+                    </span>
+                  </p>
+                )}
+                <p
+                  className="text-content group/mcVersion relative mx-auto my-4 flex w-fit flex-col items-center justify-center break-normal text-center text-xs uppercase md:my-0 "
+                  aria-label={`MC Version ${suggestedBy}`}
+                >
+                  MC Version
+                  <br />
+                  <span className="text-text-1/50">
+                    {mcVersion ?? "Unknown"}
+                  </span>
+                </p>
+              </div>
+            </div>
+
+            {/* style the descripion to scroll on overflow and a max height of 364px */}
+            <div className="mx-auto grid max-w-[412px] items-start justify-between gap-4 p-4 sm:mx-0 sm:mb-0 sm:max-w-full sm:grid-cols-2 sm:flex-row md:gap-0 md:space-x-4">
+              {/* map the tags */}
+              <div className="flex flex-wrap items-center justify-center gap-[0.333rem] md:w-full ">
+                {tags?.map((tag: string, index: number) => (
+                  <div
+                    key={index}
+                    className={`z-[5] flex min-w-fit items-center justify-start self-start rounded-full border bg-card px-2 py-0.5 text-sm capitalize text-text-1 font-displayfont font-semibold ${borderColorVariants[color]} `}
+                  >
+                    {tagMap.get(tag)}
+                  </div>
+                ))}
+              </div>
+              <div className="flex flex-wrap justify-center ">
+                Modpack official page:
+                <Link
+                  to={officialUrl}
+                  className={`ml-2 flex items-center gap-1 hover:opacity-80 ${textColorVariants[color]} `}
+                  target="_blank"
+                >
+                  Here
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    fill="currentColor"
+                    stroke="currentColor"
+                    viewBox="0 0 256 256"
+                  >
+                    <path d="M192,136v72a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V80A16,16,0,0,1,48,64h72a8,8,0,0,1,0,16H48V208H176V136a8,8,0,0,1,16,0Zm32-96a8,8,0,0,0-8-8H152a8,8,0,0,0-5.66,13.66L172.69,72l-42.35,42.34a8,8,0,0,0,11.32,11.32L184,83.31l26.34,26.35A8,8,0,0,0,224,104Z"></path>
+                  </svg>
+                </Link>
+              </div>
+            </div>
+            <div className="flex justify-between gap-2 p-4 max-[500px]:flex-col sm:gap-0  ">
+              <div className="mt-4 border-gray-100 text-sm text-text-1 dark:border-gray-700 dark:text-gray-300 max-[500px]:mt-5 max-[500px]:rounded-lg max-[500px]:border  max-[500px]:bg-gray-50 max-[500px]:p-4 max-[500px]:dark:bg-gray-900 md:mt-0 md:flex-row md:rounded-lg md:text-sm md:font-medium xl:text-base">
+                <h3 className="pt-4 text-pri text-2xl capitalize  sm:text-left xl:text-3xl">
+                  description
+                </h3>
+                <div className="p-4">
+                  <p className="text-justify font-default font-normal ">
+                    {description}
+                  </p>
+                </div>
+              </div>
+            </div>
+            {/* comment component here */}
+          </div>
+        </div>
       </section>
     </>
   );

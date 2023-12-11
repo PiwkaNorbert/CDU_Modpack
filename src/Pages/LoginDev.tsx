@@ -28,7 +28,7 @@ const LoginDev = () => {
     isAdmin: true,
     votesRemaining: 12,
     tokenExpiry: Date.now() / 1000 + 3600,
-    isLinked: true,
+    isLinked: false,
     inGuild: true,
     playerData: {
       uuid: "910823491287319283712938123478124867",

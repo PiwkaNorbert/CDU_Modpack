@@ -28,100 +28,99 @@ import { isDev } from "./Constants.tsx";
 import CreateModpackSuccess from "./Pages/SuggestPack/CreateModpackSuccess.tsx";
 import LinkedRoutes from "./Utils/LinkedRoutes.tsx";
 import AdminRoutes from "./Utils/AdminRoutes.tsx";
+import Banner from "./Components/Banner.tsx";
 
 function App() {
   return (
     <ThemeProvider>
-
-          <BrowserRouter>
+      <BrowserRouter>
+        <Banner />
         <Header />
+        <Routes>
+          <Route path="/" element={<PackListPage />} />
+          <Route
+            path="pack-details/:modpackId"
+            element={<PackDetails category="main" />}
+          />
+          <Route path="login" element={<Login />} />
+          <Route path="loginDev" element={<LoginDev />} />
+          {isDev && <Route path="loginDev" element={<LoginDev />} />}
+          <Route path="found-issue" element={<FoundBugs />} />
 
-            <Routes>
-              <Route path="/" element={<PackListPage />} />
+          <Route path="*" element={<Navigate to="/404" />} />
+          <Route path="404" element={<NotFoundPage />} />
+
+          {/* ------------LINKED ROUTES------------- */}
+
+          <Route element={<LinkedRoutes />}>
+            <Route path="suggest-modpack" element={<SuggestMPLayout />}>
+              <Route path="create" element={<CreateModpack />} />
+
               <Route
-                path="pack-details/:modpackId"
-                element={<PackDetails category="main" />}
+                path="photos/:modpackId"
+                element={<AddImage path="suggest" color="sky" />}
               />
-              <Route path="login" element={<Login />} />
-              <Route path="loginDev" element={<LoginDev />} />
-              {isDev && <Route path="loginDev" element={<LoginDev />} />}
-              <Route path="found-issue" element={<FoundBugs />} />
+              {/* thank you for submitting pack */}
+              <Route path="success" element={<CreateModpackSuccess />} />
+            </Route>
+          </Route>
+          {/* ------------ADMIN ROUTES------------- */}
 
-              <Route path="*" element={<Navigate to="/404" />} />
-              <Route path="404" element={<NotFoundPage />} />
+          <Route element={<AdminRoutes />}>
+            <>
+              {/* ------------EDIT MODPACKS------------- */}
+              <Route
+                path="edit-modpack/:modpackId"
+                element={
+                  <EditModpack
+                  // category="main"
+                  />
+                }
+              />
+              <Route
+                path="edit-suggested-modpack/:modpackId"
+                element={
+                  <EditModpack
+                  // category="suggested"
+                  />
+                }
+              />
+              <Route
+                path="edit-archived-modpack/:modpackId"
+                element={
+                  <EditModpack
+                  // category="archived"
+                  />
+                }
+              />
 
-              {/* ------------LINKED ROUTES------------- */}
+              {/* ------------LIST MODPACKS------------- */}
+              <Route
+                path="list-archived-packs"
+                element={<ArchivedPackListPage />}
+              />
+              <Route
+                path="list-suggested-packs"
+                element={<SuggestedPackListPage />}
+              />
 
-              <Route element={<LinkedRoutes />}>
-                <Route path="suggest-modpack" element={<SuggestMPLayout />}>
-                  <Route path="create" element={<CreateModpack />} />
-
-                  <Route
-                    path="photos/:modpackId"
-                    element={<AddImage path="suggest" color="sky" />}
-                  />
-                  {/* thank you for submitting pack */}
-                  <Route path="success" element={<CreateModpackSuccess />} />
-                </Route>
-              </Route>
-              {/* ------------ADMIN ROUTES------------- */}
-
-              <Route element={<AdminRoutes />}>
-                <>
-                  {/* ------------EDIT MODPACKS------------- */}
-                  <Route
-                    path="edit-modpack/:modpackId"
-                    element={
-                      <EditModpack
-                      // category="main"
-                      />
-                    }
-                  />
-                  <Route
-                    path="edit-suggested-modpack/:modpackId"
-                    element={
-                      <EditModpack
-                      // category="suggested"
-                      />
-                    }
-                  />
-                  <Route
-                    path="edit-archived-modpack/:modpackId"
-                    element={
-                      <EditModpack
-                      // category="archived"
-                      />
-                    }
-                  />
-
-                  {/* ------------LIST MODPACKS------------- */}
-                  <Route
-                    path="list-archived-packs"
-                    element={<ArchivedPackListPage />}
-                  />
-                  <Route
-                    path="list-suggested-packs"
-                    element={<SuggestedPackListPage />}
-                  />
-
-                  {/* ------------MODPACK DETAILS------------- */}
-                  <Route
-                    path="suggested-pack-details/:modpackId"
-                    element={<PackDetails category="suggested" />}
-                  />
-                  <Route
-                    path="archived-pack-details/:modpackId"
-                    element={<PackDetails category="archived" />}
-                  />
-                </>
-              </Route>
-            </Routes>
-      {window.location?.pathname === "/404" ? null : <Footer />}
-          </BrowserRouter>
+              {/* ------------MODPACK DETAILS------------- */}
+              <Route
+                path="suggested-pack-details/:modpackId"
+                element={<PackDetails category="suggested" />}
+              />
+              <Route
+                path="archived-pack-details/:modpackId"
+                element={<PackDetails category="archived" />}
+              />
+            </>
+          </Route>
+        </Routes>
+        {window.location?.pathname === "/404" ? null : <Footer />}
+      </BrowserRouter>
 
       <ToastContainer limit={2} pauseOnFocusLoss={false} autoClose={2000} />
       <ReactQueryDevtools />
-
     </ThemeProvider>
   );
 }

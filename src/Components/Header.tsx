@@ -1,8 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { LoginButton } from "./LoginButton";
 import useUser from "../Context/useUser";
 import { useTheme } from "../Context/useTheme";
-import { useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
 import { LogoutButton } from "./LogoutButton";
