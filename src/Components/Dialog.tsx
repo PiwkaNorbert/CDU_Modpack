@@ -7,7 +7,7 @@ export interface DialogProps {
   dialogStateChange?: (open: boolean) => void;
 }
 
-export function Dialog({
+export default function Dialog({
   allowClose = true,
   contents,
   open,

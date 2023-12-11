@@ -1,8 +1,10 @@
 import { toast } from "react-toastify";
 import useUser from "../Context/useUser";
 import { errorHandling } from "../Helper/errorHandling";
-import SignOutSVG from "./SVG/SignOutSVG";
+import { Suspense, lazy } from "react";
 import { useNavigate } from "react-router-dom";
+import Loading from "./Loading";
+const SignOutSVG = lazy(() => import("./SVG/SignOutSVG"));
 
 export async function logoutFunction(setUser?: any, navigate?: any) {
   try {
@@ -34,7 +36,9 @@ export const LogoutButton = () => {
       className={`flex items-center justify-center gap-2 capitalize `}
       onClick={logoutfn}
     >
-      <SignOutSVG />
+      <Suspense fallback={<Loading size="la-sm" fullScreen={false} other="inline-block" />}>
+       <SignOutSVG />
+      </Suspense>
       Logout
     </a>
   );

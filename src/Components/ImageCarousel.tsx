@@ -3,11 +3,13 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import { useRef, useState } from "react";
+import { Suspense, lazy, useRef, useState } from "react";
 import { errorHandling } from "../Helper/errorHandling";
-import { Dialog } from "../Components/Dialog";
 import { twMerge } from "tailwind-merge";
 import { apiBase, bgColorVariants, borderColorVariants } from "../Constants";
+import Loading from "./Loading";
+
+const Dialog = lazy(() => import("../Components/Dialog"));
 
 export const ImageCarousel = ({
   galleryImages,
@@ -294,7 +296,7 @@ export const ImageCarousel = ({
           <div className="pointer-events-none absolute inset-0 rounded-xl border border-black/5 dark:border-white/5"></div>
         </div>
       )}
-
+    <Suspense fallback={<Loading size="la-sm" fullScreen={false} other="inline-block" />}>
       <Dialog
         open={showModal}
         dialogStateChange={(open) => setShowModal(open)}
@@ -320,6 +322,7 @@ export const ImageCarousel = ({
           </div>
         }
       />
+      </Suspense>
     </div>
   );
 };

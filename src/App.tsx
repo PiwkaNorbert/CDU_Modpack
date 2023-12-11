@@ -15,6 +15,7 @@ import { isDev } from "./Constants.tsx";
 import LinkedRoutes from "./Utils/LinkedRoutes.tsx";
 import AdminRoutes from "./Utils/AdminRoutes.tsx";
 import { Suspense, lazy } from "react";
+import Loading from "./Components/Loading.tsx";
 
 const LoginDev = lazy(() => import("./Pages/LoginDev.tsx"));
 const FoundIssue = lazy(() => import("./Pages/FoundIssue.tsx"));
@@ -37,7 +38,7 @@ function App() {
   return (
     <ThemeProvider>
       <BrowserRouter>
-        <Suspense fallback={<div>Loading...</div>} >
+        <Suspense fallback={<Loading size="la-lx" fullScreen={true} other="" />} >
         <Banner />
         <Header />
           <Routes>

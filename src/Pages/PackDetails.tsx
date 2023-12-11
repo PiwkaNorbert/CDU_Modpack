@@ -2,7 +2,6 @@ import { useParams } from "react-router-dom";
 import usePackDetailData from "../API/usePackDetailData";
 import { IPackDetails } from "../Utils/Interfaces";
 import Loading from "../Components/Loading";
-import VoteForPackButton from "../Components/VoteForPackButton";
 import useUser from "../Context/useUser";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate, Link } from "react-router-dom";
@@ -18,6 +17,7 @@ import { borderColorVariants, textColorVariants } from "../Constants";
 import { ImageCarousel } from "../Components/ImageCarousel";
 import { twMerge } from "tailwind-merge";
 
+const VoteForPackButton = lazy(() => import("../Components/VoteForPackButton"));
 const RejectModpackBtn = lazy(() => import("../Components/ActionButtons/RejectModpackBtn"));
 const DeleteModpackBtn = lazy(() => import("../Components/ActionButtons/DeleteModpackBtn"));
 const ArchiveModpackBtn = lazy(() => import("../Components/ActionButtons/ArchiveModpackBtn"));
@@ -198,6 +198,7 @@ const PackDetails = ({ category }: { category: string }) => {
                 <div className="flex items-center justify-center gap-2">
                   {category === "main" && (
                     <div className="flex items-center justify-center gap-2">
+                      <Suspense fallback={<Loading size="la-sm" fullScreen={false} other="inline-block" />}>
                       <VoteForPackButton
                         modpackId={modpackId}
                         color={color}
@@ -205,6 +206,7 @@ const PackDetails = ({ category }: { category: string }) => {
                         voteCount={voteCount}
                         timesVotedThisMonth={timesVotedThisMonth}
                       />
+                      </Suspense>
                     </div>
                   )}
                 </div>

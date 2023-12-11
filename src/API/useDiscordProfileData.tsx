@@ -6,9 +6,10 @@ import { apiBase } from "../Constants";
 import { useContext } from "react";
 import { UserContext } from "../Context/UserContext";
 
-export const fetchProfile = async () => {
+export const fetchProfile = async (signal?: AbortSignal) => {
   const { data, status } = await axios.get(`${apiBase}/profile`, {
     withCredentials: true,
+    signal,
   });
   if (status !== 200) {
     toast.error("No login data found");
@@ -21,7 +22,7 @@ export const fetchProfile = async () => {
 const useDiscordProfileData = () => {
   const { setUser } = useContext(UserContext);
 
-  return useQuery(["login"], fetchProfile, {
+  return useQuery(["login"], ({signal})=> fetchProfile(signal), {
     onError: (error) => {
       if (error instanceof Error) {
         return errorHandling(error);
