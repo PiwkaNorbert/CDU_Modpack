@@ -69,11 +69,11 @@ const ModpackListView = ({
   return (
     <>
       {/* map the data variable in a grad 4x2  */}
-      <div className=" grid w-full pt-4 sm:grid-cols-[1fr_1fr_1fr] sm:justify-between gap-4 text-xl text-text-1 justify-items-center items-center sm:gap-0 xl:text-2xl ">
+      <div className=" grid w-full pt-4 sm:grid-cols-[1fr_1fr_1fr] sm:justify-between text-xl text-text-1 justify-items-center items-center xl:text-2xl ">
         {/* Show this button if you're logged in and a staff member */}
-        <div className="grid w-full grid-cols-2 grid-rows-2 items-center justify-between sm:flex  sm:flex-row ">
+        <div className="grid w-full grid-cols-2 grid-rows-2 items-center gap-y-4 justify-between sm:flex  sm:flex-row ">
           {user?.isLoggedIn && (
-            <div className=" z-[5] col-span-full row-span-1 mx-auto -mt-1 flex w-fit flex-col justify-center gap-4 shadow-custom rounded-b-lg border border-gray-100 bg-card p-4 text-center text-sm uppercase text-text-1 empty:hidden dark:border-gray-700  dark:bg-gray-800 dark:text-gray-300 max-[500px]:w-full  sm:row-auto sm:hidden  md:mt-0 md:flex-row lg:text-base lg:font-medium ">
+            <div className=" z-[5] col-span-full row-span-1 mx-auto -mt-4 flex w-fit flex-col justify-center gap-4 shadow-custom rounded-b-lg border border-gray-100 bg-card p-4 text-center text-sm uppercase text-text-1 empty:hidden dark:border-gray-700  dark:bg-gray-800 dark:text-gray-300 max-[500px]:w-full  sm:row-auto sm:hidden  md:mt-0 md:flex-row lg:text-base lg:font-medium ">
               {`${user?.votesRemaining} ${
                 user?.votesRemaining == 1 ? "vote" : "votes"
               } remaining this month`}

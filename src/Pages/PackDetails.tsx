@@ -307,17 +307,17 @@ const PackDetails = ({ category }: { category: string }) => {
       </div>
       <div className="flex justify-between gap-2  max-[500px]:flex-col sm:gap-0  ">
         <div className=" border-gray-100 text-sm text-text-1 dark:border-gray-700 dark:text-gray-300 max-[500px]:mt-5 max-[500px]:rounded-lg max-[500px]:border  max-[500px]:bg-gray-50 max-[500px]:p-4 max-[500px]:dark:bg-gray-900 md:mt-0 md:flex-row md:rounded-lg md:text-sm md:font-medium xl:text-base">
-          <h3 className="pt-4 text-pri text-2xl capitalize  sm:text-left xl:text-3xl">
+          <h3 className="pt-4 text-pri text-2xl capitalize  text-center sm:text-left xl:text-3xl">
             description
           </h3>
-          <div className="p-4">
+          <div className="sm:px-4 py-4">
             <p className="text-justify ">{description}</p>
           </div>
         </div>
       </div>
       {/* comment component here */}
       {category !== "suggested" && (
-        <div className="my-4 overflow-hidden px-2 py-4 sm:p-4  ">
+        <div className="my-4 overflow-hidden py-4 sm:p-4  ">
           <h3 className="mb-4 inline-block items-center w-full gap-4 text-2xl capitalize xl:text-3xl text-center sm:text-left">
             comments ({commentCount})
             {fetchStatus === "fetching" && (
@@ -326,7 +326,7 @@ const PackDetails = ({ category }: { category: string }) => {
           </h3>
           {/* input for posting comments by current user */}
           {!user?.isLoggedIn && <LoginButton toComment={true} />}
-          <div className="px-4">
+          <div className="sm:px-4">
             {/* if user is logged in, show comment input */}
             {user?.isLoggedIn && user?.isLinked && (
               <Suspense

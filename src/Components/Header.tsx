@@ -118,7 +118,7 @@ const Header = () => {
                 }) => (
                   <a
                     key={href}
-                    className="rounded-sm p-5 hover:bg-hover-2"
+                    className="rounded-sm p-5 hover:bg-pri/10"
                     href={href}
                     target={target}
                   >
