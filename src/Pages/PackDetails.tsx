@@ -318,7 +318,7 @@ const PackDetails = ({ category }: { category: string }) => {
       {/* comment component here */}
       {category !== "suggested" && (
         <div className="my-4 overflow-hidden py-4 sm:p-4  ">
-          <h3 className="mb-4 inline-block items-center w-full gap-4 text-2xl capitalize xl:text-3xl text-center sm:text-left">
+          <h3 className="mb-4 inline-block items-center text-pri w-full gap-4 text-2xl capitalize xl:text-3xl text-center sm:text-left">
             comments ({commentCount})
             {fetchStatus === "fetching" && (
               <Loading size="la-sm" fullScreen={false} other="inline-block" />
