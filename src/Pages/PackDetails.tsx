@@ -15,8 +15,7 @@ import { CommentsComponent } from "../Components/CommentsComponent";
 import { borderColorVariants, textColorVariants } from "../Constants";
 import { ImageCarousel } from "../Components/ImageCarousel";
 import { twMerge } from "tailwind-merge";
-
-const PostComment = lazy(() => import("../Components/PostComment"));
+import PostComment from "../Components/PostComment";
 
 const VoteForPackButton = lazy(() => import("../Components/VoteForPackButton"));
 const RejectModpackBtn = lazy(
@@ -329,22 +328,12 @@ const PackDetails = ({ category }: { category: string }) => {
           <div className="sm:px-4">
             {/* if user is logged in, show comment input */}
             {user?.isLoggedIn && user?.isLinked && (
-              <Suspense
-                fallback={
-                  <Loading
-                    size="la-sm"
-                    fullScreen={false}
-                    other="inline-block"
-                  />
-                }
-              >
-                <PostComment
-                  modpackId={modpackId}
-                  color={color}
-                  replyingTo={false}
-                  replyParentId=""
-                />
-              </Suspense>
+              <PostComment
+                modpackId={modpackId}
+                color={color}
+                replyingTo={false}
+                replyParentId=""
+              />
             )}
             {user?.isLoggedIn && !user?.isLinked && (
               <div className="flex flex-col items-center justify-center gap-2">
