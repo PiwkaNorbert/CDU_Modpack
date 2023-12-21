@@ -28,8 +28,8 @@ const LoginDev = () => {
     isAdmin: true,
     votesRemaining: 12,
     tokenExpiry: Date.now() / 1000 + 3600,
-    isLinked: false,
-    inGuild: true,
+    isLinked: true,
+    inGuild: false,
     playerData: {
       uuid: "910823491287319283712938123478124867",
       username: "Iberius",

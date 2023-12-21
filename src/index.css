@@ -123,10 +123,14 @@
   height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #282c3e;
+  background: linear-gradient(
+    180deg,
+    hsl(var(--clr-acc) / 0.3) 15px,
+    hsl(var(--clr-bg)) 15%
+  );
 }
 ::-webkit-scrollbar-thumb {
-  background: #62afdb;
+  background: hsl(var(--clr-sec));
   border-radius: 10px;
   opacity: 0.5;
 }
@@ -244,7 +248,7 @@ input[type="file"]::file-selector-button:hover {
 .progress__steps {
   /*CSS counters to number the steps*/
   counter-reset: step;
-  z-index: 20;
+  /* z-index: 20; */
   display: flex;
   overflow: hidden;
 }

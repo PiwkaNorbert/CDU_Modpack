@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { LoginButton } from "./LoginButton";
+import LoginButton from "./LoginButton";
 import useUser from "../Context/useUser";
 import { useTheme } from "../Context/useTheme";
 import { Link, useNavigate } from "react-router-dom";
@@ -67,7 +67,7 @@ const Header = () => {
       )}
       <nav
         className={twMerge(
-          "top-0 z-10 flex w-full md:mb-4 items-center justify-stretch gap-2  py-1 text-text-1 md:justify-center px-4 xl:px-0 xl:w-[1100px] 2xl:w-[1300px] xl:mx-auto ",
+          "-top-1 z-10 flex w-full md:mb-4 items-center justify-stretch gap-2 px-4 py-1 text-text-1 md:justify-center xl:w-[1100px] 2xl:w-[1300px] xl:mx-auto ",
           isIntersecting ? "relative" : "sticky bg-bg  shadow-md ",
           window.location.pathname !== "/" ||
             window.location.pathname.includes("list")
@@ -282,7 +282,7 @@ const Header = () => {
           <div className="z-10 order-2 ml-auto max-[350px]:text-xs">
             {isDev && <Link to="loginDev">Login Dev</Link>}
 
-            <LoginButton />
+            <LoginButton toComment={false} />
           </div>
         )}
         {/* <div className={`absolute inset-0 h-full max-[450px]:hidden z-0 w-full flex-1 bg-text opacity-0 ${
