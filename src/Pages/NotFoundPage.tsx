@@ -32,7 +32,7 @@ const NotFoundPage = () => {
   }, [navigate, timeleftRef]);
 
   return (
-    <div className="my-10 grid justify-items-center py-20 h-full relative w-full justify-normal bg-card border border-border pb-10 dark:border-none dark:shadow md:mb-4 md:rounded-md md:border-none md:shadow-xl text-text-1 lg:mx-auto  lg:w-[900px] xl:w-[1100px] 2xl:w-[1300px] ">
+    <div className="grid justify-items-center py-20 h-full relative w-full justify-normal ">
       <h1 className="my-5 text-center text-5xl/[1.1] font-semibold leading-tight md:text-6xl/[1.1] lg:text-7xl/[1.1]">
         Page Not Found
       </h1>

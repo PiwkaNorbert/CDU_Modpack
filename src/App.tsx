@@ -41,6 +41,7 @@ const PackDetails = lazy(() => import("./Pages/PackDetails.tsx"));
 const PackListPage = lazy(() => import("./Pages/PackListPage.tsx"));
 const Login = lazy(() => import("./Pages/Login.tsx"));
 import NotFoundPage from "./Pages/NotFoundPage.tsx";
+import Maintenance from "./Pages/Maintenance.tsx";
 const SuggestMPLayout = lazy(
   () => import("./Pages/SuggestPack/SuggestMPLayout.tsx")
 );
@@ -65,6 +66,7 @@ function App() {
               <Route path="login" element={<Login />} />
               {isDev && <Route path="loginDev" element={<LoginDev />} />}
               <Route path="found-issue" element={<FoundIssue />} />
+              <Route path="maintenance" element={<Maintenance />} />
 
               <Route path="*" element={<Navigate to="/404" />} />
               <Route path="404" element={<NotFoundPage />} />

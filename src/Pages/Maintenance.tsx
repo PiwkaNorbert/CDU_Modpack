@@ -6,13 +6,16 @@ const Maintenance = () => {
 
 
   return (
-    <div className="my-10 grid justify-items-center py-20 h-full relative w-full justify-normal bg-card border border-border pb-10 dark:border-none dark:shadow md:mb-4 md:rounded-md md:border-none md:shadow-xl text-text-1 lg:mx-auto  lg:w-[900px] xl:w-[1100px] 2xl:w-[1300px] ">
+    <div className="grid justify-items-center py-20 h-full relative w-full justify-normal">
       <h1 className="my-5 text-center text-5xl/[1.1] font-semibold leading-tight md:text-6xl/[1.1] lg:text-7xl/[1.1]">
-        We&apos;ll be back soon! 🛠
+        We&apos;ll be back soon! 🛠 
       </h1>
-      <h3 className="mb-6 text-2xl/[1.1] font-bold capitalize leading-tight text-text-1/50 md:text-3xl/[1.1] lg:text-4xl/[1.1]">
-        Error 503
-      </h3>
+        <h3 className="mb-6 font-bold capitalize leading-tight text-text-1/50 text-2xl/[1.1]  md:text-3xl/[1.1] lg:text-4xl/[1.1]">
+            Sorry for the inconvenience
+        </h3>
+      <p className=" pb-10 text-xla capitalizea text-text-1/50 text-center max-w-xl">
+        we&apos;re performing some maintenance at the moment. We&apos;ll be back online shortly!
+      </p>
 
       {/* button to return to homepage */}
       <Link
