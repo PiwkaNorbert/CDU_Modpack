@@ -24,6 +24,7 @@ const useDiscordProfileData = () => {
 
   return useQuery(["login"], ({signal})=> fetchProfile(signal), {
     onError: (error) => {
+      
       if (error instanceof Error) {
         return errorHandling(error);
       }

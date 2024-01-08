@@ -1,5 +1,6 @@
 import { toast } from "react-toastify";
 import { logoutFunction } from "../Components/LogoutButton";
+import { useNavigate } from "react-router-dom";
 export const errorHandling = (error: any) => {
   // if (error.status === 500) return toast.error("Internal Server Error");
   // if (error.status === 400) return toast.error(error.response.data.error);
@@ -22,7 +23,7 @@ export const errorHandling = (error: any) => {
       return toast.error(error.response.data.error);
     case 503:
       toast.error(error.response.data.error);
-
+      window.location.pathname ="/maintenance"
       throw new Error(
         "The site is currently down for maintenance. Please try again later."
       );
