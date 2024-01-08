@@ -6,6 +6,7 @@ export const errorHandling = (error: any) => {
   // if (error.status === 401) {
   // }
   // if (error.status === 404) return toast.error(error.message);
+  console.error(error);
 
   switch (error.status) {
     case 401: {
@@ -14,16 +15,18 @@ export const errorHandling = (error: any) => {
       return (window.location.pathname = "/");
     }
     case 404:
-      console.error(error);
       return toast.error(error.message);
     case 400:
-      console.error(error);
       return toast.error(error.response.data.error);
     case 500:
-      console.error(error);
       return toast.error(error.response.data.error);
+    case 503:
+      toast.error(error.response.data.error);
+
+      throw new Error(
+        "The site is currently down for maintenance. Please try again later."
+      );
     default: {
-      console.error(error);
       return toast.error(error.response.data.error);
     }
   }
