@@ -66,12 +66,19 @@ export const UserProvider: React.FunctionComponent<UserProviderProps> = (
             inGuild: data.in_guild,
             playerData: data.player_data,
           };
+
+          // const tokenExpiry = new Date(data.token_expiry).getTime(); // Convert to milliseconds
+          // const now = Date.now(); // Get current time in milliseconds
+          // const maxAge = tokenExpiry - now; // Calculate the difference
+
           localStorage.setItem("profileData", JSON.stringify(profileData));
           setUser(profileData);
         })
         .catch((error) => {
           console.error("Error fetching profile:", error);
           if (error instanceof Error) {
+            localStorage.removeItem("profileData");
+            setUser(undefined);
             return errorHandling(error);
           }
         });

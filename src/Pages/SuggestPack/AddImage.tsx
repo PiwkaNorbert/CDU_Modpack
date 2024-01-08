@@ -65,7 +65,7 @@ const AddImage = ({ path, color }: { path: string; color: string }) => {
           Add Image/s to your Modpack
         </h1>
         <form
-          className="mb-8 grid gap-4 pt-[.5em] text-sm placeholder:text-slate-400 dark:text-bg xl:text-base"
+          className="mb-8 grid gap-4 pt-[.5em] text-sm placeholder:text-slate-400 text-text-1 xl:text-base"
           onSubmit={async (e: React.FormEvent<HTMLFormElement>) => {
             e.preventDefault();
             if (addImageMutation.isLoading) return;
@@ -86,10 +86,7 @@ const AddImage = ({ path, color }: { path: string; color: string }) => {
             multiple
           />
 
-          <label
-            htmlFor="image"
-            className={`-mt-2 text-sm  xl:text-base`}
-          >
+          <label htmlFor="image" className={`-mt-2 text-sm  xl:text-base`}>
             (PNG or JPG MAX. 5MB, 640x480px)
           </label>
 
