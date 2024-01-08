@@ -1,6 +1,5 @@
 import { toast } from "react-toastify";
 import { logoutFunction } from "../Components/LogoutButton";
-import { useNavigate } from "react-router-dom";
 export const errorHandling = (error: any) => {
   // if (error.status === 500) return toast.error("Internal Server Error");
   // if (error.status === 400) return toast.error(error.response.data.error);
