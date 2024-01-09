@@ -16,7 +16,7 @@ const SuggestMPLayout = () => {
         <div className="mb-6 gap-4 px-8 pt-4 max-[350px]:mb-0  grid md:grid-cols-[auto,1fr,auto] md:px-4 ">
           <Link
             to={"/"}
-            className="ml-4 mr-auto flex min-w-min cursor-pointer items-center gap-2 self-center justify-self-start rounded-md px-3 py-1 text-text-1 hover:bg-sec hover:bg-opacity-20 hover:text-text-1 dark:hover:bg-hover-2 sm:mr-0"
+            className="ml-4 mr-auto flex min-w-min cursor-pointer items-center gap-2 self-center justify-self-start rounded-md px-3 py-1 text-text-1 hover:bg-sec/20 hover:text-text-1 dark:hover:bg-hover-2 sm:mr-0"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

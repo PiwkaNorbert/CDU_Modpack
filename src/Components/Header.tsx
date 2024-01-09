@@ -48,7 +48,7 @@ const Header = () => {
 
   return (
     <>
-      {menu ? null : (
+      {!menu ? (
         <header
           ref={ref}
           className="relative hidden h-[140px] items-center justify-center text-sm md:grid xl:h-[170px] xl:text-base "
@@ -64,7 +64,7 @@ const Header = () => {
             onClick={() => navigate("/")}
           />
         </header>
-      )}
+      ) : null}
       <nav
         className={twMerge(
           "-top-1 z-10 flex w-full md:mb-4 items-center justify-stretch gap-2 px-4 py-1 text-text-1 md:justify-center xl:w-[1100px] 2xl:w-[1300px] xl:mx-auto ",

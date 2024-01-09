@@ -1,35 +1,39 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useRef } from "react";
+import {
+  Link,
+  //  useNavigate
+} from "react-router-dom";
+// import { useEffect, useRef } from "react";
 
-import { NavigateFunction } from "react-router-dom";
+// import { NavigateFunction } from "react-router-dom";
+// import { RETURN_TO_HOME_PAGE_TIMER } from "../Constants";
 
 const NotFoundPage = () => {
-  const navigate = useNavigate();
-  const timeleftRef = useRef(4);
+  // const navigate = useNavigate();
+  // const timeleftRef = useRef(RETURN_TO_HOME_PAGE_TIMER);
 
-  const countdown = (timeleft: number, navigate: NavigateFunction) => {
-    const downloadTimer = setInterval(function () {
-      if (timeleft === 0) {
-        clearInterval(downloadTimer);
+  // const countdown = (timeleft: number, navigate: NavigateFunction) => {
+  //   const downloadTimer = setInterval(function () {
+  //     if (timeleft === 0) {
+  //       clearInterval(downloadTimer);
 
-        navigate("/");
-      }
-      const countdownElement = document.querySelector("#countdown");
-      if (countdownElement !== null) {
-        countdownElement.innerHTML = timeleft.toString();
-      }
-      timeleft -= 1;
-    }, 1000);
-  };
+  //       navigate("/");
+  //     }
+  //     const countdownElement = document.querySelector("#countdown");
+  //     if (countdownElement !== null) {
+  //       countdownElement.innerHTML = timeleft.toString();
+  //     }
+  //     timeleft -= 1;
+  //   }, 1000);
+  // };
 
-  useEffect(() => {
-    if (window.location.href.endsWith("/404")) {
-      countdown(timeleftRef.current, navigate);
-    }
-    return () => {
-      timeleftRef.current = 4;
-    };
-  }, [navigate, timeleftRef]);
+  // useEffect(() => {
+  //   if (window.location.href.endsWith("/404")) {
+  //     countdown(timeleftRef.current, navigate);
+  //   }
+  //   return () => {
+  //     timeleftRef.current = RETURN_TO_HOME_PAGE_TIMER;
+  //   };
+  // }, [navigate, timeleftRef]);
 
   return (
     <div className="grid justify-items-center py-20 h-full relative w-full justify-normal ">
@@ -41,7 +45,9 @@ const NotFoundPage = () => {
       </h3>
 
       <div className="my-10 ">
-        Redirecting to the Homepage in <span id="countdown">5</span>...
+        <span id="countdown">
+          The backend API is down or the requested resource does not exist.
+        </span>
       </div>
 
       {/* button to return to homepage */}

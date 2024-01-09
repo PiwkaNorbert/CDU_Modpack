@@ -1,31 +1,35 @@
 import { toast } from "react-toastify";
 import { logoutFunction } from "../Components/LogoutButton";
 export const errorHandling = (error: any) => {
-  // if (error.status === 500) return toast.error("Internal Server Error");
-  // if (error.status === 400) return toast.error(error.response.data.error);
-  // if (error.status === 401) {
-  // }
-  // if (error.status === 404) return toast.error(error.message);
-  console.error(error);
+  console.log(error.response);
 
-  switch (error.status) {
+  switch (error.response.status) {
+    case 400:
+      return toast.error(error.response.data.error);
     case 401: {
       logoutFunction();
       toast.error(error?.response?.data?.error);
       return (window.location.pathname = "/");
     }
     case 404:
-      return toast.error(error.message);
-    case 400:
-      return toast.error(error.response.data.error);
+      toast.error(
+        "The backend API is down or the requested resource does not exist."
+      );
+
+      return (window.location.pathname = "/404");
+
     case 500:
       return toast.error(error.response.data.error);
-    case 503:
-      toast.error(error.response.data.error);
-      window.location.pathname ="/maintenance"
+    case 502:
+      toast.error(error);
+      window.location.pathname = "/maintenance";
       throw new Error(
         "The site is currently down for maintenance. Please try again later."
       );
+    case 503:
+      toast.error(error.response.data.error);
+      window.location.pathname = "/maintenance";
+      throw new Error(error.response.data.error);
     default: {
       return toast.error(error.response.data.error);
     }

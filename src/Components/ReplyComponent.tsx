@@ -107,7 +107,7 @@ export function ReplyComponent({
         {(user?.isAdmin || user?.id === comment?.discord_id) && (
           <button
             disabled={deleteCommentMutation.isLoading}
-            className={` rounded-md border border-sec px-3 py-1 text-justify text-xs text-red-500 hover:border-opacity-20 hover:bg-sec hover:bg-opacity-20  dark:hover:bg-hover-2 `}
+            className={` rounded-md border border-sec px-3 py-1 text-justify text-xs text-red-500 hover:border-opacity-20 hover:bg-sec/20  dark:hover:bg-hover-2 `}
             onClick={async () => {
               if (deleteCommentMutation.isLoading) return;
               if (

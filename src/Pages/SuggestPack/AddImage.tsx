@@ -101,7 +101,7 @@ const AddImage = ({ path, color }: { path: string; color: string }) => {
           {isDev && (
             <Link
               to={"/suggest-modpack/success"}
-              className="ml-4 flex min-w-min cursor-pointer items-center gap-2 rounded-md px-3 py-1 hover:bg-sec hover:bg-opacity-20  dark:hover:bg-hover-2"
+              className="ml-4 flex min-w-min cursor-pointer items-center gap-2 rounded-md px-3 py-1 hover:bg-sec/20  dark:hover:bg-hover-2"
             >
               Test link to success
             </Link>

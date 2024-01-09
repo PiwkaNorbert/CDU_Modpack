@@ -367,7 +367,7 @@ export default function CreateModpack() {
                       return (
                         <li
                           key={version.id}
-                          className="relative cursor-pointer select-none py-2 pl-3 pr-9  text-text-1/[.75] hover:bg-sec hover:bg-opacity-20 "
+                          className="relative cursor-pointer select-none py-2 pl-3 pr-9  text-text-1/[.75] hover:bg-sec/20 "
                           onClick={() => {
                             setModpackVersion(version.name);
                             setVersionFilterByInput([version.name]);
@@ -439,7 +439,7 @@ export default function CreateModpack() {
         {isDev && (
           <Link
             to={"/suggest-modpack/photos/12312"}
-            className="ml-4 flex min-w-min cursor-pointer items-center gap-2 rounded-md px-3 py-1 hover:bg-sec hover:bg-opacity-20 dark:hover:bg-hover-2"
+            className="ml-4 flex min-w-min cursor-pointer items-center gap-2 rounded-md px-3 py-1 hover:bg-sec/20 dark:hover:bg-hover-2"
           >
             Test link to photos
           </Link>
@@ -455,4 +455,4 @@ export default function CreateModpack() {
       </form>
     </>
   );
-};
+}

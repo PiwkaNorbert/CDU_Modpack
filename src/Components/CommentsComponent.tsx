@@ -51,7 +51,7 @@ export function CommentsComponent({
           {comment?.reply_count !== 0 && (
             <>
               <button
-                className={` ml-1 w-fit rounded-md border border-sec  px-3 py-1 text-justify text-xs text-blue-500  hover:border-opacity-20 hover:bg-sec hover:bg-opacity-20  dark:hover:bg-hover-2 `}
+                className={` ml-1 w-fit rounded-md border border-sec  px-3 py-1 text-justify text-xs text-blue-500  hover:bg-sec/20  dark:hover:bg-hover-2 `}
                 disabled={comment?.reply_count === 0}
                 onMouseEnter={() => {
                   if (comment?.reply_count === 0 || showReplies) return;

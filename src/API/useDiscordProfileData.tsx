@@ -22,9 +22,8 @@ export const fetchProfile = async (signal?: AbortSignal) => {
 const useDiscordProfileData = () => {
   const { setUser } = useContext(UserContext);
 
-  return useQuery(["login"], ({signal})=> fetchProfile(signal), {
+  return useQuery(["login"], ({ signal }) => fetchProfile(signal), {
     onError: (error) => {
-      
       if (error instanceof Error) {
         return errorHandling(error);
       }

@@ -2,6 +2,8 @@ export const isDev = import.meta.env.VITE_NODE_ENV === "development";
 export const isProd = import.meta.env.VITE_NODE_ENV === "production";
 export const apiBase = isDev ? "https://www.trainjumper.com" : isProd ? "" : "";
 
+export const RETURN_TO_HOME_PAGE_TIMER = 19; // in seconds
+
 export const colorOptions = [
   { value: "red", label: "Red" },
   { value: "orange", label: "Orange" },
@@ -193,7 +195,7 @@ export const links = [
   {
     name: "Found Issue?",
     href: "/found-issue",
-    target: '_self'
+    target: "_self",
   },
   {
     name: "Forum",
