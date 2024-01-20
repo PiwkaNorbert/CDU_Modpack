@@ -126,10 +126,17 @@ const PostComment = ({
     >
       {/* user avatart */}
       <img
-        src={`https://cdn.discordapp.com/avatars/${user?.id}/${user?.avatar}`}
-        alt="user avatar"
         loading="lazy"
-        className="h-10 w-10 rounded-full"
+        src={`https://mc-heads.net/head/${user?.playerData?.username}`}
+        alt={user?.username ? `${user?.username}'s head` : "head"}
+        width={45.23}
+        height={48}
+        onError={(e) => {
+          const target = e.target as HTMLImageElement;
+          target.onerror = null;
+          target.src = "/steve.png";
+          return;
+        }}
       />
       <div className=" w-full">
         <textarea
