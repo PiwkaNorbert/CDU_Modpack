@@ -29,9 +29,7 @@ export default function CreateModpack() {
 
   const { data, isLoading, error, isError, fetchStatus } = useMCVersionQuery;
 
-  const re = /^[ a-zA-Z0-9'"._-]{5,50}$/;
 
-  const isNameValid = re.test(modpackName);
   const isTouched = modpackName.length > 0;
   // const isTaken = isValid && !isAvailable && !loading;
 
@@ -139,16 +137,16 @@ export default function CreateModpack() {
       return false;
     return true;
   }
-
+  const modpackNameInputLength = modpackName.length > 5 && modpackName.length < 50
   // make isValid a state to update the button disabled state
   const [isValid, setIsValid] = useState<boolean>(false);
   useEffect(() => {
-    if (isNameValid && isAvailable && !loading) {
+    if (modpackNameInputLength && isAvailable && !loading) {
       setIsValid(true);
     } else {
       setIsValid(false);
     }
-  }, [isNameValid, isAvailable, loading]);
+  }, [modpackNameInputLength, isAvailable, loading]);
 
   const borderColor = modpackColor || "sky";
 
@@ -212,10 +210,10 @@ export default function CreateModpack() {
           <DebounceInput
             required
             className={twJoin(
-              `spacer-left mr-10 h-8 w-full rounded-md border bg-bg py-1 pr-3 focus:border-transparent focus:outline-none focus:ring-0 active:border-none active:outline-none `,
-              !isNameValid && isTouched && "border-red-500",
-              !isValid && isTouched && "border-yellow-500",
-              isValid && isTouched && "border-green-500"
+              `spacer-left mr-10 h-8 w-full rounded-md border bg-bg py-1 pr-3 focus:outline-none active:border-none active:outline-none `,
+              !modpackNameInputLength && isTouched && "border-red-500 ",
+              !isValid && isTouched && "border-yellow-500 ",
+              isValid && isTouched && "border-green-500 "
             )}
             type="text"
             placeholder="Name"
@@ -235,7 +233,7 @@ export default function CreateModpack() {
             <div className="w-full break-all sm:items-center sm:gap-2">
               Checking availability of @{modpackName}...
             </div>
-          ) : !isNameValid ? (
+          ) : !modpackNameInputLength ? (
             <p className="text-red-00 text-sm">
               Name must be 5-50 characters long
             </p>
@@ -245,7 +243,7 @@ export default function CreateModpack() {
             </p>
           ) : isValid ? (
             <p className="btn btn-success">
-              Confirm modpack name @{modpackName}
+              Confirmed modpack name @{modpackName}
             </p>
           ) : (
             ""

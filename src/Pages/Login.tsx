@@ -31,7 +31,7 @@ const Login = () => {
     );
   }
 
-  if (!data?.in_guild) {
+  if (data.in_guild === false) {
     return (
       <div className="my-10 flex w-full flex-1 flex-col items-center justify-start">
         <h2 className="mb-6 text-4xl">You are not in the guild</h2>
