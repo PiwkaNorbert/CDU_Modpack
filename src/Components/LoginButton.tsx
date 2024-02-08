@@ -3,7 +3,7 @@ export default function LoginButton({ toComment }: { toComment: boolean }) {
     <button
       className="text-content mx-auto flex h-10 items-center gap-2 rounded-md px-3 py-1 hover:bg-sec/20 dark:hover:bg-hover-2 "
       onClick={() =>
-        (location.href = `/login/discord?returnUrl=${location.pathname}`)
+          (window.location.href = `/auth/discord?returnUrl=${window.location.pathname}`)
       }
     >
       <svg
