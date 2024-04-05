@@ -86,9 +86,16 @@ export function ReplyComponent({
   return (
     <div className="grid grid-cols-auto-fit grid-rows-auto-fit  gap-2  border-b border-gray-50 py-4 dark:border-gray-700 ">
       <img
+        loading="lazy"
         className="aspect-1/1 max-h-10 rounded-full"
-        src={comment?.avatar_url}
+        src={`https://mc-heads.net/head/${comment?.username}`} 
         alt="user avatar"
+        onError={(e) => {
+          const target = e.target as HTMLImageElement;
+          target.onerror = null;
+          target.src = "/steve.png";
+          return;
+        }}
       />
       <div className="flex w-full justify-between gap-2">
         <div className="flex flex-col sm:flex-row sm:items-center sm:gap-2">

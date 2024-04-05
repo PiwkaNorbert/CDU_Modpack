@@ -1,7 +1,7 @@
 export const isDev = import.meta.env.VITE_NODE_ENV === "development";
 export const isProd = import.meta.env.VITE_NODE_ENV === "production";
 export const apiBase = isDev
-  ? "https://www.trainjumper.com"
+  ? "https://modpacks.playcdu.co"
   : isProd
   ? "https://modpacks.playcdu.co"
   : "https://modpacks.playcdu.co";
