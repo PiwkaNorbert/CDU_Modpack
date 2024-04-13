@@ -2,11 +2,15 @@ import { toast } from "react-toastify";
 import useUser from "../Context/useUser";
 import { errorHandling } from "../Helper/errorHandling";
 import { Suspense, lazy } from "react";
-import { useNavigate } from "react-router-dom";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 import Loading from "./Loading";
+import { DiscordProfileData } from "../Utils/Interfaces";
+
 const SignOutSVG = lazy(() => import("./SVG/SignOutSVG"));
 
-export async function logoutFunction(setUser?: any, navigate?: any) {
+export async function logoutFunction(setUser: React.Dispatch<React.SetStateAction<DiscordProfileData | undefined>>, navigate: NavigateFunction) {
+
+
   try {
     const response = await fetch("/api/logout");
 

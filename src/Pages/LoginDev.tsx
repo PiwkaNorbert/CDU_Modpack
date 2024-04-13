@@ -11,15 +11,15 @@ export interface LoginProps {
 import { useSearchParams, Navigate } from "react-router-dom";
 import { DiscordProfileData } from "../Utils/Interfaces";
 import useUser from "../Context/useUser";
-import { useEffect } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 
 const LoginDev = () => {
   const [searchParams] = useSearchParams();
   const returnUrl = searchParams.get("returnUrl");
   const { user, setUser } = useUser();
-
+ 
   // assign random data to the user
-  const profileData: DiscordProfileData = {
+  const profileData: DiscordProfileData = useMemo(() => ({
     isLoggedIn: true,
     avatar: "aa58910dc6d5ca6feba60c415bba2b6b",
     globalName: "iberius#1234",
@@ -41,19 +41,20 @@ const LoginDev = () => {
       mc_avatar_url_fallback:
         "https://mc-heads.net/avatar/c5ef334745934f398bb12eaa40dd986e/100",
     },
-  };
+  }), []);
 
   // set the user in the context provider to the data but without this error  "Maximum update depth exceeded. This can happen when a component repeatedly calls setState inside componentWillUpdate or componentDidUpdate. React limits the number of nested updates to prevent infinite loops."
-  function setDevUser(data: DiscordProfileData) {
+
+  const setDevUser = useCallback((data: DiscordProfileData) => {
     setUser(data);
-  }
+  }, [setUser])
 
   useEffect(() => {
     if (user) return;
 
     setDevUser(profileData);
     localStorage.setItem("profileData", JSON.stringify(profileData));
-  }, []);
+  }, [ user, setUser, profileData, setDevUser]);
 
   if (!returnUrl) return <Navigate to="/" />;
 

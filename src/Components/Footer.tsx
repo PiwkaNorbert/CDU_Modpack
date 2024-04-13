@@ -17,14 +17,15 @@ const Footer = () => {
         threshold: 1.0,
       }
     );
+    const currentFooterRef = footerRef.current;
 
-    if (footerRef.current) {
-      observer.observe(footerRef.current);
+    if (currentFooterRef) {
+      observer.observe(currentFooterRef);
     }
-
+  
     return () => {
-      if (footerRef.current) {
-        observer.unobserve(footerRef.current);
+      if (currentFooterRef) {
+        observer.unobserve(currentFooterRef);
       }
     };
   }, []);

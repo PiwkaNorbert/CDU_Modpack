@@ -30,7 +30,7 @@ const ModpackCard = (props: IModpack) => {
         setCurrentPlace("/pack-details");
         break;
     }
-  }, []);
+  }, [location.pathname]);
 
   const {
     modpackId,

@@ -20,7 +20,7 @@ export default function Dialog({
     if (open !== showModal) {
       setShowModal(open);
     }
-  }, [open]);
+  }, [open, showModal]);
 
   function updateDialogState(open: boolean) {
     setShowModal(open);
@@ -80,14 +80,19 @@ export function DropDown({
     if (open !== showDropDown) {
       setShowDropDown(open);
     }
-  }, [open]);
+  }, [open, showDropDown]);
 
   function updateDropDownState(open: boolean) {
     setShowDropDown(open);
     dropDownStateChange(open);
   }
 
-  return showDropDown ? (
+  
+  if (showDropDown) {
+    return null
+  }
+
+  return (
     <div
       onClick={({ target }) => {
         if (!allowClose || dropdown.current?.contains(target as any)) return;
@@ -108,5 +113,5 @@ export function DropDown({
         {contents}
       </div>
     </div>
-  ) : null;
+  ) 
 }

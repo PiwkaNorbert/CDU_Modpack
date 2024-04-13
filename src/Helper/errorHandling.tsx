@@ -1,5 +1,6 @@
 import { toast } from "react-toastify";
-import { logoutFunction } from "../Components/LogoutButton";
+
+
 export const errorHandling = (error: any) => {
   console.log(error.response);
 
@@ -7,7 +8,7 @@ export const errorHandling = (error: any) => {
     case 400:
       return toast.error(error.response.data.error);
     case 401: {
-      logoutFunction();
+      
       toast.error(error?.response?.data?.error);
       return (window.location.pathname = "/");
     }

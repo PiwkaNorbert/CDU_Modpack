@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import LoginButton from "./LoginButton";
 import useUser from "../Context/useUser";
 import { useTheme } from "../Context/useTheme";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
 import { LogoutButton } from "./LogoutButton";
 import { isDev, links } from "../Constants";
@@ -11,7 +11,6 @@ const Header = () => {
   // set the state of voteRemaining to the value of the user's votesRemaining
   const { user } = useUser();
   const { theme, setTheme } = useTheme();
-  const navigate = useNavigate();
 
   const [isIntersecting, setIntersecting] = useState(false);
   const [menu, setMenu] = useState(false);

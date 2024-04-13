@@ -109,7 +109,7 @@ const EditModpack = () => {
       setModpackTags(data?.tags);
       setModpackColor(data?.color);
     }
-  }, [data?.tags]);
+  }, [data?.tags, data?.color]);
 
   if (isLoading) return <Loading size="la-lx" fullScreen={true} other="" />;
   if (isError)
