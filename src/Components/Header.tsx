@@ -54,15 +54,16 @@ const Header = () => {
           className="relative hidden h-[140px] items-center justify-center text-sm md:grid xl:h-[170px] xl:text-base "
         >
           <div className="pointer-events-none absolute inset-0 m-auto bg-gradient-to-t from-bg to-acc/30 "></div>
-          <img
-            alt="CDU"
-            src="/logo.png"
-            height={119}
-            width={128}
-            //loading="lazy"
-            className="  absolute inset-0 m-auto w-[8rem] cursor-pointer justify-self-center p-2 transition-all hover:animate-bounce-slow xl:w-[9.6rem] "
-            onClick={() => navigate("/")}
-          />
+          <Link to="https://craftdownunder.co/" className="absolute inset-0 m-auto w-[8rem] justify-self-center" >
+            <img
+              alt="CDU"
+              src="/logo.png"
+              height={119}
+              width={128}
+              //loading="lazy"
+              className="max-w-auto  cursor-pointer p-2 transition-all hover:animate-bounce-slow xl:w-[9.6rem] "
+            />
+          </Link>
         </header>
       ) : null}
       <nav
@@ -83,14 +84,16 @@ const Header = () => {
             {/* If the window size is below 600px display a button with "menu as the value and on click make a modal to display the nav */}
 
             {/* If the window size is below 600px display a modal with the nav */}
-            <img
-              alt="CDU"
-              src="/logo2.png"
-              width="100"
-              //loading="lazy"
-              className="absolute top-0 z-30 cursor-pointer justify-self-center p-2 hover:animate-bounce-slow "
-              onClick={() => navigate("/")}
-            />
+            <Link to="https://craftdownunder.co/" className="absolute top-0 z-30 justify-self-center" >
+              <img
+                alt="CDU"
+                src="/logo2.png"
+                width="100"
+                //loading="lazy"
+                className="cursor-pointer p-2 hover:animate-bounce-slow "
+              />
+            </Link>
+
 
             <div className="absolute left-0 top-0 z-[14] flex h-screen w-full flex-col items-center justify-center bg-bg dark:bg-sec md:hidden">
               <button className="absolute right-2 top-2" onClick={toggleMenu}>
@@ -205,16 +208,19 @@ const Header = () => {
           </label>
         </div>
 
-        <img
-          alt="CDU"
-          src="/logo2.png"
-          loading="lazy"
-          className={twMerge(
-            "top-0 z-10 order-1 block h-10 cursor-pointer justify-self-center hover:animate-bounce-slow md:hidden ",
-            !isIntersecting || menu ? "block md:block" : ""
+        <Link to="https://craftdownunder.co/" 
+          className={twMerge(`top-0 z-10 order-1 block min-h-8 max-h-8 cursor-pointer justify-self-center  md:hidden `,
+          !isIntersecting || menu ? "block md:block" : ""
           )}
-          onClick={() => navigate("/")}
-        />
+        >
+          <img
+            alt="CDU"
+            src="/logo2.png"
+            loading="lazy"
+            className={ "max-w-full h-8"}
+          />
+        </Link>
+
         {user && user.isLoggedIn ? (
           <>
             <div className=" z-10 order-4 hidden w-full justify-self-start text-center text-sm uppercase sm:flex min-[900px]:justify-self-center  ">
