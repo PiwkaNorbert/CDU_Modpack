@@ -41,7 +41,7 @@ export interface IGalleryImage {
 
 export interface IComment {
   uuid: string;
-  discord_id?: number;
+  discord_id?: string;
   username?: string;
   comment?: string;
   timestamp: number;

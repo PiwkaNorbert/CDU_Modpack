@@ -4,7 +4,7 @@ import {
   IPackDetails,
 } from "../Utils/Interfaces";
 import relativeDate from "../Helper/relativeDate";
-import { useQueryClient, useMutation } from "@tanstack/react-query";
+import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import useUser from "../Context/useUser";
 import { toast } from "react-toastify";
 
@@ -12,6 +12,24 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { errorHandling } from "../Helper/errorHandling";
 import { textColorVariants } from "../Constants";
+import { DiscordUserData } from "../types/discord-user-data";
+
+
+const useCDUAPI = (discordID?: string) => {
+
+
+  const getDiscordUser = async () => {
+    const {data, status} = await axios.get(`https://api.playcdu.co/users/discord/?discord=${discordID}`);
+    if (status !== 200) throw new Error("Unable to fetch user" );
+    return data;
+  }
+
+  return useQuery<DiscordUserData>(["discord-user", discordID], getDiscordUser, {
+    enabled: !!discordID || discordID !== undefined,
+  });
+
+}
+
 
 export function ReplyComponent({
   children,
@@ -22,6 +40,10 @@ export function ReplyComponent({
 }: ICommentComponentChildren) {
   const { modpackId } = useParams<{ modpackId: string }>();
   const { user } = useUser();
+
+
+  const { data: discordUser, isSuccess } = useCDUAPI(comment?.discord_id as string);
+  
 
   const queryClient = useQueryClient();
 
@@ -83,20 +105,13 @@ export function ReplyComponent({
       // queryClient.invalidateQueries(["replies", replyTo]);
     },
   });
+
+
   return (
     <div className="grid grid-cols-auto-fit grid-rows-auto-fit  gap-2  border-b border-gray-50 py-4 dark:border-gray-700 ">
-      <img
-        loading="lazy"
-        className="aspect-1/1 max-h-10 rounded-full"
-        src={`https://mc-heads.net/head/${comment?.username}`} 
-        alt="user avatar"
-        onError={(e) => {
-          const target = e.target as HTMLImageElement;
-          target.onerror = null;
-          target.src = "/steve.png";
-          return;
-        }}
-      />
+
+      <UserAvatar isSuccess={isSuccess}  discordUser={discordUser} />
+
       <div className="flex w-full justify-between gap-2">
         <div className="flex flex-col sm:flex-row sm:items-center sm:gap-2">
           <p
@@ -123,8 +138,6 @@ export function ReplyComponent({
                 )
               ) {
                 const commentId = comment?.uuid as string;
-                // console.log(commentId);
-                // console.log(comment);
 
                 deleteCommentMutation.mutate(commentId);
               } else {
@@ -144,3 +157,45 @@ export function ReplyComponent({
     </div>
   );
 }
+
+interface UserAvatarProps {
+  isSuccess: boolean;
+  discordUser?: {
+    player_stats?: {
+      uuid?: string;
+    };
+  };
+}
+
+
+export const UserAvatar: React.FC<UserAvatarProps> = ({ isSuccess, discordUser }) => {
+  return (
+    isSuccess ? (
+      <img
+        loading="lazy"
+        className="aspect-1/1 max-h-10 rounded-full"
+        src={`https://mc-heads.net/head/${discordUser?.player_stats?.uuid}`}
+        alt="user avatar"
+        onError={(e) => {
+          const target = e.target as HTMLImageElement;
+          target.onerror = null;
+          target.src = "/steve.png";
+          return;
+        }}
+      />
+    ) : (
+      <img
+        loading="lazy"
+        className="aspect-1/1 max-h-10 rounded-full"
+        src="/steve.png"
+        alt="user avatar"
+        onError={(e) => {
+          const target = e.target as HTMLImageElement;
+          target.onerror = null;
+          target.src = "/steve.png";
+          return;
+        }}
+      />
+    )
+  );
+};
