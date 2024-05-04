@@ -249,9 +249,9 @@ const PackDetails = ({ category }: { category: string }) => {
               <p
                 data-tooltip={`Discord ID ${publishedBy}`}
                 className="text-content group/publishedBy relative  flex w-fit cursor-pointer flex-col items-center justify-center break-normal text-center text-xs uppercase"
-                aria-label={`Published by ${publishedBy}`}
+                aria-label={`Accepted by ${publishedBy}`}
               >
-                Published By
+                Accepted By
                 <br />
                 <span className="text-text-1/50">
                   {publishedBy ?? "Unknown"}
