@@ -67,7 +67,7 @@ const Header = () => {
       ) : null}
       <nav
         className={twMerge(
-          "-top-1 z-10 flex w-full md:mb-4 items-center justify-stretch gap-2 px-4 py-1 text-text-1 md:justify-center xl:w-[1100px] 2xl:w-[1300px] xl:mx-auto ",
+          "top-0 z-10 flex w-full md:mb-4 items-center justify-stretch gap-2 px-4 py-1 text-text-1 md:justify-center xl:w-[1100px] 2xl:w-[1300px] xl:mx-auto ",
           isIntersecting ? "relative" : "sticky bg-bg  shadow-md ",
           window.location.pathname !== "/" ||
             window.location.pathname.includes("list")
@@ -216,7 +216,7 @@ const Header = () => {
             alt="CDU"
             src="/logo2.png"
             loading="lazy"
-            className={ "max-w-full h-8"}
+            className={ " max-h-8 max-w-8"}
           />
         </Link>
 

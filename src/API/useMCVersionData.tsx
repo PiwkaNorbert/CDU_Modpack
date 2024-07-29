@@ -6,10 +6,11 @@ import { MCVersion } from "../Utils/Types";
 
 export const fetchMCVersion = async () => {
   const { data } = await axios(
-    `https://private-anon-96b42d0b7f-modpackindex.apiary-proxy.com/api/v1/minecraft/versions`
+    `https://www.modpackindex.com/api/v1/minecraft/versions`
   );
 
   const response = data.data;
+
 
   return response;
 };
