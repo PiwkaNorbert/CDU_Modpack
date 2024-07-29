@@ -287,7 +287,7 @@ const Header = () => {
           <div className="z-10 order-2 ml-auto max-[350px]:text-xs">
             {isDev && <Link to="loginDev">Login Dev</Link>}
 
-            <LoginButton toComment={false} />
+            <LoginButton />
           </div>
         )}
         {/* <div className={`absolute inset-0 h-full max-[450px]:hidden z-0 w-full flex-1 bg-text opacity-0 ${

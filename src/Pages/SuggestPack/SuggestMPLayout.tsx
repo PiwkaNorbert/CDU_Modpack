@@ -7,6 +7,7 @@ const SuggestMPLayout = () => {
   const photoLocation = location.pathname.includes("photos");
   const successLocation = location.pathname.includes("success");
   const createLocation = location.pathname.includes("create");
+
   return (
     <>
       <div

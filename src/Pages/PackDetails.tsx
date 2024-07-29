@@ -324,7 +324,7 @@ const PackDetails = ({ category }: { category: string }) => {
             )}
           </h3>
           {/* input for posting comments by current user */}
-          {!user?.isLoggedIn && <LoginButton toComment={true} />}
+          {!user?.isLoggedIn && <LoginButton message="to post a comment" />}
           <div className="sm:px-4">
             {/* if user is logged in, show comment input */}
             {user?.isLoggedIn && user?.isLinked && (
